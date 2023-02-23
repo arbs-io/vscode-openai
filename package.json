@@ -1,0 +1,93 @@
+{
+  "name": "vscode-openai",
+  "displayName": "vscode-openai",
+  "description": "A vscode extension providing quick access menu for editor",
+  "version": "0.0.1",
+  "publisher": "AndrewButson",
+  "icon": "images/logo_128x128.png",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arbs-io/vscode-openai.git"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/arbs-io"
+  },
+  "engines": {
+    "vscode": "^1.73.0"
+  },
+  "categories": [
+    "Formatters"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "browser": "./out/extension.js",
+  "contributes": {
+    "menus": {
+      "editor/title": [
+        {
+          "submenu": "openai.action.toolbox",
+          "group": "navigation"
+        }
+      ],
+      "openai.action.toolbox": [
+        {
+          "command": "openai.action.unittest",
+          "group": "navigation.openai1"
+        },
+        {
+          "command": "openai.action.findbug",
+          "group": "navigation.openai2"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "openai.action.toolbox",
+        "label": "openai.action.toolbox",
+        "when": "editorTextFocus",
+        "icon": {
+          "light": "./assets/openai-light.png",
+          "dark": "./assets/openai-dark.png"
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "openai.action.unittest",
+        "title": "Generate Unit Test",
+        "category": "openai.test"
+      },
+      {
+        "command": "openai.action.findbug",
+        "title": "Find Bugs",
+        "category": "openai.bug"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test-compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "deploy": "vsce publish --yarn"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@types/vscode": "^1.73.0",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "@vscode/vsce": "^2.16.0",
+    "esbuild": "^0.17.4",
+    "eslint": "^8.32.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "openai": "^3.1.0"
+  }
+}

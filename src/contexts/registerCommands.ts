@@ -1,4 +1,4 @@
-import { commands, ExtensionContext, Uri, window, env, Range } from 'vscode'
+import { commands, ExtensionContext, Uri, window } from 'vscode'
 import { getActiveTextEditorValue } from '../utils/getActiveTextEditorValue'
 import { getInputBox } from '../utils/getInputBox'
 import { getQuickPick } from '../utils/getQuickPick'
@@ -19,6 +19,7 @@ function _registerSha512Command(
 ) {
   const commandHandler = async (uri: Uri) => {
     const editorValue = getActiveTextEditorValue()
+
     await getInputBox()
     await getQuickPick()
     window.showInformationMessage(`OpenAI: $copied to clipboard`)

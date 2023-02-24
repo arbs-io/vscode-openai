@@ -1,4 +1,5 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
+import { executePrompt } from '../prompts/executePrompt'
 import { getActiveTextEditorValue } from '../utils/getActiveTextEditorValue'
 import { getInputBox } from '../utils/getInputBox'
 import { getQuickPick } from '../utils/getQuickPick'
@@ -19,6 +20,8 @@ function _registerSha512Command(
 ) {
   const commandHandler = async (uri: Uri) => {
     const editorValue = getActiveTextEditorValue()
+
+    executePrompt()
 
     await getInputBox()
     await getQuickPick()

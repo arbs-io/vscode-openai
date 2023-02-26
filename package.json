@@ -69,6 +69,10 @@
         {
           "command": "openai.action.findbug",
           "group": "navigation.openai2"
+        },
+        {
+          "command": "openai.action.update-apikey",
+          "group": "navigation.openai3"
         }
       ]
     },
@@ -93,6 +97,11 @@
         "command": "openai.action.findbug",
         "title": "Find Bugs",
         "category": "openai.bug"
+      },
+      {
+        "command": "openai.action.update-apikey",
+        "title": "API Key",
+        "category": "openai.auth"
       }
     ]
   },

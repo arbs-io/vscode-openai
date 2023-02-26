@@ -8,7 +8,7 @@ const openai = new OpenAIApi(configuration)
 
 export async function executePrompt() {
   try {
-    //SecretStorageService.instance.setAuthApiKey('api-key')
+    //SecretStorageService.instance.setAuthApiKey('sk-E...kmx')
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
     console.log(apiKey)
 

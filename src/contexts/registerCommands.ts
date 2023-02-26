@@ -1,19 +1,23 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
-import { executePrompt } from '../prompts/executePrompt'
+import { executePrompt } from '../openai/executePrompt'
 import { getActiveTextEditorValue } from '../utils/getActiveTextEditorValue'
 import { getInputBox } from '../utils/getInputBox'
 import { getQuickPick } from '../utils/getQuickPick'
+import { inputApiKeyOpenAI } from '../utils/inputApiKeyOpenAI'
 import {
   OPENAI_UNITTEST_COMMAND_ID,
   OPENAI_FINDBUG_COMMAND_ID,
+  OPENAI_UPDATE_APIKEY_COMMAND_ID,
 } from './openaiCommands'
 
 export function registerCommands(context: ExtensionContext) {
-  _registerSha512Command(context, OPENAI_UNITTEST_COMMAND_ID, 'todo')
-  _registerSha512Command(context, OPENAI_FINDBUG_COMMAND_ID, 'todo')
+  _registerCommand(context, OPENAI_UNITTEST_COMMAND_ID, 'todo')
+  _registerCommand(context, OPENAI_FINDBUG_COMMAND_ID, 'todo')
+
+  _registerApiKeyCommand(context)
 }
 
-function _registerSha512Command(
+function _registerCommand(
   context: ExtensionContext,
   openaiCommand: string,
   prompt: string
@@ -21,7 +25,7 @@ function _registerSha512Command(
   const commandHandler = async (uri: Uri) => {
     const editorValue = getActiveTextEditorValue()
 
-    executePrompt()
+    await executePrompt()
 
     await getInputBox()
     await getQuickPick()
@@ -29,5 +33,15 @@ function _registerSha512Command(
   }
   context.subscriptions.push(
     commands.registerCommand(openaiCommand, commandHandler)
+  )
+}
+
+function _registerApiKeyCommand(context: ExtensionContext) {
+  const commandHandler = async (uri: Uri) => {
+    const apiKey = await inputApiKeyOpenAI()
+    window.showInformationMessage(`Setting ApiKey: ${apiKey}`)
+  }
+  context.subscriptions.push(
+    commands.registerCommand(OPENAI_UPDATE_APIKEY_COMMAND_ID, commandHandler)
   )
 }

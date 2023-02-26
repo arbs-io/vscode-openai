@@ -1,20 +1,19 @@
 import { Configuration, OpenAIApi } from 'openai'
 import SecretStorageService from '../services/secretStorageService'
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-})
-const openai = new OpenAIApi(configuration)
-
 export async function executePrompt() {
   try {
-    //SecretStorageService.instance.setAuthApiKey('sk-E...kmx')
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
     console.log(apiKey)
 
+    const configuration = new Configuration({
+      apiKey: apiKey,
+    })
+    const openai = new OpenAIApi(configuration)
+
     const completion = await openai.createCompletion({
       model: 'text-davinci-003',
-      prompt: 'Hello world',
+      prompt: 'who is tesla',
     })
     console.log(completion.data.choices[0].text)
   } catch (error: any) {

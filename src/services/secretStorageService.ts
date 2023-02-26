@@ -1,13 +1,25 @@
-import { SecretStorage } from 'vscode'
+import { ExtensionContext, SecretStorage } from 'vscode'
 
-export class LocalStorageService {
-  constructor(private storage: SecretStorage) {}
+export default class SecretStorageService {
+  private static _instance: SecretStorageService
 
-  public async getValue(key: string): Promise<string> {
-    return await this.storage.get(key).then((secret) => (secret ? secret : ''))
+  constructor(private secretStorage: SecretStorage) {}
+
+  static init(context: ExtensionContext): void {
+    SecretStorageService._instance = new SecretStorageService(context.secrets)
   }
 
-  public async setValue(key: string, value: string) {
-    this.storage.store(key, value)
+  static get instance(): SecretStorageService {
+    return SecretStorageService._instance
+  }
+
+  async setAuthApiKey(token?: string): Promise<void> {
+    if (token) {
+      this.secretStorage.store('openai_apikey', token)
+    }
+  }
+
+  async getAuthApiKey(): Promise<string | undefined> {
+    return await this.secretStorage.get('openai_apikey')
   }
 }

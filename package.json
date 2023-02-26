@@ -26,6 +26,34 @@
   "main": "./out/extension.js",
   "browser": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "vscode-openai",
+      "properties": {
+        "vscode-openai.useCodeSnippetsOnMethodSuggest": {
+          "type": "boolean",
+          "default": false,
+          "description": "Complete functions with their parameter signature."
+        },
+        "vscode-openai.baseurl": {
+          "type": "string",
+          "default": "https://api.openai.com/v1",
+          "format": "url",
+          "description": "Specifies the base url for the openai service."
+        },
+        "vscode-openai.authentication": {
+          "type": "string",
+          "default": "api-key",
+          "enum": [
+            "api-key",
+            "oauth2"
+          ],
+          "enumDescriptions": [
+            "Use OpenAI API keys for authentication. Visit your API Keys page to retrieve the API key you'll use in your requests.",
+            "Use OAuth2 for authentication (Enterprise)."
+          ]
+        }
+      }
+    },
     "menus": {
       "editor/title": [
         {
@@ -41,6 +69,10 @@
         {
           "command": "openai.action.findbug",
           "group": "navigation.openai2"
+        },
+        {
+          "command": "openai.action.update-apikey",
+          "group": "navigation.openai3"
         }
       ]
     },
@@ -65,6 +97,11 @@
         "command": "openai.action.findbug",
         "title": "Find Bugs",
         "category": "openai.bug"
+      },
+      {
+        "command": "openai.action.update-apikey",
+        "title": "API Key",
+        "category": "openai.auth"
       }
     ]
   },

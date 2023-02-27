@@ -64,14 +64,16 @@
       "openai.action.toolbox": [
         {
           "command": "openai.action.unittest",
-          "group": "navigation.openai1"
+          "group": "navigation.openai1",
+          "when": "openai.isApiKeyValid"
         },
         {
           "command": "openai.action.findbug",
-          "group": "navigation.openai2"
+          "group": "navigation.openai2",
+          "when": "openai.isApiKeyValid"
         },
         {
-          "command": "openai.action.update-apikey",
+          "command": "openai.action.register-apikey",
           "group": "navigation.openai3"
         }
       ]
@@ -99,9 +101,13 @@
         "category": "openai.bug"
       },
       {
-        "command": "openai.action.update-apikey",
-        "title": "API Key",
-        "category": "openai.auth"
+        "command": "openai.action.register-apikey",
+        "title": "Register API Key...",
+        "category": "openai.auth",
+        "icon": {
+          "light": "./assets/openai-light.png",
+          "dark": "./assets/openai-dark.png"
+        }
       }
     ]
   },

@@ -1,6 +1,6 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
 import { verifyApiKey } from '../openai/apiKey'
-import { OPENAI_UPDATE_APIKEY_COMMAND_ID } from './openaiCommands'
+import { OPENAI_REGISTER_APIKEY_COMMAND_ID } from './openaiCommands'
 
 const OPENAI_APIKEY_LENGTH = 51
 const OPENAI_APIKEY_STARTSWITH = 'sk-'
@@ -14,7 +14,7 @@ function _registerApiKeyCommand(context: ExtensionContext) {
     await _inputApiKeyOpenAI()
   }
   context.subscriptions.push(
-    commands.registerCommand(OPENAI_UPDATE_APIKEY_COMMAND_ID, commandHandler)
+    commands.registerCommand(OPENAI_REGISTER_APIKEY_COMMAND_ID, commandHandler)
   )
 }
 

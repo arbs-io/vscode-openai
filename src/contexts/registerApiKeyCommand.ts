@@ -1,28 +1,27 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
-import SecretStorageService from '../services/secretStorageService'
+import { verifyApiKey } from '../openai/apiKey'
 import { OPENAI_UPDATE_APIKEY_COMMAND_ID } from './openaiCommands'
 
 const OPENAI_APIKEY_LENGTH = 51
 const OPENAI_APIKEY_STARTSWITH = 'sk-'
 
-export function registerSetOpenAIKeyCommand(context: ExtensionContext) {
+export function registerApiKeyCommand(context: ExtensionContext) {
   _registerApiKeyCommand(context)
 }
+
 function _registerApiKeyCommand(context: ExtensionContext) {
   const commandHandler = async (uri: Uri) => {
-    const apiKey = await _inputApiKeyOpenAI()
-    window.showInformationMessage(`Setting ApiKey: ${apiKey}`)
+    await _inputApiKeyOpenAI()
   }
   context.subscriptions.push(
     commands.registerCommand(OPENAI_UPDATE_APIKEY_COMMAND_ID, commandHandler)
   )
 }
 
-async function _inputApiKeyOpenAI(): Promise<boolean> {
-  const result = await window.showInputBox({
+async function _inputApiKeyOpenAI() {
+  const apiKey = await window.showInputBox({
     placeHolder: 'For example: sk-Uzm...MgS3',
     validateInput: (text) => {
-      window.showInformationMessage(`Validating: ${text}`)
       return text.length === OPENAI_APIKEY_LENGTH &&
         text.startsWith(OPENAI_APIKEY_STARTSWITH)
         ? null
@@ -30,11 +29,9 @@ async function _inputApiKeyOpenAI(): Promise<boolean> {
     },
   })
 
-  if (result !== undefined) {
-    window.showInformationMessage(`SecretStorageService Api Key: ${result}`)
-    SecretStorageService.instance.setAuthApiKey(result)
-    return true
+  if (apiKey !== undefined && (await verifyApiKey(apiKey))) {
+    window.showInformationMessage(`OpenAI: Api Key has been set`)
+  } else {
+    window.showWarningMessage(`OpenAI: Api Key has not been set`)
   }
-  window.showWarningMessage(`OpenAI Api Key has not been set`)
-  return false
 }

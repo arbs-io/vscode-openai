@@ -1,26 +1,25 @@
-import { Configuration, OpenAIApi } from "openai";
-import SecretStorageService from '../services/secretStorageService';
+import { Configuration, OpenAIApi } from 'openai'
+import { workspace } from 'vscode'
+import SecretStorageService from '../services/secretStorageService'
 
-export async function listModels() {
-  try {
-    //SecretStorageService.instance.setAuthApiKey('sk-E...kmx')
-    const apiKey = await SecretStorageService.instance.getAuthApiKey()
-    console.log(apiKey)
+export async function listModels(): Promise<string[]> {
+  const models = new Array<string>()
+  const apiKey = await SecretStorageService.instance.getAuthApiKey()
+  const baseurl = workspace
+    .getConfiguration('vscode-openai')
+    .get('baseurl') as string
 
-    const configuration = new Configuration({
-      apiKey: apiKey,
-    });
-    const openai = new OpenAIApi(configuration);
-    const response = await openai.listModels();
-    console.log(response.data.data)
-    return response.data.data
+  const configuration = new Configuration({
+    apiKey: apiKey,
+    basePath: baseurl,
+  })
+  const openai = new OpenAIApi(configuration)
+  const response = await openai.listModels()
 
-  } catch (error: any) {
-    if (error.response) {
-      console.log(error.response.status)
-      console.log(error.response.data)
-    } else {
-      console.log(error.message)
+  response.data.data.forEach((model) => {
+    if (model.id.startsWith('code')) {
+      models.push(model.id)
     }
-  }
+  })
+  return models
 }

@@ -40,6 +40,11 @@
           "format": "url",
           "description": "Specifies the base url for the openai service."
         },
+        "vscode-openai.default-model": {
+          "type": "string",
+          "default": "code-davinci-002",
+          "description": "Specifies the default openai model."
+        },
         "vscode-openai.authentication": {
           "type": "string",
           "default": "api-key",
@@ -73,6 +78,11 @@
           "when": "openai.isApiKeyValid"
         },
         {
+          "command": "openai.action.register-model",
+          "group": "navigation.openai3",
+          "when": "openai.isApiKeyValid"
+        },
+        {
           "command": "openai.action.register-apikey",
           "group": "navigation.openai3"
         }
@@ -101,9 +111,14 @@
         "category": "openai.bug"
       },
       {
+        "command": "openai.action.register-model",
+        "title": "Default Model...",
+        "category": "openai.configuration"
+      },
+      {
         "command": "openai.action.register-apikey",
         "title": "Register API Key...",
-        "category": "openai.auth",
+        "category": "openai.configuration",
         "icon": {
           "light": "./assets/openai-light.png",
           "dark": "./assets/openai-dark.png"

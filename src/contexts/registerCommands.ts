@@ -1,8 +1,6 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
 import { executePrompt } from '../openai/executePrompt'
 import { getActiveTextEditorValue } from '../utils/getActiveTextEditorValue'
-import { getInputBox } from '../utils/getInputBox'
-import { getQuickPick } from '../utils/getQuickPick'
 import {
   OPENAI_UNITTEST_COMMAND_ID,
   OPENAI_FINDBUG_COMMAND_ID,
@@ -23,8 +21,6 @@ function _registerCommand(
 
     await executePrompt()
 
-    await getInputBox()
-    await getQuickPick()
     window.showInformationMessage(`OpenAI: $copied to clipboard`)
   }
   context.subscriptions.push(

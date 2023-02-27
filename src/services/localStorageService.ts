@@ -1,14 +1,25 @@
-import { Memento } from "vscode";
+import { ExtensionContext, Memento } from 'vscode'
 
-export class LocalStorageService {
+export default class LocalStorageService {
+  private static _instance: LocalStorageService
 
-    constructor(private storage: Memento) { }
+  constructor(private storage: Memento) {}
 
-    public getValue<T>(key : string) : T{
-        return this.storage.get<T>(key,<T><any> "");
-    }
+  static init(context: ExtensionContext): void {
+    LocalStorageService._instance = new LocalStorageService(
+      context.workspaceState
+    )
+  }
 
-    public setValue<T>(key : string, value : T){
-        this.storage.update(key, value );
-    }
+  static get instance(): LocalStorageService {
+    return LocalStorageService._instance
+  }
+
+  public getValue<T>(key: string): T {
+    return this.storage.get<T>(key, <T>(<any>''))
+  }
+
+  public setValue<T>(key: string, value: T) {
+    this.storage.update(key, value)
+  }
 }

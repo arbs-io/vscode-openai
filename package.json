@@ -62,36 +62,31 @@
     "menus": {
       "editor/title": [
         {
-          "submenu": "openai.action.toolbox",
+          "submenu": "vscode-openai.menu.toolbox",
           "group": "navigation"
         }
       ],
-      "openai.action.toolbox": [
+      "vscode-openai.menu.toolbox": [
         {
-          "command": "openai.action.unittest",
-          "group": "navigation.openai1",
-          "when": "openai.isApiKeyValid"
-        },
-        {
-          "command": "openai.action.findbug",
-          "group": "navigation.openai2",
-          "when": "openai.isApiKeyValid"
-        },
-        {
-          "command": "openai.action.register-model",
+          "command": "vscode-openai.register.defaultmodel",
           "group": "navigation.openai3",
-          "when": "openai.isApiKeyValid"
+          "when": "vscode-openai.context.apikey"
         },
         {
-          "command": "openai.action.register-apikey",
+          "command": "vscode-openai.register.apikey",
           "group": "navigation.openai3"
+        },
+        {
+          "command": "vscode-openai.completion.comment",
+          "group": "navigation.openai1",
+          "when": "vscode-openai.context.apikey"
         }
       ]
     },
     "submenus": [
       {
-        "id": "openai.action.toolbox",
-        "label": "openai.action.toolbox",
+        "id": "vscode-openai.menu.toolbox",
+        "label": "vscode-openai.menu.toolbox",
         "when": "editorTextFocus",
         "icon": {
           "light": "./assets/openai-light.png",
@@ -101,28 +96,23 @@
     ],
     "commands": [
       {
-        "command": "openai.action.unittest",
-        "title": "Generate Unit Test",
-        "category": "openai.test"
-      },
-      {
-        "command": "openai.action.findbug",
-        "title": "Find Bugs",
-        "category": "openai.bug"
-      },
-      {
-        "command": "openai.action.register-model",
+        "command": "vscode-openai.register.defaultmodel",
         "title": "Default Model...",
-        "category": "openai.configuration"
+        "category": "vscode-openai.register"
       },
       {
-        "command": "openai.action.register-apikey",
+        "command": "vscode-openai.register.apikey",
         "title": "Register API Key...",
-        "category": "openai.configuration",
+        "category": "vscode-openai.register",
         "icon": {
           "light": "./assets/openai-light.png",
           "dark": "./assets/openai-dark.png"
         }
+      },
+      {
+        "command": "vscode-openai.completion.comment",
+        "title": "Find Bugs",
+        "category": "vscode-openai.completion"
       }
     ]
   },

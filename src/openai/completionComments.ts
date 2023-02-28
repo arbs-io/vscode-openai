@@ -1,10 +1,13 @@
+import { workspace } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
 import SecretStorageService from '../services/secretStorageService'
 
-export async function executePrompt() {
+export async function completionComments() {
   try {
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
-    console.log(apiKey)
+    const model = workspace
+      .getConfiguration('vscode-openai')
+      .get('default-model') as string
 
     const configuration = new Configuration({
       apiKey: apiKey,
@@ -12,7 +15,7 @@ export async function executePrompt() {
     const openai = new OpenAIApi(configuration)
 
     const completion = await openai.createCompletion({
-      model: 'text-davinci-003',
+      model: model,
       prompt: 'who is tesla',
     })
     console.log(completion.data.choices[0].text)

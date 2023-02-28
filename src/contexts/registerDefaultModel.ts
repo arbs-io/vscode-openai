@@ -1,6 +1,6 @@
 import { commands, ExtensionContext, Uri, window, workspace } from 'vscode'
 import { listModels } from '../openai/listModels'
-import { OPENAI_REGISTER_MODEL_COMMAND_ID } from './openaiCommands'
+import { REGISTER_MODEL_COMMAND_ID } from './openaiCommands'
 
 export function registerDefaultModel(context: ExtensionContext) {
   _registerDefaultModel(context)
@@ -21,7 +21,7 @@ function _registerDefaultModel(context: ExtensionContext) {
     }
   }
   context.subscriptions.push(
-    commands.registerCommand(OPENAI_REGISTER_MODEL_COMMAND_ID, commandHandler)
+    commands.registerCommand(REGISTER_MODEL_COMMAND_ID, commandHandler)
   )
 }
 async function _quickPickModels(

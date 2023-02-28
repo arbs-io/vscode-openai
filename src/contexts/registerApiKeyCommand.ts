@@ -1,6 +1,6 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
 import { verifyApiKey } from '../openai/apiKey'
-import { OPENAI_REGISTER_APIKEY_COMMAND_ID } from './openaiCommands'
+import { REGISTER_APIKEY_COMMAND_ID } from './openaiCommands'
 
 const OPENAI_APIKEY_LENGTH = 51
 const OPENAI_APIKEY_STARTSWITH = 'sk-'
@@ -14,7 +14,7 @@ function _registerApiKeyCommand(context: ExtensionContext) {
     await _inputApiKeyOpenAI()
   }
   context.subscriptions.push(
-    commands.registerCommand(OPENAI_REGISTER_APIKEY_COMMAND_ID, commandHandler)
+    commands.registerCommand(REGISTER_APIKEY_COMMAND_ID, commandHandler)
   )
 }
 
@@ -29,9 +29,7 @@ async function _inputApiKeyOpenAI() {
     },
   })
 
-  if (apiKey !== undefined && (await verifyApiKey(apiKey))) {
-    window.showInformationMessage(`OpenAI: Api Key has been set`)
-  } else {
-    window.showWarningMessage(`OpenAI: Api Key has not been set`)
+  if (apiKey !== undefined) {
+    await verifyApiKey(apiKey)
   }
 }

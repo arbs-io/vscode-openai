@@ -69,16 +69,16 @@
       "vscode-openai.menu.toolbox": [
         {
           "command": "vscode-openai.register.defaultmodel",
-          "group": "navigation.openai3",
+          "group": "navigation.openai_3",
           "when": "vscode-openai.context.apikey"
         },
         {
           "command": "vscode-openai.register.apikey",
-          "group": "navigation.openai3"
+          "group": "navigation.openai_3"
         },
         {
           "command": "vscode-openai.completion.comment",
-          "group": "navigation.openai1",
+          "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
         }
       ]
@@ -111,7 +111,7 @@
       },
       {
         "command": "vscode-openai.completion.comment",
-        "title": "Find Bugs",
+        "title": "Add Comments",
         "category": "vscode-openai.completion"
       }
     ]

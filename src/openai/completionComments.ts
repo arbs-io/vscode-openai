@@ -2,7 +2,7 @@ import { workspace } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
 import SecretStorageService from '../services/secretStorageService'
 
-export async function completionComments() {
+export async function completionComments(prompt: string) {
   try {
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
     const model = workspace
@@ -14,11 +14,25 @@ export async function completionComments() {
     })
     const openai = new OpenAIApi(configuration)
 
-    const completion = await openai.createCompletion({
+    const response = await openai.createCompletion({
       model: model,
-      prompt: 'who is tesla',
+      prompt: prompt,
+      temperature: 0.7,
+      max_tokens: 1024,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+      stop: ['!<<<>>>!'],
     })
-    console.log(completion.data.choices[0].text)
+    const answer = response.data.choices[0].text
+    console.log(answer)
+    return answer
+
+    // const completion = await openai.createCompletion({
+    //   model: model,
+    //   prompt: prompt,
+    // })
+    // console.log(completion.data.choices[0].text)
   } catch (error: any) {
     if (error.response) {
       console.log(error.response.status)

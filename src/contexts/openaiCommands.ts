@@ -4,4 +4,4 @@
 export const REGISTER_APIKEY_COMMAND_ID = 'vscode-openai.register.apikey'
 export const REGISTER_MODEL_COMMAND_ID = 'vscode-openai.register.defaultmodel'
 
-export const COMMENTS_COMMAND_ID = 'vscode-openai.completion.comment'
+export const COMPLETION_COMMENTS_COMMAND_ID = 'vscode-openai.completion.comment'

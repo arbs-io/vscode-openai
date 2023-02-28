@@ -1,5 +1,7 @@
-//Formatting Commands
-export const OPENAI_UNITTEST_COMMAND_ID = 'openai.action.unittest'
-export const OPENAI_FINDBUG_COMMAND_ID = 'openai.action.findbug'
-export const OPENAI_REGISTER_APIKEY_COMMAND_ID = 'openai.action.register-apikey'
-export const OPENAI_REGISTER_MODEL_COMMAND_ID = 'openai.action.register-model'
+// //Formatting Commands
+// export const OPENAI_UNITTEST_COMMAND_ID = 'vscode-openai.action.unittest'
+// export const OPENAI_FINDBUG_COMMAND_ID = 'vscode-openai.action.findbug'
+export const REGISTER_APIKEY_COMMAND_ID = 'vscode-openai.register.apikey'
+export const REGISTER_MODEL_COMMAND_ID = 'vscode-openai.register.defaultmodel'
+
+export const COMPLETION_COMMENTS_COMMAND_ID = 'vscode-openai.completion.comment'

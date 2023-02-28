@@ -5,7 +5,7 @@ import SecretStorageService from '../services/secretStorageService'
 export async function validateApiKey() {
   const apiKey = await SecretStorageService.instance.getAuthApiKey()
   if (apiKey !== undefined && apiKey !== '<invalid-key>') {
-    window.setStatusBarMessage('$(pulse) vscode-openai')
+    window.setStatusBarMessage('$(loading~spin) vscode-openai')
     verifyApiKey(apiKey)
   } else {
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)

@@ -14,8 +14,8 @@ function _registerCompletionComment(context: ExtensionContext) {
       const language = getActiveTextLanguageId()
 
       const persona = `Act like a programming expert in ${language}. `
-      const request = `Answer in ${language} code based on the input adding your coments add to the code.
-      Do not provide any additional information.
+      const request = `Answer using the provided code in ${language} including your coments.
+      Do not provide any additional information or alter the code.
       The code to add comments to:
       `
       const sourceCode = getActiveTextEditorValue()

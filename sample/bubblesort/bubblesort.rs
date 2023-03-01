@@ -5,7 +5,6 @@ fn main() {
     bubble_sort(&mut numbers);
     println!("After:  {:?}\n", numbers);
 
-    println!("Sort strings alphabetically");
     let mut strings = ["beach", "hotel", "airplane", "car", "house", "art"];
     println!("Before: {:?}", strings);
     bubble_sort(&mut strings);

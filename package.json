@@ -80,6 +80,11 @@
           "command": "vscode-openai.completion.comment",
           "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
+        },
+        {
+          "command": "vscode-openai.completion.explain",
+          "group": "navigation.openai_1",
+          "when": "vscode-openai.context.apikey"
         }
       ]
     },
@@ -112,6 +117,11 @@
       {
         "command": "vscode-openai.completion.comment",
         "title": "Add Comments",
+        "category": "vscode-openai.completion"
+      },
+      {
+        "command": "vscode-openai.completion.explain",
+        "title": "Add Explanation",
         "category": "vscode-openai.completion"
       }
     ]

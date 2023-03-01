@@ -42,7 +42,7 @@
         },
         "vscode-openai.default-model": {
           "type": "string",
-          "default": "code-davinci-002",
+          "default": "text-davinci-003",
           "description": "Specifies the default openai model."
         },
         "vscode-openai.authentication": {

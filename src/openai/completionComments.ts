@@ -2,7 +2,7 @@ import { window, workspace } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
 import SecretStorageService from '../services/secretStorageService'
 
-export async function completionComments(prompt: string) {
+export async function completionComments(prompt: string): Promise<string> {
   try {
     window.setStatusBarMessage(`$(sync~spin) vscode-openai`)
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
@@ -29,13 +29,15 @@ export async function completionComments(prompt: string) {
     console.log(answer)
 
     window.setStatusBarMessage(`$(key) vscode-openai`)
-    return answer
+    return answer ? answer : ''
   } catch (error: any) {
     if (error.response) {
       console.log(error.response.status)
       console.log(error.response.data)
+      throw error
     } else {
       console.log(error.message)
+      throw error
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { workspace } from 'vscode'
-import SecretStorageService from '../services/secretStorageService'
+import SecretStorageService from '../../services/secretStorageService'
 
 export async function listModels(): Promise<string[]> {
   const models = new Array<string>()
@@ -21,5 +21,5 @@ export async function listModels(): Promise<string[]> {
       models.push(model.id)
     }
   })
-  return models
+  return models.sort((a, b) => b.localeCompare(a))
 }

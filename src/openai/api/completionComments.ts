@@ -1,6 +1,6 @@
 import { window, workspace } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
-import SecretStorageService from '../services/secretStorageService'
+import SecretStorageService from '../../services/secretStorageService'
 
 export async function completionComments(prompt: string): Promise<string> {
   try {

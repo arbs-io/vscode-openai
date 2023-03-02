@@ -95,6 +95,11 @@
           "command": "vscode-openai.completion.optimize",
           "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
+        },
+        {
+          "command": "vscode-openai.completion.patterns",
+          "group": "navigation.openai_1",
+          "when": "vscode-openai.context.apikey"
         }
       ]
     },
@@ -142,6 +147,11 @@
       {
         "command": "vscode-openai.completion.optimize",
         "title": "Optimize",
+        "category": "vscode-openai.completion"
+      },
+      {
+        "command": "vscode-openai.completion.patterns",
+        "title": "Design Patterns",
         "category": "vscode-openai.completion"
       }
     ]

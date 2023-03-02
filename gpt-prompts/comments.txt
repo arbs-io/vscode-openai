@@ -1,7 +1,2 @@
 Are you familiar with "prompt engineering"?
-
 Help me write a DAVINCI prompt to add comments to the source code which I will include in the prompt. The prompt to only add comments in the code. The prompt should only return the original code with the comments included. We do not require an overview, problems, output or any other additional information, only the original source code with the comments next to each line of code. The comments should only be included if the code is complex enough to require an explanation.
-
-that great! I do not require the summary. We only need the code with comments included. Could we please provide me with a prompt for that?
-
-That's great but it seems to provide an example and other additional code. I just need the {input_code} with comments.

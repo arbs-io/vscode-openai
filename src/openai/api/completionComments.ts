@@ -1,5 +1,9 @@
 import { window, workspace } from 'vscode'
-import { Configuration, OpenAIApi } from 'openai'
+import {
+  ChatCompletionRequestMessageRoleEnum,
+  Configuration,
+  OpenAIApi,
+} from 'openai'
 import SecretStorageService from '../../services/secretStorageService'
 
 export async function completionComments(prompt: string): Promise<string> {
@@ -15,16 +19,32 @@ export async function completionComments(prompt: string): Promise<string> {
     })
     const openai = new OpenAIApi(configuration)
 
-    const response = await openai.createCompletion({
+    const completion = await openai.createChatCompletion({
       model: model,
-      prompt: prompt,
+      messages: [
+        {
+          role: ChatCompletionRequestMessageRoleEnum.Assistant,
+
+          content: prompt,
+        },
+      ],
       temperature: 0.2,
       max_tokens: 2048,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
     })
-    const answer = response.data.choices[0].text
+
+    // const response = await openai.createCompletion({
+    //   model: model,
+    //   prompt: prompt,
+    //   temperature: 0.2,
+    //   max_tokens: 2048,
+    //   top_p: 1,
+    //   frequency_penalty: 0,
+    //   presence_penalty: 0,
+    // })
+    const answer = completion.data.choices[0].message?.content
     console.log(answer)
 
     window.setStatusBarMessage(`$(key) vscode-openai`)

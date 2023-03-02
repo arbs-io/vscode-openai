@@ -42,7 +42,7 @@
         },
         "vscode-openai.default-model": {
           "type": "string",
-          "default": "text-davinci-003",
+          "default": "gpt-3.5-turbo",
           "description": "Specifies the default openai model."
         },
         "vscode-openai.authentication": {
@@ -90,6 +90,11 @@
           "command": "vscode-openai.completion.bounty",
           "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
+        },
+        {
+          "command": "vscode-openai.completion.optimize",
+          "group": "navigation.openai_1",
+          "when": "vscode-openai.context.apikey"
         }
       ]
     },
@@ -132,6 +137,11 @@
       {
         "command": "vscode-openai.completion.bounty",
         "title": "Bug Bounty",
+        "category": "vscode-openai.completion"
+      },
+      {
+        "command": "vscode-openai.completion.optimize",
+        "title": "Optimize",
         "category": "vscode-openai.completion"
       }
     ]

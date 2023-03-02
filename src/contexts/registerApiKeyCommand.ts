@@ -1,5 +1,5 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
-import { verifyApiKey } from '../openai/apiKey'
+import { verifyApiKey } from '../openai/api/apiKey'
 import { REGISTER_APIKEY_COMMAND_ID } from './openaiCommands'
 
 const OPENAI_APIKEY_LENGTH = 51

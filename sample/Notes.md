@@ -9,14 +9,12 @@ Comments
 Inline
 Summary
 
-Complete: Start write a method, select it and ask for complete.
-Add Tests: Create unit tests for the selected method.
-Find Bugs: Find bugs for the selected method.
-Optimize: Optimize the selected method.
-Explain: Write an explanation of the selected method.
-Add Comments: Add comments for the selected method.
-Add Summary: Add Summary for C# methods.
-Ask Anything: Write a question on the code editor and wait for an answer.
+[ ] Complete: Start write a method, select it and ask for complete.
+[ ] Add Tests: Create unit tests for the selected method.
+[X] Find Bugs: Find bugs for the selected method.
+[ ] Optimize: Optimize the selected method.
+[X] Explain: Write an explanation of the selected method.
+[X] Add Comments: Add comments for the selected method.
 
 
 icons

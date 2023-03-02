@@ -17,7 +17,11 @@ export async function listModels(): Promise<string[]> {
   const response = await openai.listModels()
 
   response.data.data.forEach((model) => {
-    if (model.id.startsWith('text') || model.id.startsWith('code')) {
+    if (
+      model.id.startsWith('text') ||
+      model.id.startsWith('code') ||
+      model.id.indexOf('turbo')
+    ) {
       models.push(model.id)
     }
   })

@@ -85,6 +85,11 @@
           "command": "vscode-openai.completion.explain",
           "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
+        },
+        {
+          "command": "vscode-openai.completion.bounty",
+          "group": "navigation.openai_1",
+          "when": "vscode-openai.context.apikey"
         }
       ]
     },
@@ -116,12 +121,17 @@
       },
       {
         "command": "vscode-openai.completion.comment",
-        "title": "Add Comments",
+        "title": "Comments",
         "category": "vscode-openai.completion"
       },
       {
         "command": "vscode-openai.completion.explain",
-        "title": "Add Explanation",
+        "title": "Explanation",
+        "category": "vscode-openai.completion"
+      },
+      {
+        "command": "vscode-openai.completion.bounty",
+        "title": "Bug Bounty",
         "category": "vscode-openai.completion"
       }
     ]

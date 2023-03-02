@@ -18,12 +18,11 @@ export async function completionComments(prompt: string): Promise<string> {
     const response = await openai.createCompletion({
       model: model,
       prompt: prompt,
-      temperature: 0.7,
-      max_tokens: 1024,
+      temperature: 0.2,
+      max_tokens: 2048,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
-      stop: ['!<<<>>>!'],
     })
     const answer = response.data.choices[0].text
     console.log(answer)

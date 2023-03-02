@@ -42,7 +42,7 @@
         },
         "vscode-openai.default-model": {
           "type": "string",
-          "default": "text-davinci-003",
+          "default": "gpt-3.5-turbo",
           "description": "Specifies the default openai model."
         },
         "vscode-openai.authentication": {
@@ -90,6 +90,16 @@
           "command": "vscode-openai.completion.bounty",
           "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
+        },
+        {
+          "command": "vscode-openai.completion.optimize",
+          "group": "navigation.openai_1",
+          "when": "vscode-openai.context.apikey"
+        },
+        {
+          "command": "vscode-openai.completion.patterns",
+          "group": "navigation.openai_1",
+          "when": "vscode-openai.context.apikey"
         }
       ]
     },
@@ -133,6 +143,16 @@
         "command": "vscode-openai.completion.bounty",
         "title": "Bug Bounty",
         "category": "vscode-openai.completion"
+      },
+      {
+        "command": "vscode-openai.completion.optimize",
+        "title": "Optimize",
+        "category": "vscode-openai.completion"
+      },
+      {
+        "command": "vscode-openai.completion.patterns",
+        "title": "Design Patterns",
+        "category": "vscode-openai.completion"
       }
     ]
   },
@@ -153,9 +173,9 @@
     "@vscode/vsce": "^2.16.0",
     "esbuild": "^0.17.4",
     "eslint": "^8.32.0",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
   },
   "dependencies": {
-    "openai": "^3.1.0"
+    "openai": "^3.2.1"
   }
 }

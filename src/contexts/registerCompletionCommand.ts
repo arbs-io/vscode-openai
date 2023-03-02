@@ -3,17 +3,23 @@ import { completionComments } from '../openai/api/completionComments'
 import { bountyPrompt } from '../openai/prompt/bountyPrompt'
 import { commentPrompt } from '../openai/prompt/commentPrompt'
 import { explainPrompt } from '../openai/prompt/explainPrompt'
+import { optimizePrompt } from '../openai/prompt/optimizePrompt'
+import { patternPrompt } from '../openai/prompt/patternPrompt'
 import { compareFileToClipboard } from '../utils/compareFileToClipboard'
 import {
-  COMPLETION_BOUNTY_COMMAND_ID,
-  COMPLETION_COMMENTS_COMMAND_ID,
-  COMPLETION_EXPLAIN_COMMAND_ID,
+  PROMPT_BOUNTY_COMMAND_ID,
+  PROMPT_COMMENTS_COMMAND_ID,
+  PROMPT_EXPLAIN_COMMAND_ID,
+  PROMPT_OPTIMIZE_COMMAND_ID,
+  PROMPT_PATTERNS_COMMAND_ID,
 } from './openaiCommands'
 
 export function registerCompletionCommand(context: ExtensionContext) {
-  _registerCommand(context, COMPLETION_COMMENTS_COMMAND_ID, commentPrompt)
-  _registerCommand(context, COMPLETION_EXPLAIN_COMMAND_ID, explainPrompt)
-  _registerCommand(context, COMPLETION_BOUNTY_COMMAND_ID, bountyPrompt)
+  _registerCommand(context, PROMPT_COMMENTS_COMMAND_ID, commentPrompt)
+  _registerCommand(context, PROMPT_EXPLAIN_COMMAND_ID, explainPrompt)
+  _registerCommand(context, PROMPT_BOUNTY_COMMAND_ID, bountyPrompt)
+  _registerCommand(context, PROMPT_OPTIMIZE_COMMAND_ID, optimizePrompt)
+  _registerCommand(context, PROMPT_PATTERNS_COMMAND_ID, patternPrompt)
 }
 
 function _registerCommand(

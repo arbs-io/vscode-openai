@@ -28,8 +28,7 @@ async function _quickPickModels(
   models: Array<string>
 ): Promise<string | undefined> {
   const result = await window.showQuickPick(models, {
-    placeHolder: 'code-davinci-002',
+    placeHolder: 'gpt-3.5-turbo',
   })
-  window.showInformationMessage(`Got: ${result}`)
   return result
 }

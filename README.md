@@ -1,11 +1,8 @@
 # vscode-openai
 
-vscode-openai is a powerful extension for Visual Studio Code that utilizes OpenAI Turbo models to enhance your coding experience. With its advanced technology, this extension provides several features to make your coding process more efficient and effective.
+vscode-openai is a powerful extension for Visual Studio Code that utilizes OpenAI Turbo models to enhance your coding experience. With its advanced technology, this extension provides several features to make your coding process more efficient and effective. Currently uses **gpt-3.5-turbo**: 10 times cheaper than standard davinci. The cost of $0.002 per 1,000, average request size is 100 tokens.
 
-### Highlights:
-
-- **OpenAI Api-Key**
-- **gpt-3.5-turbo**: 10 times cheaper than standard davinci. The cost of $0.002 per 1,000, average request size is 100 tokens.
+Simply enter your OpenAI Api-Key and enjoy the productivity.
 
 ## What features are provided
 

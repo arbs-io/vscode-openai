@@ -1,3 +1,4 @@
+import { PromptFactory } from './promptFactory'
 import { getActiveTextEditorValue } from '../../utils/getActiveTextEditorValue'
 import { getActiveTextLanguageId } from '../../utils/getActiveTextLanguageId'
 
@@ -11,4 +12,11 @@ export async function optimizePrompt(): Promise<string> {
   const rules = `Do not provide additional explanation or the original code. Instead, we require the optimised code with comments about the source code lines that have been optimised.`
   const prompt = persona.concat(request, sourceCode, rules)
   return prompt
+}
+
+// Define concrete prompt factories for each type of prompt
+export class OptimizePromptFactory implements PromptFactory {
+  createPrompt(): () => Promise<string> {
+    return optimizePrompt
+  }
 }

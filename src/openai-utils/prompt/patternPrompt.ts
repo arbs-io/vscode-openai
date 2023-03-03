@@ -1,3 +1,4 @@
+import { PromptFactory } from './promptFactory'
 import { getActiveTextEditorValue } from '../../utils/getActiveTextEditorValue'
 import { getActiveTextLanguageId } from '../../utils/getActiveTextLanguageId'
 
@@ -11,4 +12,11 @@ export async function patternPrompt(): Promise<string> {
   const rules = `The response must use the ${language} programming language`
   const prompt = persona.concat(request, sourceCode, rules)
   return prompt
+}
+
+// Define concrete prompt factories for each type of prompt
+export class PatternPromptFactory implements PromptFactory {
+  createPrompt(): () => Promise<string> {
+    return patternPrompt
+  }
 }

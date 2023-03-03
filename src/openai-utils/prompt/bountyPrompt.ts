@@ -1,7 +1,8 @@
+import { PromptFactory } from './promptFactory'
 import { getActiveTextEditorValue } from '../../utils/getActiveTextEditorValue'
 import { getActiveTextLanguageId } from '../../utils/getActiveTextLanguageId'
 
-export async function bountyPrompt(): Promise<string> {
+async function bountyPrompt(): Promise<string> {
   const language = getActiveTextLanguageId()
   const inputCode = getActiveTextEditorValue()
 
@@ -11,4 +12,11 @@ export async function bountyPrompt(): Promise<string> {
   const rules = ``
   const prompt = persona.concat(request, sourceCode, rules)
   return prompt
+}
+
+// Define concrete prompt factories for each type of prompt
+export class BountyPromptFactory implements PromptFactory {
+  createPrompt(): () => Promise<string> {
+    return bountyPrompt
+  }
 }

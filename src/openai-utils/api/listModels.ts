@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { workspace } from 'vscode'
-import SecretStorageService from '../../services/secretStorageService'
+import { SecretStorageService } from '../../vscode-utils'
 
 export async function listModels(): Promise<string[]> {
   const models = new Array<string>()

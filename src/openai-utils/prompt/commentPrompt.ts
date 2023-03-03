@@ -1,6 +1,8 @@
 import { PromptFactory } from './promptFactory'
-import { getActiveTextEditorValue } from '../../utils/getActiveTextEditorValue'
-import { getActiveTextLanguageId } from '../../utils/getActiveTextLanguageId'
+import {
+  getActiveTextEditorValue,
+  getActiveTextLanguageId,
+} from '../../vscode-utils'
 
 async function commentPrompt(): Promise<string> {
   const language = getActiveTextLanguageId()

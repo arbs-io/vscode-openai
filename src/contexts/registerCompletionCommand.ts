@@ -10,7 +10,7 @@ import {
   completionComments,
 } from '../openai-utils'
 
-import { compareFileToClipboard } from '../utils/compareFileToClipboard'
+import { compareFileToClipboard } from '../vscode-utils'
 
 import {
   PROMPT_BOUNTY_COMMAND_ID,

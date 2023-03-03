@@ -1,8 +1,8 @@
 {
   "name": "vscode-openai",
   "displayName": "vscode-openai",
-  "description": "A vscode extension providing quick access menu for editor",
-  "version": "0.0.1",
+  "description": "A vscode extension can significantly enhance your productivity and efficiency when developing complex software applications using OpenAI latest models",
+  "version": "1.0.0",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,

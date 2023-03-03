@@ -8,5 +8,6 @@
     "rootDir": "src",
     "strict": true
   },
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", ".vscode-test"]
 }

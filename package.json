@@ -2,14 +2,14 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "A vscode extension can significantly enhance your productivity and efficiency when developing complex software applications using OpenAI latest models",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arbs-io/vscode-openai.git"
+    "url": "https://github.com/arbs-io/vscode-openai-docs.git"
   },
   "sponsor": {
     "url": "https://github.com/sponsors/arbs-io"

@@ -5,9 +5,9 @@ import SecretStorageService from '../../services/secretStorageService'
 export async function listModels(): Promise<string[]> {
   const models = new Array<string>()
   const apiKey = await SecretStorageService.instance.getAuthApiKey()
-  const baseurl = workspace
-    .getConfiguration('vscode-openai')
-    .get('baseurl') as string
+
+  const ws = workspace.getConfiguration('vscode-openai')
+  const baseurl = ws.get('baseurl') as string
 
   const configuration = new Configuration({
     apiKey: apiKey,

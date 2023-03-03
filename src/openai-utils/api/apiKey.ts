@@ -15,9 +15,8 @@ export async function validateApiKey() {
 
 export async function verifyApiKey(apiKey: string): Promise<boolean> {
   try {
-    const baseurl = workspace
-      .getConfiguration('vscode-openai')
-      .get('baseurl') as string
+    const ws = workspace.getConfiguration('vscode-openai')
+    const baseurl = ws.get('baseurl') as string
 
     const configuration = new Configuration({
       apiKey: apiKey,

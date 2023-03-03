@@ -10,12 +10,14 @@ export async function completionComments(prompt: string): Promise<string> {
   try {
     window.setStatusBarMessage(`$(sync~spin) vscode-openai`)
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
-    const model = workspace
-      .getConfiguration('vscode-openai')
-      .get('default-model') as string
+
+    const ws = workspace.getConfiguration('vscode-openai')
+    const baseurl = ws.get('baseurl') as string
+    const model = ws.get('default-model') as string
 
     const configuration = new Configuration({
       apiKey: apiKey,
+      basePath: baseurl,
     })
     const openai = new OpenAIApi(configuration)
 

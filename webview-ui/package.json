@@ -1,0 +1,23 @@
+{
+  "name": "jwtClaimsetViewer",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fluentui/react-components": "^9.15.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@types/vscode-webview": "^1.57.0",
+    "@vitejs/plugin-react": "^3.0.1",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4"
+  }
+}

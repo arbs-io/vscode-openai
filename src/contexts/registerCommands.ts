@@ -2,9 +2,11 @@ import { ExtensionContext } from 'vscode'
 import { registerCompletionCommand } from './registerCompletionCommand'
 import { registerApiKeyCommand } from './registerApiKeyCommand'
 import { registerDefaultModel } from './registerDefaultModel'
+import { registerShowClaimsetPreviewCommand } from './registerGptChatPanelCommand'
 
 export function registerCommands(context: ExtensionContext) {
-	registerApiKeyCommand(context)
+  registerApiKeyCommand(context)
   registerDefaultModel(context)
   registerCompletionCommand(context)
+  registerShowClaimsetPreviewCommand(context)
 }

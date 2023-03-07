@@ -77,28 +77,33 @@
           "group": "navigation.openai_3"
         },
         {
-          "command": "vscode-openai.completion.comment",
+          "command": "vscode-openai.panel.message",
           "group": "navigation.openai_1",
+          "when": "vscode-openai.context.apikey"
+        },
+        {
+          "command": "vscode-openai.completion.comment",
+          "group": "navigation.openai_2",
           "when": "vscode-openai.context.apikey"
         },
         {
           "command": "vscode-openai.completion.explain",
-          "group": "navigation.openai_1",
+          "group": "navigation.openai_2",
           "when": "vscode-openai.context.apikey"
         },
         {
           "command": "vscode-openai.completion.bounty",
-          "group": "navigation.openai_1",
+          "group": "navigation.openai_2",
           "when": "vscode-openai.context.apikey"
         },
         {
           "command": "vscode-openai.completion.optimize",
-          "group": "navigation.openai_1",
+          "group": "navigation.openai_2",
           "when": "vscode-openai.context.apikey"
         },
         {
           "command": "vscode-openai.completion.patterns",
-          "group": "navigation.openai_1",
+          "group": "navigation.openai_2",
           "when": "vscode-openai.context.apikey"
         }
       ]
@@ -115,6 +120,11 @@
       }
     ],
     "commands": [
+      {
+        "command": "vscode-openai.panel.message",
+        "title": "GPT Chat...",
+        "category": "vscode-openai.chat"
+      },
       {
         "command": "vscode-openai.register.defaultmodel",
         "title": "Default Model...",
@@ -157,6 +167,10 @@
     ]
   },
   "scripts": {
+    "install:all": "npm install && cd webview-ui && npm install",
+    "start:webview": "cd webview-ui && npm run start",
+    "build:webview": "cd webview-ui && npm run build",
+    "test:webview": "cd webview-ui && npm run test",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",

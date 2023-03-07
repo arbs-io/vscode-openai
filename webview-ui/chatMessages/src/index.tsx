@@ -1,14 +1,10 @@
 import ReactDOM from 'react-dom'
-import {
-  FluentProvider,
-  webDarkTheme,
-  webLightTheme,
-} from '@fluentui/react-components'
-import App from './App'
+import { teamsDarkV2Theme, Provider } from '@fluentui/react-northstar'
+import ChatExample from './components/MessageGrid'
 
 ReactDOM.render(
-  <FluentProvider theme={webDarkTheme}>
-    <App />
-  </FluentProvider>,
+  <Provider theme={teamsDarkV2Theme}>
+    <ChatExample />
+  </Provider>,
   document.getElementById('root')
 )

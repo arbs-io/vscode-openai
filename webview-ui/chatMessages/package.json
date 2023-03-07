@@ -8,9 +8,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fluentui/react-components": "^9.15.6",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "@fluentui/docs-components": "0.66.2",
+    "@fluentui/react-icons-northstar": "0.66.2",
+    "@fluentui/react-northstar": "0.66.2",
+    "react": "^17.*",
+    "react-dom": "^17.*",
     "vscode-openai": "file:../.."
   },
   "devDependencies": {

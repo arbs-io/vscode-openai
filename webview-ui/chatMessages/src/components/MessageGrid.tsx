@@ -1,194 +1,165 @@
-import {
-  PresenceBadgeStatus,
-  Avatar,
-  DataGridBody,
-  DataGridRow,
-  DataGrid,
-  DataGridHeader,
-  DataGridHeaderCell,
-  DataGridCell,
-  TableCellLayout,
-  TableColumnDefinition,
-  createTableColumn,
-} from '@fluentui/react-components'
-import {
-  FolderRegular,
-  EditRegular,
-  OpenRegular,
-  DocumentRegular,
-  PeopleRegular,
-  DocumentPdfRegular,
-  VideoRegular,
-} from '@fluentui/react-icons'
 import * as React from 'react'
+import {
+  Avatar,
+  Chat,
+  ChatItemProps,
+  Divider,
+  ShorthandCollection,
+} from '@fluentui/react-northstar'
+import { AcceptIcon, EyeIcon } from '@fluentui/react-icons-northstar'
 
-type FileCell = {
-  label: string
-  icon: JSX.Element
+const status = {
+  color: 'green',
+  icon: <AcceptIcon />,
+  title: 'Available',
 }
 
-type LastUpdatedCell = {
-  label: string
-  timestamp: number
+const robinAvatar = {
+  image:
+    'https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/RobinCounts.jpg',
+  status: { color: 'green', icon: <AcceptIcon /> },
 }
 
-type LastUpdateCell = {
-  label: string
-  icon: JSX.Element
-}
-
-type AuthorCell = {
-  label: string
-  status: PresenceBadgeStatus
-}
-
-type Item = {
-  file: FileCell
-  author: AuthorCell
-  lastUpdated: LastUpdatedCell
-  lastUpdate: LastUpdateCell
-}
-
-const items: Item[] = [
+const items: ShorthandCollection<ChatItemProps> = [
   {
-    file: { label: 'Meeting notes', icon: <DocumentRegular /> },
-    author: { label: 'Max Mustermann', status: 'available' },
-    lastUpdated: { label: '7h ago', timestamp: 1 },
-    lastUpdate: {
-      label: 'You edited this',
-      icon: <EditRegular />,
-    },
+    gutter: (
+      <Avatar name="Andrew Butson (Software Developer)" status={status} />
+    ),
+    message: (
+      <Chat.Message
+        content="Hello"
+        author="Cecil Folk"
+        timestamp="Yesterday, 10:15 PM"
+        mine
+      />
+    ),
+    contentPosition: 'end',
+    attached: 'top',
+    key: 'message-id-1',
   },
   {
-    file: { label: 'Thursday presentation', icon: <FolderRegular /> },
-    author: { label: 'Erika Mustermann', status: 'busy' },
-    lastUpdated: { label: 'Yesterday at 1:45 PM', timestamp: 2 },
-    lastUpdate: {
-      label: 'You recently opened this',
-      icon: <OpenRegular />,
-    },
+    gutter: (
+      <Avatar name="Andrew Butson (Software Developer)" status={status} />
+    ),
+    message: (
+      <Chat.Message
+        content="I'm back!"
+        author="Cecil Folk"
+        timestamp="Yesterday, 10:15 PM"
+        mine
+      />
+    ),
+    contentPosition: 'end',
+    attached: true,
+    key: 'message-id-2',
   },
   {
-    file: { label: 'Training recording', icon: <VideoRegular /> },
-    author: { label: 'John Doe', status: 'away' },
-    lastUpdated: { label: 'Yesterday at 1:45 PM', timestamp: 2 },
-    lastUpdate: {
-      label: 'You recently opened this',
-      icon: <OpenRegular />,
-    },
+    gutter: (
+      <Avatar name="Andrew Butson (Software Developer)" status={status} />
+    ),
+    message: (
+      <Chat.Message
+        content={{
+          content: (
+            <div>
+              What do you think about <a href="#">www.goodFood.com</a>?
+            </div>
+          ),
+        }}
+        author="Cecil Folk"
+        timestamp="Yesterday, 10:15 PM"
+        mine
+      />
+    ),
+    contentPosition: 'end',
+    attached: 'bottom',
+    key: 'message-id-3',
   },
   {
-    file: { label: 'Purchase order', icon: <DocumentPdfRegular /> },
-    author: { label: 'Jane Doe', status: 'offline' },
-    lastUpdated: { label: 'Tue at 9:30 AM', timestamp: 3 },
-    lastUpdate: {
-      label: 'You shared this in a Teams chat',
-      icon: <PeopleRegular />,
-    },
+    gutter: <Avatar name="Software Engineer (OpenAI)" status={status} />,
+    message: (
+      <Chat.Message
+        content="Hi"
+        author="Robin Counts"
+        timestamp="Yesterday, 10:15 PM"
+      />
+    ),
+    attached: 'top',
+    key: 'message-id-4',
+  },
+  {
+    gutter: <Avatar name="Software Engineer (OpenAI)" status={status} />,
+    message: (
+      <Chat.Message
+        content="Help me write a DAVINCI prompt to add comments to the source code which I will include in the prompt. The prompt to only add comments in the code. The prompt should only return the original code with the comments included. We do not require an overview, problems, output or any other additional information, only the original source code with the comments next to each line of code. The comments should only be included if the code is complex enough to require an explanation."
+        author="Robin Counts"
+        timestamp="Yesterday, 10:15 PM"
+      />
+    ),
+    attached: true,
+    key: 'message-id-5',
+  },
+  {
+    gutter: <Avatar name="Software Engineer (OpenAI)" status={status} />,
+    message: (
+      <Chat.Message
+        content={
+          <div>
+            I also like <a href="#">www.goodFood2.com</a>.
+          </div>
+        }
+        author="Robin Counts"
+        timestamp="Yesterday, 10:15 PM"
+      />
+    ),
+    attached: 'bottom',
+    key: 'message-id-6',
+  },
+  {
+    gutter: (
+      <Avatar name="Andrew Butson (Software Developer)" status={status} />
+    ),
+    message: (
+      <Chat.Message
+        content="Would you like to grab lunch there?"
+        author="Cecil Folk"
+        timestamp="Yesterday, 10:16 PM"
+        mine
+      />
+    ),
+    contentPosition: 'end',
+    key: 'message-id-7',
+  },
+  {
+    gutter: <Avatar name="Software Engineer (OpenAI)" status={status} />,
+    message: (
+      <Chat.Message
+        content="Sure! Let's try it."
+        author="Robin Counts"
+        timestamp="Yesterday, 10:15 PM"
+      />
+    ),
+    key: 'message-id-8',
+  },
+  {
+    children: <Divider content="Today" color="brand" important />,
+    key: 'message-id-9',
+  },
+  {
+    gutter: <Avatar name="Software Engineer (OpenAI)" status={status} />,
+    message: (
+      <Chat.Message
+        content="Ok, let's go."
+        author="Cecil Folk"
+        timestamp="Today, 11:15 PM"
+        mine
+      />
+    ),
+    contentPosition: 'end',
+    key: 'message-id-10',
   },
 ]
 
-const columns: TableColumnDefinition<Item>[] = [
-  createTableColumn<Item>({
-    columnId: 'file',
-    compare: (a, b) => {
-      return a.file.label.localeCompare(b.file.label)
-    },
-    renderHeaderCell: () => {
-      return 'File'
-    },
-    renderCell: (item) => {
-      return (
-        <TableCellLayout media={item.file.icon}>
-          {item.file.label}
-        </TableCellLayout>
-      )
-    },
-  }),
-  createTableColumn<Item>({
-    columnId: 'author',
-    compare: (a, b) => {
-      return a.author.label.localeCompare(b.author.label)
-    },
-    renderHeaderCell: () => {
-      return 'Author'
-    },
-    renderCell: (item) => {
-      return (
-        <TableCellLayout
-          media={
-            <Avatar
-              aria-label={item.author.label}
-              name={item.author.label}
-              badge={{ status: item.author.status }}
-            />
-          }
-        >
-          {item.author.label}
-        </TableCellLayout>
-      )
-    },
-  }),
-  createTableColumn<Item>({
-    columnId: 'lastUpdated',
-    compare: (a, b) => {
-      return a.lastUpdated.timestamp - b.lastUpdated.timestamp
-    },
-    renderHeaderCell: () => {
-      return 'Last updated'
-    },
+const ChatExample = () => <Chat items={items} />
 
-    renderCell: (item) => {
-      return item.lastUpdated.label
-    },
-  }),
-  createTableColumn<Item>({
-    columnId: 'lastUpdate',
-    compare: (a, b) => {
-      return a.lastUpdate.label.localeCompare(b.lastUpdate.label)
-    },
-    renderHeaderCell: () => {
-      return 'Last update'
-    },
-    renderCell: (item) => {
-      return (
-        <TableCellLayout media={item.lastUpdate.icon}>
-          {item.lastUpdate.label}
-        </TableCellLayout>
-      )
-    },
-  }),
-]
-
-export const Default = () => {
-  return (
-    <DataGrid
-      items={items}
-      columns={columns}
-      sortable
-      selectionMode="multiselect"
-      getRowId={(item) => item.file.label}
-      onSelectionChange={(e, data) => console.log(data)}
-    >
-      <DataGridHeader>
-        <DataGridRow selectionCell={{ 'aria-label': 'Select all rows' }}>
-          {({ renderHeaderCell }) => (
-            <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
-          )}
-        </DataGridRow>
-      </DataGridHeader>
-      <DataGridBody<Item>>
-        {({ item, rowId }) => (
-          <DataGridRow<Item>
-            key={rowId}
-            selectionCell={{ 'aria-label': 'Select row' }}
-          >
-            {({ renderCell }) => (
-              <DataGridCell>{renderCell(item)}</DataGridCell>
-            )}
-          </DataGridRow>
-        )}
-      </DataGridBody>
-    </DataGrid>
-  )
-}
+export default ChatExample

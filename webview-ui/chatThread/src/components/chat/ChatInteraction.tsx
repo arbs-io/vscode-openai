@@ -21,12 +21,22 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     rowGap: '5px',
   },
-  example: {
+  history: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyItems: 'center',
-    minHeight: '96px',
+    rowGap: '20px',
+    paddingBottom: '3rem',
+    backgroundColor: tokens.colorNeutralBackground1,
+  },
+  input: {
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: '1rem',
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    paddingTop: '1rem',
     backgroundColor: tokens.colorNeutralBackground1,
   },
 })
@@ -44,42 +54,20 @@ const ChatInteraction: FC<IData> = ({ uri, onGetAISummary, onBack }) => {
 
   return (
     <div className={mergeClasses(styles.container)}>
-      <div
-        style={{
-          gridArea: 'content',
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          padding: '1rem 0',
-        }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {chatHistory.map((m, idx) => (
-            <ChatHistoryItem key={idx} message={m} />
-          ))}
-          <div ref={chatBottomRef} />
-        </div>
+      <div className={mergeClasses(styles.history)}>
+        {chatHistory.map((m, idx) => (
+          <ChatHistoryItem key={idx} message={m} />
+        ))}
+        <div ref={chatBottomRef} />
       </div>
-      <div
-        style={{
-          gridArea: 'footer',
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: '1rem',
-
-          // borderTop: '1px solid #ccc',
-        }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <ChatInput
-            onSubmit={(m) => {
-              setIsBusy(true)
-              setChatHistory([...chatHistory, m])
-              setIsBusy(false)
-            }}
-          />
-        </div>
+      <div className={mergeClasses(styles.input)}>
+        <ChatInput
+          onSubmit={(m) => {
+            setIsBusy(true)
+            setChatHistory([...chatHistory, m])
+            setIsBusy(false)
+          }}
+        />
       </div>
     </div>
   )

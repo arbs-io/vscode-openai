@@ -6,11 +6,11 @@ import {
   FluentProvider,
   Theme,
   createLightTheme,
+  createDarkTheme,
 } from '@fluentui/react-components'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './App.css'
 
 const myTheme: BrandVariants = {
   10: '#000000',
@@ -33,6 +33,10 @@ const myTheme: BrandVariants = {
 
 const lightTheme: Theme = {
   ...createLightTheme(myTheme),
+}
+
+const darkTheme: Theme = {
+  ...createDarkTheme(myTheme),
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)

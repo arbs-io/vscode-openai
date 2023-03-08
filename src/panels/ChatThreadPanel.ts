@@ -9,14 +9,14 @@ import {
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 
-export class GptChatPanel {
-  public static currentPanel: GptChatPanel | undefined
+export class ChatThreadPanel {
+  public static currentPanel: ChatThreadPanel | undefined
   private readonly _panel: WebviewPanel
   private _disposables: Disposable[] = []
   private readonly _extensionUri: Uri
 
   /**
-   * The GptChatPanel class private constructor (called only from the render method).
+   * The ChatThreadPanel class private constructor (called only from the render method).
    *
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
@@ -51,8 +51,8 @@ export class GptChatPanel {
     //Check that we have a valid object
     const activeFilename = `tester`
 
-    if (GptChatPanel.currentPanel) {
-      GptChatPanel.currentPanel._panel.dispose()
+    if (ChatThreadPanel.currentPanel) {
+      ChatThreadPanel.currentPanel._panel.dispose()
     }
     // If a webview panel does not already exist create and show a new one
     const panel = window.createWebviewPanel(
@@ -65,15 +65,15 @@ export class GptChatPanel {
         localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
       }
     )
-    GptChatPanel.currentPanel = new GptChatPanel(panel, extensionUri)
-    //GptChatPanel.currentPanel?._panel.webview.postMessage(claimset)
+    ChatThreadPanel.currentPanel = new ChatThreadPanel(panel, extensionUri)
+    //ChatThreadPanel.currentPanel?._panel.webview.postMessage(claimset)
   }
 
   /**
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    GptChatPanel.currentPanel = undefined
+    ChatThreadPanel.currentPanel = undefined
 
     // Dispose of the current webview panel
     this._panel.dispose()
@@ -91,7 +91,7 @@ export class GptChatPanel {
     const iconPathOnDisk = Uri.joinPath(
       this._extensionUri,
       'assets',
-      'showClaimsetPreviewCommand.png'
+      'openai-webview.png'
     )
     this._panel.iconPath = iconPathOnDisk
   }

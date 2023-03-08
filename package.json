@@ -176,7 +176,7 @@
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "test-compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "watch": "npm run build:webview && tsc -watch -p ./",
     "deploy": "vsce publish --yarn"
   },
   "devDependencies": {

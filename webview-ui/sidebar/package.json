@@ -1,10 +1,10 @@
 {
-  "name": "jwtClaimsetViewer",
+  "name": "sidebar",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build --emptyOutDir",
     "preview": "vite preview"
   },
   "dependencies": {

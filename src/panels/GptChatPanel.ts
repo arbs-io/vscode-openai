@@ -133,7 +133,7 @@ export class GptChatPanel {
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
           <title>Claimset</title>
         </head>
-        <body>
+        <body style="margin:0;padding:0">
           <div id="root"></div>
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>

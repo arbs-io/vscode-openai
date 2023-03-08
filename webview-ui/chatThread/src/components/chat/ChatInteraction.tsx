@@ -1,9 +1,4 @@
-import {
-  makeStyles,
-  mergeClasses,
-  shorthands,
-  tokens,
-} from '@fluentui/react-components'
+import { makeStyles, mergeClasses, tokens } from '@fluentui/react-components'
 import React, { FC, useState } from 'react'
 import { ChatHistoryItem } from './ChatHistoryItem'
 import { ChatInput } from './ChatInput'
@@ -25,6 +20,8 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     rowGap: '20px',
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
     paddingBottom: '3rem',
     backgroundColor: tokens.colorNeutralBackground1,
   },

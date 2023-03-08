@@ -1,149 +1,71 @@
-// Copyright (c) Microsoft. All rights reserved.
-
 export interface IChatMessage {
-    content: string;
-    author: string;
-    timestamp: string;
-    mine: boolean;
+  content: string
+  author: string
+  timestamp: string
+  mine: boolean
 }
 
 export const ChatThread: IChatMessage[] = [
-    {
-        content: 'Hi, do you know much about cars?',
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:15 PM',
-        mine: true,
-    },
-    {
-        content: 'Yeah, I love cars! What do you want to know?',
-        author: 'John Doe',
-        timestamp: 'Yesterday, 10:20 PM',
-        mine: false,
-    },
-    {
-        content: "I'm thinking of buying a new car, any recommendations?",
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:25 PM',
-        mine: true,
-    },
-    {
-        content:
-            "If you're looking for a sports car, I'd recommend the Porsche 911. If you want something more practical, the Honda Civic is a great option.",
-        author: 'John Doe',
-        timestamp: 'Yesterday, 10:30 PM',
-        mine: false,
-    },
-    {
-        content: "I'm leaning towards something more eco-friendly, any suggestions?",
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:35 PM',
-        mine: true,
-    },
-    {
-        content:
-            "The Toyota Prius is a great hybrid option. The Nissan Leaf is an all-electric car that's also a good choice.",
-        author: 'John Doe',
-        timestamp: 'Yesterday, 10:40 PM',
-        mine: false,
-    },
-    {
-        content:
-            "Thanks for the suggestions, I'll take an action item for myself to go to the Nissan dealer this weekend.",
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:45 PM',
-        mine: true,
-    },
-    {
-        content: 'No problem, let me know if you have any other questions.',
-        author: 'John Doe',
-        timestamp: 'Yesterday, 10:50 PM',
-        mine: false,
-    },
-    {
-        content: 'Actually, I do have one more question. How do you feel about electric cars?',
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:55 PM',
-        mine: true,
-    },
-    {
-        content:
-            "I think they're the future of transportation. They're more environmentally friendly and can be cheaper to operate in the long run.",
-        author: 'John Doe',
-        timestamp: 'Yesterday, 11:00 PM',
-        mine: false,
-    },
-    {
-        content: 'I agree, I am thinking about going for an electric car. Thanks for your help',
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 11:05 PM',
-        mine: true,
-    },
-    {
-        content: "You're welcome, happy car shopping!",
-        author: 'John Doe',
-        timestamp: 'Yesterday, 11:10 PM',
-        mine: false,
-    },
-    {
-        content: 'Hey John, have you ever seen a penguin in the wild?',
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:15 PM',
-        mine: true,
-    },
-    {
-        content: "No, I haven't. Have you?",
-        author: 'John Doe',
-        timestamp: 'Yesterday, 10:20 PM',
-        mine: false,
-    },
-    {
-        content: "Yeah, I saw some while I was on a trip to Antarctica. They're amazing swimmers.",
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:25 PM',
-        mine: true,
-    },
-    {
-        content:
-            "Wow, that must have been an incredible experience. That reminds me, I need to book that Antarctica trip for next summer. I've only seen them at the zoo.",
-        author: 'John Doe',
-        timestamp: 'Yesterday, 10:30 PM',
-        mine: false,
-    },
-    {
-        content: 'It was definitely a trip of a lifetime. Speaking of birds, have you ever heard a lyrebird?',
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:35 PM',
-        mine: true,
-    },
-    {
-        content: "No, I haven't. What's special about them?",
-        author: 'John Doe',
-        timestamp: 'Yesterday, 10:40 PM',
-        mine: false,
-    },
-    {
-        content:
-            "They're known for their incredible mimicry abilities. They can imitate all kinds of sounds, including other birds and even machinery.",
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:45 PM',
-        mine: true,
-    },
-    {
-        content: "That's amazing! Let's plan on meeting up next weekend to go bird watching.",
-        author: 'John Doe',
-        timestamp: 'Yesterday, 10:50 PM',
-        mine: false,
-    },
-    {
-        content: "I highly recommend looking up some videos of them online. They're truly one of a kind.",
-        author: 'Cecil Folk',
-        timestamp: 'Yesterday, 10:55 PM',
-        mine: true,
-    },
-    {
-        content: "Thanks for the recommendation. I'll definitely check them out.",
-        author: 'John Doe',
-        timestamp: 'Yesterday, 11:00 PM',
-        mine: false,
-    },
-];
+  {
+    content: 'Are you familiar with "prompt engineering"?',
+    author: 'Andrew Butson',
+    timestamp: 'Yesterday, 10:15 PM',
+    mine: true,
+  },
+  {
+    content:
+      "Yes, as an AI language model, I am familiar with the concept of prompt engineering.\n\nPrompt engineering refers to the process of designing and refining prompts for an AI language model in order to improve its performance on a specific task or set of tasks. This involves carefully crafting the input text that the model receives in order to elicit the desired output.\n\nThe goal of prompt engineering is to optimize the language model's ability to generate high-quality, relevant responses to a given prompt, which can be especially important in natural language generation tasks such as chatbots or language translation. This process can involve a variety of techniques, including fine-tuning the model on a specific task, selecting appropriate input and output formats, and iteratively testing and refining the prompts to achieve the desired results.",
+    author: 'Prompt Engineer (GPT)',
+    timestamp: 'Yesterday, 10:20 PM',
+    mine: false,
+  },
+  {
+    content:
+      'Please help me write a DAVINCI prompt to analyse the source code, which I will include in the prompt. The prompt will rewrite the code to use programming design patterns. The prompt should only return the updated code with the comments to explain the design patterns used. We do not require an overview, problems, output or any other additional information, only the source code with the comments next to each line of code. The comments should only be included if the code is complex enough to require an explanation.',
+    author: 'Andrew Butson',
+    timestamp: 'Yesterday, 10:25 PM',
+    mine: true,
+  },
+  {
+    content:
+      "Sure, here's an example DAVINCI prompt you could use to analyze source code and rewrite it using programming design patterns:",
+    author: 'Prompt Engineer (GPT)',
+    timestamp: 'Yesterday, 10:30 PM',
+    mine: false,
+  },
+  {
+    content:
+      'brilliant. We need design patterns from Gangs of Four (GoF) Design Patterns',
+    author: 'Andrew Butson',
+    timestamp: 'Yesterday, 10:35 PM',
+    mine: true,
+  },
+  {
+    content:
+      "Sure, here's an updated example DAVINCI prompt that specifically requests the use of Gang of Four (GoF) Design Patterns:",
+    author: 'Prompt Engineer (GPT)',
+    timestamp: 'Yesterday, 10:40 PM',
+    mine: false,
+  },
+  {
+    content:
+      'perfect. However, we need the code to be in the same programming language as the input source',
+    author: 'Andrew Butson',
+    timestamp: 'Yesterday, 10:45 PM',
+    mine: true,
+  },
+  {
+    content:
+      'Certainly, here is an updated DAVINCI prompt that incorporates the requirement for the code to be written in the same programming language as the input source code:',
+    author: 'Prompt Engineer (GPT)',
+    timestamp: 'Yesterday, 10:50 PM',
+    mine: false,
+  },
+  {
+    content:
+      'Again, make sure to replace <insert source code here> with the actual source code that you want to analyze and refactor, and specify the programming language used in the prompt. Also, keep in mind that the quality of the output will depend on the complexity and quality of the source code you provide, as well as the effectiveness of the design patterns used to refactor it.',
+    author: 'Prompt Engineer (GPT)',
+    timestamp: 'Yesterday, 10:50 PM',
+    mine: false,
+  },
+]

@@ -1,5 +1,5 @@
 import { makeStyles, mergeClasses, tokens } from '@fluentui/react-components'
-import React, { FC, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { ChatHistoryItem } from './ChatHistoryItem'
 import { ChatInput } from './ChatInput'
 import { ChatThread, IChatMessage } from './ChatThread'
@@ -39,15 +39,14 @@ const useStyles = makeStyles({
 })
 
 const ChatInteraction: FC<IData> = ({ uri, onGetAISummary, onBack }) => {
-  const chatBottomRef = React.useRef<HTMLDivElement>(null)
-  const [isBusy, setIsBusy] = useState<boolean>()
+  const chatBottomRef = useRef<HTMLDivElement>(null)
   const [chatHistory, setChatHistory] = useState<IChatMessage[]>(ChatThread)
 
   const styles = useStyles()
 
-  React.useEffect(() => {
+  useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [isBusy])
+  }, [chatHistory])
 
   return (
     <div className={mergeClasses(styles.container)}>
@@ -60,9 +59,7 @@ const ChatInteraction: FC<IData> = ({ uri, onGetAISummary, onBack }) => {
       <div className={mergeClasses(styles.input)}>
         <ChatInput
           onSubmit={(m) => {
-            setIsBusy(true)
             setChatHistory([...chatHistory, m])
-            setIsBusy(false)
           }}
         />
       </div>

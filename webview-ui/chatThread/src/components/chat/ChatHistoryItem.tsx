@@ -15,11 +15,11 @@ export const ChatHistoryItem: FC<IData> = ({ message }) => {
   const style: CSSProperties = {
     alignSelf: message.mine ? 'flex-end' : 'flex-start',
     backgroundColor: message.mine
-      ? tokens.colorPaletteGreenBackground1
-      : tokens.colorNeutralBackground4,
+      ? tokens.colorNeutralBackground4
+      : tokens.colorPaletteGreenBackground1,
     color: message.mine
-      ? tokens.colorPaletteGreenForeground3
-      : tokens.colorNeutralForeground4,
+      ? tokens.colorNeutralForeground4
+      : tokens.colorPaletteGreenForeground3,
     borderRadius: 10,
     padding: '0.5rem',
     maxWidth: '75%',

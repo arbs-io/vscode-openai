@@ -5,6 +5,7 @@ import {
   window,
   Uri,
   ViewColumn,
+  ColorThemeKind,
 } from 'vscode'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
@@ -121,6 +122,13 @@ export class ChatThreadPanel {
       'index.js',
     ])
 
+    const panelTheme = {
+      [ColorThemeKind.Light]: 'light',
+      [ColorThemeKind.Dark]: 'dark',
+      [ColorThemeKind.HighContrast]: 'dark',
+      [ColorThemeKind.HighContrastLight]: 'light',
+    }[window.activeColorTheme.kind]
+
     const nonce = getNonce()
 
     return /*html*/ `
@@ -134,7 +142,7 @@ export class ChatThreadPanel {
           <title>Claimset</title>
         </head>
         <body style="margin:0;padding:0">
-          <div id="root"></div>
+          <div id="root" theme='${panelTheme}' />
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>

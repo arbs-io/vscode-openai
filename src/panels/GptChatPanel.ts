@@ -111,13 +111,13 @@ export class GptChatPanel {
     const stylesUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatMessages',
+      'chatThread',
       'index.css',
     ])
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatMessages',
+      'chatThread',
       'index.js',
     ])
 

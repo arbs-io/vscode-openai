@@ -167,10 +167,10 @@
     ]
   },
   "scripts": {
-    "install:all": "npm install && npm --prefix ./webview-ui/chatMessages install",
-    "start:webview": "npm --prefix ./webview-ui/chatMessages run start",
-    "build:webview": "npm --prefix ./webview-ui/chatMessages run build",
-    "test:webview": "npm --prefix ./webview-ui/chatMessages run test",
+    "install:all": "npm install && npm --prefix ./webview-ui/chatThread install",
+    "start:webview": "npm --prefix ./webview-ui/chatThread run start",
+    "build:webview": "npm --prefix ./webview-ui/chatThread run build",
+    "test:webview": "npm --prefix ./webview-ui/chatThread run test",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",

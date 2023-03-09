@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Default as MessageGrid } from './components/MessageGrid'
-
 function App() {
   const [state, setState] = useState<MessageEvent>()
   const onMessageReceivedFromIframe = useCallback(

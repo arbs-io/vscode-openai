@@ -50,7 +50,7 @@ export class ChatThreadPanel {
    */
   public static render(extensionUri: Uri) {
     //Check that we have a valid object
-    const activeFilename = `tester`
+    const activeFilename = `Prompt Engineer (OpenAI)`
 
     if (ChatThreadPanel.currentPanel) {
       ChatThreadPanel.currentPanel._panel.dispose()
@@ -109,12 +109,6 @@ export class ChatThreadPanel {
    * rendered within the webview panel
    */
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
-    const stylesUri = getUri(webview, extensionUri, [
-      'out',
-      'webview-ui',
-      'chatThread',
-      'index.css',
-    ])
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
@@ -138,7 +132,6 @@ export class ChatThreadPanel {
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src * 'self' data: https:; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';">
-          <link rel="stylesheet" type="text/css" href="${stylesUri}">
           <title>Claimset</title>
         </head>
         <body style="margin:0;padding:0">

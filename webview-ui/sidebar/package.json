@@ -11,7 +11,7 @@
     "@fluentui/react-components": "^9.15.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "vscode-openai": "file:.."
+    "vscode-openai": "file:../.."
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

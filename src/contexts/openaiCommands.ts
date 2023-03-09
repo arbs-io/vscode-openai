@@ -9,3 +9,5 @@ export const PROMPT_PATTERNS_COMMAND_ID = 'vscode-openai.completion.patterns'
 
 
 export const PANEL_MESSAGE_COMMAND_ID = 'vscode-openai.panel.message'
+
+export const PANEL_SIDEBAR_COMMAND_ID = 'vscode-openai.panel.sidebar'

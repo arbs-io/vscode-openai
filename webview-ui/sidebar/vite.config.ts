@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: "../out/webview-ui",
+    outDir: '../../out/webview-ui/sidebar',
     rollupOptions: {
       output: {
         entryFileNames: `[name].js`,

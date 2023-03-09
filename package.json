@@ -26,6 +26,26 @@
   "main": "./out/extension.js",
   "browser": "./out/extension.js",
   "contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "vscode-openai-sidebar-view",
+					"title": "vscode-openai",
+          "icon": "./assets/openai-sidebar.svg"
+				}
+			]
+		},
+		"views": {
+			"vscode-openai-sidebar-view": [
+				{
+					"type": "webview",
+					"id": "vscode-openai-sidebar",
+					"name": "vscode-openai",
+          "icon": "./assets/openai-sidebar.svg",
+					"contextualTitle": "vscode-openai"
+				}
+			]
+		},
     "configuration": {
       "title": "vscode-openai",
       "properties": {
@@ -167,10 +187,10 @@
     ]
   },
   "scripts": {
-    "install:all": "npm install && npm --prefix ./webview-ui/chatThread install",
-    "start:webview": "npm --prefix ./webview-ui/chatThread run start",
-    "build:webview": "npm --prefix ./webview-ui/chatThread run build",
-    "test:webview": "npm --prefix ./webview-ui/chatThread run test",
+    "install:all": "npm install && npm --prefix ./webview-ui/chatThread install && npm --prefix ./webview-ui/sidebar install",
+    "start:webview": "npm --prefix ./webview-ui/chatThread run start && npm --prefix ./webview-ui/sidebar run start",
+    "build:webview": "npm --prefix ./webview-ui/chatThread run build && npm --prefix ./webview-ui/sidebar run build",
+    "test:webview": "npm --prefix ./webview-ui/chatThread run test && npm --prefix ./webview-ui/sidebar run test",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",

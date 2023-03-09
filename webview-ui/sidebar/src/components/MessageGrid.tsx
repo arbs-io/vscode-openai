@@ -163,6 +163,7 @@ const columns: TableColumnDefinition<Item>[] = [
 export const Default = () => {
   return (
     <DataGrid
+      size="extra-small"
       items={items}
       columns={columns}
       sortable

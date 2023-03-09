@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Default as MessageGrid } from './components/MessageGrid'
-
+import { Default as GridToolbar } from './components/PersonaToolbar'
 function App() {
   const [state, setState] = useState<MessageEvent>()
   const onMessageReceivedFromIframe = useCallback(
@@ -19,6 +19,7 @@ function App() {
 
   return (
     <main>
+      <GridToolbar />
       <MessageGrid />
     </main>
   )

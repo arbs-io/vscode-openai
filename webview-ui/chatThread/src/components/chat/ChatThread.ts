@@ -15,7 +15,7 @@ export const ChatThread: IChatMessage[] = [
   {
     content:
       "Yes, as an AI language model, I am familiar with the concept of prompt engineering.\n\nPrompt engineering refers to the process of designing and refining prompts for an AI language model in order to improve its performance on a specific task or set of tasks. This involves carefully crafting the input text that the model receives in order to elicit the desired output.\n\nThe goal of prompt engineering is to optimize the language model's ability to generate high-quality, relevant responses to a given prompt, which can be especially important in natural language generation tasks such as chatbots or language translation. This process can involve a variety of techniques, including fine-tuning the model on a specific task, selecting appropriate input and output formats, and iteratively testing and refining the prompts to achieve the desired results.",
-    author: 'Prompt Engineer (GPT)',
+    author: 'Prompt Engineer (OpenAI)',
     timestamp: 'Yesterday, 10:20 PM',
     mine: false,
   },
@@ -29,7 +29,7 @@ export const ChatThread: IChatMessage[] = [
   {
     content:
       "Sure, here's an example DAVINCI prompt you could use to analyze source code and rewrite it using programming design patterns:",
-    author: 'Prompt Engineer (GPT)',
+    author: 'Prompt Engineer (OpenAI)',
     timestamp: 'Yesterday, 10:30 PM',
     mine: false,
   },
@@ -43,7 +43,7 @@ export const ChatThread: IChatMessage[] = [
   {
     content:
       "Sure, here's an updated example DAVINCI prompt that specifically requests the use of Gang of Four (GoF) Design Patterns:",
-    author: 'Prompt Engineer (GPT)',
+    author: 'Prompt Engineer (OpenAI)',
     timestamp: 'Yesterday, 10:40 PM',
     mine: false,
   },
@@ -57,14 +57,14 @@ export const ChatThread: IChatMessage[] = [
   {
     content:
       'Certainly, here is an updated DAVINCI prompt that incorporates the requirement for the code to be written in the same programming language as the input source code:',
-    author: 'Prompt Engineer (GPT)',
+    author: 'Prompt Engineer (OpenAI)',
     timestamp: 'Yesterday, 10:50 PM',
     mine: false,
   },
   {
     content:
       'Again, make sure to replace <insert source code here> with the actual source code that you want to analyze and refactor, and specify the programming language used in the prompt. Also, keep in mind that the quality of the output will depend on the complexity and quality of the source code you provide, as well as the effectiveness of the design patterns used to refactor it.',
-    author: 'Prompt Engineer (GPT)',
+    author: 'Prompt Engineer (OpenAI)',
     timestamp: 'Yesterday, 10:50 PM',
     mine: false,
   },

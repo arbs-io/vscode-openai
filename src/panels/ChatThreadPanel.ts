@@ -50,7 +50,7 @@ export class ChatThreadPanel {
    */
   public static render(extensionUri: Uri) {
     //Check that we have a valid object
-    const activeFilename = `Prompt Engineer (GPT)`
+    const activeFilename = `Prompt Engineer (OpenAI)`
 
     if (ChatThreadPanel.currentPanel) {
       ChatThreadPanel.currentPanel._panel.dispose()

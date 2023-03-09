@@ -7,7 +7,6 @@ export const PROMPT_BOUNTY_COMMAND_ID = 'vscode-openai.completion.bounty'
 export const PROMPT_OPTIMIZE_COMMAND_ID = 'vscode-openai.completion.optimize'
 export const PROMPT_PATTERNS_COMMAND_ID = 'vscode-openai.completion.patterns'
 
-
 export const PANEL_MESSAGE_COMMAND_ID = 'vscode-openai.panel.message'
 
-export const PANEL_SIDEBAR_COMMAND_ID = 'vscode-openai.panel.sidebar'
+export const SIDEBAR_PERSONA_COMMAND_ID = 'vscode-openai.sidebar.persona'

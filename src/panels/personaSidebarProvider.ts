@@ -1,10 +1,7 @@
 import {
-  Disposable,
   Webview,
-  WebviewPanel,
   window,
   Uri,
-  ViewColumn,
   ColorThemeKind,
   WebviewView,
   WebviewViewProvider,
@@ -13,7 +10,7 @@ import {
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 
-export class SidebarProvider implements WebviewViewProvider {
+export class PersonaSidebarProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 

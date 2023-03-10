@@ -1,6 +1,6 @@
-import { IChatMessage } from './IChatMessage'
+import { IChatMessage } from '../../types/IChatMessage'
 
-export const ChatThread: IChatMessage[] = [
+export const SampleChatThread: IChatMessage[] = [
   {
     content: 'Are you familiar with "prompt engineering"?',
     author: 'Andrew Butson',

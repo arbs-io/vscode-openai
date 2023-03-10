@@ -10,6 +10,7 @@ import {
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { IChatMessage } from '../types/IChatMessage'
+import { SampleChatThread } from './data/SampleChatThread'
 
 export class ChatThreadPanel {
   public static currentPanel: ChatThreadPanel | undefined
@@ -68,7 +69,10 @@ export class ChatThreadPanel {
       }
     )
     ChatThreadPanel.currentPanel = new ChatThreadPanel(panel, extensionUri)
-    //ChatThreadPanel.currentPanel?._panel.webview.postMessage(claimset)
+    ChatThreadPanel.currentPanel?._panel.webview.postMessage({
+      command: 'loadChatThreads',
+      text: JSON.stringify(SampleChatThread),
+    })
   }
 
   /**
@@ -154,22 +158,16 @@ export class ChatThreadPanel {
     webview.onDidReceiveMessage(
       (message) => {
         switch (message.command) {
-          case 'alert':
-            window.showErrorMessage(message.text)
+          case 'newChatThread':
+            window.showInformationMessage(`newChatThread: ${message.text}`)
             return
-          case 'info':
-            window.showInformationMessage(message.text)
-            return
-          case 'newMessage':
-            window.showInformationMessage(message.text)
-            return
-          case 'saveMessages':
+          case 'saveChatThread':
             // eslint-disable-next-line no-case-declarations
             const abc: IChatMessage[] = JSON.parse(message.text)
-            window.showInformationMessage(`message.command: ${abc.length}`)
+            window.showInformationMessage(`saveChatThread: ${abc.length}`)
             return
           default:
-            console.log(message.command)
+            window.showErrorMessage(message.command)
             return
         }
       },

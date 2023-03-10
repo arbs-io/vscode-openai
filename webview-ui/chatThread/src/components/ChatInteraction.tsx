@@ -2,26 +2,36 @@ import { makeStyles, mergeClasses, tokens } from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState } from 'react'
 import { ChatHistoryItem } from './ChatHistoryItem'
 import { ChatInput } from './ChatInput'
-import { ChatThread } from './ChatThread'
 import { vscode } from '../utilities/vscode'
 import { IChatMessage } from './IChatMessage'
 
 const ChatInteraction: FC = () => {
   const chatBottomRef = useRef<HTMLDivElement>(null)
-  const [chatHistory, setChatHistory] = useState<IChatMessage[]>(ChatThread)
-  const [isBusy, setIsBusy] = useState<boolean>()
+  const [chatHistory, setChatHistory] = useState<IChatMessage[]>([])
+  // const [isLoading, setIsLoading] = useState<boolean>()
 
   const styles = useStyles()
 
   useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-    // if (isBusy) {
-    vscode.postMessage({
-      command: 'saveMessages',
-      text: JSON.stringify(chatHistory),
-    })
-    // }
-  }, [chatHistory, isBusy])
+    if (chatHistory.length > 0) {
+      vscode.postMessage({
+        command: 'saveChatThread',
+        text: JSON.stringify(chatHistory),
+      })
+    }
+  }, [chatHistory])
+
+  window.addEventListener('message', (event) => {
+    const message = event.data // The JSON data our extension sent
+    switch (message.command) {
+      case 'loadChatThreads':
+        // eslint-disable-next-line no-case-declarations
+        const chatMessages: IChatMessage[] = JSON.parse(message.text)
+        setChatHistory(chatMessages)
+        break
+    }
+  })
 
   return (
     <div className={mergeClasses(styles.container)}>
@@ -34,9 +44,7 @@ const ChatInteraction: FC = () => {
       <div className={mergeClasses(styles.input)}>
         <ChatInput
           onSubmit={(m) => {
-            setIsBusy(true)
             setChatHistory([...chatHistory, m])
-            setIsBusy(false)
           }}
         />
       </div>

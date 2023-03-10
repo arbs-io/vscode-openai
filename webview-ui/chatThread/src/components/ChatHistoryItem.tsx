@@ -2,7 +2,7 @@
 
 import { tokens } from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
-import { IChatMessage } from './ChatThread'
+import { IChatMessage } from './IChatMessage'
 
 interface IData {
   message: IChatMessage

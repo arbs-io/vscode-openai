@@ -1,7 +1,8 @@
 import { Button, Input } from '@fluentui/react-components'
 import { Send16Regular } from '@fluentui/react-icons'
 import React, { FC } from 'react'
-import { IChatMessage } from './ChatThread'
+import { vscode } from '../utilities/vscode'
+import { IChatMessage } from './IChatMessage'
 
 interface ChatInputProps {
   onSubmit: (message: IChatMessage) => void
@@ -21,6 +22,10 @@ export const ChatInput: FC<ChatInputProps> = (props) => {
     })
     setPreviousValue(text)
     setValue('')
+    vscode.postMessage({
+      command: 'newMessage',
+      text: text,
+    })
   }
 
   return (

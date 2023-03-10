@@ -9,6 +9,7 @@ import {
 } from 'vscode'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
+import { IChatMessage } from '../types/IChatMessage'
 
 export class ChatThreadPanel {
   public static currentPanel: ChatThreadPanel | undefined
@@ -159,8 +160,16 @@ export class ChatThreadPanel {
           case 'info':
             window.showInformationMessage(message.text)
             return
+          case 'newMessage':
+            window.showInformationMessage(message.text)
+            return
+          case 'saveMessages':
+            // eslint-disable-next-line no-case-declarations
+            const abc: IChatMessage[] = JSON.parse(message.text)
+            window.showInformationMessage(`message.command: ${abc.length}`)
+            return
           default:
-            console.log(message.text)
+            console.log(message.command)
             return
         }
       },

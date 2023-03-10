@@ -8,7 +8,7 @@ import { IChatMessage } from './IChatMessage'
 const ChatInteraction: FC = () => {
   const chatBottomRef = useRef<HTMLDivElement>(null)
   const [chatHistory, setChatHistory] = useState<IChatMessage[]>([])
-  // const [isLoading, setIsLoading] = useState<boolean>()
+  const [forceRefresh, setForceRefresh] = useState<boolean>()
 
   const styles = useStyles()
 
@@ -20,7 +20,7 @@ const ChatInteraction: FC = () => {
         text: JSON.stringify(chatHistory),
       })
     }
-  }, [chatHistory])
+  }, [chatHistory, forceRefresh])
 
   window.addEventListener('message', (event) => {
     const message = event.data // The JSON data our extension sent
@@ -29,6 +29,12 @@ const ChatInteraction: FC = () => {
         // eslint-disable-next-line no-case-declarations
         const chatMessages: IChatMessage[] = JSON.parse(message.text)
         setChatHistory(chatMessages)
+        break
+      case 'newChatThreadAnswer':
+        // eslint-disable-next-line no-case-declarations
+        const chatMessage: IChatMessage = JSON.parse(message.text)
+        chatHistory.push(chatMessage)
+        setForceRefresh(!forceRefresh)
         break
     }
   })

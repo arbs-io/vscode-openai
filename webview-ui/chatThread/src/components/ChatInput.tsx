@@ -24,7 +24,7 @@ export const ChatInput: FC<ChatInputProps> = (props) => {
     setValue('')
 
     vscode.postMessage({
-      command: 'newChatThread',
+      command: 'newChatThreadQuestion',
       text: text,
     })
   }

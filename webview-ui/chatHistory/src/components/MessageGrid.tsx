@@ -15,13 +15,13 @@ import {
   makeStyles,
   mergeClasses,
 } from '@fluentui/react-components'
-import { ChatHelp24Regular } from '@fluentui/react-icons'
+import { Next24Regular } from '@fluentui/react-icons'
 import { Item, Items } from './data/Items'
 
 const useStyles = makeStyles({
   tableCell: {
-    paddingTop: '0.5rem',
-    paddingBottom: '0.5rem',
+    paddingTop: '0.25rem',
+    paddingBottom: '0.25rem',
   },
 })
 const columns: TableColumnDefinition<Item>[] = [
@@ -41,10 +41,9 @@ const columns: TableColumnDefinition<Item>[] = [
             <TableCellLayout
               media={
                 <Persona
-                  presence={{ status: 'available' }}
+                  presence={{ status: 'out-of-office' }}
                   size="small"
                   name={item.persona.role}
-                  tertiaryText={overview}
                   avatar={{ color: 'colorful' }}
                 />
               }
@@ -63,7 +62,10 @@ const columns: TableColumnDefinition<Item>[] = [
     renderCell: (item) => {
       return (
         <TableCell tabIndex={0} role="gridcell">
-          <TableCellLayout description={item.summary.label} />
+          <TableCellLayout description={item.summary.label} style={{paddingRight: '1rem'}} />
+          <Tooltip content="View the archived conversation" relationship="label">
+              <Button size="small" icon={<Next24Regular />} />
+            </Tooltip>
         </TableCell>
       )
     },
@@ -78,20 +80,13 @@ export const Default = () => {
       ref={(el) => console.log('__Ref', el)}
       columns={columns}
       sortable
-      selectionMode="single"
       getRowId={(item) => item.itemId}
-      onSelectionChange={(e, data) => console.log(`clicked: ${data}`)}
       resizableColumns
       columnSizingOptions={{
         persona: {
-          minWidth: 200,
-          defaultWidth: 200,
-          idealWidth: 200,
-        },
-        summary: {
-          defaultWidth: 180,
           minWidth: 120,
-          idealWidth: 180,
+          defaultWidth: 120,
+          idealWidth: 120,
         },
       }}
     >

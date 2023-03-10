@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: '../../out/webview-ui/chatHistory',
+    outDir: '../../out/webview-ui/chatThread',
     rollupOptions: {
       output: {
         entryFileNames: `[name].js`,

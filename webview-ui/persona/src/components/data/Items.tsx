@@ -1,7 +1,7 @@
 import { PresenceBadgeStatus } from '@fluentui/react-components'
 import { EditRegular, OpenRegular, PeopleRegular } from '@fluentui/react-icons'
 
-export type SummaryCell = {
+export type PromptCell = {
   label: string
 }
 
@@ -15,7 +15,7 @@ export type PersonaCell = {
 export type Item = {
   itemId: string
   persona: PersonaCell
-  summary: SummaryCell
+  prompt: PromptCell
 }
 
 export const Items: Item[] = [
@@ -27,8 +27,8 @@ export const Items: Item[] = [
       model: 'gpt-3.5-turbo',
       status: 'available',
     },
-    summary: {
-      label: 'OpenAI Integration Extension.',
+    prompt: {
+      label: 'You are a "Software Engineer" with over 20 years of experience. You have extensive knowledge of software design, development lifecycle, DevOps practices, and system architecture.',
     },
   },
   {
@@ -39,8 +39,8 @@ export const Items: Item[] = [
       model: 'gpt-3.5-turbo',
       status: 'busy',
     },
-    summary: {
-      label: 'Prompt Engineering Explained.',
+    prompt: {
+      label: 'You are a "Prompt Engineering" with years of experience in Generative Pre-trained Transformer processes. You specialise in prompt engineering and efficiency in OpenAI usage.',
     },
   },
   {
@@ -51,8 +51,8 @@ export const Items: Item[] = [
       model: 'gpt-3.5-turbo',
       status: 'away',
     },
-    summary: {
-      label: 'Explain Data Mesh',
+    prompt: {
+      label: 'You are a "Data Engineer" with many years of experience with various data platforms. In addition, you have experience with concepts like data mesh and in-depth knowledge of all types of database repositories.',
     },
   },
   {
@@ -63,8 +63,8 @@ export const Items: Item[] = [
       model: 'gpt-3.5-turbo',
       status: 'offline',
     },
-    summary: {
-      label: 'Technical Solutions Governance',
+    prompt: {
+      label: 'You are an "Enterprise Architect" with many years of experience in technology architecture. In addition, you have extensive knowledge of solution architecture, platform integration and cloud design patterns.',
     },
   },
 ]

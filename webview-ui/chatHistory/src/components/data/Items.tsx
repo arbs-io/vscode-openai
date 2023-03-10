@@ -28,7 +28,7 @@ export const Items: Item[] = [
       status: 'available',
     },
     summary: {
-      label: 'OpenAI Integration Extension.',
+      label: 'Conversation about software engineering design patterns',
     },
   },
   {
@@ -40,19 +40,7 @@ export const Items: Item[] = [
       status: 'busy',
     },
     summary: {
-      label: 'Prompt Engineering Explained.',
-    },
-  },
-  {
-    itemId: '33cc8ce6-1e64-49e7-884e-19bc3542b11b',
-    persona: {
-      role: 'Data Engineer',
-      service: 'OpenAI',
-      model: 'gpt-3.5-turbo',
-      status: 'away',
-    },
-    summary: {
-      label: 'Explain Data Mesh',
+      label: 'Conversation about prompts to fine tune a gpt model for custom chatbot experience',
     },
   },
   {
@@ -64,7 +52,31 @@ export const Items: Item[] = [
       status: 'offline',
     },
     summary: {
-      label: 'Technical Solutions Governance',
+      label: 'Conversation about cloud architecture for low latency messaging',
+    },
+  },
+  {
+    itemId: '33cc8ce6-1e64-49e7-884e-19bc3542b11b',
+    persona: {
+      role: 'Data Engineer',
+      service: 'OpenAI',
+      model: 'gpt-3.5-turbo',
+      status: 'away',
+    },
+    summary: {
+      label: 'Conversation about Data Mesh design and implementation',
+    },
+  },
+  {
+    itemId: 'cbb6e55c-b639-46d0-9758-8d7e2382bd10',
+    persona: {
+      role: 'Enterprise Architect',
+      service: 'OpenAI',
+      model: 'gpt-3.5-turbo',
+      status: 'offline',
+    },
+    summary: {
+      label: 'Conversation about technical solutions governance',
     },
   },
 ]

@@ -76,7 +76,7 @@ export class PersonaProvider implements WebviewViewProvider {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'sidebar',
+      'persona',
       'index.js',
     ])
 

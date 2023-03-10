@@ -10,8 +10,6 @@ import {
   createTableColumn,
   Persona,
   TableCell,
-  Button,
-  Tooltip,
   makeStyles,
   mergeClasses,
 } from '@fluentui/react-components'
@@ -20,8 +18,8 @@ import { Item, Items } from './data/Items'
 
 const useStyles = makeStyles({
   tableCell: {
-    paddingTop: '0.5rem',
-    paddingBottom: '0.5rem',
+    paddingTop: '0.75rem',
+    paddingBottom: '0.75rem',
   },
 })
 const columns: TableColumnDefinition<Item>[] = [
@@ -42,7 +40,7 @@ const columns: TableColumnDefinition<Item>[] = [
               media={
                 <Persona
                   presence={{ status: 'available' }}
-                  size="small"
+                  size="medium"
                   name={item.persona.role}
                   tertiaryText={overview}
                   avatar={{ color: 'colorful' }}
@@ -56,14 +54,14 @@ const columns: TableColumnDefinition<Item>[] = [
   }),
 
   createTableColumn<Item>({
-    columnId: 'summary',
+    columnId: 'prompt',
     renderHeaderCell: () => {
-      return 'Summary'
+      return 'Prompt'
     },
     renderCell: (item) => {
       return (
         <TableCell tabIndex={0} role="gridcell">
-          <TableCellLayout description={item.summary.label} />
+          <TableCellLayout description={item.prompt.label} />
         </TableCell>
       )
     },
@@ -84,9 +82,9 @@ export const Default = () => {
       resizableColumns
       columnSizingOptions={{
         persona: {
-          minWidth: 200,
-          defaultWidth: 200,
-          idealWidth: 200,
+          minWidth: 180,
+          defaultWidth: 180,
+          idealWidth: 180,
         },
         summary: {
           defaultWidth: 180,

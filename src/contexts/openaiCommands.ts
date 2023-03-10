@@ -10,3 +10,5 @@ export const PROMPT_PATTERNS_COMMAND_ID = 'vscode-openai.completion.patterns'
 export const PANEL_MESSAGE_COMMAND_ID = 'vscode-openai.panel.message'
 
 export const SIDEBAR_PERSONA_COMMAND_ID = 'vscode-openai.sidebar.persona'
+export const SIDEBAR_CHATHISTORY_COMMAND_ID =
+  'vscode-openai.sidebar.chathistory'

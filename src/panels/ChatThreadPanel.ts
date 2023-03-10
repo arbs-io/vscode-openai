@@ -9,6 +9,8 @@ import {
 } from 'vscode'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
+import { IChatMessage } from '../types/IChatMessage'
+import { SampleChatThread } from './data/SampleChatThread'
 
 export class ChatThreadPanel {
   public static currentPanel: ChatThreadPanel | undefined
@@ -67,7 +69,10 @@ export class ChatThreadPanel {
       }
     )
     ChatThreadPanel.currentPanel = new ChatThreadPanel(panel, extensionUri)
-    //ChatThreadPanel.currentPanel?._panel.webview.postMessage(claimset)
+    ChatThreadPanel.currentPanel?._panel.webview.postMessage({
+      command: 'loadChatThreads',
+      text: JSON.stringify(SampleChatThread),
+    })
   }
 
   /**
@@ -153,14 +158,30 @@ export class ChatThreadPanel {
     webview.onDidReceiveMessage(
       (message) => {
         switch (message.command) {
-          case 'alert':
-            window.showErrorMessage(message.text)
+          case 'newChatThreadQuestion':
+            //window.showInformationMessage(`newChatThreadQuestion: ${message.text}`)
+
+            // eslint-disable-next-line no-case-declarations
+            const chatThread: IChatMessage = {
+              content:
+                "Yes, as an AI language model, I am familiar with the concept of prompt engineering.\n\nPrompt engineering refers to the process of designing and refining prompts for an AI language model in order to improve its performance on a specific task or set of tasks. This involves carefully crafting the input text that the model receives in order to elicit the desired output.\n\nThe goal of prompt engineering is to optimize the language model's ability to generate high-quality, relevant responses to a given prompt, which can be especially important in natural language generation tasks such as chatbots or language translation. This process can involve a variety of techniques, including fine-tuning the model on a specific task, selecting appropriate input and output formats, and iteratively testing and refining the prompts to achieve the desired results.",
+              author: 'Prompt Engineer (OpenAI)',
+              timestamp: 'Yesterday, 10:20 PM',
+              mine: false,
+            }
+
+            ChatThreadPanel.currentPanel?._panel.webview.postMessage({
+              command: 'newChatThreadAnswer',
+              text: JSON.stringify(chatThread),
+            })
             return
-          case 'info':
-            window.showInformationMessage(message.text)
+          case 'saveChatThread':
+            // eslint-disable-next-line no-case-declarations
+            const chatMessages: IChatMessage[] = JSON.parse(message.text)
+            console.log(`saveChatThread: ${chatMessages.length}`)
             return
           default:
-            console.log(message.text)
+            window.showErrorMessage(message.command)
             return
         }
       },

@@ -1,11 +1,6 @@
-export interface IChatMessage {
-  content: string
-  author: string
-  timestamp: string
-  mine: boolean
-}
+import { IChatMessage } from '../../types/IChatMessage'
 
-export const ChatThread: IChatMessage[] = [
+export const SampleChatThread: IChatMessage[] = [
   {
     content: 'Are you familiar with "prompt engineering"?',
     author: 'Andrew Butson',

@@ -46,7 +46,7 @@
         },
         {
           "type": "webview",
-          "id": "vscode-openai.panel.sidebar1",
+          "id": "vscode-openai.sidebar.chathistory",
           "name": "History",
           "icon": "./assets/openai-sidebar.svg",
           "contextualTitle": "Persona"
@@ -194,10 +194,14 @@
     ]
   },
   "scripts": {
-    "install:all": "npm install && npm --prefix ./webview-ui/chatThread install && npm --prefix ./webview-ui/sidebar install",
-    "start:webview": "npm --prefix ./webview-ui/chatThread run start && npm --prefix ./webview-ui/sidebar run start",
-    "build:webview": "npm --prefix ./webview-ui/chatThread run build && npm --prefix ./webview-ui/sidebar run build",
-    "test:webview": "npm --prefix ./webview-ui/chatThread run test && npm --prefix ./webview-ui/sidebar run test",
+    "install:all": "npm install && npm run install:all:chatThread && npm run install:all:persona && npm run install:all:chatHistory",
+    "install:all:chatThread": "npm --prefix ./webview-ui/chatThread install",
+    "install:all:persona": "npm --prefix ./webview-ui/persona install",
+    "install:all:chatHistory": "npm --prefix ./webview-ui/chatHistory install",
+    "build:webview": "npm --prefix ./webview-ui/chatThread run build && npm --prefix ./webview-ui/persona run build && npm --prefix ./webview-ui/chatHistory run build",
+    "build:webview:chatThread": "npm --prefix ./webview-ui/chatThread run build",
+    "build:webview:persona": "npm --prefix ./webview-ui/persona run build",
+    "build:webview:chatHistory": "npm --prefix ./webview-ui/chatHistory run build",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",

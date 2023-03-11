@@ -184,12 +184,12 @@
     ]
   },
   "scripts": {
-    "install:all": "npm install && npm run install:all:chatThread && npm run install:all:persona && npm run install:all:chatHistory",
-    "install:all:chatThread": "npm --prefix ./webview-ui/chatThread install",
+    "install:all": "npm install && npm run install:all:chatMessageViewer && npm run install:all:persona && npm run install:all:chatHistory",
+    "install:all:chatMessageViewer": "npm --prefix ./webview-ui/chatMessageViewer install",
     "install:all:persona": "npm --prefix ./webview-ui/persona install",
     "install:all:chatHistory": "npm --prefix ./webview-ui/chatHistory install",
-    "build:webview": "npm --prefix ./webview-ui/chatThread run build && npm --prefix ./webview-ui/persona run build && npm --prefix ./webview-ui/chatHistory run build",
-    "build:webview:chatThread": "npm --prefix ./webview-ui/chatThread run build",
+    "build:webview": "npm --prefix ./webview-ui/chatMessageViewer run build && npm --prefix ./webview-ui/persona run build && npm --prefix ./webview-ui/chatHistory run build",
+    "build:webview:chatMessageViewer": "npm --prefix ./webview-ui/chatMessageViewer run build",
     "build:webview:persona": "npm --prefix ./webview-ui/persona run build",
     "build:webview:chatHistory": "npm --prefix ./webview-ui/chatHistory run build",
     "vscode:prepublish": "npm run esbuild-base -- --minify",

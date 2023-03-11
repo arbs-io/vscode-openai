@@ -11,7 +11,7 @@ import {
 import { LocalStorageService } from '../vscode-utils'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
-import { ChatThreadPanel } from './ChatThreadPanel'
+import { ChatMessageViewerPanel } from './chatMessageViewerPanel'
 
 export class PersonaProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -93,7 +93,7 @@ export class PersonaProvider implements WebviewViewProvider {
       switch (message.command) {
         case 'newChatThread':
           this._createNewChat(message.text)
-          ChatThreadPanel.render(extensionUri)
+          ChatMessageViewerPanel.render(extensionUri)
           return
         default:
           window.showErrorMessage(message.command)

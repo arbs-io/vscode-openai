@@ -12,14 +12,14 @@ import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { IChatMessage } from '../types/IChatMessage'
 import { SampleChatThread } from './data/SampleChatThread'
 
-export class ChatThreadPanel {
-  public static currentPanel: ChatThreadPanel | undefined
+export class ChatMessageViewerPanel {
+  public static currentPanel: ChatMessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
   private _disposables: Disposable[] = []
   private readonly _extensionUri: Uri
 
   /**
-   * The ChatThreadPanel class private constructor (called only from the render method).
+   * The ChatMessageViewerPanel class private constructor (called only from the render method).
    *
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
@@ -54,8 +54,8 @@ export class ChatThreadPanel {
     //Check that we have a valid object
     const activeFilename = `Prompt Engineer (OpenAI)`
 
-    if (ChatThreadPanel.currentPanel) {
-      ChatThreadPanel.currentPanel._panel.dispose()
+    if (ChatMessageViewerPanel.currentPanel) {
+      ChatMessageViewerPanel.currentPanel._panel.dispose()
     }
     // If a webview panel does not already exist create and show a new one
     const panel = window.createWebviewPanel(
@@ -68,8 +68,11 @@ export class ChatThreadPanel {
         localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
       }
     )
-    ChatThreadPanel.currentPanel = new ChatThreadPanel(panel, extensionUri)
-    ChatThreadPanel.currentPanel?._panel.webview.postMessage({
+    ChatMessageViewerPanel.currentPanel = new ChatMessageViewerPanel(
+      panel,
+      extensionUri
+    )
+    ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
       command: 'loadChatThreads',
       text: JSON.stringify(SampleChatThread),
     })
@@ -79,7 +82,7 @@ export class ChatThreadPanel {
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    ChatThreadPanel.currentPanel = undefined
+    ChatMessageViewerPanel.currentPanel = undefined
 
     // Dispose of the current webview panel
     this._panel.dispose()
@@ -117,7 +120,7 @@ export class ChatThreadPanel {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatThread',
+      'chatMessageViewer',
       'index.js',
     ])
 
@@ -179,7 +182,7 @@ export class ChatThreadPanel {
               mine: false,
             }
 
-            ChatThreadPanel.currentPanel?._panel.webview.postMessage({
+            ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
               command: 'newChatThreadAnswer',
               text: JSON.stringify(chatThread),
             })

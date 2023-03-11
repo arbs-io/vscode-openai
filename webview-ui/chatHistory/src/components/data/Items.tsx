@@ -1,5 +1,4 @@
 import { PresenceBadgeStatus } from '@fluentui/react-components'
-import { EditRegular, OpenRegular, PeopleRegular } from '@fluentui/react-icons'
 
 export type SummaryCell = {
   label: string
@@ -40,7 +39,8 @@ export const Items: Item[] = [
       status: 'busy',
     },
     summary: {
-      label: 'Conversation about prompts to fine tune a gpt model for custom chatbot experience',
+      label:
+        'Conversation about prompts to fine tune a gpt model for custom chatbot experience',
     },
   },
   {

@@ -17,7 +17,8 @@ import {
 } from '@fluentui/react-components'
 import { Chat24Regular } from '@fluentui/react-icons'
 import { vscode } from '../utilities/vscode'
-import { PersonaOpenAI, SystemPersonas } from './data/SystemPersonas'
+import { SystemPersonas } from './data/SystemPersonas'
+import { PersonaOpenAI } from './types/PersonaOpenAI'
 
 const useStyles = makeStyles({
   tableCell: {

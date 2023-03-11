@@ -1,18 +1,4 @@
-export type PromptCell = {
-  label: string
-}
-
-export type PersonaCell = {
-  role: string
-  model: string
-  service: string
-}
-
-export type PersonaOpenAI = {
-  itemId: string
-  persona: PersonaCell
-  prompt: PromptCell
-}
+import { PersonaOpenAI } from '../types/PersonaOpenAI'
 
 export const SystemPersonas: PersonaOpenAI[] = [
   {

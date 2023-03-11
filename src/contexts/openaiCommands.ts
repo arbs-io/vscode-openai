@@ -8,5 +8,5 @@ export const PROMPT_OPTIMIZE_COMMAND_ID = 'vscode-openai.completion.optimize'
 export const PROMPT_PATTERNS_COMMAND_ID = 'vscode-openai.completion.patterns'
 
 export const SIDEBAR_PERSONA_COMMAND_ID = 'vscode-openai.sidebar.chatPersona'
-export const SIDEBAR_CHATHISTORY_COMMAND_ID =
-  'vscode-openai.sidebar.chathistory'
+export const SIDEBAR_CHATCONVERSATIONS_COMMAND_ID =
+  'vscode-openai.sidebar.chatConversations'

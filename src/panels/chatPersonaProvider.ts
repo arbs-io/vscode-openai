@@ -12,6 +12,7 @@ import { LocalStorageService } from '../vscode-utils'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { ChatMessageViewerPanel } from './chatMessageViewerPanel'
+import { IConversation } from '../interfaces/IConversation'
 
 export class ChatPersonaProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -102,9 +103,28 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     }, null)
   }
 
-  private _createNewChat(persona: string) {
+  private _createNewChat(personaId: string) {
     const uuid4 = crypto.randomUUID()
-    window.showInformationMessage(`${persona} - ${uuid4}`)
-    // LocalStorageService.instance.setValue("ChatThreads", value)
+
+    window.showInformationMessage(`${personaId} - ${uuid4}`)
+
+    const conversation: IConversation = {
+      conversationId: uuid4,
+      personaId: personaId,
+      summary: '<New Conversation>',
+      content: [],
+    }
+
+    let conversations =
+      LocalStorageService.instance.getValue<Array<IConversation>>(
+        'conversations-v0'
+      )
+    if (conversations === undefined) conversations = []
+
+    conversations.push(conversation)
+    LocalStorageService.instance.setValue<IConversation[]>(
+      'conversations-v0',
+      conversations
+    )
   }
 }

@@ -46,10 +46,10 @@
         },
         {
           "type": "webview",
-          "id": "vscode-openai.sidebar.chathistory",
-          "name": "ChatHistory",
+          "id": "vscode-openai.sidebar.chatConversations",
+          "name": "ChatConversations",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "Chat History"
+          "contextualTitle": "Chat Conversations"
         }
       ]
     },
@@ -184,14 +184,14 @@
     ]
   },
   "scripts": {
-    "install:all": "npm install && npm run install:all:chatMessageViewer && npm run install:all:chatPersona && npm run install:all:chatHistory",
+    "install:all": "npm install && npm run install:all:chatMessageViewer && npm run install:all:chatPersona && npm run install:all:chatConversations",
     "install:all:chatMessageViewer": "npm --prefix ./webview-ui/chatMessageViewer install",
     "install:all:chatPersona": "npm --prefix ./webview-ui/chatPersona install",
-    "install:all:chatHistory": "npm --prefix ./webview-ui/chatHistory install",
-    "build:webview": "npm --prefix ./webview-ui/chatMessageViewer run build && npm --prefix ./webview-ui/chatPersona run build && npm --prefix ./webview-ui/chatHistory run build",
+    "install:all:chatConversations": "npm --prefix ./webview-ui/chatConversations install",
+    "build:webview": "npm --prefix ./webview-ui/chatMessageViewer run build && npm --prefix ./webview-ui/chatPersona run build && npm --prefix ./webview-ui/chatConversations run build",
     "build:webview:chatMessageViewer": "npm --prefix ./webview-ui/chatMessageViewer run build",
     "build:webview:chatPersona": "npm --prefix ./webview-ui/chatPersona run build",
-    "build:webview:chatHistory": "npm --prefix ./webview-ui/chatHistory run build",
+    "build:webview:chatConversations": "npm --prefix ./webview-ui/chatConversations run build",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",

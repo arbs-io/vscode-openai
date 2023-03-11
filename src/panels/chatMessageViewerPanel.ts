@@ -9,7 +9,7 @@ import {
 } from 'vscode'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
-import { IChatMessage } from '../types/IChatMessage'
+import { IChatMessage } from '../interfaces/IChatMessage'
 import { SampleChatThread } from './data/SampleChatThread'
 
 export class ChatMessageViewerPanel {

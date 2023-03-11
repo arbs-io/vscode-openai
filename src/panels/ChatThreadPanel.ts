@@ -153,6 +153,15 @@ export class ChatThreadPanel {
    *
    * @param webview A reference to the extension webview
    * @param context A reference to the extension context
+   *
+   * Event Model:
+   *    | source  	| target  	 | command						   | model  	      |
+   *    |-----------|------------|-----------------------|----------------|
+   *    | extension | webview		 | loadChatThreads  		 | IChatMessage[] |
+   *    | webview		| extension  | saveChatThread				 | IChatMessage[] |
+   *    | extension | webview		 | newChatThreadAnswer	 | IChatMessage   |
+   *    | webview		| extension  | newChatThreadQuestion | IChatMessage   |
+   *
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(

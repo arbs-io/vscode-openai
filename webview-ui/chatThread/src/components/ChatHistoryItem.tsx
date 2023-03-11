@@ -1,5 +1,3 @@
-// Copyright (c) Microsoft. All rights reserved.
-
 import { tokens } from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
 import { IChatMessage } from './IChatMessage'

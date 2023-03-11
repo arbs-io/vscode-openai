@@ -1,6 +1,6 @@
 import { ExtensionContext, window } from 'vscode'
 import { ChatHistoryProvider } from '../panels/chatHistoryProvider'
-import { PersonaProvider } from '../panels/personaProvider'
+import { ChatPersonaProvider } from '../panels/chatPersonaProvider'
 import {
   SIDEBAR_CHATHISTORY_COMMAND_ID,
   SIDEBAR_PERSONA_COMMAND_ID,
@@ -12,7 +12,7 @@ export function registerSidebarProvider(context: ExtensionContext) {
 }
 
 function _registerSidebarProvider(context: ExtensionContext) {
-  const sidebarProvider = new PersonaProvider(context.extensionUri)
+  const sidebarProvider = new ChatPersonaProvider(context.extensionUri)
   context.subscriptions.push(
     window.registerWebviewViewProvider(
       SIDEBAR_PERSONA_COMMAND_ID,

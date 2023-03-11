@@ -39,17 +39,17 @@
       "vscode-openai-sidebar-view": [
         {
           "type": "webview",
-          "id": "vscode-openai.sidebar.persona",
-          "name": "Persona",
+          "id": "vscode-openai.sidebar.chatPersona",
+          "name": "ChatPersona",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "Persona"
+          "contextualTitle": "Chat Persona"
         },
         {
           "type": "webview",
           "id": "vscode-openai.sidebar.chathistory",
-          "name": "History",
+          "name": "ChatHistory",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "Persona"
+          "contextualTitle": "Chat History"
         }
       ]
     },
@@ -184,13 +184,13 @@
     ]
   },
   "scripts": {
-    "install:all": "npm install && npm run install:all:chatMessageViewer && npm run install:all:persona && npm run install:all:chatHistory",
+    "install:all": "npm install && npm run install:all:chatMessageViewer && npm run install:all:chatPersona && npm run install:all:chatHistory",
     "install:all:chatMessageViewer": "npm --prefix ./webview-ui/chatMessageViewer install",
-    "install:all:persona": "npm --prefix ./webview-ui/persona install",
+    "install:all:chatPersona": "npm --prefix ./webview-ui/chatPersona install",
     "install:all:chatHistory": "npm --prefix ./webview-ui/chatHistory install",
-    "build:webview": "npm --prefix ./webview-ui/chatMessageViewer run build && npm --prefix ./webview-ui/persona run build && npm --prefix ./webview-ui/chatHistory run build",
+    "build:webview": "npm --prefix ./webview-ui/chatMessageViewer run build && npm --prefix ./webview-ui/chatPersona run build && npm --prefix ./webview-ui/chatHistory run build",
     "build:webview:chatMessageViewer": "npm --prefix ./webview-ui/chatMessageViewer run build",
-    "build:webview:persona": "npm --prefix ./webview-ui/persona run build",
+    "build:webview:chatPersona": "npm --prefix ./webview-ui/chatPersona run build",
     "build:webview:chatHistory": "npm --prefix ./webview-ui/chatHistory run build",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",

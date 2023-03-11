@@ -13,7 +13,7 @@ import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { ChatMessageViewerPanel } from './chatMessageViewerPanel'
 
-export class PersonaProvider implements WebviewViewProvider {
+export class ChatPersonaProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 
@@ -45,7 +45,7 @@ export class PersonaProvider implements WebviewViewProvider {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'persona',
+      'chatPersona',
       'index.js',
     ])
 

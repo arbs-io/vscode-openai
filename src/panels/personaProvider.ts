@@ -1,3 +1,4 @@
+import * as crypto from 'crypto'
 import {
   Webview,
   window,
@@ -7,8 +8,10 @@ import {
   WebviewViewProvider,
   TextDocument,
 } from 'vscode'
+import { LocalStorageService } from '../vscode-utils'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
+import { ChatThreadPanel } from './ChatThreadPanel'
 
 export class PersonaProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -31,41 +34,7 @@ export class PersonaProvider implements WebviewViewProvider {
       this._extensionUri
     )
 
-    // Listen for messages from the Sidebar component and execute action
-    webviewView.webview.onDidReceiveMessage(async (data) => {
-      switch (data.type) {
-        case 'onFetchText': {
-          const editor = window.activeTextEditor
-
-          if (editor === undefined) {
-            window.showErrorMessage('No active text editor')
-            return
-          }
-
-          const text = editor.document.getText(editor.selection)
-          // send message back to the sidebar component
-          this._view?.webview.postMessage({
-            type: 'onSelectedText',
-            value: text,
-          })
-          break
-        }
-        case 'onInfo': {
-          if (!data.value) {
-            return
-          }
-          window.showInformationMessage(data.value)
-          break
-        }
-        case 'onError': {
-          if (!data.value) {
-            return
-          }
-          window.showErrorMessage(data.value)
-          break
-        }
-      }
-    })
+    this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
   }
 
   public revive(panel: WebviewView) {
@@ -104,5 +73,38 @@ export class PersonaProvider implements WebviewViewProvider {
           </body>
         </html>
       `
+  }
+
+  /**
+   * Sets up an event listener to listen for messages passed from the webview context and
+   * executes code based on the message that is recieved.
+   *
+   * @param webview A reference to the extension webview
+   * @param context A reference to the extension context
+   *
+   * Event Model:
+   *    | source  	| target  	 | command						   | model  	      |
+   *    |-----------|------------|-----------------------|----------------|
+   *    | webview		| extension  | newChatThread				 | TableRowId     |
+   *
+   */
+  private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
+    webview.onDidReceiveMessage((message) => {
+      switch (message.command) {
+        case 'newChatThread':
+          this._createNewChat(message.text)
+          ChatThreadPanel.render(extensionUri)
+          return
+        default:
+          window.showErrorMessage(message.command)
+          return
+      }
+    }, null)
+  }
+
+  private _createNewChat(persona: string) {
+    const uuid4 = crypto.randomUUID()
+    window.showInformationMessage(`${persona} - ${uuid4}`)
+    // LocalStorageService.instance.setValue("ChatThreads", value)
   }
 }

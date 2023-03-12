@@ -11,10 +11,12 @@ import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { IChatMessage } from '../interfaces/IChatMessage'
 import { SampleChatThread } from './data/SampleChatThread'
+import { IConversation } from '../interfaces/IConversation'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
+  private readonly _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
   private readonly _extensionUri: Uri
 
@@ -24,9 +26,14 @@ export class ChatMessageViewerPanel {
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
    */
-  private constructor(panel: WebviewPanel, extensionUri: Uri) {
+  private constructor(
+    panel: WebviewPanel,
+    extensionUri: Uri,
+    conversation: IConversation
+  ) {
     this._panel = panel
     this._extensionUri = extensionUri
+    this._conversation = conversation
 
     this._setPanelIcon()
 
@@ -50,7 +57,7 @@ export class ChatMessageViewerPanel {
    *
    * @param extensionUri The URI of the directory containing the extension.
    */
-  public static render(extensionUri: Uri) {
+  public static render(extensionUri: Uri, conversation: IConversation) {
     //Check that we have a valid object
     const activeFilename = `Prompt Engineer (OpenAI)`
 
@@ -70,11 +77,12 @@ export class ChatMessageViewerPanel {
     )
     ChatMessageViewerPanel.currentPanel = new ChatMessageViewerPanel(
       panel,
-      extensionUri
+      extensionUri,
+      conversation
     )
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
       command: 'loadChatThreads',
-      text: JSON.stringify(SampleChatThread),
+      text: JSON.stringify(conversation.chatMessages),
     })
   }
 

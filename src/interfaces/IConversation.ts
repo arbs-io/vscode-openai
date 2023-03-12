@@ -4,5 +4,5 @@ export interface IConversation {
   conversationId: string
   personaId: string
   summary: string
-  content: IChatMessage[]
+  chatMessages: IChatMessage[]
 }

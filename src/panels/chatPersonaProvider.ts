@@ -105,18 +105,17 @@ export class ChatPersonaProvider implements WebviewViewProvider {
 
   private _createNewChat(personaId: string, extensionUri: Uri) {
     const uuid4 = crypto.randomUUID()
-
-    window.showInformationMessage(`${personaId} - ${uuid4}`)
-
-    ChatMessageViewerPanel.render(extensionUri)
-    return
+    // window.showInformationMessage(`${personaId} - ${uuid4}`)
 
     const conversation: IConversation = {
       conversationId: uuid4,
       personaId: personaId,
       summary: '<New Conversation>',
-      content: [],
+      chatMessages: [],
     }
+
+    ChatMessageViewerPanel.render(extensionUri, conversation)
+    return
 
     let conversations =
       LocalStorageService.instance.getValue<Array<IConversation>>(

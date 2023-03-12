@@ -16,7 +16,7 @@ export default class LocalStorageService {
   }
 
   public getValue<T>(key: string): T {
-    return this.storage.get<T>(key, <T>(<any>''))
+    return this.storage.get<T>(key, <T>(<any>undefined))
   }
 
   public setValue<T>(key: string, value: T) {

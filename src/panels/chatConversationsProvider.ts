@@ -10,7 +10,7 @@ import {
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 
-export class ChatHistoryProvider implements WebviewViewProvider {
+export class ChatConversationsProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 
@@ -76,7 +76,7 @@ export class ChatHistoryProvider implements WebviewViewProvider {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatHistory',
+      'chatConversations',
       'index.js',
     ])
 

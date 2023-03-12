@@ -1,7 +1,6 @@
 import { PresenceBadgeStatus } from '@fluentui/react-components'
-import { EditRegular, OpenRegular, PeopleRegular } from '@fluentui/react-icons'
 
-export type PromptCell = {
+export type SummaryCell = {
   label: string
 }
 
@@ -15,7 +14,7 @@ export type PersonaCell = {
 export type Item = {
   itemId: string
   persona: PersonaCell
-  prompt: PromptCell
+  summary: SummaryCell
 }
 
 export const Items: Item[] = [
@@ -27,8 +26,8 @@ export const Items: Item[] = [
       model: 'gpt-3.5-turbo',
       status: 'available',
     },
-    prompt: {
-      label: 'You are a "Software Engineer" with over 20 years of experience. You have extensive knowledge of software design, development lifecycle, DevOps practices, and system architecture.',
+    summary: {
+      label: 'Conversation about software engineering design patterns',
     },
   },
   {
@@ -39,20 +38,9 @@ export const Items: Item[] = [
       model: 'gpt-3.5-turbo',
       status: 'busy',
     },
-    prompt: {
-      label: 'You are a "Prompt Engineering" with years of experience in Generative Pre-trained Transformer processes. You specialise in prompt engineering and efficiency in OpenAI usage.',
-    },
-  },
-  {
-    itemId: '33cc8ce6-1e64-49e7-884e-19bc3542b11b',
-    persona: {
-      role: 'Data Engineer',
-      service: 'OpenAI',
-      model: 'gpt-3.5-turbo',
-      status: 'away',
-    },
-    prompt: {
-      label: 'You are a "Data Engineer" with many years of experience with various data platforms. In addition, you have experience with concepts like data mesh and in-depth knowledge of all types of database repositories.',
+    summary: {
+      label:
+        'Conversation about prompts to fine tune a gpt model for custom chatbot experience',
     },
   },
   {
@@ -63,8 +51,32 @@ export const Items: Item[] = [
       model: 'gpt-3.5-turbo',
       status: 'offline',
     },
-    prompt: {
-      label: 'You are an "Enterprise Architect" with many years of experience in technology architecture. In addition, you have extensive knowledge of solution architecture, platform integration and cloud design patterns.',
+    summary: {
+      label: 'Conversation about cloud architecture for low latency messaging',
+    },
+  },
+  {
+    itemId: '33cc8ce6-1e64-49e7-884e-19bc3542b11b',
+    persona: {
+      role: 'Data Engineer',
+      service: 'OpenAI',
+      model: 'gpt-3.5-turbo',
+      status: 'away',
+    },
+    summary: {
+      label: 'Conversation about Data Mesh design and implementation',
+    },
+  },
+  {
+    itemId: 'cbb6e55c-b639-46d0-9758-8d7e2382bd10',
+    persona: {
+      role: 'Enterprise Architect',
+      service: 'OpenAI',
+      model: 'gpt-3.5-turbo',
+      status: 'offline',
+    },
+    summary: {
+      label: 'Conversation about technical solutions governance',
     },
   },
 ]

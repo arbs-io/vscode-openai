@@ -1,4 +1,4 @@
-import { IChatMessage } from '../../types/IChatMessage'
+import { IChatMessage } from '../../interfaces/IChatMessage'
 
 export const SampleChatThread: IChatMessage[] = [
   {

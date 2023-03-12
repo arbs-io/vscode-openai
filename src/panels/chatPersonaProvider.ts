@@ -93,8 +93,8 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
         case 'newChatThread':
-          this._createNewChat(message.text)
-          ChatMessageViewerPanel.render(extensionUri)
+          //need to validate the persona uuid
+          this._createNewChat(message.text, extensionUri)
           return
         default:
           window.showErrorMessage(message.command)
@@ -103,10 +103,13 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     }, null)
   }
 
-  private _createNewChat(personaId: string) {
+  private _createNewChat(personaId: string, extensionUri: Uri) {
     const uuid4 = crypto.randomUUID()
 
     window.showInformationMessage(`${personaId} - ${uuid4}`)
+
+    ChatMessageViewerPanel.render(extensionUri)
+    return
 
     const conversation: IConversation = {
       conversationId: uuid4,

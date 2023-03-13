@@ -10,7 +10,7 @@ function App() {
     (event: MessageEvent) => {
       console.log('chatPersona::onMessageReceivedFromIframe', event)
       switch (event.data.command) {
-        case 'loadPersonas':
+        case 'loadConversations':
           // eslint-disable-next-line no-case-declarations
           const loadedConversations: IConversation[] = JSON.parse(
             event.data.text

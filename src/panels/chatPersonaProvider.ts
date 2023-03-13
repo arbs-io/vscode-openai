@@ -100,6 +100,7 @@ export class ChatPersonaProvider implements WebviewViewProvider {
       text: JSON.stringify(SystemPersonas),
     })
   }
+
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
@@ -133,28 +134,5 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     )
 
     ChatMessageViewerPanel.render(extensionUri, conversation)
-    return
-
-    const keys = LocalStorageService.instance.keys()
-    keys.forEach((key) => {
-      console.log(key)
-      LocalStorageService.instance.deleteKey(key)
-      // if (key.startsWith('convo-')) {
-      //   console.log(key)
-      //   LocalStorageService.instance.deleteKey(key)
-      // }
-    })
-
-    let conversations =
-      LocalStorageService.instance.getValue<Array<IConversation>>(
-        'conversations-v0'
-      )
-    if (conversations === undefined) conversations = []
-
-    conversations.push(conversation)
-    LocalStorageService.instance.setValue<IConversation[]>(
-      'conversations-v0',
-      conversations
-    )
   }
 }

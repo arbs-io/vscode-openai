@@ -7,6 +7,8 @@ import {
   WebviewViewProvider,
   TextDocument,
 } from 'vscode'
+import { IConversation } from '../interfaces/IConversation'
+import { LocalStorageService } from '../vscode-utils'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 
@@ -22,7 +24,6 @@ export class ChatConversationsProvider implements WebviewViewProvider {
     webviewView.webview.options = {
       // Allow scripts in the webview
       enableScripts: true,
-
       localResourceRoots: [this._extensionUri],
     }
 
@@ -31,41 +32,8 @@ export class ChatConversationsProvider implements WebviewViewProvider {
       this._extensionUri
     )
 
-    // Listen for messages from the Sidebar component and execute action
-    webviewView.webview.onDidReceiveMessage(async (data) => {
-      switch (data.type) {
-        case 'onFetchText': {
-          const editor = window.activeTextEditor
-
-          if (editor === undefined) {
-            window.showErrorMessage('No active text editor')
-            return
-          }
-
-          const text = editor.document.getText(editor.selection)
-          // send message back to the sidebar component
-          this._view?.webview.postMessage({
-            type: 'onSelectedText',
-            value: text,
-          })
-          break
-        }
-        case 'onInfo': {
-          if (!data.value) {
-            return
-          }
-          window.showInformationMessage(data.value)
-          break
-        }
-        case 'onError': {
-          if (!data.value) {
-            return
-          }
-          window.showErrorMessage(data.value)
-          break
-        }
-      }
-    })
+    this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
+    this._sendWebviewLoadConversations()
   }
 
   public revive(panel: WebviewView) {
@@ -104,5 +72,66 @@ export class ChatConversationsProvider implements WebviewViewProvider {
           </body>
         </html>
       `
+  }
+
+  /**
+   * Sets up an event listener to listen for messages passed from the webview context and
+   * executes code based on the message that is recieved.
+   *
+   * @param webview A reference to the extension webview
+   * @param context A reference to the extension context
+   *
+   * Event Model:
+   *    | source  	| target  	 | command						   | model  	        |
+   *    |-----------|------------|-----------------------|------------------|
+   *    | extension	| webview    | loadConversations     | IPersonaOpenAI[] |
+   *    | webview		| extension  | newConversation			 | TableRowId       |
+   *
+   */
+  private _sendWebviewLoadConversations() {
+    const keys = LocalStorageService.instance.keys()
+    const conversations: IConversation[] = []
+
+    // keys.forEach((key) => {
+    //   console.log(key)
+    //   LocalStorageService.instance.deleteKey(key)
+    // })
+
+    keys.forEach((key) => {
+      console.log(key)
+      if (key.startsWith('conversation-')) {
+        const conversation =
+          LocalStorageService.instance.getValue<IConversation>(key)
+        if (conversation !== undefined) {
+          conversations.push(conversation)
+        }
+      }
+    })
+
+    console.log(
+      `chatConversationsProvider::_sendWebviewLoadConversations ${conversations.length}`
+    )
+
+    this._view?.webview.postMessage({
+      command: 'loadConversations',
+      text: JSON.stringify(conversations),
+    })
+  }
+
+  private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
+    // webview.onDidReceiveMessage((message) => {
+    //   switch (message.command) {
+    //     case 'newConversation':
+    //       //need to validate the persona uuid
+    //       console.log('chatPersonaProvider::newConversation')
+    //       // eslint-disable-next-line no-case-declarations
+    //       const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
+    //       this._createNewConversation(personaOpenAI, extensionUri)
+    //       return
+    //     default:
+    //       window.showErrorMessage(message.command)
+    //       return
+    //   }
+    // }, null)
   }
 }

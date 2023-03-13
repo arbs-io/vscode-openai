@@ -24,11 +24,7 @@ export class ChatMessageViewerPanel {
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
    */
-  private constructor(
-    panel: WebviewPanel,
-    extensionUri: Uri,
-    conversation: IConversation
-  ) {
+  private constructor(panel: WebviewPanel, extensionUri: Uri) {
     this._panel = panel
     this._extensionUri = extensionUri
 
@@ -74,8 +70,7 @@ export class ChatMessageViewerPanel {
     )
     ChatMessageViewerPanel.currentPanel = new ChatMessageViewerPanel(
       panel,
-      extensionUri,
-      conversation
+      extensionUri
     )
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
       command: 'loadChatThreads',

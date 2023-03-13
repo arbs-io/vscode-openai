@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import {
   DataGridBody,
   DataGridRow,
@@ -5,84 +6,22 @@ import {
   DataGridHeader,
   DataGridHeaderCell,
   DataGridCell,
-  TableCellLayout,
-  TableColumnDefinition,
-  createTableColumn,
-  Persona,
-  TableCell,
-  Button,
-  Tooltip,
-  makeStyles,
   mergeClasses,
 } from '@fluentui/react-components'
-import { Next24Regular } from '@fluentui/react-icons'
-import { Item, Items } from './data/Items'
+// import { Item, Items } from './data/Items'
+import { columns } from './ConversationGrid/TableColumnDefinition'
+import { useStyles } from './ConversationGrid/useStyles'
+import { IConversation } from '@appInterfaces/IConversation'
 
-const useStyles = makeStyles({
-  tableCell: {
-    paddingTop: '0.25rem',
-    paddingBottom: '0.25rem',
-  },
-})
-const columns: TableColumnDefinition<Item>[] = [
-  createTableColumn<Item>({
-    columnId: 'persona',
-    compare: (a, b) => {
-      return a.persona.role.localeCompare(b.persona.role)
-    },
-    renderHeaderCell: () => {
-      return 'Persona'
-    },
-    renderCell: (item) => {
-      const overview = `${item.persona.service} (${item.persona.model})`
-      return (
-        <div id="personadiv">
-          <TableCell tabIndex={0} role="gridcell">
-            <TableCellLayout
-              media={
-                <Persona
-                  presence={{ status: 'out-of-office' }}
-                  size="small"
-                  name={item.persona.role}
-                  avatar={{ color: 'colorful' }}
-                />
-              }
-            />
-          </TableCell>
-        </div>
-      )
-    },
-  }),
+interface IData {
+  conversations: IConversation[]
+}
 
-  createTableColumn<Item>({
-    columnId: 'summary',
-    renderHeaderCell: () => {
-      return 'Summary'
-    },
-    renderCell: (item) => {
-      return (
-        <TableCell tabIndex={0} role="gridcell">
-          <TableCellLayout
-            description={item.summary.label}
-            style={{ paddingRight: '1rem' }}
-          />
-          <Tooltip
-            content="View the archived conversation"
-            relationship="label"
-          >
-            <Button size="small" icon={<Next24Regular />} />
-          </Tooltip>
-        </TableCell>
-      )
-    },
-  }),
-]
-
-export const Default = () => {
+const ConversationGrid: FC<IData> = ({ conversations }) => {
   return (
     <DataGrid
       size="extra-small"
-      items={Items}
+      items={conversations}
       ref={(el) => console.log('__Ref', el)}
       columns={columns}
       sortable
@@ -103,9 +42,9 @@ export const Default = () => {
           )}
         </DataGridRow>
       </DataGridHeader>
-      <DataGridBody<Item>>
+      <DataGridBody<IConversation>>
         {({ item, rowId }) => (
-          <DataGridRow<Item>
+          <DataGridRow<IConversation>
             key={rowId}
             className={mergeClasses(useStyles().tableCell)}
           >
@@ -118,3 +57,5 @@ export const Default = () => {
     </DataGrid>
   )
 }
+
+export default ConversationGrid

@@ -35,10 +35,12 @@ const PersonaGrid: FC<IData> = ({ personas }) => {
 
     personas.forEach((persona) => {
       if (persona.roleId == selectedPersona) {
+        console.log(`${persona.roleId} == ${selectedPersona}`)
         vscode.postMessage({
           command: 'newConversation',
           text: JSON.stringify(persona),
         })
+        return
       }
     })
   }
@@ -61,7 +63,7 @@ const PersonaGrid: FC<IData> = ({ personas }) => {
         columns={columns}
         sortable
         selectionMode="single"
-        getRowId={(item) => item.itemId}
+        getRowId={(item) => item.roleId}
         onSelectionChange={(e, data) => handleChangePersona(data.selectedItems)}
         resizableColumns
         columnSizingOptions={{

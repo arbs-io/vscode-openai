@@ -38,12 +38,7 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     )
 
     this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
-
-    console.log(`ChatPersonaProvider::SystemPersonas ${SystemPersonas.length}`)
-    this._view.webview.postMessage({
-      command: 'loadPersonas',
-      text: JSON.stringify(SystemPersonas),
-    })
+    this._sendWebviewLoadPersonas()
   }
 
   public revive(panel: WebviewView) {
@@ -92,16 +87,26 @@ export class ChatPersonaProvider implements WebviewViewProvider {
    * @param context A reference to the extension context
    *
    * Event Model:
-   *    | source  	| target  	 | command						   | model  	      |
-   *    |-----------|------------|-----------------------|----------------|
-   *    | webview		| extension  | newConversation				 | TableRowId     |
+   *    | source  	| target  	 | command						   | model  	        |
+   *    |-----------|------------|-----------------------|------------------|
+   *    | extension	| webview    | loadPersonas          | IPersonaOpenAI[] |
+   *    | webview		| extension  | newConversation			 | TableRowId       |
    *
    */
+  private _sendWebviewLoadPersonas() {
+    console.log(`ChatPersonaProvider::SystemPersonas ${SystemPersonas.length}`)
+    this._view?.webview.postMessage({
+      command: 'loadPersonas',
+      text: JSON.stringify(SystemPersonas),
+    })
+  }
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
         case 'newConversation':
           //need to validate the persona uuid
+
+          console.log('chatPersonaProvider::newConversation')
           // eslint-disable-next-line no-case-declarations
           const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
           this._createNewConversation(personaOpenAI, extensionUri)

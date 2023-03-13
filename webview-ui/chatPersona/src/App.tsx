@@ -13,7 +13,7 @@ function App() {
         case 'loadPersonas':
           // eslint-disable-next-line no-case-declarations
           const loadedPersonas: IPersonaOpenAI[] = JSON.parse(event.data.text)
-          console.log(`PersonaGrid::loadedPersonas ${loadedPersonas.length}`)
+          console.log(`chatPersona::loadPersonas ${loadedPersonas.length}`)
           setPersonas(loadedPersonas)
           break
       }

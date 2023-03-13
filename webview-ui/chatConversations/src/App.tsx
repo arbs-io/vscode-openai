@@ -1,19 +1,26 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Default as ConversationGrid } from './components/ConversationGrid'
+import ConversationGrid from './components/ConversationGrid'
+import { IConversation } from '@appInterfaces/IConversation'
+
 function App() {
   const [state, setState] = useState<MessageEvent>()
+  const [conversations, setConversations] = useState<IConversation[]>([])
 
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
       console.log('chatPersona::onMessageReceivedFromIframe', event)
-      // switch (event.data.command) {
-      //   case 'loadPersonas':
-      //     // eslint-disable-next-line no-case-declarations
-      //     const loadedPersonas: IPersonaOpenAI[] = JSON.parse(event.data.text)
-      //     console.log(`PersonaGrid::loadedPersonas ${loadedPersonas.length}`)
-      //     setPersonas(loadedPersonas)
-      //     break
-      // }
+      switch (event.data.command) {
+        case 'loadPersonas':
+          // eslint-disable-next-line no-case-declarations
+          const loadedConversations: IConversation[] = JSON.parse(
+            event.data.text
+          )
+          console.log(
+            `chatConversations::loadedConversations ${loadedConversations.length}`
+          )
+          setConversations(loadedConversations)
+          break
+      }
 
       setState(event)
     },
@@ -28,7 +35,7 @@ function App() {
 
   return (
     <main>
-      <ConversationGrid />
+      <ConversationGrid conversations={conversations} />
     </main>
   )
 }

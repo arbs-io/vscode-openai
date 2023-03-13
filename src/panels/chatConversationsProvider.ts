@@ -6,6 +6,8 @@ import {
   WebviewView,
   WebviewViewProvider,
   TextDocument,
+  WebviewViewResolveContext,
+  CancellationToken,
 } from 'vscode'
 import { IConversation } from '../interfaces/IConversation'
 import { LocalStorageService } from '../vscode-utils'
@@ -18,11 +20,14 @@ export class ChatConversationsProvider implements WebviewViewProvider {
 
   constructor(private readonly _extensionUri: Uri) {}
 
-  public resolveWebviewView(webviewView: WebviewView) {
+  public resolveWebviewView(
+    webviewView: WebviewView,
+    context: WebviewViewResolveContext,
+    _token: CancellationToken
+  ) {
     this._view = webviewView
 
     webviewView.webview.options = {
-      // Allow scripts in the webview
       enableScripts: true,
       localResourceRoots: [this._extensionUri],
     }
@@ -34,10 +39,11 @@ export class ChatConversationsProvider implements WebviewViewProvider {
 
     this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
     this._sendWebviewLoadConversations()
-  }
-
-  public revive(panel: WebviewView) {
-    this._view = panel
+    this._view.onDidChangeVisibility((e) => {
+      if (this._view?.visible) {
+        this._sendWebviewLoadConversations()
+      }
+    }, null)
   }
 
   private _getHtmlForWebview(webview: Webview, extensionUri: Uri) {

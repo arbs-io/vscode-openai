@@ -32,9 +32,7 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     this._view = webviewView
 
     webviewView.webview.options = {
-      // Allow scripts in the webview
       enableScripts: true,
-
       localResourceRoots: [this._extensionUri],
     }
 
@@ -52,10 +50,6 @@ export class ChatPersonaProvider implements WebviewViewProvider {
       }
     }, null)
   }
-
-  // public revive(panel: WebviewView) {
-  //   this._view = panel
-  // }
 
   private _getHtmlForWebview(webview: Webview, extensionUri: Uri) {
     const scriptUri = getUri(webview, extensionUri, [

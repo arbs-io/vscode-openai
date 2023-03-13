@@ -7,6 +7,8 @@ import {
   WebviewView,
   WebviewViewProvider,
   TextDocument,
+  WebviewViewResolveContext,
+  CancellationToken,
 } from 'vscode'
 import { LocalStorageService } from '../vscode-utils'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
@@ -22,7 +24,11 @@ export class ChatPersonaProvider implements WebviewViewProvider {
 
   constructor(private readonly _extensionUri: Uri) {}
 
-  public resolveWebviewView(webviewView: WebviewView) {
+  public resolveWebviewView(
+    webviewView: WebviewView,
+    context: WebviewViewResolveContext,
+    _token: CancellationToken
+  ) {
     this._view = webviewView
 
     webviewView.webview.options = {
@@ -39,11 +45,17 @@ export class ChatPersonaProvider implements WebviewViewProvider {
 
     this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
     this._sendWebviewLoadPersonas()
+
+    this._view.onDidChangeVisibility((e) => {
+      if (this._view?.visible) {
+        this._sendWebviewLoadPersonas()
+      }
+    }, null)
   }
 
-  public revive(panel: WebviewView) {
-    this._view = panel
-  }
+  // public revive(panel: WebviewView) {
+  //   this._view = panel
+  // }
 
   private _getHtmlForWebview(webview: Webview, extensionUri: Uri) {
     const scriptUri = getUri(webview, extensionUri, [

@@ -8,7 +8,6 @@ import {
   DataGridCell,
   mergeClasses,
 } from '@fluentui/react-components'
-// import { Item, Items } from './data/Items'
 import { columns } from './ConversationGrid/TableColumnDefinition'
 import { useStyles } from './ConversationGrid/useStyles'
 import { IConversation } from '@appInterfaces/IConversation'
@@ -46,7 +45,7 @@ const ConversationGrid: FC<IData> = ({ conversations }) => {
         {({ item, rowId }) => (
           <DataGridRow<IConversation>
             key={rowId}
-            className={mergeClasses(useStyles().tableCell)}
+            className={mergeClasses(useStyles().verticalPadding)}
           >
             {({ renderCell }) => (
               <DataGridCell>{renderCell(item)}</DataGridCell>

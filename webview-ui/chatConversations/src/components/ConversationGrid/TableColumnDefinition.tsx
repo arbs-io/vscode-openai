@@ -1,10 +1,4 @@
 import {
-  DataGridBody,
-  DataGridRow,
-  DataGrid,
-  DataGridHeader,
-  DataGridHeaderCell,
-  DataGridCell,
   TableCellLayout,
   TableColumnDefinition,
   createTableColumn,
@@ -12,9 +6,11 @@ import {
   TableCell,
   Button,
   Tooltip,
+  mergeClasses,
 } from '@fluentui/react-components'
-import { Next24Regular } from '@fluentui/react-icons'
+import { Next24Regular, Delete24Regular } from '@fluentui/react-icons'
 import { IConversation } from '@appInterfaces/IConversation'
+import { useStyles } from './useStyles'
 
 export const columns: TableColumnDefinition<IConversation>[] = [
   createTableColumn<IConversation>({
@@ -58,11 +54,26 @@ export const columns: TableColumnDefinition<IConversation>[] = [
             description={conversation.summary}
             style={{ paddingRight: '1rem' }}
           />
+          <Tooltip content="View conversation" relationship="label">
+            <Button
+              size="small"
+              shape="rounded"
+              className={mergeClasses(useStyles().horizontalPadding)}
+              appearance="transparent"
+              icon={<Next24Regular />}
+            />
+          </Tooltip>
           <Tooltip
-            content="View the archived conversation"
+            content="Permanently remove conversation"
             relationship="label"
           >
-            <Button size="small" icon={<Next24Regular />} />
+            <Button
+              size="small"
+              shape="rounded"
+              className={mergeClasses(useStyles().horizontalPadding)}
+              appearance="transparent"
+              icon={<Delete24Regular />}
+            />
           </Tooltip>
         </TableCell>
       )

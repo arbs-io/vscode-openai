@@ -39,6 +39,7 @@ export class ChatConversationsProvider implements WebviewViewProvider {
 
     this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
     this._sendWebviewLoadConversations()
+
     this._view.onDidChangeVisibility((e) => {
       if (this._view?.visible) {
         this._sendWebviewLoadConversations()

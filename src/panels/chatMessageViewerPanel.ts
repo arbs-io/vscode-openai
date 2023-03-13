@@ -10,13 +10,11 @@ import {
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { IChatMessage } from '../interfaces/IChatMessage'
-import { SampleChatThread } from './data/SampleChatThread'
 import { IConversation } from '../interfaces/IConversation'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
-  private readonly _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
   private readonly _extensionUri: Uri
 
@@ -33,7 +31,6 @@ export class ChatMessageViewerPanel {
   ) {
     this._panel = panel
     this._extensionUri = extensionUri
-    this._conversation = conversation
 
     this._setPanelIcon()
 
@@ -179,8 +176,6 @@ export class ChatMessageViewerPanel {
       (message) => {
         switch (message.command) {
           case 'newChatThreadQuestion':
-            //window.showInformationMessage(`newChatThreadQuestion: ${message.text}`)
-
             // eslint-disable-next-line no-case-declarations
             const chatThread: IChatMessage = {
               content:
@@ -195,11 +190,13 @@ export class ChatMessageViewerPanel {
               text: JSON.stringify(chatThread),
             })
             return
+
           case 'saveChatThread':
             // eslint-disable-next-line no-case-declarations
             const chatMessages: IChatMessage[] = JSON.parse(message.text)
             console.log(`saveChatThread: ${chatMessages.length}`)
             return
+
           default:
             window.showErrorMessage(message.command)
             return

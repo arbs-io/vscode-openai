@@ -1,3 +1,4 @@
+import { FC, useState } from 'react'
 import {
   DataGridBody,
   DataGridRow,
@@ -5,51 +6,39 @@ import {
   DataGridHeader,
   DataGridHeaderCell,
   DataGridCell,
-  TableCellLayout,
-  TableColumnDefinition,
-  createTableColumn,
-  Persona,
-  TableCell,
-  makeStyles,
   mergeClasses,
   Button,
   TableRowId,
 } from '@fluentui/react-components'
 import { Chat24Regular } from '@fluentui/react-icons'
+import { useStyles } from './useStyles'
+import { columns } from './TableColumnDefinition'
 import { vscode } from '../utilities/vscode'
-import { SystemPersonas } from './data/SystemPersonas'
-import { PersonaOpenAI } from './types/PersonaOpenAI'
+import { IPersonaOpenAI } from '../types/IPersonaOpenAI'
 
-const useStyles = makeStyles({
-  tableCell: {
-    paddingBottom: '0.5rem',
-  },
-  wrapper: {
-    columnGap: '15px',
-    paddingTop: '0.5rem',
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    paddingBottom: '0.5rem',
-    display: 'grid',
-  },
-})
-
-let selectedPersona: TableRowId
-const handleChangePersona = (selectedItems: Set<TableRowId>) => {
-  selectedItems.forEach((item) => {
-    selectedPersona = item
-  })
-}
-const handleNewChat = () => {
-  if (selectedPersona === undefined) return
-
-  vscode.postMessage({
-    command: 'newChatThread',
-    text: selectedPersona,
-  })
+interface IData {
+  personas: IPersonaOpenAI[]
 }
 
-export const Default = () => {
+const PersonaGrid: FC<IData> = ({ personas }) => {
+  const [selectedPersona, setSelectedPersona] = useState<
+    TableRowId | undefined
+  >(undefined)
+
+  const handleChangePersona = (selectedItems: Set<TableRowId>) => {
+    selectedItems.forEach((item) => {
+      setSelectedPersona(item)
+    })
+  }
+  const handleNewChat = () => {
+    if (selectedPersona === undefined) return
+
+    vscode.postMessage({
+      command: 'newConversation',
+      text: selectedPersona,
+    })
+  }
+
   return (
     <div>
       <div className={useStyles().wrapper}>
@@ -63,7 +52,7 @@ export const Default = () => {
       </div>
       <DataGrid
         size="extra-small"
-        items={SystemPersonas}
+        items={personas}
         ref={(el) => console.log('__Ref', el)}
         columns={columns}
         sortable
@@ -91,9 +80,9 @@ export const Default = () => {
             )}
           </DataGridRow>
         </DataGridHeader>
-        <DataGridBody<PersonaOpenAI>>
+        <DataGridBody<IPersonaOpenAI>>
           {({ item, rowId }) => (
-            <DataGridRow<PersonaOpenAI>
+            <DataGridRow<IPersonaOpenAI>
               key={rowId}
               className={mergeClasses(useStyles().tableCell)}
             >
@@ -107,49 +96,4 @@ export const Default = () => {
     </div>
   )
 }
-
-const columns: TableColumnDefinition<PersonaOpenAI>[] = [
-  createTableColumn<PersonaOpenAI>({
-    columnId: 'persona',
-    compare: (a, b) => {
-      return a.persona.role.localeCompare(b.persona.role)
-    },
-    renderHeaderCell: () => {
-      return 'Persona'
-    },
-    renderCell: (item) => {
-      const overview = `${item.persona.service} (${item.persona.model})`
-      return (
-        <div id="personadiv">
-          <TableCell tabIndex={0} role="gridcell">
-            <TableCellLayout
-              media={
-                <Persona
-                  presence={{ status: 'available' }}
-                  size="medium"
-                  name={item.persona.role}
-                  tertiaryText={overview}
-                  avatar={{ color: 'colorful' }}
-                />
-              }
-            />
-          </TableCell>
-        </div>
-      )
-    },
-  }),
-
-  createTableColumn<PersonaOpenAI>({
-    columnId: 'prompt',
-    renderHeaderCell: () => {
-      return 'Prompt'
-    },
-    renderCell: (item) => {
-      return (
-        <TableCell tabIndex={0} role="gridcell">
-          <TableCellLayout description={item.prompt.label} />
-        </TableCell>
-      )
-    },
-  }),
-]
+export default PersonaGrid

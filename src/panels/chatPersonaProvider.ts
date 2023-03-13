@@ -13,6 +13,7 @@ import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { ChatMessageViewerPanel } from './chatMessageViewerPanel'
 import { IConversation } from '../interfaces/IConversation'
+import { SystemPersonas } from './data/SystemPersonas'
 
 export class ChatPersonaProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -36,6 +37,12 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     )
 
     this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
+
+    console.log(`ChatPersonaProvider::SystemPersonas ${SystemPersonas.length}`)
+    this._view.webview.postMessage({
+      command: 'loadPersonas',
+      text: JSON.stringify(SystemPersonas),
+    })
   }
 
   public revive(panel: WebviewView) {
@@ -86,15 +93,15 @@ export class ChatPersonaProvider implements WebviewViewProvider {
    * Event Model:
    *    | source  	| target  	 | command						   | model  	      |
    *    |-----------|------------|-----------------------|----------------|
-   *    | webview		| extension  | newChatThread				 | TableRowId     |
+   *    | webview		| extension  | newConversation				 | TableRowId     |
    *
    */
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
-        case 'newChatThread':
+        case 'newConversation':
           //need to validate the persona uuid
-          this._createNewChat(message.text, extensionUri)
+          this._createNewConversation(message.text, extensionUri)
           return
         default:
           window.showErrorMessage(message.command)
@@ -103,10 +110,8 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     }, null)
   }
 
-  private _createNewChat(personaId: string, extensionUri: Uri) {
+  private _createNewConversation(personaId: string, extensionUri: Uri) {
     const uuid4 = crypto.randomUUID()
-    // window.showInformationMessage(`${personaId} - ${uuid4}`)
-
     const conversation: IConversation = {
       conversationId: uuid4,
       personaId: personaId,
@@ -114,8 +119,23 @@ export class ChatPersonaProvider implements WebviewViewProvider {
       chatMessages: [],
     }
 
+    LocalStorageService.instance.setValue<IConversation>(
+      `conversation-${conversation.conversationId}`,
+      conversation
+    )
+
     ChatMessageViewerPanel.render(extensionUri, conversation)
     return
+
+    const keys = LocalStorageService.instance.keys()
+    keys.forEach((key) => {
+      console.log(key)
+      LocalStorageService.instance.deleteKey(key)
+      // if (key.startsWith('convo-')) {
+      //   console.log(key)
+      //   LocalStorageService.instance.deleteKey(key)
+      // }
+    })
 
     let conversations =
       LocalStorageService.instance.getValue<Array<IConversation>>(

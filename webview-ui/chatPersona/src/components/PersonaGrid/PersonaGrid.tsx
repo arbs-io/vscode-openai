@@ -11,10 +11,10 @@ import {
   TableRowId,
 } from '@fluentui/react-components'
 import { Chat24Regular } from '@fluentui/react-icons'
-import { useStyles } from './useStyles'
-import { columns } from './TableColumnDefinition'
-import { vscode } from '../utilities/vscode'
-import { IPersonaOpenAI } from '../types/IPersonaOpenAI'
+import { useStyles } from './PersonaGrid/useStyles'
+import { columns } from './PersonaGrid/TableColumnDefinition'
+import IPersonaOpenAI from '@appInterfaces/IPersonaOpenAI'
+import { vscode } from '../../utilities/vscode'
 
 interface IData {
   personas: IPersonaOpenAI[]
@@ -33,9 +33,13 @@ const PersonaGrid: FC<IData> = ({ personas }) => {
   const handleNewChat = () => {
     if (selectedPersona === undefined) return
 
-    vscode.postMessage({
-      command: 'newConversation',
-      text: selectedPersona,
+    personas.forEach((persona) => {
+      if (persona.roleId == selectedPersona) {
+        vscode.postMessage({
+          command: 'newConversation',
+          text: JSON.stringify(persona),
+        })
+      }
     })
   }
 

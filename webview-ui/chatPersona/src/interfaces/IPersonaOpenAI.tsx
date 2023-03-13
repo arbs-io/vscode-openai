@@ -7,7 +7,7 @@ interface IConfiguration {
   service: string
 }
 
-export interface IPersonaOpenAI {
+export default interface IPersonaOpenAI {
   roleId: string
   roleName: string
   configuration: IConfiguration

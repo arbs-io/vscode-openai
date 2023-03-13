@@ -14,6 +14,7 @@ import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { ChatMessageViewerPanel } from './chatMessageViewerPanel'
 import { IConversation } from '../interfaces/IConversation'
 import { SystemPersonas } from './data/SystemPersonas'
+import { IPersonaOpenAI } from '../interfaces/IPersonaOpenAI'
 
 export class ChatPersonaProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -101,7 +102,9 @@ export class ChatPersonaProvider implements WebviewViewProvider {
       switch (message.command) {
         case 'newConversation':
           //need to validate the persona uuid
-          this._createNewConversation(message.text, extensionUri)
+          // eslint-disable-next-line no-case-declarations
+          const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
+          this._createNewConversation(personaOpenAI, extensionUri)
           return
         default:
           window.showErrorMessage(message.command)
@@ -110,11 +113,11 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     }, null)
   }
 
-  private _createNewConversation(personaId: string, extensionUri: Uri) {
+  private _createNewConversation(persona: IPersonaOpenAI, extensionUri: Uri) {
     const uuid4 = crypto.randomUUID()
     const conversation: IConversation = {
       conversationId: uuid4,
-      personaId: personaId,
+      persona: persona,
       summary: '<New Conversation>',
       chatMessages: [],
     }

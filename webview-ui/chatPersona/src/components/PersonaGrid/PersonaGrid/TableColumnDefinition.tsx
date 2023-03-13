@@ -6,13 +6,13 @@ import {
   Persona,
   TableCell,
 } from '@fluentui/react-components'
-import { IPersonaOpenAI } from '../types/IPersonaOpenAI'
+import IPersonaOpenAI from 'interfaces/IPersonaOpenAI'
 
 export const columns: TableColumnDefinition<IPersonaOpenAI>[] = [
   createTableColumn<IPersonaOpenAI>({
     columnId: 'persona',
-    compare: (a, b) => {
-      return a.roleName.localeCompare(b.roleName)
+    compare: (source, target) => {
+      return source.roleName.localeCompare(target.roleName)
     },
     renderHeaderCell: () => {
       return 'Persona'

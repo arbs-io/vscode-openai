@@ -1,10 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Default as MessageGrid } from './components/MessageGrid'
+import { Default as ConversationGrid } from './components/ConversationGrid'
 function App() {
   const [state, setState] = useState<MessageEvent>()
+
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
-      console.log('onMessageReceivedFromIframe', event)
+      console.log('chatPersona::onMessageReceivedFromIframe', event)
+      // switch (event.data.command) {
+      //   case 'loadPersonas':
+      //     // eslint-disable-next-line no-case-declarations
+      //     const loadedPersonas: IPersonaOpenAI[] = JSON.parse(event.data.text)
+      //     console.log(`PersonaGrid::loadedPersonas ${loadedPersonas.length}`)
+      //     setPersonas(loadedPersonas)
+      //     break
+      // }
+
       setState(event)
     },
     [state]
@@ -18,7 +28,7 @@ function App() {
 
   return (
     <main>
-      <MessageGrid />
+      <ConversationGrid />
     </main>
   )
 }

@@ -62,10 +62,16 @@ const columns: TableColumnDefinition<Item>[] = [
     renderCell: (item) => {
       return (
         <TableCell tabIndex={0} role="gridcell">
-          <TableCellLayout description={item.summary.label} style={{paddingRight: '1rem'}} />
-          <Tooltip content="View the archived conversation" relationship="label">
-              <Button size="small" icon={<Next24Regular />} />
-            </Tooltip>
+          <TableCellLayout
+            description={item.summary.label}
+            style={{ paddingRight: '1rem' }}
+          />
+          <Tooltip
+            content="View the archived conversation"
+            relationship="label"
+          >
+            <Button size="small" icon={<Next24Regular />} />
+          </Tooltip>
         </TableCell>
       )
     },

@@ -1,14 +1,11 @@
-import { PresenceBadgeStatus } from '@fluentui/react-components'
-
-export type SummaryCell = {
+type SummaryCell = {
   label: string
 }
 
-export type PersonaCell = {
+type PersonaCell = {
   role: string
   model: string
   service: string
-  status: PresenceBadgeStatus
 }
 
 export type Item = {
@@ -24,7 +21,6 @@ export const Items: Item[] = [
       role: 'Software Engineer',
       service: 'OpenAI',
       model: 'gpt-3.5-turbo',
-      status: 'available',
     },
     summary: {
       label: 'Conversation about software engineering design patterns',
@@ -36,7 +32,6 @@ export const Items: Item[] = [
       role: 'Prompt Engineer',
       service: 'OpenAI',
       model: 'gpt-3.5-turbo',
-      status: 'busy',
     },
     summary: {
       label:
@@ -49,7 +44,6 @@ export const Items: Item[] = [
       role: 'Enterprise Architect',
       service: 'OpenAI',
       model: 'gpt-3.5-turbo',
-      status: 'offline',
     },
     summary: {
       label: 'Conversation about cloud architecture for low latency messaging',
@@ -61,7 +55,6 @@ export const Items: Item[] = [
       role: 'Data Engineer',
       service: 'OpenAI',
       model: 'gpt-3.5-turbo',
-      status: 'away',
     },
     summary: {
       label: 'Conversation about Data Mesh design and implementation',
@@ -73,7 +66,6 @@ export const Items: Item[] = [
       role: 'Enterprise Architect',
       service: 'OpenAI',
       model: 'gpt-3.5-turbo',
-      status: 'offline',
     },
     summary: {
       label: 'Conversation about technical solutions governance',

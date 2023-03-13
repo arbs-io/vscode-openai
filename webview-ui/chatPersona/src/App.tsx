@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import PersonaGrid from './components/PersonaGrid'
-import { IPersonaOpenAI } from './types/IPersonaOpenAI'
+import PersonaGrid from './components/PersonaGrid/PersonaGrid'
+import IPersonaOpenAI from 'interfaces/IPersonaOpenAI'
 
 function App() {
   const [state, setState] = useState<MessageEvent>()

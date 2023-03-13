@@ -1,6 +1,6 @@
 import { IChatMessage } from '../../interfaces/IChatMessage'
 
-export const SampleChatThread: IChatMessage[] = [
+export const SampleChatMessages: IChatMessage[] = [
   {
     content: 'Are you familiar with "prompt engineering"?',
     author: 'Andrew Butson',

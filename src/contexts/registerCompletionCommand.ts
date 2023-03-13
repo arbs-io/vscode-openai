@@ -9,16 +9,8 @@ import {
   PatternPromptFactory,
   completionComments,
 } from '../openai-utils'
-
 import { compareFileToClipboard } from '../vscode-utils'
-
-import {
-  PROMPT_BOUNTY_COMMAND_ID,
-  PROMPT_COMMENTS_COMMAND_ID,
-  PROMPT_EXPLAIN_COMMAND_ID,
-  PROMPT_OPTIMIZE_COMMAND_ID,
-  PROMPT_PATTERNS_COMMAND_ID,
-} from './openaiCommands'
+import { VSCODE_OPENAI_PROMPT } from './constants'
 
 // Define a command registry that uses the factory pattern
 class CommandRegistry {
@@ -26,11 +18,26 @@ class CommandRegistry {
 
   constructor() {
     this.factories = new Map([
-      [PROMPT_COMMENTS_COMMAND_ID, new CommentPromptFactory()],
-      [PROMPT_EXPLAIN_COMMAND_ID, new ExplainPromptFactory()],
-      [PROMPT_BOUNTY_COMMAND_ID, new BountyPromptFactory()],
-      [PROMPT_OPTIMIZE_COMMAND_ID, new OptimizePromptFactory()],
-      [PROMPT_PATTERNS_COMMAND_ID, new PatternPromptFactory()],
+      [
+        VSCODE_OPENAI_PROMPT.PROMPT_COMMENTS_COMMAND_ID,
+        new CommentPromptFactory(),
+      ],
+      [
+        VSCODE_OPENAI_PROMPT.PROMPT_EXPLAIN_COMMAND_ID,
+        new ExplainPromptFactory(),
+      ],
+      [
+        VSCODE_OPENAI_PROMPT.PROMPT_BOUNTY_COMMAND_ID,
+        new BountyPromptFactory(),
+      ],
+      [
+        VSCODE_OPENAI_PROMPT.PROMPT_OPTIMIZE_COMMAND_ID,
+        new OptimizePromptFactory(),
+      ],
+      [
+        VSCODE_OPENAI_PROMPT.PROMPT_PATTERNS_COMMAND_ID,
+        new PatternPromptFactory(),
+      ],
     ])
   }
 

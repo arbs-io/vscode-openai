@@ -1,31 +1,26 @@
 import { ExtensionContext, window } from 'vscode'
 import { ChatConversationsProvider } from '../panels/chatConversationsProvider'
 import { ChatPersonaProvider } from '../panels/chatPersonaProvider'
-import {
-  SIDEBAR_CHATCONVERSATIONS_COMMAND_ID,
-  SIDEBAR_PERSONA_COMMAND_ID,
-} from './openaiCommands'
+import { VSCODE_OPENAI_SIDEBAR } from './constants'
 
 export function registerSidebarProvider(context: ExtensionContext) {
   _registerSidebarProvider(context)
-  _registerChatHistoryProvider(context)
+  _registerConversationsProvider(context)
 }
 
 function _registerSidebarProvider(context: ExtensionContext) {
   const sidebarProvider = new ChatPersonaProvider(context.extensionUri)
-  context.subscriptions.push(
-    window.registerWebviewViewProvider(
-      SIDEBAR_PERSONA_COMMAND_ID,
-      sidebarProvider
-    )
+  const view = window.registerWebviewViewProvider(
+    VSCODE_OPENAI_SIDEBAR.PERSONA_COMMAND_ID,
+    sidebarProvider
   )
+  context.subscriptions.push(view)
 }
-function _registerChatHistoryProvider(context: ExtensionContext) {
+function _registerConversationsProvider(context: ExtensionContext) {
   const sidebarProvider = new ChatConversationsProvider(context.extensionUri)
-  context.subscriptions.push(
-    window.registerWebviewViewProvider(
-      SIDEBAR_CHATCONVERSATIONS_COMMAND_ID,
-      sidebarProvider
-    )
+  const view = window.registerWebviewViewProvider(
+    VSCODE_OPENAI_SIDEBAR.CONVERSATIONS_COMMAND_ID,
+    sidebarProvider
   )
+  context.subscriptions.push(view)
 }

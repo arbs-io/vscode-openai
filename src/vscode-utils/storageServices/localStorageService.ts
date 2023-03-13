@@ -22,4 +22,12 @@ export default class LocalStorageService {
   public setValue<T>(key: string, value: T) {
     this.storage.update(key, value)
   }
+
+  public deleteKey(key: string) {
+    this.storage.update(key, undefined)
+  }
+
+  public keys(): readonly string[] {
+    return this.storage.keys()
+  }
 }

@@ -1,11 +1,23 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Default as PersonaGrid } from './components/PersonaGrid'
+import PersonaGrid from './components/PersonaGrid/PersonaGrid'
+import IPersonaOpenAI from 'interfaces/IPersonaOpenAI'
 
 function App() {
   const [state, setState] = useState<MessageEvent>()
+  const [personas, setPersonas] = useState<IPersonaOpenAI[]>([])
+
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
-      console.log('onMessageReceivedFromIframe', event)
+      console.log('chatPersona::onMessageReceivedFromIframe', event)
+      switch (event.data.command) {
+        case 'loadPersonas':
+          // eslint-disable-next-line no-case-declarations
+          const loadedPersonas: IPersonaOpenAI[] = JSON.parse(event.data.text)
+          console.log(`chatPersona::loadPersonas ${loadedPersonas.length}`)
+          setPersonas(loadedPersonas)
+          break
+      }
+
       setState(event)
     },
     [state]
@@ -19,7 +31,7 @@ function App() {
 
   return (
     <main>
-      <PersonaGrid />
+      <PersonaGrid personas={personas} />
     </main>
   )
 }

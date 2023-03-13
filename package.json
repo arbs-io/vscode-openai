@@ -21,7 +21,7 @@
     "Formatters"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "browser": "./out/extension.js",
@@ -40,16 +40,16 @@
         {
           "type": "webview",
           "id": "vscode-openai.sidebar.chatPersona",
-          "name": "ChatPersona",
+          "name": "Persona",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "Chat Persona"
+          "contextualTitle": "OpenAI Personas"
         },
         {
           "type": "webview",
           "id": "vscode-openai.sidebar.chatConversations",
-          "name": "ChatConversations",
+          "name": "Conversations",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "Chat Conversations"
+          "contextualTitle": "OpenAI Conversations"
         }
       ]
     },

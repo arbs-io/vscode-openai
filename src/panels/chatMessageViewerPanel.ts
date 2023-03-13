@@ -10,7 +10,7 @@ import {
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { IChatMessage } from '../interfaces/IChatMessage'
-import { SampleChatThread } from './data/SampleChatThread'
+import { IConversation } from '../interfaces/IConversation'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
@@ -50,7 +50,7 @@ export class ChatMessageViewerPanel {
    *
    * @param extensionUri The URI of the directory containing the extension.
    */
-  public static render(extensionUri: Uri) {
+  public static render(extensionUri: Uri, conversation: IConversation) {
     //Check that we have a valid object
     const activeFilename = `Prompt Engineer (OpenAI)`
 
@@ -74,7 +74,7 @@ export class ChatMessageViewerPanel {
     )
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
       command: 'loadChatThreads',
-      text: JSON.stringify(SampleChatThread),
+      text: JSON.stringify(conversation.chatMessages),
     })
   }
 
@@ -171,8 +171,6 @@ export class ChatMessageViewerPanel {
       (message) => {
         switch (message.command) {
           case 'newChatThreadQuestion':
-            //window.showInformationMessage(`newChatThreadQuestion: ${message.text}`)
-
             // eslint-disable-next-line no-case-declarations
             const chatThread: IChatMessage = {
               content:
@@ -187,11 +185,13 @@ export class ChatMessageViewerPanel {
               text: JSON.stringify(chatThread),
             })
             return
+
           case 'saveChatThread':
             // eslint-disable-next-line no-case-declarations
             const chatMessages: IChatMessage[] = JSON.parse(message.text)
             console.log(`saveChatThread: ${chatMessages.length}`)
             return
+
           default:
             window.showErrorMessage(message.command)
             return

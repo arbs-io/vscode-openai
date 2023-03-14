@@ -11,6 +11,7 @@ import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { IChatMessage } from '../interfaces/IChatMessage'
 import { IConversation } from '../interfaces/IConversation'
+import { completionComments } from '../openai-utils/api/completionComments'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
@@ -171,19 +172,21 @@ export class ChatMessageViewerPanel {
       (message) => {
         switch (message.command) {
           case 'newChatThreadQuestion':
-            // eslint-disable-next-line no-case-declarations
-            const chatThread: IChatMessage = {
-              content:
-                "Yes, as an AI language model, I am familiar with the concept of prompt engineering.\n\nPrompt engineering refers to the process of designing and refining prompts for an AI language model in order to improve its performance on a specific task or set of tasks. This involves carefully crafting the input text that the model receives in order to elicit the desired output.\n\nThe goal of prompt engineering is to optimize the language model's ability to generate high-quality, relevant responses to a given prompt, which can be especially important in natural language generation tasks such as chatbots or language translation. This process can involve a variety of techniques, including fine-tuning the model on a specific task, selecting appropriate input and output formats, and iteratively testing and refining the prompts to achieve the desired results.",
-              author: 'Prompt Engineer (OpenAI)',
-              timestamp: 'Yesterday, 10:20 PM',
-              mine: false,
-            }
+            completionComments(message.text).then((result) => {
+              // eslint-disable-next-line no-case-declarations
+              const chatThread: IChatMessage = {
+                content: result,
+                author: 'Prompt Engineer (OpenAI)',
+                timestamp: Date().toLocaleString(),
+                mine: false,
+              }
 
-            ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
-              command: 'newChatThreadAnswer',
-              text: JSON.stringify(chatThread),
+              ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
+                command: 'newChatThreadAnswer',
+                text: JSON.stringify(chatThread),
+              })
             })
+
             return
 
           case 'saveChatThread':

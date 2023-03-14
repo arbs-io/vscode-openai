@@ -9,7 +9,7 @@ export const SystemPersonas: IPersonaOpenAI[] = [
       model: 'gpt-3.5-turbo',
     },
     prompt: {
-      system: `You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible. Knowledge cutoff: ${new Date().toLocaleString()} Current date: ${new Date().toLocaleString()}`,
+      system: `VSCode Chat, a large language model trained by OpenAI. Answer as concisely as possible. Knowledge cutoff: ${new Date().toLocaleString()} Current date: ${new Date().toLocaleString()}`,
     },
   },
   {

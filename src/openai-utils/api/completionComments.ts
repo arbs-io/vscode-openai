@@ -26,7 +26,6 @@ export async function completionComments(prompt: string): Promise<string> {
       messages: [
         {
           role: ChatCompletionRequestMessageRoleEnum.Assistant,
-
           content: prompt,
         },
       ],
@@ -37,15 +36,6 @@ export async function completionComments(prompt: string): Promise<string> {
       presence_penalty: 0,
     })
 
-    // const response = await openai.createCompletion({
-    //   model: model,
-    //   prompt: prompt,
-    //   temperature: 0.2,
-    //   max_tokens: 2048,
-    //   top_p: 1,
-    //   frequency_penalty: 0,
-    //   presence_penalty: 0,
-    // })
     const answer = completion.data.choices[0].message?.content
     console.log(answer)
 

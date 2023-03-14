@@ -1,3 +1,4 @@
+import * as crypto from 'crypto'
 import {
   Webview,
   window,
@@ -9,12 +10,15 @@ import {
   WebviewViewResolveContext,
   CancellationToken,
 } from 'vscode'
-import { IConversation } from '../interfaces/IConversation'
-import { LocalStorageService } from '../vscode-utils'
+import LocalStorageService from '../vscode-utils/storageServices/localStorageService'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
+import { ChatMessageViewerPanel } from '../panels/messageWebviewPanel'
+import { IConversation } from '../interfaces/IConversation'
+import { SystemPersonas } from '../panels/data/SystemPersonas'
+import { IPersonaOpenAI } from '../interfaces/IPersonaOpenAI'
 
-export class ChatConversationsProvider implements WebviewViewProvider {
+export class ChatPersonaProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 
@@ -38,11 +42,11 @@ export class ChatConversationsProvider implements WebviewViewProvider {
     )
 
     this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
-    this._sendWebviewLoadConversations()
+    this._sendWebviewLoadPersonas()
 
     this._view.onDidChangeVisibility((e) => {
       if (this._view?.visible) {
-        this._sendWebviewLoadConversations()
+        this._sendWebviewLoadPersonas()
       }
     }, null)
   }
@@ -51,7 +55,7 @@ export class ChatConversationsProvider implements WebviewViewProvider {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatConversations',
+      'personaWebview',
       'index.js',
     ])
 
@@ -91,54 +95,50 @@ export class ChatConversationsProvider implements WebviewViewProvider {
    * Event Model:
    *    | source  	| target  	 | command						   | model  	        |
    *    |-----------|------------|-----------------------|------------------|
-   *    | extension	| webview    | loadConversations     | IPersonaOpenAI[] |
+   *    | extension	| webview    | loadPersonas          | IPersonaOpenAI[] |
    *    | webview		| extension  | newConversation			 | TableRowId       |
    *
    */
-  private _sendWebviewLoadConversations() {
-    const keys = LocalStorageService.instance.keys()
-    const conversations: IConversation[] = []
-
-    // keys.forEach((key) => {
-    //   console.log(key)
-    //   LocalStorageService.instance.deleteKey(key)
-    // })
-
-    keys.forEach((key) => {
-      console.log(key)
-      if (key.startsWith('conversation-')) {
-        const conversation =
-          LocalStorageService.instance.getValue<IConversation>(key)
-        if (conversation !== undefined) {
-          conversations.push(conversation)
-        }
-      }
-    })
-
-    console.log(
-      `chatConversationsProvider::_sendWebviewLoadConversations ${conversations.length}`
-    )
-
+  private _sendWebviewLoadPersonas() {
+    console.log(`ChatPersonaProvider::SystemPersonas ${SystemPersonas.length}`)
     this._view?.webview.postMessage({
-      command: 'loadConversations',
-      text: JSON.stringify(conversations),
+      command: 'loadPersonas',
+      text: JSON.stringify(SystemPersonas),
     })
   }
 
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
-    // webview.onDidReceiveMessage((message) => {
-    //   switch (message.command) {
-    //     case 'newConversation':
-    //       //need to validate the persona uuid
-    //       console.log('chatPersonaProvider::newConversation')
-    //       // eslint-disable-next-line no-case-declarations
-    //       const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
-    //       this._createNewConversation(personaOpenAI, extensionUri)
-    //       return
-    //     default:
-    //       window.showErrorMessage(message.command)
-    //       return
-    //   }
-    // }, null)
+    webview.onDidReceiveMessage((message) => {
+      switch (message.command) {
+        case 'newConversation':
+          //need to validate the persona uuid
+
+          console.log('personaWebviewProvider::newConversation')
+          // eslint-disable-next-line no-case-declarations
+          const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
+          this._createNewConversation(personaOpenAI, extensionUri)
+          return
+        default:
+          window.showErrorMessage(message.command)
+          return
+      }
+    }, null)
+  }
+
+  private _createNewConversation(persona: IPersonaOpenAI, extensionUri: Uri) {
+    const uuid4 = crypto.randomUUID()
+    const conversation: IConversation = {
+      conversationId: uuid4,
+      persona: persona,
+      summary: '<New Conversation>',
+      chatMessages: [],
+    }
+
+    LocalStorageService.instance.setValue<IConversation>(
+      `conversation-${conversation.conversationId}`,
+      conversation
+    )
+
+    ChatMessageViewerPanel.render(extensionUri, conversation)
   }
 }

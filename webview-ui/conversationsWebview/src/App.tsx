@@ -8,7 +8,7 @@ function App() {
 
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
-      console.log('chatPersona::onMessageReceivedFromIframe', event)
+      console.log('personaWebview::onMessageReceivedFromIframe', event)
       switch (event.data.command) {
         case 'loadConversations':
           // eslint-disable-next-line no-case-declarations
@@ -16,7 +16,7 @@ function App() {
             event.data.text
           )
           console.log(
-            `chatConversations::loadedConversations ${loadedConversations.length}`
+            `conversationsWebview::loadedConversations ${loadedConversations.length}`
           )
           setConversations(loadedConversations)
           break

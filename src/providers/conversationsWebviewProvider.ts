@@ -1,4 +1,3 @@
-import * as crypto from 'crypto'
 import {
   Webview,
   window,
@@ -10,15 +9,12 @@ import {
   WebviewViewResolveContext,
   CancellationToken,
 } from 'vscode'
-import LocalStorageService from '@appVscodeUtils/storageServices/localStorageService'
-import { getNonce } from '@appVscodeUtils/webviewServices/getNonce'
-import { getUri } from '@appVscodeUtils/webviewServices/getUri'
-import { ChatMessageViewerPanel } from '@appPanels/chatMessageViewerPanel'
-import { IConversation } from '@appInterfaces/IConversation'
-import { SystemPersonas } from '@appPanels/data/SystemPersonas'
-import { IPersonaOpenAI } from '@appInterfaces/IPersonaOpenAI'
+import { IConversation } from '../interfaces/IConversation'
+import { LocalStorageService } from '../vscode-utils'
+import { getNonce } from '../vscode-utils/webviewServices/getNonce'
+import { getUri } from '../vscode-utils/webviewServices/getUri'
 
-export class ChatPersonaProvider implements WebviewViewProvider {
+export class ConversationsProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 
@@ -42,11 +38,11 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     )
 
     this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
-    this._sendWebviewLoadPersonas()
+    this._sendWebviewLoadConversations()
 
     this._view.onDidChangeVisibility((e) => {
       if (this._view?.visible) {
-        this._sendWebviewLoadPersonas()
+        this._sendWebviewLoadConversations()
       }
     }, null)
   }
@@ -55,7 +51,7 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatPersona',
+      'conversationsWebview',
       'index.js',
     ])
 
@@ -95,50 +91,54 @@ export class ChatPersonaProvider implements WebviewViewProvider {
    * Event Model:
    *    | source  	| target  	 | command						   | model  	        |
    *    |-----------|------------|-----------------------|------------------|
-   *    | extension	| webview    | loadPersonas          | IPersonaOpenAI[] |
+   *    | extension	| webview    | loadConversations     | IPersonaOpenAI[] |
    *    | webview		| extension  | newConversation			 | TableRowId       |
    *
    */
-  private _sendWebviewLoadPersonas() {
-    console.log(`ChatPersonaProvider::SystemPersonas ${SystemPersonas.length}`)
+  private _sendWebviewLoadConversations() {
+    const keys = LocalStorageService.instance.keys()
+    const conversations: IConversation[] = []
+
+    // keys.forEach((key) => {
+    //   console.log(key)
+    //   LocalStorageService.instance.deleteKey(key)
+    // })
+
+    keys.forEach((key) => {
+      console.log(key)
+      if (key.startsWith('conversation-')) {
+        const conversation =
+          LocalStorageService.instance.getValue<IConversation>(key)
+        if (conversation !== undefined) {
+          conversations.push(conversation)
+        }
+      }
+    })
+
+    console.log(
+      `conversationsWebviewProvider::_sendWebviewLoadConversations ${conversations.length}`
+    )
+
     this._view?.webview.postMessage({
-      command: 'loadPersonas',
-      text: JSON.stringify(SystemPersonas),
+      command: 'loadConversations',
+      text: JSON.stringify(conversations),
     })
   }
 
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
-    webview.onDidReceiveMessage((message) => {
-      switch (message.command) {
-        case 'newConversation':
-          //need to validate the persona uuid
-
-          console.log('chatPersonaProvider::newConversation')
-          // eslint-disable-next-line no-case-declarations
-          const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
-          this._createNewConversation(personaOpenAI, extensionUri)
-          return
-        default:
-          window.showErrorMessage(message.command)
-          return
-      }
-    }, null)
-  }
-
-  private _createNewConversation(persona: IPersonaOpenAI, extensionUri: Uri) {
-    const uuid4 = crypto.randomUUID()
-    const conversation: IConversation = {
-      conversationId: uuid4,
-      persona: persona,
-      summary: '<New Conversation>',
-      chatMessages: [],
-    }
-
-    LocalStorageService.instance.setValue<IConversation>(
-      `conversation-${conversation.conversationId}`,
-      conversation
-    )
-
-    ChatMessageViewerPanel.render(extensionUri, conversation)
+    // webview.onDidReceiveMessage((message) => {
+    //   switch (message.command) {
+    //     case 'newConversation':
+    //       //need to validate the persona uuid
+    //       console.log('personaWebviewProvider::newConversation')
+    //       // eslint-disable-next-line no-case-declarations
+    //       const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
+    //       this._createNewConversation(personaOpenAI, extensionUri)
+    //       return
+    //     default:
+    //       window.showErrorMessage(message.command)
+    //       return
+    //   }
+    // }, null)
   }
 }

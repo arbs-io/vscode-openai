@@ -120,7 +120,7 @@ export class ChatMessageViewerPanel {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatMessageViewer',
+      'messageWebview',
       'index.js',
     ])
 

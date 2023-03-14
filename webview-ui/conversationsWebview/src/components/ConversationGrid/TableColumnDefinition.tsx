@@ -22,7 +22,6 @@ export const columns: TableColumnDefinition<IConversation>[] = [
       return 'Persona'
     },
     renderCell: (item) => {
-      const overview = `${item.persona.configuration.service} (${item.persona.configuration.model})`
       return (
         <div id="personadiv">
           <TableCell tabIndex={0} role="gridcell">
@@ -30,7 +29,7 @@ export const columns: TableColumnDefinition<IConversation>[] = [
               media={
                 <Persona
                   presence={{ status: 'out-of-office' }}
-                  size="small"
+                  size="extra-small"
                   name={item.persona.roleName}
                   avatar={{ color: 'colorful' }}
                 />

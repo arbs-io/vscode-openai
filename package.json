@@ -39,24 +39,19 @@
       "vscode-openai-sidebar-view": [
         {
           "type": "webview",
-          "id": "vscode-openai.sidebar.chatPersona",
+          "id": "vscode-openai.sidebar.personaWebview",
           "name": "Persona",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "OpenAI Personas"
+          "contextualTitle": "vscode-openai personas",
+          "when": "vscode-openai.context.apikey"
         },
         {
           "type": "webview",
-          "id": "vscode-openai.sidebar.chatConversations",
-          "name": "ChatConversations",
-          "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "OpenAI Chat Conversations"
-        },
-        {
-          "type": "tree",
-          "id": "vscode-openai.sidebar.conversations",
+          "id": "vscode-openai.sidebar.conversationsWebview",
           "name": "Conversations",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "Conversations"
+          "contextualTitle": "vscode-openai conversations",
+          "when": "vscode-openai.context.apikey"
         }
       ]
     },
@@ -191,14 +186,14 @@
     ]
   },
   "scripts": {
-    "install:all": "npm install && npm run install:all:chatMessageViewer && npm run install:all:chatPersona && npm run install:all:chatConversations",
-    "install:all:chatMessageViewer": "npm --prefix ./webview-ui/chatMessageViewer install",
-    "install:all:chatPersona": "npm --prefix ./webview-ui/chatPersona install",
-    "install:all:chatConversations": "npm --prefix ./webview-ui/chatConversations install",
-    "build:webview": "npm --prefix ./webview-ui/chatMessageViewer run build && npm --prefix ./webview-ui/chatPersona run build && npm --prefix ./webview-ui/chatConversations run build",
-    "build:webview:chatMessageViewer": "npm --prefix ./webview-ui/chatMessageViewer run build",
-    "build:webview:chatPersona": "npm --prefix ./webview-ui/chatPersona run build",
-    "build:webview:chatConversations": "npm --prefix ./webview-ui/chatConversations run build",
+    "install:all": "npm install && npm run install:all:messageWebview && npm run install:all:personaWebview && npm run install:all:conversationsWebview",
+    "install:all:messageWebview": "npm --prefix ./webview-ui/messageWebview install",
+    "install:all:personaWebview": "npm --prefix ./webview-ui/personaWebview install",
+    "install:all:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview install",
+    "build:webview": "npm --prefix ./webview-ui/messageWebview run build && npm --prefix ./webview-ui/personaWebview run build && npm --prefix ./webview-ui/conversationsWebview run build",
+    "build:webview:messageWebview": "npm --prefix ./webview-ui/messageWebview run build",
+    "build:webview:personaWebview": "npm --prefix ./webview-ui/personaWebview run build",
+    "build:webview:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview run build",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",

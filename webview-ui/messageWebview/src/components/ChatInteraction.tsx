@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { ChatHistoryItem } from './ChatHistoryItem'
 import { ChatInput } from './ChatInput'
 import { vscode } from '../utilities/vscode'
-import { IChatMessage } from './IChatMessage'
+import { IChatMessage } from '../interfaces/IChatMessage'
 
 const ChatInteraction: FC = () => {
   const chatBottomRef = useRef<HTMLDivElement>(null)

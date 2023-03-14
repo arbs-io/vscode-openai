@@ -2,7 +2,7 @@ import { Button, Input } from '@fluentui/react-components'
 import { Send16Regular } from '@fluentui/react-icons'
 import React, { FC } from 'react'
 import { vscode } from '../utilities/vscode'
-import { IChatMessage } from './IChatMessage'
+import { IChatMessage } from '../interfaces/IChatMessage'
 
 interface ChatInputProps {
   onSubmit: (message: IChatMessage) => void

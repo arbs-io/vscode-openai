@@ -92,17 +92,11 @@ export class ConversationsProvider implements WebviewViewProvider {
    *    | source  	| target  	 | command						   | model  	        |
    *    |-----------|------------|-----------------------|------------------|
    *    | extension	| webview    | loadConversations     | IPersonaOpenAI[] |
-   *    | webview		| extension  | newConversation			 | TableRowId       |
    *
    */
   private _sendWebviewLoadConversations() {
     const keys = LocalStorageService.instance.keys()
     const conversations: IConversation[] = []
-
-    // keys.forEach((key) => {
-    //   console.log(key)
-    //   LocalStorageService.instance.deleteKey(key)
-    // })
 
     keys.forEach((key) => {
       console.log(key)

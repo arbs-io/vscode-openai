@@ -74,8 +74,8 @@ export class ChatMessageViewerPanel {
       extensionUri
     )
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
-      command: 'loadChatThreads',
-      text: JSON.stringify(conversation.chatMessages),
+      command: 'loadConversationMessages',
+      text: JSON.stringify(conversation),
     })
   }
 
@@ -159,12 +159,12 @@ export class ChatMessageViewerPanel {
    * @param context A reference to the extension context
    *
    * Event Model:
-   *    | source  	| target  	 | command						   | model  	      |
-   *    |-----------|------------|-----------------------|----------------|
-   *    | extension | webview		 | loadChatThreads  		 | IChatMessage[] |
-   *    | webview		| extension  | saveChatThread				 | IChatMessage[] |
-   *    | extension | webview		 | newChatThreadAnswer	 | IChatMessage   |
-   *    | webview		| extension  | newChatThreadQuestion | IChatMessage   |
+   *    | source  	| target  	 | command						      | model  	       |
+   *    |-----------|------------|--------------------------|----------------|
+   *    | extension | webview		 | loadConversationMessages | IConversation  |
+   *    | webview		| extension  | saveConversationMessages	| IChatMessage[] |
+   *    | extension | webview		 | newChatThreadAnswer	    | IChatMessage   |
+   *    | webview		| extension  | newChatThreadQuestion    | IChatMessage   |
    *
    */
   private _setWebviewMessageListener(webview: Webview) {
@@ -189,10 +189,10 @@ export class ChatMessageViewerPanel {
 
             return
 
-          case 'saveChatThread':
+          case 'saveConversationMessages':
             // eslint-disable-next-line no-case-declarations
             const chatMessages: IChatMessage[] = JSON.parse(message.text)
-            console.log(`saveChatThread: ${chatMessages.length}`)
+            console.log(`saveConversationMessages: ${chatMessages.length}`)
             return
 
           default:

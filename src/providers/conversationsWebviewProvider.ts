@@ -14,7 +14,7 @@ import { LocalStorageService } from '../vscode-utils'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
 
-export class ChatConversationsProvider implements WebviewViewProvider {
+export class ConversationsProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 
@@ -51,7 +51,7 @@ export class ChatConversationsProvider implements WebviewViewProvider {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatConversations',
+      'conversationsWebview',
       'index.js',
     ])
 
@@ -82,27 +82,18 @@ export class ChatConversationsProvider implements WebviewViewProvider {
   }
 
   /**
-   * Sets up an event listener to listen for messages passed from the webview context and
-   * executes code based on the message that is recieved.
-   *
-   * @param webview A reference to the extension webview
-   * @param context A reference to the extension context
    *
    * Event Model:
    *    | source  	| target  	 | command						   | model  	        |
    *    |-----------|------------|-----------------------|------------------|
-   *    | extension	| webview    | loadConversations     | IPersonaOpenAI[] |
-   *    | webview		| extension  | newConversation			 | TableRowId       |
+   *    | extension	| webview    | loadConversations     | IConversation[]  |
+   *    | webview   | extension  | deleteConversation    | IConversation    |
+   *
    *
    */
   private _sendWebviewLoadConversations() {
     const keys = LocalStorageService.instance.keys()
     const conversations: IConversation[] = []
-
-    // keys.forEach((key) => {
-    //   console.log(key)
-    //   LocalStorageService.instance.deleteKey(key)
-    // })
 
     keys.forEach((key) => {
       console.log(key)
@@ -116,7 +107,7 @@ export class ChatConversationsProvider implements WebviewViewProvider {
     })
 
     console.log(
-      `chatConversationsProvider::_sendWebviewLoadConversations ${conversations.length}`
+      `conversationsWebviewProvider::_sendWebviewLoadConversations ${conversations.length}`
     )
 
     this._view?.webview.postMessage({
@@ -126,19 +117,21 @@ export class ChatConversationsProvider implements WebviewViewProvider {
   }
 
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
-    // webview.onDidReceiveMessage((message) => {
-    //   switch (message.command) {
-    //     case 'newConversation':
-    //       //need to validate the persona uuid
-    //       console.log('chatPersonaProvider::newConversation')
-    //       // eslint-disable-next-line no-case-declarations
-    //       const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
-    //       this._createNewConversation(personaOpenAI, extensionUri)
-    //       return
-    //     default:
-    //       window.showErrorMessage(message.command)
-    //       return
-    //   }
-    // }, null)
+    webview.onDidReceiveMessage((message) => {
+      switch (message.command) {
+        case 'deleteConversation':
+          // eslint-disable-next-line no-case-declarations
+          const conversation: IConversation = JSON.parse(message.text)
+          LocalStorageService.instance.deleteKey(
+            `conversation-${conversation.conversationId}`
+          )
+          this._sendWebviewLoadConversations()
+          return
+
+        default:
+          window.showErrorMessage(message.command)
+          return
+      }
+    }, null)
   }
 }

@@ -2,13 +2,13 @@ import { Button, Input } from '@fluentui/react-components'
 import { Send16Regular } from '@fluentui/react-icons'
 import React, { FC } from 'react'
 import { vscode } from '../utilities/vscode'
-import { IChatMessage } from './IChatMessage'
+import { IChatMessage } from '../interfaces/IChatMessage'
 
-interface ChatInputProps {
+interface MessageInputProps {
   onSubmit: (message: IChatMessage) => void
 }
 
-export const ChatInput: FC<ChatInputProps> = (props) => {
+export const MessageInput: FC<MessageInputProps> = (props) => {
   const { onSubmit } = props
   const [value, setValue] = React.useState<string>('')
   const [previousValue, setPreviousValue] = React.useState<string>('')

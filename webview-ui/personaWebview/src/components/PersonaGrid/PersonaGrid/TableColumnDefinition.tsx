@@ -28,7 +28,7 @@ export const columns: TableColumnDefinition<IPersonaOpenAI>[] = [
                   presence={{ status: 'available' }}
                   size="medium"
                   name={item.roleName}
-                  tertiaryText={overview}
+                  tertiaryText={`${item.configuration.service} (${item.configuration.model})`}
                   avatar={{ color: 'colorful' }}
                 />
               }
@@ -47,7 +47,9 @@ export const columns: TableColumnDefinition<IPersonaOpenAI>[] = [
     renderCell: (item) => {
       return (
         <TableCell tabIndex={0} role="gridcell">
-          <TableCellLayout description={item.prompt.system} />
+          <TableCellLayout
+            description={`${item.prompt.system.substring(0, 100)}...`}
+          />
         </TableCell>
       )
     },

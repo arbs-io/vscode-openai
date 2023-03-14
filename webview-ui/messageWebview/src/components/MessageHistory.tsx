@@ -1,11 +1,11 @@
 import { tokens } from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
-import { IChatMessage } from './IChatMessage'
+import { IChatMessage } from '../interfaces/IChatMessage'
 
 interface IData {
   message: IChatMessage
 }
-export const ChatHistoryItem: FC<IData> = ({ message }) => {
+export const MessageHistory: FC<IData> = ({ message }) => {
   if (!message) {
     throw new Error('Invalid memory')
   }

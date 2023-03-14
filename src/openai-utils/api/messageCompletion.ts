@@ -1,12 +1,37 @@
 import { window, workspace } from 'vscode'
 import {
+  ChatCompletionRequestMessage,
   ChatCompletionRequestMessageRoleEnum,
   Configuration,
   OpenAIApi,
 } from 'openai'
 import { SecretStorageService } from '../../vscode-utils'
+import { IConversation } from '../../interfaces/IConversation'
 
-export async function completionComments(prompt: string): Promise<string> {
+async function buildMessages(
+  conversation: IConversation
+): Promise<ChatCompletionRequestMessage[]> {
+  const chatCompletion: ChatCompletionRequestMessage[] = []
+
+  chatCompletion.push({
+    role: ChatCompletionRequestMessageRoleEnum.System,
+    content: `You are a ${conversation.persona.prompt.system}`,
+  })
+
+  conversation.chatMessages.forEach((chatMessage) => {
+    chatCompletion.push({
+      role: chatMessage.mine
+        ? ChatCompletionRequestMessageRoleEnum.User
+        : ChatCompletionRequestMessageRoleEnum.Assistant,
+      content: chatMessage.content,
+    })
+  })
+  return chatCompletion
+}
+
+export async function messageCompletion(
+  conversation: IConversation
+): Promise<string> {
   try {
     window.setStatusBarMessage(`$(sync~spin) vscode-openai`)
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
@@ -21,14 +46,11 @@ export async function completionComments(prompt: string): Promise<string> {
     })
     const openai = new OpenAIApi(configuration)
 
+    const chatCompletions = await buildMessages(conversation)
+
     const completion = await openai.createChatCompletion({
       model: model,
-      messages: [
-        {
-          role: ChatCompletionRequestMessageRoleEnum.Assistant,
-          content: prompt,
-        },
-      ],
+      messages: chatCompletions,
       temperature: 0.2,
       max_tokens: 2048,
       top_p: 1,

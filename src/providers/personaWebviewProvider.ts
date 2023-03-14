@@ -10,12 +10,12 @@ import {
   WebviewViewResolveContext,
   CancellationToken,
 } from 'vscode'
-import { LocalStorageService } from '../vscode-utils'
+import LocalStorageService from '../vscode-utils/storageServices/localStorageService'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { getUri } from '../vscode-utils/webviewServices/getUri'
-import { ChatMessageViewerPanel } from './chatMessageViewerPanel'
+import { ChatMessageViewerPanel } from '../panels/messageWebviewPanel'
 import { IConversation } from '../interfaces/IConversation'
-import { SystemPersonas } from './data/SystemPersonas'
+import { SystemPersonas } from '../panels/data/SystemPersonas'
 import { IPersonaOpenAI } from '../interfaces/IPersonaOpenAI'
 
 export class ChatPersonaProvider implements WebviewViewProvider {
@@ -55,7 +55,7 @@ export class ChatPersonaProvider implements WebviewViewProvider {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatPersona',
+      'personaWebview',
       'index.js',
     ])
 
@@ -86,17 +86,12 @@ export class ChatPersonaProvider implements WebviewViewProvider {
   }
 
   /**
-   * Sets up an event listener to listen for messages passed from the webview context and
-   * executes code based on the message that is recieved.
-   *
-   * @param webview A reference to the extension webview
-   * @param context A reference to the extension context
    *
    * Event Model:
    *    | source  	| target  	 | command						   | model  	        |
    *    |-----------|------------|-----------------------|------------------|
    *    | extension	| webview    | loadPersonas          | IPersonaOpenAI[] |
-   *    | webview		| extension  | newConversation			 | TableRowId       |
+   *    | webview		| extension  | newConversation			 | IPersonaOpenAI   |
    *
    */
   private _sendWebviewLoadPersonas() {
@@ -113,7 +108,7 @@ export class ChatPersonaProvider implements WebviewViewProvider {
         case 'newConversation':
           //need to validate the persona uuid
 
-          console.log('chatPersonaProvider::newConversation')
+          console.log('personaWebviewProvider::newConversation')
           // eslint-disable-next-line no-case-declarations
           const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
           this._createNewConversation(personaOpenAI, extensionUri)
@@ -138,7 +133,9 @@ export class ChatPersonaProvider implements WebviewViewProvider {
       `conversation-${conversation.conversationId}`,
       conversation
     )
-
+    console.log(
+      `_createNewConversation::ChatMessageViewerPanel.render: ${conversation.conversationId}`
+    )
     ChatMessageViewerPanel.render(extensionUri, conversation)
   }
 }

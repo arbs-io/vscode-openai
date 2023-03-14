@@ -21,16 +21,16 @@ const ConversationGrid: FC<IData> = ({ conversations }) => {
     <DataGrid
       size="extra-small"
       items={conversations}
-      ref={(el) => console.log('__Ref', el)}
+      // ref={(el) => console.log('__Ref', el)}
       columns={columns}
       sortable
       getRowId={(item) => item.itemId}
       resizableColumns
       columnSizingOptions={{
         persona: {
-          minWidth: 120,
-          defaultWidth: 120,
-          idealWidth: 120,
+          minWidth: 175,
+          defaultWidth: 175,
+          idealWidth: 175,
         },
       }}
     >

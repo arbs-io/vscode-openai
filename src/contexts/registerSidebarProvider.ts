@@ -1,6 +1,6 @@
-import { ExtensionContext, window } from 'vscode'
-import { ChatConversationsProvider } from '../panels/chatConversationsProvider'
-import { ChatPersonaProvider } from '../panels/chatPersonaProvider'
+import { ExtensionContext, window, workspace } from 'vscode'
+import { ConversationsProvider } from '../providers/conversationsWebviewProvider'
+import { ChatPersonaProvider } from '../providers/personaWebviewProvider'
 import { VSCODE_OPENAI_SIDEBAR } from './constants'
 
 export function registerSidebarProvider(context: ExtensionContext) {
@@ -16,8 +16,9 @@ function _registerSidebarProvider(context: ExtensionContext) {
   )
   context.subscriptions.push(view)
 }
+
 function _registerConversationsProvider(context: ExtensionContext) {
-  const sidebarProvider = new ChatConversationsProvider(context.extensionUri)
+  const sidebarProvider = new ConversationsProvider(context.extensionUri)
   const view = window.registerWebviewViewProvider(
     VSCODE_OPENAI_SIDEBAR.CONVERSATIONS_COMMAND_ID,
     sidebarProvider

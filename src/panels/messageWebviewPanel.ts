@@ -11,10 +11,13 @@ import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { IChatMessage } from '../interfaces/IChatMessage'
 import { IConversation } from '../interfaces/IConversation'
+import { messageCompletion } from '../openai-utils/api/messageCompletion'
+import LocalStorageService from '../vscode-utils/storageServices/localStorageService'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
+  private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
   private readonly _extensionUri: Uri
 
@@ -51,9 +54,7 @@ export class ChatMessageViewerPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri, conversation: IConversation) {
-    //Check that we have a valid object
     const activeFilename = `Prompt Engineer (OpenAI)`
-
     if (ChatMessageViewerPanel.currentPanel) {
       ChatMessageViewerPanel.currentPanel._panel.dispose()
     }
@@ -68,13 +69,16 @@ export class ChatMessageViewerPanel {
         localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
       }
     )
+
     ChatMessageViewerPanel.currentPanel = new ChatMessageViewerPanel(
       panel,
       extensionUri
     )
+
+    ChatMessageViewerPanel.currentPanel._conversation = conversation
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
-      command: 'loadChatThreads',
-      text: JSON.stringify(conversation.chatMessages),
+      command: 'loadConversationMessages',
+      text: JSON.stringify(ChatMessageViewerPanel.currentPanel._conversation),
     })
   }
 
@@ -120,7 +124,7 @@ export class ChatMessageViewerPanel {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
       'webview-ui',
-      'chatMessageViewer',
+      'messageWebview',
       'index.js',
     ])
 
@@ -151,19 +155,14 @@ export class ChatMessageViewerPanel {
   }
 
   /**
-   * Sets up an event listener to listen for messages passed from the webview context and
-   * executes code based on the message that is recieved.
-   *
-   * @param webview A reference to the extension webview
-   * @param context A reference to the extension context
    *
    * Event Model:
-   *    | source  	| target  	 | command						   | model  	      |
-   *    |-----------|------------|-----------------------|----------------|
-   *    | extension | webview		 | loadChatThreads  		 | IChatMessage[] |
-   *    | webview		| extension  | saveChatThread				 | IChatMessage[] |
-   *    | extension | webview		 | newChatThreadAnswer	 | IChatMessage   |
-   *    | webview		| extension  | newChatThreadQuestion | IChatMessage   |
+   *    | source  	| target  	 | command						      | model  	       |
+   *    |-----------|------------|--------------------------|----------------|
+   *    | extension | webview		 | loadConversationMessages | IConversation  |
+   *    | webview		| extension  | saveConversationMessages	| IChatMessage[] |
+   *    | extension | webview		 | newChatThreadAnswer	    | IChatMessage   |
+   *    | webview		| extension  | newChatThreadQuestion    | IChatMessage   |
    *
    */
   private _setWebviewMessageListener(webview: Webview) {
@@ -171,25 +170,46 @@ export class ChatMessageViewerPanel {
       (message) => {
         switch (message.command) {
           case 'newChatThreadQuestion':
-            // eslint-disable-next-line no-case-declarations
-            const chatThread: IChatMessage = {
-              content:
-                "Yes, as an AI language model, I am familiar with the concept of prompt engineering.\n\nPrompt engineering refers to the process of designing and refining prompts for an AI language model in order to improve its performance on a specific task or set of tasks. This involves carefully crafting the input text that the model receives in order to elicit the desired output.\n\nThe goal of prompt engineering is to optimize the language model's ability to generate high-quality, relevant responses to a given prompt, which can be especially important in natural language generation tasks such as chatbots or language translation. This process can involve a variety of techniques, including fine-tuning the model on a specific task, selecting appropriate input and output formats, and iteratively testing and refining the prompts to achieve the desired results.",
-              author: 'Prompt Engineer (OpenAI)',
-              timestamp: 'Yesterday, 10:20 PM',
-              mine: false,
-            }
+            if (!this._conversation) return
 
-            ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
-              command: 'newChatThreadAnswer',
-              text: JSON.stringify(chatThread),
+            //Note: saveConversationMessages has added the new question
+            messageCompletion(this._conversation).then((result) => {
+              console.log(`newChatThreadQuestion: ${result}`)
+
+              const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
+
+              const chatThread: IChatMessage = {
+                content: result,
+                author: author,
+                timestamp: new Date().toLocaleString(),
+                mine: false,
+              }
+              console.log(`newChatThreadQuestion-author: ${chatThread.author}`)
+
+              ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
+                command: 'newChatThreadAnswer',
+                text: JSON.stringify(chatThread),
+              })
             })
+
             return
 
-          case 'saveChatThread':
+          case 'saveConversationMessages':
+            if (!this._conversation) return
+
             // eslint-disable-next-line no-case-declarations
             const chatMessages: IChatMessage[] = JSON.parse(message.text)
-            console.log(`saveChatThread: ${chatMessages.length}`)
+            this._conversation.chatMessages = chatMessages
+
+            console.log(
+              `saveConversationMessages: ${this._conversation.chatMessages.length}`
+            )
+
+            LocalStorageService.instance.setValue<IConversation>(
+              `conversation-${this._conversation.conversationId}`,
+              this._conversation
+            )
+
             return
 
           default:

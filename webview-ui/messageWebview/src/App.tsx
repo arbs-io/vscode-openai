@@ -1,6 +1,6 @@
 import { makeStyles, mergeClasses } from '@fluentui/react-components'
 import { FC } from 'react'
-import ChatInteraction from './components/ChatInteraction'
+import MessageInteraction from './components/MessageInteraction'
 
 const useStyles = makeStyles({
   container: {
@@ -14,7 +14,7 @@ const App: FC = () => {
 
   return (
     <div className={mergeClasses(styles.container)}>
-      <ChatInteraction />
+      <MessageInteraction />
     </div>
   )
 }

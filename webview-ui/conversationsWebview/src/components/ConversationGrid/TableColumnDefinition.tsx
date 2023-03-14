@@ -11,6 +11,15 @@ import {
 import { Next24Regular, Delete24Regular } from '@fluentui/react-icons'
 import { IConversation } from '@appInterfaces/IConversation'
 import { useStyles } from './useStyles'
+import { vscode } from '../../utilities/vscode'
+
+const handleDeleteConversation = (conversation: IConversation) => {
+  console.log('conversationsWebview::handleDeleteConversation')
+  vscode.postMessage({
+    command: 'deleteConversation',
+    text: JSON.stringify(conversation),
+  })
+}
 
 export const columns: TableColumnDefinition<IConversation>[] = [
   createTableColumn<IConversation>({
@@ -22,7 +31,6 @@ export const columns: TableColumnDefinition<IConversation>[] = [
       return 'Persona'
     },
     renderCell: (item) => {
-      const overview = `${item.persona.configuration.service} (${item.persona.configuration.model})`
       return (
         <div id="personadiv">
           <TableCell tabIndex={0} role="gridcell">
@@ -30,7 +38,7 @@ export const columns: TableColumnDefinition<IConversation>[] = [
               media={
                 <Persona
                   presence={{ status: 'out-of-office' }}
-                  size="small"
+                  size="extra-small"
                   name={item.persona.roleName}
                   avatar={{ color: 'colorful' }}
                 />
@@ -73,6 +81,7 @@ export const columns: TableColumnDefinition<IConversation>[] = [
               className={mergeClasses(useStyles().horizontalPadding)}
               appearance="transparent"
               icon={<Delete24Regular />}
+              onClick={() => handleDeleteConversation(conversation)}
             />
           </Tooltip>
         </TableCell>

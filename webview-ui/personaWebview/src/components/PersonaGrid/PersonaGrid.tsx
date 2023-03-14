@@ -59,7 +59,7 @@ const PersonaGrid: FC<IData> = ({ personas }) => {
       <DataGrid
         size="extra-small"
         items={personas}
-        ref={(el) => console.log('__Ref', el)}
+        // ref={(el) => console.log('__Ref', el)}
         columns={columns}
         sortable
         selectionMode="single"

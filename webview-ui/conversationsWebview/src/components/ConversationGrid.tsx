@@ -21,7 +21,7 @@ const ConversationGrid: FC<IData> = ({ conversations }) => {
     <DataGrid
       size="extra-small"
       items={conversations}
-      ref={(el) => console.log('__Ref', el)}
+      // ref={(el) => console.log('__Ref', el)}
       columns={columns}
       sortable
       getRowId={(item) => item.itemId}

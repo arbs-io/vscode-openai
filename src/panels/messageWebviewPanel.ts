@@ -11,11 +11,12 @@ import { getUri } from '../vscode-utils/webviewServices/getUri'
 import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { IChatMessage } from '../interfaces/IChatMessage'
 import { IConversation } from '../interfaces/IConversation'
-import { completionComments } from '../openai-utils/api/completionComments'
+import { messageCompletion } from '../openai-utils/api/messageCompletion'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
+  private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
   private readonly _extensionUri: Uri
 
@@ -52,9 +53,12 @@ export class ChatMessageViewerPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri, conversation: IConversation) {
-    //Check that we have a valid object
-    const activeFilename = `Prompt Engineer (OpenAI)`
+    //Check we have the panel set
+    if (!this.currentPanel) return
 
+    this.currentPanel._conversation = conversation
+
+    const activeFilename = `Prompt Engineer (OpenAI)`
     if (ChatMessageViewerPanel.currentPanel) {
       ChatMessageViewerPanel.currentPanel._panel.dispose()
     }
@@ -75,7 +79,7 @@ export class ChatMessageViewerPanel {
     )
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
       command: 'loadConversationMessages',
-      text: JSON.stringify(conversation),
+      text: JSON.stringify(this.currentPanel._conversation),
     })
   }
 
@@ -167,7 +171,10 @@ export class ChatMessageViewerPanel {
       (message) => {
         switch (message.command) {
           case 'newChatThreadQuestion':
-            completionComments(message.text).then((result) => {
+            if (!this._conversation) return
+            messageCompletion(this._conversation).then((result) => {
+              console.log(`newChatThreadQuestion: ${result}`)
+
               // eslint-disable-next-line no-case-declarations
               const chatThread: IChatMessage = {
                 content: result,
@@ -175,6 +182,7 @@ export class ChatMessageViewerPanel {
                 timestamp: Date().toLocaleString(),
                 mine: false,
               }
+              console.log(`newChatThreadQuestion-author: ${chatThread.author}`)
 
               ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
                 command: 'newChatThreadAnswer',

@@ -1,11 +1,11 @@
 import { makeStyles, mergeClasses, tokens } from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState } from 'react'
-import { ChatHistoryItem } from './ChatHistoryItem'
-import { ChatInput } from './ChatInput'
+import { MessageHistory } from './MessageHistory'
+import { MessageInput } from './MessageInput'
 import { vscode } from '../utilities/vscode'
 import { IChatMessage } from '../interfaces/IChatMessage'
 
-const ChatInteraction: FC = () => {
+const MessageInteraction: FC = () => {
   const chatBottomRef = useRef<HTMLDivElement>(null)
   const [chatHistory, setChatHistory] = useState<IChatMessage[]>([])
   const [forceRefresh, setForceRefresh] = useState<boolean>()
@@ -30,6 +30,7 @@ const ChatInteraction: FC = () => {
         const chatMessages: IChatMessage[] = JSON.parse(message.text)
         setChatHistory(chatMessages)
         break
+
       case 'newChatThreadAnswer':
         // eslint-disable-next-line no-case-declarations
         const chatMessage: IChatMessage = JSON.parse(message.text)
@@ -43,12 +44,12 @@ const ChatInteraction: FC = () => {
     <div className={mergeClasses(styles.container)}>
       <div className={mergeClasses(styles.history)}>
         {chatHistory.map((m, idx) => (
-          <ChatHistoryItem key={idx} message={m} />
+          <MessageHistory key={idx} message={m} />
         ))}
         <div ref={chatBottomRef} />
       </div>
       <div className={mergeClasses(styles.input)}>
-        <ChatInput
+        <MessageInput
           onSubmit={(m) => {
             setChatHistory([...chatHistory, m])
           }}
@@ -57,7 +58,7 @@ const ChatInteraction: FC = () => {
     </div>
   )
 }
-export default ChatInteraction
+export default MessageInteraction
 
 const useStyles = makeStyles({
   container: {

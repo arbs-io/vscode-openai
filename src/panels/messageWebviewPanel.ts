@@ -152,11 +152,6 @@ export class ChatMessageViewerPanel {
   }
 
   /**
-   * Sets up an event listener to listen for messages passed from the webview context and
-   * executes code based on the message that is recieved.
-   *
-   * @param webview A reference to the extension webview
-   * @param context A reference to the extension context
    *
    * Event Model:
    *    | source  	| target  	 | command						      | model  	       |

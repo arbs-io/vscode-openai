@@ -82,16 +82,13 @@ export class ConversationsProvider implements WebviewViewProvider {
   }
 
   /**
-   * Sets up an event listener to listen for messages passed from the webview context and
-   * executes code based on the message that is recieved.
-   *
-   * @param webview A reference to the extension webview
-   * @param context A reference to the extension context
    *
    * Event Model:
    *    | source  	| target  	 | command						   | model  	        |
    *    |-----------|------------|-----------------------|------------------|
-   *    | extension	| webview    | loadConversations     | IPersonaOpenAI[] |
+   *    | extension	| webview    | loadConversations     | IConversation[]  |
+   *    | webview   | extension  | deleteConversation    | IConversation    |
+   *
    *
    */
   private _sendWebviewLoadConversations() {
@@ -120,19 +117,21 @@ export class ConversationsProvider implements WebviewViewProvider {
   }
 
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
-    // webview.onDidReceiveMessage((message) => {
-    //   switch (message.command) {
-    //     case 'newConversation':
-    //       //need to validate the persona uuid
-    //       console.log('personaWebviewProvider::newConversation')
-    //       // eslint-disable-next-line no-case-declarations
-    //       const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
-    //       this._createNewConversation(personaOpenAI, extensionUri)
-    //       return
-    //     default:
-    //       window.showErrorMessage(message.command)
-    //       return
-    //   }
-    // }, null)
+    webview.onDidReceiveMessage((message) => {
+      switch (message.command) {
+        case 'deleteConversation':
+          // eslint-disable-next-line no-case-declarations
+          const conversation: IConversation = JSON.parse(message.text)
+          LocalStorageService.instance.deleteKey(
+            `conversation-${conversation.conversationId}`
+          )
+          this._sendWebviewLoadConversations()
+          return
+
+        default:
+          window.showErrorMessage(message.command)
+          return
+      }
+    }, null)
   }
 }

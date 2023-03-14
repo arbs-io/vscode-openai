@@ -12,6 +12,7 @@ import { getNonce } from '../vscode-utils/webviewServices/getNonce'
 import { IChatMessage } from '../interfaces/IChatMessage'
 import { IConversation } from '../interfaces/IConversation'
 import { messageCompletion } from '../openai-utils/api/messageCompletion'
+import LocalStorageService from '../vscode-utils/storageServices/localStorageService'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
@@ -53,11 +54,6 @@ export class ChatMessageViewerPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri, conversation: IConversation) {
-    //Check we have the panel set
-    if (!this.currentPanel) return
-
-    this.currentPanel._conversation = conversation
-
     const activeFilename = `Prompt Engineer (OpenAI)`
     if (ChatMessageViewerPanel.currentPanel) {
       ChatMessageViewerPanel.currentPanel._panel.dispose()
@@ -73,13 +69,16 @@ export class ChatMessageViewerPanel {
         localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
       }
     )
+
     ChatMessageViewerPanel.currentPanel = new ChatMessageViewerPanel(
       panel,
       extensionUri
     )
+
+    ChatMessageViewerPanel.currentPanel._conversation = conversation
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
       command: 'loadConversationMessages',
-      text: JSON.stringify(this.currentPanel._conversation),
+      text: JSON.stringify(ChatMessageViewerPanel.currentPanel._conversation),
     })
   }
 
@@ -172,13 +171,16 @@ export class ChatMessageViewerPanel {
         switch (message.command) {
           case 'newChatThreadQuestion':
             if (!this._conversation) return
+
+            //Note: saveConversationMessages has added the new question
             messageCompletion(this._conversation).then((result) => {
               console.log(`newChatThreadQuestion: ${result}`)
 
-              // eslint-disable-next-line no-case-declarations
+              const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
+
               const chatThread: IChatMessage = {
                 content: result,
-                author: 'Prompt Engineer (OpenAI)',
+                author: author,
                 timestamp: Date().toLocaleString(),
                 mine: false,
               }
@@ -193,9 +195,21 @@ export class ChatMessageViewerPanel {
             return
 
           case 'saveConversationMessages':
+            if (!this._conversation) return
+
             // eslint-disable-next-line no-case-declarations
             const chatMessages: IChatMessage[] = JSON.parse(message.text)
-            console.log(`saveConversationMessages: ${chatMessages.length}`)
+            this._conversation.chatMessages = chatMessages
+
+            console.log(
+              `saveConversationMessages: ${this._conversation.chatMessages.length}`
+            )
+
+            LocalStorageService.instance.setValue<IConversation>(
+              `conversation-${this._conversation.conversationId}`,
+              this._conversation
+            )
+
             return
 
           default:

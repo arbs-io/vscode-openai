@@ -133,7 +133,9 @@ export class ChatPersonaProvider implements WebviewViewProvider {
       `conversation-${conversation.conversationId}`,
       conversation
     )
-
+    console.log(
+      `_createNewConversation::ChatMessageViewerPanel.render: ${conversation.conversationId}`
+    )
     ChatMessageViewerPanel.render(extensionUri, conversation)
   }
 }

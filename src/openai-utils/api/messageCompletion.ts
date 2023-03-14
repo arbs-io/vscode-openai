@@ -26,7 +26,6 @@ async function buildMessages(
       content: chatMessage.content,
     })
   })
-
   return chatCompletion
 }
 

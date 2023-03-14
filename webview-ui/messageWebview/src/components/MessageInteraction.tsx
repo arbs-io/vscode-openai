@@ -16,7 +16,7 @@ const MessageInteraction: FC = () => {
     chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' })
     if (chatHistory.length > 0) {
       vscode.postMessage({
-        command: 'saveChatThread',
+        command: 'saveConversationMessages',
         text: JSON.stringify(chatHistory),
       })
     }

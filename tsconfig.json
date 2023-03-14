@@ -6,7 +6,16 @@
     "outDir": "out",
     "sourceMap": true,
     "rootDir": "src",
-    "strict": true
+    "strict": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@appcontexts/*": ["contexts/*"],
+      "@appInterfaces/*": ["interfaces/*"],
+      "@appOpenaiUtils/*": ["openai-utils/*"],
+      "@appPanels/*": ["panels/*"],
+      "@appProviders/*": ["Providers/*"],
+      "@appVscodeUtils/*": ["vscode-utils/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/panels/data/SystemPersonas.ts"],
   "exclude": ["node_modules", ".vscode-test"]

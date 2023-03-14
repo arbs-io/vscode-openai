@@ -10,13 +10,13 @@ import {
   WebviewViewResolveContext,
   CancellationToken,
 } from 'vscode'
-import { LocalStorageService } from '../vscode-utils'
-import { getNonce } from '../vscode-utils/webviewServices/getNonce'
-import { getUri } from '../vscode-utils/webviewServices/getUri'
-import { ChatMessageViewerPanel } from './chatMessageViewerPanel'
-import { IConversation } from '../interfaces/IConversation'
-import { SystemPersonas } from './data/SystemPersonas'
-import { IPersonaOpenAI } from '../interfaces/IPersonaOpenAI'
+import LocalStorageService from '@appVscodeUtils/storageServices/localStorageService'
+import { getNonce } from '@appVscodeUtils/webviewServices/getNonce'
+import { getUri } from '@appVscodeUtils/webviewServices/getUri'
+import { ChatMessageViewerPanel } from '@appPanels/chatMessageViewerPanel'
+import { IConversation } from '@appInterfaces/IConversation'
+import { SystemPersonas } from '@appPanels/data/SystemPersonas'
+import { IPersonaOpenAI } from '@appInterfaces/IPersonaOpenAI'
 
 export class ChatPersonaProvider implements WebviewViewProvider {
   _view?: WebviewView

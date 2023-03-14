@@ -13,5 +13,6 @@ export const VSCODE_OPENAI_PROMPT = {
 
 export const VSCODE_OPENAI_SIDEBAR = {
   PERSONA_COMMAND_ID: 'vscode-openai.sidebar.chatPersona',
-  CONVERSATIONS_COMMAND_ID: 'vscode-openai.sidebar.chatConversations',
+  CHATCONVERSATIONS_COMMAND_ID: 'vscode-openai.sidebar.chatConversations',
+  CONVERSATIONS_COMMAND_ID: 'vscode-openai.sidebar.conversations',
 }

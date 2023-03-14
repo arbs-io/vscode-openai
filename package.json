@@ -47,9 +47,16 @@
         {
           "type": "webview",
           "id": "vscode-openai.sidebar.chatConversations",
+          "name": "ChatConversations",
+          "icon": "./assets/openai-sidebar.svg",
+          "contextualTitle": "OpenAI Chat Conversations"
+        },
+        {
+          "type": "tree",
+          "id": "vscode-openai.sidebar.conversations",
           "name": "Conversations",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "OpenAI Conversations"
+          "contextualTitle": "Conversations"
         }
       ]
     },

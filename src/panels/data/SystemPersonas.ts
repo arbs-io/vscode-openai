@@ -9,7 +9,7 @@ export const SystemPersonas: IPersonaOpenAI[] = [
       model: 'gpt-3.5-turbo',
     },
     prompt: {
-      system: `VSCode Chat, a large language model trained by OpenAI. Answer as concisely as possible. Knowledge cutoff: ${new Date().toLocaleString()} Current date: ${new Date().toLocaleString()}`,
+      system: `VSCode Assistant, a large language model trained by OpenAI. Answer as concisely as possible.`,
     },
   },
   {
@@ -24,18 +24,18 @@ export const SystemPersonas: IPersonaOpenAI[] = [
         'Software Engineer with years of experience. You have extensive knowledge of software design, development lifecycle, DevOps practices, and system architecture.',
     },
   },
-  {
-    roleId: '073da89c-4f4d-46db-8db3-c04e9e24d273',
-    roleName: 'Prompt Engineer',
-    configuration: {
-      service: 'OpenAI',
-      model: 'gpt-3.5-turbo',
-    },
-    prompt: {
-      system:
-        'Prompt Engineering with years of experience in Generative Pre-trained Transformer processes. You specialise in prompt engineering and efficiency in OpenAI usage.',
-    },
-  },
+  // {
+  //   roleId: '073da89c-4f4d-46db-8db3-c04e9e24d273',
+  //   roleName: 'Prompt Engineer',
+  //   configuration: {
+  //     service: 'OpenAI',
+  //     model: 'gpt-3.5-turbo',
+  //   },
+  //   prompt: {
+  //     system:
+  //       'Prompt Engineering with years of experience in Generative Pre-trained Transformer processes. You specialise in prompt engineering and efficiency in OpenAI usage.',
+  //   },
+  // },
   {
     roleId: '33cc8ce6-1e64-49e7-884e-19bc3542b11b',
     roleName: 'Data Engineer',

@@ -15,7 +15,7 @@ async function buildMessages(
 
   chatCompletion.push({
     role: ChatCompletionRequestMessageRoleEnum.System,
-    content: conversation.persona.prompt.system,
+    content: `You are a ${conversation.persona.prompt.system}`,
   })
 
   conversation.chatMessages.forEach((chatMessage) => {

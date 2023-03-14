@@ -181,7 +181,7 @@ export class ChatMessageViewerPanel {
               const chatThread: IChatMessage = {
                 content: result,
                 author: author,
-                timestamp: Date().toLocaleString(),
+                timestamp: new Date().toLocaleString(),
                 mine: false,
               }
               console.log(`newChatThreadQuestion-author: ${chatThread.author}`)

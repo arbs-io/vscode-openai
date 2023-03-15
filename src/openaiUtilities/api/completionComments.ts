@@ -7,7 +7,7 @@ import {
 import {
   ExtensionStatusBarItem,
   SecretStorageService,
-} from '../../vscode-utils'
+} from '../../vscodeUtilities'
 
 export async function completionComments(prompt: string): Promise<string> {
   try {

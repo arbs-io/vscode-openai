@@ -10,9 +10,9 @@ import {
   WebviewViewResolveContext,
   CancellationToken,
 } from 'vscode'
-import LocalStorageService from '../vscode-utils/storageServices/localStorageService'
-import { getNonce } from '../vscode-utils/webviewServices/getNonce'
-import { getUri } from '../vscode-utils/webviewServices/getUri'
+import LocalStorageService from '../vscodeUtilities/storageServices/localStorageService'
+import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
+import { getUri } from '../vscodeUtilities/webviewServices/getUri'
 import { ChatMessageViewerPanel } from '../panels/messageWebviewPanel'
 import { IConversation } from '../interfaces/IConversation'
 import { SystemPersonas } from '../panels/data/SystemPersonas'

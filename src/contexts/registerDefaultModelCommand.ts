@@ -1,5 +1,5 @@
 import { commands, ExtensionContext, Uri, window, workspace } from 'vscode'
-import { listModels } from '../openai-utils'
+import { listModels } from '../openaiUtilities'
 import { VSCODE_OPENAI_REGISTER } from './constants'
 
 export function registerDefaultModelCommand(context: ExtensionContext) {

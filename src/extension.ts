@@ -1,10 +1,10 @@
 import { commands, ExtensionContext } from 'vscode'
-import { validateApiKey } from './openai-utils'
+import { validateApiKey } from './openaiUtilities'
 import {
   ExtensionStatusBarItem,
   LocalStorageService,
   SecretStorageService,
-} from './vscode-utils'
+} from './vscodeUtilities'
 import { registerCommands } from './contexts/registerCommands'
 
 export function activate(context: ExtensionContext) {

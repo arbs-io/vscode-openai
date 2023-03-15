@@ -10,9 +10,9 @@ import {
   CancellationToken,
 } from 'vscode'
 import { IConversation } from '../interfaces/IConversation'
-import { LocalStorageService } from '../vscode-utils'
-import { getNonce } from '../vscode-utils/webviewServices/getNonce'
-import { getUri } from '../vscode-utils/webviewServices/getUri'
+import { LocalStorageService } from '../vscodeUtilities'
+import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
+import { getUri } from '../vscodeUtilities/webviewServices/getUri'
 
 export class ConversationsProvider implements WebviewViewProvider {
   _view?: WebviewView

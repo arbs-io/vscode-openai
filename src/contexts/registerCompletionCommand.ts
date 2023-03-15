@@ -8,8 +8,8 @@ import {
   OptimizePromptFactory,
   PatternPromptFactory,
   completionComments,
-} from '../openai-utils'
-import { compareFileToClipboard } from '../vscode-utils'
+} from '../openaiUtilities'
+import { compareFileToClipboard } from '../vscodeUtilities'
 import { VSCODE_OPENAI_PROMPT } from './constants'
 
 // Define a command registry that uses the factory pattern

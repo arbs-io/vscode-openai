@@ -3,7 +3,7 @@ import { Configuration, OpenAIApi } from 'openai'
 import {
   ExtensionStatusBarItem,
   SecretStorageService,
-} from '../../vscode-utils'
+} from '../../vscodeUtilities'
 
 export async function validateApiKey() {
   const apiKey = await SecretStorageService.instance.getAuthApiKey()

@@ -7,12 +7,12 @@ import {
   ViewColumn,
   ColorThemeKind,
 } from 'vscode'
-import { getUri } from '../vscode-utils/webviewServices/getUri'
-import { getNonce } from '../vscode-utils/webviewServices/getNonce'
+import { getUri } from '../vscodeUtilities/webviewServices/getUri'
+import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
 import { IChatMessage } from '../interfaces/IChatMessage'
 import { IConversation } from '../interfaces/IConversation'
-import { messageCompletion } from '../openai-utils/api/messageCompletion'
-import LocalStorageService from '../vscode-utils/storageServices/localStorageService'
+import { messageCompletion } from '../openaiUtilities/api/messageCompletion'
+import LocalStorageService from '../vscodeUtilities/storageServices/localStorageService'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined

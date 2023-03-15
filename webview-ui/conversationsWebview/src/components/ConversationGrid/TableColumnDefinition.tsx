@@ -8,7 +8,7 @@ import {
   Tooltip,
   mergeClasses,
 } from '@fluentui/react-components'
-import { Next24Regular, Delete24Regular } from '@fluentui/react-icons'
+import { Open24Regular, Delete24Regular } from '@fluentui/react-icons'
 import { IConversation } from '@appInterfaces/IConversation'
 import { useStyles } from './useStyles'
 import { vscode } from '../../utilities/vscode'
@@ -17,6 +17,13 @@ const handleDeleteConversation = (conversation: IConversation) => {
   console.log('conversationsWebview::handleDeleteConversation')
   vscode.postMessage({
     command: 'deleteConversation',
+    text: JSON.stringify(conversation),
+  })
+}
+const handleOpenConversation = (conversation: IConversation) => {
+  console.log('conversationsWebview::handleOpenConversation')
+  vscode.postMessage({
+    command: 'openConversation',
     text: JSON.stringify(conversation),
   })
 }
@@ -68,7 +75,8 @@ export const columns: TableColumnDefinition<IConversation>[] = [
               shape="rounded"
               className={mergeClasses(useStyles().horizontalPadding)}
               appearance="transparent"
-              icon={<Next24Regular />}
+              icon={<Open24Regular />}
+              onClick={() => handleOpenConversation(conversation)}
             />
           </Tooltip>
           <Tooltip

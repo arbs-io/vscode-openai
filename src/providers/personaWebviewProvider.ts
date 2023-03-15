@@ -10,7 +10,7 @@ import {
   WebviewViewResolveContext,
   CancellationToken,
 } from 'vscode'
-import LocalStorageService from '../vscodeUtilities/storageServices/localStorageService'
+import GlobalStorageService from '../vscodeUtilities/storageServices/globalStateService'
 import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
 import { getUri } from '../vscodeUtilities/webviewServices/getUri'
 import { ChatMessageViewerPanel } from '../panels/messageWebviewPanel'
@@ -113,6 +113,7 @@ export class ChatPersonaProvider implements WebviewViewProvider {
           const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
           this._createNewConversation(personaOpenAI, extensionUri)
           return
+
         default:
           window.showErrorMessage(message.command)
           return
@@ -129,7 +130,7 @@ export class ChatPersonaProvider implements WebviewViewProvider {
       chatMessages: [],
     }
 
-    LocalStorageService.instance.setValue<IConversation>(
+    GlobalStorageService.instance.setValue<IConversation>(
       `conversation-${conversation.conversationId}`,
       conversation
     )

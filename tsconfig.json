@@ -7,14 +7,9 @@
     "sourceMap": true,
     "rootDir": "src",
     "strict": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@appcontexts/*": ["contexts/*"],
-      "@appInterfaces/*": ["interfaces/*"],
-      "@appOpenaiUtils/*": ["openai-utils/*"],
-      "@appPanels/*": ["panels/*"],
-      "@appProviders/*": ["Providers/*"],
-      "@appVscodeUtils/*": ["vscode-utils/*"]
+      "@app/*": ["./src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/panels/data/SystemPersonas.ts"],

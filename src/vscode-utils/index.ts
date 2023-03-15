@@ -5,3 +5,5 @@ export { insertActiveTextEditorValue } from './editorServices/insertActiveTextEd
 
 export { default as LocalStorageService } from './storageServices/localStorageService'
 export { default as SecretStorageService } from './storageServices/secretStorageService'
+
+export { default as ExtensionStatusBarItem } from './statusBarItem/ExtensionStatusBarItem'

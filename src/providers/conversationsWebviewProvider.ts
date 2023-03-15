@@ -10,9 +10,10 @@ import {
   CancellationToken,
 } from 'vscode'
 import { IConversation } from '../interfaces/IConversation'
-import { LocalStorageService } from '../vscode-utils'
-import { getNonce } from '../vscode-utils/webviewServices/getNonce'
-import { getUri } from '../vscode-utils/webviewServices/getUri'
+import { GlobalStorageService } from '../vscodeUtilities'
+import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
+import { getUri } from '../vscodeUtilities/webviewServices/getUri'
+import { ChatMessageViewerPanel } from '../panels/messageWebviewPanel'
 
 export class ConversationsProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -92,14 +93,14 @@ export class ConversationsProvider implements WebviewViewProvider {
    *
    */
   private _sendWebviewLoadConversations() {
-    const keys = LocalStorageService.instance.keys()
+    const keys = GlobalStorageService.instance.keys()
     const conversations: IConversation[] = []
 
     keys.forEach((key) => {
       console.log(key)
       if (key.startsWith('conversation-')) {
         const conversation =
-          LocalStorageService.instance.getValue<IConversation>(key)
+          GlobalStorageService.instance.getValue<IConversation>(key)
         if (conversation !== undefined) {
           conversations.push(conversation)
         }
@@ -119,11 +120,17 @@ export class ConversationsProvider implements WebviewViewProvider {
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
+        case 'openConversation':
+          // eslint-disable-next-line no-case-declarations
+          const openConversation: IConversation = JSON.parse(message.text)
+          ChatMessageViewerPanel.render(extensionUri, openConversation)
+          return
+
         case 'deleteConversation':
           // eslint-disable-next-line no-case-declarations
-          const conversation: IConversation = JSON.parse(message.text)
-          LocalStorageService.instance.deleteKey(
-            `conversation-${conversation.conversationId}`
+          const deleteConversation: IConversation = JSON.parse(message.text)
+          GlobalStorageService.instance.deleteKey(
+            `conversation-${deleteConversation.conversationId}`
           )
           this._sendWebviewLoadConversations()
           return

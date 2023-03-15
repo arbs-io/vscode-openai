@@ -7,12 +7,12 @@ import {
   ViewColumn,
   ColorThemeKind,
 } from 'vscode'
-import { getUri } from '../vscode-utils/webviewServices/getUri'
-import { getNonce } from '../vscode-utils/webviewServices/getNonce'
+import { getUri } from '../vscodeUtilities/webviewServices/getUri'
+import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
 import { IChatMessage } from '../interfaces/IChatMessage'
 import { IConversation } from '../interfaces/IConversation'
-import { messageCompletion } from '../openai-utils/api/messageCompletion'
-import LocalStorageService from '../vscode-utils/storageServices/localStorageService'
+import { messageCompletion } from '../openaiUtilities/api/messageCompletion'
+import GlobalStorageService from '../vscodeUtilities/storageServices/globalStateService'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
@@ -78,7 +78,7 @@ export class ChatMessageViewerPanel {
     ChatMessageViewerPanel.currentPanel._conversation = conversation
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
       command: 'loadConversationMessages',
-      text: JSON.stringify(ChatMessageViewerPanel.currentPanel._conversation),
+      text: JSON.stringify(conversation.chatMessages),
     })
   }
 
@@ -195,21 +195,24 @@ export class ChatMessageViewerPanel {
             return
 
           case 'saveConversationMessages':
-            if (!this._conversation) return
+            try {
+              if (!this._conversation) return
 
-            // eslint-disable-next-line no-case-declarations
-            const chatMessages: IChatMessage[] = JSON.parse(message.text)
-            this._conversation.chatMessages = chatMessages
+              // eslint-disable-next-line no-case-declarations
+              const chatMessages: IChatMessage[] = JSON.parse(message.text)
+              this._conversation.chatMessages = chatMessages
 
-            console.log(
-              `saveConversationMessages: ${this._conversation.chatMessages.length}`
-            )
+              console.log(
+                `saveConversationMessages: ${this._conversation.chatMessages.length}`
+              )
 
-            LocalStorageService.instance.setValue<IConversation>(
-              `conversation-${this._conversation.conversationId}`,
-              this._conversation
-            )
-
+              GlobalStorageService.instance.setValue<IConversation>(
+                `conversation-${this._conversation.conversationId}`,
+                this._conversation
+              )
+            } catch (error) {
+              console.log(error)
+            }
             return
 
           default:

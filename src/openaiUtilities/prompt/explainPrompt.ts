@@ -2,7 +2,7 @@ import { PromptFactory } from './promptFactory'
 import {
   getActiveTextEditorValue,
   getActiveTextLanguageId,
-} from '../../vscode-utils'
+} from '../../vscodeUtilities'
 
 async function explainPrompt(): Promise<string> {
   const language = getActiveTextLanguageId()

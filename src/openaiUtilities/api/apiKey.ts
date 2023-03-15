@@ -1,15 +1,21 @@
 import { commands, window, workspace } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
-import { SecretStorageService } from '../../vscode-utils'
+import {
+  ExtensionStatusBarItem,
+  SecretStorageService,
+} from '../../vscodeUtilities'
 
 export async function validateApiKey() {
   const apiKey = await SecretStorageService.instance.getAuthApiKey()
   if (apiKey !== undefined && apiKey !== '<invalid-key>') {
-    window.setStatusBarMessage('$(loading~spin) vscode-openai')
+    ExtensionStatusBarItem.instance.setText(
+      'loading~spin',
+      'openai: establishing link'
+    )
     verifyApiKey(apiKey)
   } else {
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
-    window.setStatusBarMessage(`$(lock) vscode-openai`)
+    ExtensionStatusBarItem.instance.setText('lock', 'openai: invalid api-key')
   }
 }
 
@@ -31,7 +37,7 @@ export async function verifyApiKey(apiKey: string): Promise<boolean> {
         'vscode-openai.context.apikey',
         true
       )
-      window.setStatusBarMessage(`$(key) vscode-openai`)
+      ExtensionStatusBarItem.instance.setText('key', 'openai: ready')
       return true
     }
   } catch (error: any) {
@@ -39,6 +45,6 @@ export async function verifyApiKey(apiKey: string): Promise<boolean> {
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
   }
-  window.setStatusBarMessage(`$(lock) vscode-openai`)
+  ExtensionStatusBarItem.instance.setText('lock', 'openai: invalid api-key')
   return false
 }

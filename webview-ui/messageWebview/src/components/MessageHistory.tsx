@@ -20,6 +20,7 @@ export const MessageHistory: FC<IData> = ({ message }) => {
       : tokens.colorPaletteGreenForeground3,
     borderRadius: 10,
     padding: '0.5rem',
+    margin: '0.5rem',
     maxWidth: '75%',
   }
 

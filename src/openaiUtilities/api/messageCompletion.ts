@@ -1,12 +1,15 @@
-import { window, workspace } from 'vscode'
+import { workspace } from 'vscode'
 import {
   ChatCompletionRequestMessage,
   ChatCompletionRequestMessageRoleEnum,
   Configuration,
   OpenAIApi,
 } from 'openai'
-import { SecretStorageService } from '../../vscode-utils'
-import { IConversation } from '../../interfaces/IConversation'
+import {
+  ExtensionStatusBarItem,
+  SecretStorageService,
+} from '../../vscodeUtilities'
+import { IConversation } from '@app/interfaces/IConversation'
 
 async function buildMessages(
   conversation: IConversation
@@ -33,7 +36,7 @@ export async function messageCompletion(
   conversation: IConversation
 ): Promise<string> {
   try {
-    window.setStatusBarMessage(`$(sync~spin) vscode-openai`)
+    ExtensionStatusBarItem.instance.setText('sync~spin', 'openai: send-request')
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
 
     const ws = workspace.getConfiguration('vscode-openai')
@@ -61,7 +64,7 @@ export async function messageCompletion(
     const answer = completion.data.choices[0].message?.content
     console.log(answer)
 
-    window.setStatusBarMessage(`$(key) vscode-openai`)
+    ExtensionStatusBarItem.instance.setText('key', 'openai: ready')
     return answer ? answer : ''
   } catch (error: any) {
     if (error.response) {

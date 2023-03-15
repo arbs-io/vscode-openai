@@ -2,7 +2,7 @@ import { PromptFactory } from './promptFactory'
 import {
   getActiveTextEditorValue,
   getActiveTextLanguageId,
-} from '../../vscode-utils'
+} from '../../vscodeUtilities'
 
 export async function optimizePrompt(): Promise<string> {
   const language = getActiveTextLanguageId()

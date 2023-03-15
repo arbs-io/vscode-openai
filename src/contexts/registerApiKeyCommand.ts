@@ -1,5 +1,5 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
-import { verifyApiKey } from '../openai-utils'
+import { verifyApiKey } from '../openaiUtilities'
 import { VSCODE_OPENAI_REGISTER } from './constants'
 
 const OPENAI_APIKEY_LENGTH = 51

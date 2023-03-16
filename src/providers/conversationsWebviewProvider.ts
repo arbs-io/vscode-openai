@@ -8,6 +8,7 @@ import {
   TextDocument,
   WebviewViewResolveContext,
   CancellationToken,
+  ColorTheme,
 } from 'vscode'
 import { IConversation } from '../interfaces/IConversation'
 import { GlobalStorageService } from '../vscodeUtilities'
@@ -19,7 +20,11 @@ export class ConversationsProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 
-  constructor(private readonly _extensionUri: Uri) {}
+  constructor(private readonly _extensionUri: Uri) {
+    window.onDidChangeActiveColorTheme((theme: ColorTheme) => {
+      this._refreshWebview()
+    })
+  }
 
   public resolveWebviewView(
     webviewView: WebviewView,
@@ -33,17 +38,22 @@ export class ConversationsProvider implements WebviewViewProvider {
       localResourceRoots: [this._extensionUri],
     }
 
-    webviewView.webview.html = this._getHtmlForWebview(
-      webviewView.webview,
+    this._refreshWebview()
+  }
+
+  private _refreshWebview() {
+    if (!this._view) return
+    this._view.webview.html = this._getHtmlForWebview(
+      this._view.webview,
       this._extensionUri
     )
 
-    this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
-    this._sendWebviewLoadConversations()
+    this._setWebviewMessageListener(this._view.webview, this._extensionUri)
+    this._sendWebviewLoadData()
 
     this._view.onDidChangeVisibility((e) => {
       if (this._view?.visible) {
-        this._sendWebviewLoadConversations()
+        this._sendWebviewLoadData()
       }
     }, null)
   }
@@ -92,7 +102,7 @@ export class ConversationsProvider implements WebviewViewProvider {
    *
    *
    */
-  private _sendWebviewLoadConversations() {
+  private _sendWebviewLoadData() {
     const keys = GlobalStorageService.instance.keys()
     const conversations: IConversation[] = []
 
@@ -108,7 +118,7 @@ export class ConversationsProvider implements WebviewViewProvider {
     })
 
     console.log(
-      `conversationsWebviewProvider::_sendWebviewLoadConversations ${conversations.length}`
+      `conversationsWebviewProvider::_sendWebviewLoadData ${conversations.length}`
     )
 
     this._view?.webview.postMessage({
@@ -132,7 +142,7 @@ export class ConversationsProvider implements WebviewViewProvider {
           GlobalStorageService.instance.deleteKey(
             `conversation-${deleteConversation.conversationId}`
           )
-          this._sendWebviewLoadConversations()
+          this._sendWebviewLoadData()
           return
 
         default:

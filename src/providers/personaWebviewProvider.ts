@@ -9,6 +9,7 @@ import {
   TextDocument,
   WebviewViewResolveContext,
   CancellationToken,
+  ColorTheme,
 } from 'vscode'
 import GlobalStorageService from '../vscodeUtilities/storageServices/globalStateService'
 import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
@@ -22,7 +23,11 @@ export class ChatPersonaProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 
-  constructor(private readonly _extensionUri: Uri) {}
+  constructor(private readonly _extensionUri: Uri) {
+    window.onDidChangeActiveColorTheme((theme: ColorTheme) => {
+      this._refreshWebview()
+    })
+  }
 
   public resolveWebviewView(
     webviewView: WebviewView,
@@ -36,17 +41,22 @@ export class ChatPersonaProvider implements WebviewViewProvider {
       localResourceRoots: [this._extensionUri],
     }
 
-    webviewView.webview.html = this._getHtmlForWebview(
-      webviewView.webview,
+    this._refreshWebview()
+  }
+
+  private _refreshWebview() {
+    if (!this._view) return
+    this._view.webview.html = this._getHtmlForWebview(
+      this._view.webview,
       this._extensionUri
     )
 
-    this._setWebviewMessageListener(webviewView.webview, this._extensionUri)
-    this._sendWebviewLoadPersonas()
+    this._setWebviewMessageListener(this._view.webview, this._extensionUri)
+    this._sendWebviewLoadData()
 
     this._view.onDidChangeVisibility((e) => {
       if (this._view?.visible) {
-        this._sendWebviewLoadPersonas()
+        this._sendWebviewLoadData()
       }
     }, null)
   }
@@ -94,7 +104,7 @@ export class ChatPersonaProvider implements WebviewViewProvider {
    *    | webview		| extension  | newConversation			 | IPersonaOpenAI   |
    *
    */
-  private _sendWebviewLoadPersonas() {
+  private _sendWebviewLoadData() {
     console.log(`ChatPersonaProvider::SystemPersonas ${SystemPersonas.length}`)
     this._view?.webview.postMessage({
       command: 'loadPersonas',

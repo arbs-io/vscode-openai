@@ -7,6 +7,7 @@ import {
   Button,
   Tooltip,
   mergeClasses,
+  Avatar,
 } from '@fluentui/react-components'
 import { Open24Regular, Delete24Regular } from '@fluentui/react-icons'
 import { IConversation } from '@appInterfaces/IConversation'
@@ -35,7 +36,7 @@ export const columns: TableColumnDefinition<IConversation>[] = [
       return a.persona.roleName.localeCompare(b.persona.roleName)
     },
     renderHeaderCell: () => {
-      return 'Persona'
+      return ''
     },
     renderCell: (item) => {
       return (
@@ -43,11 +44,10 @@ export const columns: TableColumnDefinition<IConversation>[] = [
           <TableCell tabIndex={0} role="gridcell">
             <TableCellLayout
               media={
-                <Persona
-                  presence={{ status: 'out-of-office' }}
-                  size="extra-small"
+                <Avatar
+                  badge={{ status: 'offline' }}
                   name={item.persona.roleName}
-                  avatar={{ color: 'colorful' }}
+                  color="colorful"
                 />
               }
             />

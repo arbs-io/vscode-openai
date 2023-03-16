@@ -28,9 +28,9 @@ const ConversationGrid: FC<IData> = ({ conversations }) => {
       resizableColumns
       columnSizingOptions={{
         persona: {
-          minWidth: 175,
-          defaultWidth: 175,
-          idealWidth: 175,
+          minWidth: 30,
+          defaultWidth: 30,
+          idealWidth: 30,
         },
       }}
     >

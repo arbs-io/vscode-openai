@@ -54,14 +54,13 @@ export class ChatMessageViewerPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri, conversation: IConversation) {
-    const activeFilename = `Prompt Engineer (OpenAI)`
     if (ChatMessageViewerPanel.currentPanel) {
       ChatMessageViewerPanel.currentPanel._panel.dispose()
     }
     // If a webview panel does not already exist create and show a new one
     const panel = window.createWebviewPanel(
       'showPreviewClaimset',
-      activeFilename,
+      conversation.persona.roleName,
       ViewColumn.One,
       {
         enableScripts: true,

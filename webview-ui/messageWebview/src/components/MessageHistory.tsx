@@ -16,12 +16,13 @@ export const MessageHistory: FC<IData> = ({ message }) => {
       ? tokens.colorNeutralBackground4
       : tokens.colorPaletteGreenBackground1,
     color: message.mine
-      ? tokens.colorNeutralForeground4
+      ? tokens.colorNeutralForeground3Hover
       : tokens.colorPaletteGreenForeground3,
-    borderRadius: 10,
-    padding: '0.5rem',
-    margin: '0.5rem',
-    maxWidth: '75%',
+    borderRadius: tokens.borderRadiusXLarge,
+    margin: '1rem',
+    padding: '1rem',
+    maxWidth: '70%',
+    boxShadow: tokens.shadow16,
   }
 
   const content = message.content.trim().replace(/\n/g, '<br />')

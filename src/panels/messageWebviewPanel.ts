@@ -6,6 +6,7 @@ import {
   Uri,
   ViewColumn,
   ColorThemeKind,
+  ColorTheme,
 } from 'vscode'
 import { getUri } from '../vscodeUtilities/webviewServices/getUri'
 import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
@@ -37,14 +38,13 @@ export class ChatMessageViewerPanel {
     // the panel or when the panel is closed programmatically)
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables)
 
-    // Set the HTML content for the webview panel
-    this._panel.webview.html = this._getWebviewContent(
-      this._panel.webview,
-      extensionUri
-    )
-
     // Set an event listener to listen for messages passed from the webview context
     this._setWebviewMessageListener(this._panel.webview)
+
+    //Check if vscode theme has changed
+    window.onDidChangeActiveColorTheme((theme: ColorTheme) => {
+      this._render()
+    })
   }
 
   /**
@@ -75,9 +75,21 @@ export class ChatMessageViewerPanel {
     )
 
     ChatMessageViewerPanel.currentPanel._conversation = conversation
+    ChatMessageViewerPanel.currentPanel._render()
+  }
+
+  private _render() {
+    if (!this._conversation) return
+
+    // Set the HTML content for the webview panel
+    this._panel.webview.html = this._getWebviewContent(
+      this._panel.webview,
+      this._extensionUri
+    )
+
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
       command: 'loadConversationMessages',
-      text: JSON.stringify(conversation.chatMessages),
+      text: JSON.stringify(this._conversation.chatMessages),
     })
   }
 

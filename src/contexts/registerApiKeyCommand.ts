@@ -23,7 +23,8 @@ function _registerApiKeyCommand(context: ExtensionContext) {
 
 async function _inputApiKeyOpenAI() {
   const apiKey = await window.showInputBox({
-    placeHolder: 'For example: sk-Uzm...MgS3',
+    title: "OpenAI Api-Key",
+    placeHolder: 'For example: sk-Uzm...MgS3',    
     validateInput: (text) => {
       return text.length === OPENAI_APIKEY_LENGTH &&
         text.startsWith(OPENAI_APIKEY_STARTSWITH)

@@ -21,6 +21,7 @@ export default class LocalStorageService {
 
   public setValue<T>(key: string, value: T) {
     this.storage.update(key, value)
+
   }
 
   public deleteKey(key: string) {

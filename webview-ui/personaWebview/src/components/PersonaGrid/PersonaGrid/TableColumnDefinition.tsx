@@ -39,19 +39,19 @@ export const columns: TableColumnDefinition<IPersonaOpenAI>[] = [
     },
   }),
 
-  createTableColumn<IPersonaOpenAI>({
-    columnId: 'prompt',
-    renderHeaderCell: () => {
-      return 'Prompt'
-    },
-    renderCell: (item) => {
-      return (
-        <TableCell tabIndex={0} role="gridcell">
-          <TableCellLayout
-            description={`${item.prompt.system.substring(0, 100)}...`}
-          />
-        </TableCell>
-      )
-    },
-  }),
+  // createTableColumn<IPersonaOpenAI>({
+  //   columnId: 'prompt',
+  //   renderHeaderCell: () => {
+  //     return 'Prompt'
+  //   },
+  //   renderCell: (item) => {
+  //     return (
+  //       <TableCell tabIndex={0} role="gridcell">
+  //         <TableCellLayout
+  //           description={`${item.prompt.system.substring(0, 100)}...`}
+  //         />
+  //       </TableCell>
+  //     )
+  //   },
+  // }),
 ]

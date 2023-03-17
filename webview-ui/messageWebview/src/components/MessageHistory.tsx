@@ -17,13 +17,13 @@ export const MessageHistory: FC<IData> = ({ message }) => {
       ? tokens.colorNeutralBackground4
       : tokens.colorPaletteGreenBackground1,
     color: message.mine
-      ? tokens.colorNeutralForeground4
+      ? tokens.colorNeutralForeground3Hover
       : tokens.colorPaletteGreenForeground3,
-    borderRadius: 10,
-    padding: '0.5rem',
+    borderRadius: tokens.borderRadiusXLarge,
     margin: '1rem',
-    maxWidth: '75%',
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12)",
+    padding: '1rem',
+    maxWidth: '70%',
+    boxShadow: tokens.shadow16,
   }
 // boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12)",
   const content = message.content.trim().replace(/\n/g, '<br />')

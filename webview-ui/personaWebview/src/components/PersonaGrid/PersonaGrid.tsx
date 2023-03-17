@@ -65,18 +65,18 @@ const PersonaGrid: FC<IData> = ({ personas }) => {
         selectionMode="single"
         getRowId={(item) => item.roleId}
         onSelectionChange={(e, data) => handleChangePersona(data.selectedItems)}
-        resizableColumns
+        // resizableColumns
         columnSizingOptions={{
           persona: {
-            minWidth: 180,
-            defaultWidth: 180,
-            idealWidth: 180,
+            minWidth: 150,
+            defaultWidth: 150,
+            idealWidth: 150,
           },
-          summary: {
-            defaultWidth: 180,
-            minWidth: 120,
-            idealWidth: 180,
-          },
+          // summary: {
+          //   defaultWidth: 180,
+          //   minWidth: 120,
+          //   idealWidth: 180,
+          // },
         }}
       >
         <DataGridHeader>

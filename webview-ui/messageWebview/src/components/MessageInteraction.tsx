@@ -50,7 +50,7 @@ const MessageInteraction: FC = () => {
         ))}
         <div ref={chatBottomRef} />
       </div>
-      <div className={mergeClasses(styles.input)}>
+      <div hidden={!isNew} className={mergeClasses(styles.input)}>
         <MessageInput
           disableInput={!isNew}
           onSubmit={(m) => {
@@ -72,11 +72,11 @@ const useStyles = makeStyles({
   history: {
     display: 'flex',
     flexDirection: 'column',
-    rowGap: '20px',
+    rowGap: '5px',
     paddingLeft: '1rem',
     paddingRight: '1rem',
     paddingBottom: '3rem',
-    backgroundColor: tokens.colorNeutralBackground1,
+    // backgroundColor: tokens.colorNeutralBackground1,
   },
   input: {
     position: 'fixed',
@@ -87,6 +87,6 @@ const useStyles = makeStyles({
     paddingLeft: '1rem',
     paddingRight: '1rem',
     paddingTop: '1rem',
-    backgroundColor: tokens.colorNeutralBackground1,
+    // backgroundColor: tokens.colorNeutralBackground1,
   },
 })

@@ -36,7 +36,7 @@ export async function messageCompletion(
   conversation: IConversation
 ): Promise<string> {
   try {
-    ExtensionStatusBarItem.instance.setText('sync~spin', 'openai: send-request')
+    ExtensionStatusBarItem.instance.showStatusBarInformation('sync~spin', 'openai: send-request')
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
 
     const ws = workspace.getConfiguration('vscode-openai')
@@ -64,7 +64,7 @@ export async function messageCompletion(
     const answer = completion.data.choices[0].message?.content
     console.log(answer)
 
-    ExtensionStatusBarItem.instance.setText('key', 'openai: ready')
+    ExtensionStatusBarItem.instance.showStatusBarInformation('key', 'openai: ready')
     return answer ? answer : ''
   } catch (error: any) {
     if (error.response) {

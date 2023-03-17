@@ -10,12 +10,15 @@ export async function validateApiKey() {
   if (apiKey !== undefined && apiKey !== '<invalid-key>') {
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'loading~spin',
-      'openai: establishing link'
+      'OpenAI: Connecting'
     )
     verifyApiKey(apiKey)
   } else {
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
-    ExtensionStatusBarItem.instance.showStatusBarError('lock', 'openai: invalid api-key')
+    ExtensionStatusBarItem.instance.showStatusBarError(
+      'lock',
+      'OpenAI: Invalid Api-Key'
+    )
   }
 }
 
@@ -37,7 +40,10 @@ export async function verifyApiKey(apiKey: string): Promise<boolean> {
         'vscode-openai.context.apikey',
         true
       )
-      ExtensionStatusBarItem.instance.showStatusBarInformation('key', 'openai: ready')
+      ExtensionStatusBarItem.instance.showStatusBarInformation(
+        'unlock',
+        'OpenAI'
+      )
       return true
     }
   } catch (error: any) {
@@ -45,6 +51,9 @@ export async function verifyApiKey(apiKey: string): Promise<boolean> {
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
   }
-  ExtensionStatusBarItem.instance.showStatusBarError('lock', 'openai: invalid api-key')
+  ExtensionStatusBarItem.instance.showStatusBarError(
+    'lock',
+    'OpenAI: Invalid Api-Key'
+  )
   return false
 }

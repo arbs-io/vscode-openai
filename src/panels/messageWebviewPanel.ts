@@ -14,6 +14,7 @@ import { IChatMessage } from '../interfaces/IChatMessage'
 import { IConversation } from '../interfaces/IConversation'
 import { messageCompletion } from '../openaiUtilities/api/messageCompletion'
 import GlobalStorageService from '../vscodeUtilities/storageServices/globalStateService'
+import { promptCompletion } from '@app/openaiUtilities'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
@@ -181,49 +182,13 @@ export class ChatMessageViewerPanel {
       (message) => {
         switch (message.command) {
           case 'newChatThreadQuestion':
-            if (!this._conversation) return
-
-            //Note: saveConversationMessages has added the new question
-            messageCompletion(this._conversation).then((result) => {
-              console.log(`newChatThreadQuestion: ${result}`)
-
-              const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
-
-              const chatThread: IChatMessage = {
-                content: result,
-                author: author,
-                timestamp: new Date().toLocaleString(),
-                mine: false,
-              }
-              console.log(`newChatThreadQuestion-author: ${chatThread.author}`)
-
-              ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
-                command: 'newChatThreadAnswer',
-                text: JSON.stringify(chatThread),
-              })
-            })
-
+            this._newChatThreadQuestion()
             return
 
           case 'saveConversationMessages':
-            try {
-              if (!this._conversation) return
-
-              // eslint-disable-next-line no-case-declarations
-              const chatMessages: IChatMessage[] = JSON.parse(message.text)
-              this._conversation.chatMessages = chatMessages
-
-              console.log(
-                `saveConversationMessages: ${this._conversation.chatMessages.length}`
-              )
-
-              GlobalStorageService.instance.setValue<IConversation>(
-                `conversation-${this._conversation.conversationId}`,
-                this._conversation
-              )
-            } catch (error) {
-              console.log(error)
-            }
+            // eslint-disable-next-line no-case-declarations
+            const chatMessages: IChatMessage[] = JSON.parse(message.text)
+            this._saveConversationMessages(chatMessages)
             return
 
           default:
@@ -234,5 +199,65 @@ export class ChatMessageViewerPanel {
       null,
       this._disposables
     )
+  }
+
+  private _saveConversationMessages(chatMessages: IChatMessage[]) {
+    try {
+      if (!this._conversation) return
+
+      this._conversation.chatMessages = chatMessages
+
+      //Add summary to conversation
+      if (
+        this._conversation.chatMessages.length > 5 &&
+        this._conversation.summary === '<New Conversation>'
+      ) {
+        const summary = this._conversation
+        const chatThread: IChatMessage = {
+          content:
+            'Summarise the conversation in one sentence. Be as concise as possible and only provide the facts. Start the sentence with the key points. Using no more than 150 characters',
+          author: 'summary',
+          timestamp: new Date().toLocaleString(),
+          mine: false,
+        }
+        summary.chatMessages.push(chatThread)
+        messageCompletion(summary).then((result) => {
+          if (!this._conversation) return
+          console.log(`summary: ${result}`)
+          this._conversation.summary = result
+        })
+      }
+
+      GlobalStorageService.instance.setValue<IConversation>(
+        `conversation-${this._conversation.conversationId}`,
+        this._conversation
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  private _newChatThreadQuestion() {
+    if (!this._conversation) return
+
+    //Note: saveConversationMessages has added the new question
+    messageCompletion(this._conversation).then((result) => {
+      console.log(`newChatThreadQuestion: ${result}`)
+
+      const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
+
+      const chatThread: IChatMessage = {
+        content: result,
+        author: author,
+        timestamp: new Date().toLocaleString(),
+        mine: false,
+      }
+      console.log(`newChatThreadQuestion-author: ${chatThread.author}`)
+
+      ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
+        command: 'newChatThreadAnswer',
+        text: JSON.stringify(chatThread),
+      })
+    })
   }
 }

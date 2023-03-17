@@ -16,7 +16,7 @@ import { vscode } from '../../utilities/vscode'
 
 const handleDeleteConversation = (conversation: IConversation) => {
   vscode.postMessage({
-    command: 'deleteConversation',
+    command: 'rcvdViewDeleteConversation',
     text: JSON.stringify(conversation),
   })
 }

@@ -17,7 +17,7 @@ const MessageInteraction: FC = () => {
     chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' })
     if (chatHistory.length > 0) {
       vscode.postMessage({
-        command: 'saveConversationMessages',
+        command: 'rcvdViewSaveMessages',
         text: JSON.stringify(chatHistory),
       })
     }
@@ -26,14 +26,14 @@ const MessageInteraction: FC = () => {
   window.addEventListener('message', (event) => {
     const message = event.data // The JSON data our extension sent
     switch (message.command) {
-      case 'loadConversationMessages':
+      case 'rqstViewRenderMessages':
         // eslint-disable-next-line no-case-declarations
         const chatMessages: IChatMessage[] = JSON.parse(message.text)
         setChatHistory(chatMessages)
         setIsNew(chatMessages.length === 0 ? true : false)
         break
 
-      case 'newChatThreadAnswer':
+      case 'rqstViewAnswerMessage':
         // eslint-disable-next-line no-case-declarations
         const chatMessage: IChatMessage = JSON.parse(message.text)
         chatHistory.push(chatMessage)

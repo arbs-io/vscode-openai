@@ -7,6 +7,8 @@ import {
   ViewColumn,
   ColorThemeKind,
   ColorTheme,
+  EventEmitter,
+  Event,
 } from 'vscode'
 import { getUri } from '../vscodeUtilities/webviewServices/getUri'
 import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
@@ -14,7 +16,6 @@ import { IChatMessage } from '../interfaces/IChatMessage'
 import { IConversation } from '../interfaces/IConversation'
 import { messageCompletion } from '../openaiUtilities/api/messageCompletion'
 import GlobalStorageService from '../vscodeUtilities/storageServices/globalStateService'
-import { promptCompletion } from '@app/openaiUtilities'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
@@ -22,6 +23,9 @@ export class ChatMessageViewerPanel {
   private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
   private readonly _extensionUri: Uri
+
+  private _emitter = new EventEmitter<IConversation>()
+  readonly onDidChangeConversation: Event<IConversation> = this._emitter.event
 
   /**
    * The ChatMessageViewerPanel class private constructor (called only from the render method).
@@ -89,7 +93,7 @@ export class ChatMessageViewerPanel {
     )
 
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
-      command: 'loadConversationMessages',
+      command: 'rqstViewRenderMessages',
       text: JSON.stringify(this._conversation.chatMessages),
     })
   }
@@ -169,26 +173,26 @@ export class ChatMessageViewerPanel {
   /**
    *
    * Event Model:
-   *    | source  	| target  	 | command						      | model  	       |
-   *    |-----------|------------|--------------------------|----------------|
-   *    | extension | webview		 | loadConversationMessages | IConversation  |
-   *    | webview		| extension  | saveConversationMessages	| IChatMessage[] |
-   *    | extension | webview		 | newChatThreadAnswer	    | IChatMessage   |
-   *    | webview		| extension  | newChatThreadQuestion    | IChatMessage   |
+   *    | source		| target		| command									| model						|
+   *    |-----------|-----------|-------------------------|-----------------|
+   *    | extension	| webview		| rqstViewRenderMessages	| IConversation		|
+   *    | extension	| webview		| rqstViewAnswerMessage		| IChatMessage		|
+   *    | webview		| extension	| rcvdViewSaveMessages		| IChatMessage[]	|
+   *    | webview		| extension	| rcvdViewQuestionMessage	| IChatMessage		|
    *
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
       (message) => {
         switch (message.command) {
-          case 'newChatThreadQuestion':
-            this._newChatThreadQuestion()
+          case 'rcvdViewQuestionMessage':
+            this._rcvdViewQuestionMessage()
             return
 
-          case 'saveConversationMessages':
+          case 'rcvdViewSaveMessages':
             // eslint-disable-next-line no-case-declarations
             const chatMessages: IChatMessage[] = JSON.parse(message.text)
-            this._saveConversationMessages(chatMessages)
+            this._rcvdViewSaveMessages(chatMessages)
             return
 
           default:
@@ -201,7 +205,7 @@ export class ChatMessageViewerPanel {
     )
   }
 
-  private _saveConversationMessages(chatMessages: IChatMessage[]) {
+  private _rcvdViewSaveMessages(chatMessages: IChatMessage[]) {
     try {
       if (!this._conversation) return
 
@@ -236,10 +240,10 @@ export class ChatMessageViewerPanel {
     }
   }
 
-  private _newChatThreadQuestion() {
+  private _rcvdViewQuestionMessage() {
     if (!this._conversation) return
 
-    //Note: saveConversationMessages has added the new question
+    //Note: rcvdViewSaveMessages has added the new question
     messageCompletion(this._conversation).then((result) => {
       const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
 
@@ -250,7 +254,7 @@ export class ChatMessageViewerPanel {
         mine: false,
       }
       ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
-        command: 'newChatThreadAnswer',
+        command: 'rqstViewAnswerMessage',
         text: JSON.stringify(chatThread),
       })
     })

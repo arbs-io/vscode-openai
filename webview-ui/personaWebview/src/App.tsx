@@ -9,7 +9,7 @@ function App() {
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
       switch (event.data.command) {
-        case 'loadPersonas':
+        case 'rqstViewLoadPersonas':
           // eslint-disable-next-line no-case-declarations
           const loadedPersonas: IPersonaOpenAI[] = JSON.parse(event.data.text)
           setPersonas(loadedPersonas)

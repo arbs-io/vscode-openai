@@ -25,7 +25,7 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
     setValue('')
 
     vscode.postMessage({
-      command: 'newChatThreadQuestion',
+      command: 'rcvdViewQuestionMessage',
       text: text,
     })
   }

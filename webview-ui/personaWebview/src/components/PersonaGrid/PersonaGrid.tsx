@@ -36,7 +36,7 @@ const PersonaGrid: FC<IData> = ({ personas }) => {
     personas.forEach((persona) => {
       if (persona.roleId == selectedPersona) {
         vscode.postMessage({
-          command: 'newConversation',
+          command: 'rcvdViewNewConversation',
           text: JSON.stringify(persona),
         })
         return

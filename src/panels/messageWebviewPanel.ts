@@ -223,7 +223,6 @@ export class ChatMessageViewerPanel {
         summary.chatMessages.push(chatThread)
         messageCompletion(summary).then((result) => {
           if (!this._conversation) return
-          console.log(`summary: ${result}`)
           this._conversation.summary = result
         })
       }
@@ -233,7 +232,7 @@ export class ChatMessageViewerPanel {
         this._conversation
       )
     } catch (error) {
-      console.log(error)
+      window.showErrorMessage(error as string)
     }
   }
 
@@ -242,8 +241,6 @@ export class ChatMessageViewerPanel {
 
     //Note: saveConversationMessages has added the new question
     messageCompletion(this._conversation).then((result) => {
-      console.log(`newChatThreadQuestion: ${result}`)
-
       const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
 
       const chatThread: IChatMessage = {
@@ -252,8 +249,6 @@ export class ChatMessageViewerPanel {
         timestamp: new Date().toLocaleString(),
         mine: false,
       }
-      console.log(`newChatThreadQuestion-author: ${chatThread.author}`)
-
       ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
         command: 'newChatThreadAnswer',
         text: JSON.stringify(chatThread),

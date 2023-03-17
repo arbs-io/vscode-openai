@@ -15,14 +15,12 @@ import { useStyles } from './useStyles'
 import { vscode } from '../../utilities/vscode'
 
 const handleDeleteConversation = (conversation: IConversation) => {
-  console.log('conversationsWebview::handleDeleteConversation')
   vscode.postMessage({
     command: 'deleteConversation',
     text: JSON.stringify(conversation),
   })
 }
 const handleOpenConversation = (conversation: IConversation) => {
-  console.log('conversationsWebview::handleOpenConversation')
   vscode.postMessage({
     command: 'openConversation',
     text: JSON.stringify(conversation),

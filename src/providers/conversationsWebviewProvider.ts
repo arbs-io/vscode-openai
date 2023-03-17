@@ -107,7 +107,6 @@ export class ConversationsProvider implements WebviewViewProvider {
     const conversations: IConversation[] = []
 
     keys.forEach((key) => {
-      console.log(key)
       if (key.startsWith('conversation-')) {
         const conversation =
           GlobalStorageService.instance.getValue<IConversation>(key)
@@ -116,10 +115,6 @@ export class ConversationsProvider implements WebviewViewProvider {
         }
       }
     })
-
-    console.log(
-      `conversationsWebviewProvider::_sendWebviewLoadData ${conversations.length}`
-    )
 
     this._view?.webview.postMessage({
       command: 'loadConversations',

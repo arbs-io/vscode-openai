@@ -43,7 +43,6 @@ export async function promptCompletion(prompt: string): Promise<string> {
     })
 
     const answer = completion.data.choices[0].message?.content
-    console.log(answer)
 
     ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', 'OpenAI')
     return answer ? answer : ''

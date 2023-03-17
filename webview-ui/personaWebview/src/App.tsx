@@ -8,12 +8,10 @@ function App() {
 
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
-      console.log('personaWebview::onMessageReceivedFromIframe', event)
       switch (event.data.command) {
         case 'loadPersonas':
           // eslint-disable-next-line no-case-declarations
           const loadedPersonas: IPersonaOpenAI[] = JSON.parse(event.data.text)
-          console.log(`personaWebview::loadPersonas ${loadedPersonas.length}`)
           setPersonas(loadedPersonas)
           break
       }

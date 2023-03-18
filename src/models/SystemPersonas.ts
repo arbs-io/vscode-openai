@@ -1,4 +1,4 @@
-import { IPersonaOpenAI } from '../../interfaces/IPersonaOpenAI'
+import { IPersonaOpenAI } from '../interfaces/IPersonaOpenAI'
 
 export const SystemPersonas: IPersonaOpenAI[] = [
   {

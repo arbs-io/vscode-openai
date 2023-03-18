@@ -10,12 +10,10 @@ import {
   EventEmitter,
   Event,
 } from 'vscode'
-import { getUri } from '../vscodeUtilities/webviewServices/getUri'
-import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
-import { IChatMessage } from '../interfaces/IChatMessage'
-import { IConversation } from '../interfaces/IConversation'
-import { messageCompletion } from '../openaiUtilities/api/messageCompletion'
-import GlobalStorageService from '../vscodeUtilities/storageServices/globalStateService'
+import { getUri, getNonce } from '../vscodeUtilities'
+import { IChatMessage, IConversation } from '../interfaces'
+import { messageCompletion } from '../openaiUtilities'
+import { GlobalStorageService } from '../vscodeUtilities'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined

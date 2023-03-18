@@ -10,13 +10,11 @@ import {
   CancellationToken,
   ColorTheme,
 } from 'vscode'
-import { IConversation } from '../interfaces/IConversation'
-import { GlobalStorageService } from '../vscodeUtilities'
-import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
-import { getUri } from '../vscodeUtilities/webviewServices/getUri'
-import { ChatMessageViewerPanel } from '../panels/messageWebviewPanel'
+import { IConversation } from '../interfaces'
+import { GlobalStorageService, getNonce, getUri } from '../vscodeUtilities'
+import { ChatMessageViewerPanel } from '../panels'
 
-export class ConversationsProvider implements WebviewViewProvider {
+export class ConversationsWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 

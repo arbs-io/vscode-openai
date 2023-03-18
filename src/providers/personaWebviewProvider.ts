@@ -11,15 +11,12 @@ import {
   CancellationToken,
   ColorTheme,
 } from 'vscode'
-import GlobalStorageService from '../vscodeUtilities/storageServices/globalStateService'
-import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
-import { getUri } from '../vscodeUtilities/webviewServices/getUri'
-import { ChatMessageViewerPanel } from '../panels/messageWebviewPanel'
-import { IConversation } from '../interfaces/IConversation'
-import { SystemPersonas } from '../panels/data/SystemPersonas'
-import { IPersonaOpenAI } from '../interfaces/IPersonaOpenAI'
+import { GlobalStorageService, getNonce, getUri } from '../vscodeUtilities'
+import { ChatMessageViewerPanel } from '../panels'
+import { IConversation, IPersonaOpenAI } from '../interfaces'
+import { SystemPersonas } from '../models'
 
-export class ChatPersonaProvider implements WebviewViewProvider {
+export class PersonaWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView
   _doc?: TextDocument
 
@@ -105,7 +102,9 @@ export class ChatPersonaProvider implements WebviewViewProvider {
    *
    */
   private _sendWebviewLoadData() {
-    console.log(`ChatPersonaProvider::SystemPersonas ${SystemPersonas.length}`)
+    console.log(
+      `PersonaWebviewProvider::SystemPersonas ${SystemPersonas.length}`
+    )
     this._view?.webview.postMessage({
       command: 'rqstViewLoadPersonas',
       text: JSON.stringify(SystemPersonas),

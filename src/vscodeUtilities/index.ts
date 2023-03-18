@@ -3,6 +3,9 @@ export { getActiveTextEditorValue } from './editorServices/getActiveTextEditorVa
 export { getActiveTextLanguageId } from './editorServices/getActiveTextLanguageId'
 export { insertActiveTextEditorValue } from './editorServices/insertActiveTextEditorValue'
 
+export { getNonce } from './webviewServices/getNonce'
+export { getUri } from './webviewServices/getUri'
+
 export { default as GlobalStorageService } from './storageServices/globalStateService'
 export { default as SecretStorageService } from './storageServices/secretStorageService'
 

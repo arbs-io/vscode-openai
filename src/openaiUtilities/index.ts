@@ -7,5 +7,6 @@ export { OptimizePromptFactory } from './prompt/optimizePrompt'
 export { PatternPromptFactory } from './prompt/patternPrompt'
 
 export { validateApiKey, verifyApiKey } from './api/apiKey'
-export { promptCompletion } from './api/promptCompletion'
 export { listModels } from './api/listModels'
+export { promptCompletion } from './api/promptCompletion'
+export { messageCompletion } from './api/messageCompletion'

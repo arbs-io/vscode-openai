@@ -99,37 +99,28 @@
       ],
       "vscode-openai.menu.toolbox": [
         {
-          "command": "vscode-openai.register.defaultmodel",
-          "group": "navigation.openai_3",
-          "when": "vscode-openai.context.apikey"
-        },
-        {
-          "command": "vscode-openai.register.apikey",
-          "group": "navigation.openai_3"
-        },
-        {
           "command": "vscode-openai.completion.comment",
-          "group": "navigation.openai_2",
+          "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
         },
         {
           "command": "vscode-openai.completion.explain",
-          "group": "navigation.openai_2",
+          "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
         },
         {
           "command": "vscode-openai.completion.bounty",
-          "group": "navigation.openai_2",
+          "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
         },
         {
           "command": "vscode-openai.completion.optimize",
-          "group": "navigation.openai_2",
+          "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
         },
         {
           "command": "vscode-openai.completion.patterns",
-          "group": "navigation.openai_2",
+          "group": "navigation.openai_1",
           "when": "vscode-openai.context.apikey"
         }
       ]

@@ -7,6 +7,8 @@ import {
   ViewColumn,
   ColorThemeKind,
   ColorTheme,
+  EventEmitter,
+  Event,
 } from 'vscode'
 import { getUri } from '../vscodeUtilities/webviewServices/getUri'
 import { getNonce } from '../vscodeUtilities/webviewServices/getNonce'
@@ -21,6 +23,9 @@ export class ChatMessageViewerPanel {
   private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
   private readonly _extensionUri: Uri
+
+  private _emitter = new EventEmitter<IConversation>()
+  readonly onDidChangeConversation: Event<IConversation> = this._emitter.event
 
   /**
    * The ChatMessageViewerPanel class private constructor (called only from the render method).
@@ -88,7 +93,7 @@ export class ChatMessageViewerPanel {
     )
 
     ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
-      command: 'loadConversationMessages',
+      command: 'rqstViewRenderMessages',
       text: JSON.stringify(this._conversation.chatMessages),
     })
   }
@@ -168,62 +173,26 @@ export class ChatMessageViewerPanel {
   /**
    *
    * Event Model:
-   *    | source  	| target  	 | command						      | model  	       |
-   *    |-----------|------------|--------------------------|----------------|
-   *    | extension | webview		 | loadConversationMessages | IConversation  |
-   *    | webview		| extension  | saveConversationMessages	| IChatMessage[] |
-   *    | extension | webview		 | newChatThreadAnswer	    | IChatMessage   |
-   *    | webview		| extension  | newChatThreadQuestion    | IChatMessage   |
+   *    | source		| target		| command									| model						|
+   *    |-----------|-----------|-------------------------|-----------------|
+   *    | extension	| webview		| rqstViewRenderMessages	| IConversation		|
+   *    | extension	| webview		| rqstViewAnswerMessage		| IChatMessage		|
+   *    | webview		| extension	| rcvdViewSaveMessages		| IChatMessage[]	|
+   *    | webview		| extension	| rcvdViewQuestionMessage	| IChatMessage		|
    *
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
       (message) => {
         switch (message.command) {
-          case 'newChatThreadQuestion':
-            if (!this._conversation) return
-
-            //Note: saveConversationMessages has added the new question
-            messageCompletion(this._conversation).then((result) => {
-              console.log(`newChatThreadQuestion: ${result}`)
-
-              const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
-
-              const chatThread: IChatMessage = {
-                content: result,
-                author: author,
-                timestamp: new Date().toLocaleString(),
-                mine: false,
-              }
-              console.log(`newChatThreadQuestion-author: ${chatThread.author}`)
-
-              ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
-                command: 'newChatThreadAnswer',
-                text: JSON.stringify(chatThread),
-              })
-            })
-
+          case 'rcvdViewQuestionMessage':
+            this._rcvdViewQuestionMessage()
             return
 
-          case 'saveConversationMessages':
-            try {
-              if (!this._conversation) return
-
-              // eslint-disable-next-line no-case-declarations
-              const chatMessages: IChatMessage[] = JSON.parse(message.text)
-              this._conversation.chatMessages = chatMessages
-
-              console.log(
-                `saveConversationMessages: ${this._conversation.chatMessages.length}`
-              )
-
-              GlobalStorageService.instance.setValue<IConversation>(
-                `conversation-${this._conversation.conversationId}`,
-                this._conversation
-              )
-            } catch (error) {
-              console.log(error)
-            }
+          case 'rcvdViewSaveMessages':
+            // eslint-disable-next-line no-case-declarations
+            const chatMessages: IChatMessage[] = JSON.parse(message.text)
+            this._rcvdViewSaveMessages(chatMessages)
             return
 
           default:
@@ -234,5 +203,60 @@ export class ChatMessageViewerPanel {
       null,
       this._disposables
     )
+  }
+
+  private _rcvdViewSaveMessages(chatMessages: IChatMessage[]) {
+    try {
+      if (!this._conversation) return
+
+      this._conversation.chatMessages = chatMessages
+
+      //Add summary to conversation
+      if (
+        this._conversation.chatMessages.length > 5 &&
+        this._conversation.summary === '<New Conversation>'
+      ) {
+        const summary = this._conversation
+        const chatThread: IChatMessage = {
+          content:
+            'Summarise the conversation in one sentence. Be as concise as possible and only provide the facts. Start the sentence with the key points. Using no more than 150 characters',
+          author: 'summary',
+          timestamp: new Date().toLocaleString(),
+          mine: false,
+        }
+        summary.chatMessages.push(chatThread)
+        messageCompletion(summary).then((result) => {
+          if (!this._conversation) return
+          this._conversation.summary = result
+        })
+      }
+
+      GlobalStorageService.instance.setValue<IConversation>(
+        `conversation-${this._conversation.conversationId}`,
+        this._conversation
+      )
+    } catch (error) {
+      window.showErrorMessage(error as string)
+    }
+  }
+
+  private _rcvdViewQuestionMessage() {
+    if (!this._conversation) return
+
+    //Note: rcvdViewSaveMessages has added the new question
+    messageCompletion(this._conversation).then((result) => {
+      const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
+
+      const chatThread: IChatMessage = {
+        content: result,
+        author: author,
+        timestamp: new Date().toLocaleString(),
+        mine: false,
+      }
+      ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
+        command: 'rqstViewAnswerMessage',
+        text: JSON.stringify(chatThread),
+      })
+    })
   }
 }

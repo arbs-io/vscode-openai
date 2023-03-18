@@ -16,7 +16,9 @@ export default class ExtensionStatusBarItem {
     const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right)
     statusBarItem.name = 'vscode-openai'
     statusBarItem.command = VSCODE_OPENAI_REGISTER.APIKEY_COMMAND_ID
-    statusBarItem.backgroundColor = new ThemeColor('statusBarItem.errorBackground')
+    statusBarItem.backgroundColor = new ThemeColor(
+      'statusBarItem.errorBackground'
+    )
     context.subscriptions.push(statusBarItem)
     ExtensionStatusBarItem._instance = new ExtensionStatusBarItem(statusBarItem)
   }
@@ -30,10 +32,12 @@ export default class ExtensionStatusBarItem {
     this.statusBarItem.backgroundColor = undefined
     this.statusBarItem.show()
   }
-  
+
   public showStatusBarError(icon: string, text: string) {
     this.statusBarItem.text = `$(${icon}) ${text}`
-    this.statusBarItem.backgroundColor = new ThemeColor('statusBarItem.errorBackground')
+    this.statusBarItem.backgroundColor = new ThemeColor(
+      'statusBarItem.errorBackground'
+    )
     this.statusBarItem.show()
   }
 }

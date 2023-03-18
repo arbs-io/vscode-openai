@@ -98,16 +98,16 @@ export class ChatPersonaProvider implements WebviewViewProvider {
   /**
    *
    * Event Model:
-   *    | source  	| target  	 | command						   | model  	        |
-   *    |-----------|------------|-----------------------|------------------|
-   *    | extension	| webview    | loadPersonas          | IPersonaOpenAI[] |
-   *    | webview		| extension  | newConversation			 | IPersonaOpenAI   |
+   *    | source		| target		| command									| model							|
+   *    |-----------|-----------|-------------------------|-------------------|
+   *    | extension	| webview		| rqstViewLoadPersonas		| IPersonaOpenAI[]	|
+   *    | webview		| extension	| rcvdViewNewConversation	| IPersonaOpenAI		|
    *
    */
   private _sendWebviewLoadData() {
     console.log(`ChatPersonaProvider::SystemPersonas ${SystemPersonas.length}`)
     this._view?.webview.postMessage({
-      command: 'loadPersonas',
+      command: 'rqstViewLoadPersonas',
       text: JSON.stringify(SystemPersonas),
     })
   }
@@ -115,10 +115,10 @@ export class ChatPersonaProvider implements WebviewViewProvider {
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
-        case 'newConversation':
+        case 'rcvdViewNewConversation':
           //need to validate the persona uuid
 
-          console.log('personaWebviewProvider::newConversation')
+          console.log('personaWebviewProvider::rcvdViewNewConversation')
           // eslint-disable-next-line no-case-declarations
           const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
           this._createNewConversation(personaOpenAI, extensionUri)

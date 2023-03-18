@@ -17,7 +17,7 @@ function _registerDefaultModel(context: ExtensionContext) {
           .update('default-model', model)
       }
     } catch (error) {
-      console.log(error)
+      window.showErrorMessage(error as string)
     }
   }
   context.subscriptions.push(

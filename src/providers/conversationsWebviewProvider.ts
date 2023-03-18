@@ -95,10 +95,10 @@ export class ConversationsProvider implements WebviewViewProvider {
   /**
    *
    * Event Model:
-   *    | source  	| target  	 | command						   | model  	        |
-   *    |-----------|------------|-----------------------|------------------|
-   *    | extension	| webview    | loadConversations     | IConversation[]  |
-   *    | webview   | extension  | deleteConversation    | IConversation    |
+   *    | source		| target		| command												| model						|
+   *    |-----------|-----------|-------------------------------|-----------------|
+   *    | extension	| webview		| rqstViewLoadConversations			| IConversation[]	|
+   *    | webview		| extension	| rcvdViewDeleteConversation		| IConversation		|
    *
    *
    */
@@ -107,7 +107,6 @@ export class ConversationsProvider implements WebviewViewProvider {
     const conversations: IConversation[] = []
 
     keys.forEach((key) => {
-      console.log(key)
       if (key.startsWith('conversation-')) {
         const conversation =
           GlobalStorageService.instance.getValue<IConversation>(key)
@@ -117,12 +116,8 @@ export class ConversationsProvider implements WebviewViewProvider {
       }
     })
 
-    console.log(
-      `conversationsWebviewProvider::_sendWebviewLoadData ${conversations.length}`
-    )
-
     this._view?.webview.postMessage({
-      command: 'loadConversations',
+      command: 'rqstViewLoadConversations',
       text: JSON.stringify(conversations),
     })
   }
@@ -136,11 +131,13 @@ export class ConversationsProvider implements WebviewViewProvider {
           ChatMessageViewerPanel.render(extensionUri, openConversation)
           return
 
-        case 'deleteConversation':
+        case 'rcvdViewDeleteConversation':
           // eslint-disable-next-line no-case-declarations
-          const deleteConversation: IConversation = JSON.parse(message.text)
+          const rcvdViewDeleteConversation: IConversation = JSON.parse(
+            message.text
+          )
           GlobalStorageService.instance.deleteKey(
-            `conversation-${deleteConversation.conversationId}`
+            `conversation-${rcvdViewDeleteConversation.conversationId}`
           )
           this._sendWebviewLoadData()
           return

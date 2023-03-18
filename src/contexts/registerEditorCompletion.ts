@@ -7,7 +7,7 @@ import {
   ExplainPromptFactory,
   OptimizePromptFactory,
   PatternPromptFactory,
-  completionComments,
+  promptCompletion,
 } from '../openaiUtilities'
 import { compareFileToClipboard } from '../vscodeUtilities'
 import { VSCODE_OPENAI_PROMPT } from './constants'
@@ -46,7 +46,7 @@ class CommandRegistry {
       const commandHandler = async (uri: Uri) => {
         try {
           const prompt = await factory.createPrompt()()
-          const solution = await completionComments(prompt)
+          const solution = await promptCompletion(prompt)
           compareFileToClipboard(solution)
         } catch (error) {
           console.log(error)
@@ -60,7 +60,7 @@ class CommandRegistry {
 }
 
 // Register the commands using the registry
-export function registerCompletionCommand(context: ExtensionContext) {
+export function registerEditorCompletion(context: ExtensionContext) {
   const registry = new CommandRegistry()
   registry.registerCommands(context)
 }

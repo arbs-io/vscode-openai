@@ -12,7 +12,7 @@ export async function compareFileToClipboard(newValue: string) {
       )
     }
   } catch (error) {
-    console.log(error)
+    window.showErrorMessage(error as string)
   }
   env.clipboard.writeText(clipboard)
 }

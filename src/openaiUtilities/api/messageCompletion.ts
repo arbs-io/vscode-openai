@@ -9,7 +9,7 @@ import {
   ExtensionStatusBarItem,
   SecretStorageService,
 } from '../../vscodeUtilities'
-import { IConversation } from '@app/interfaces/IConversation'
+import { IConversation } from '../../interfaces'
 
 async function buildMessages(
   conversation: IConversation

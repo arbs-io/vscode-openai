@@ -9,7 +9,6 @@ export const MessageHistory: FC<IData> = ({ message }) => {
   if (!message) {
     throw new Error('Invalid memory')
   }
-  
 
   const style: CSSProperties = {
     alignSelf: message.mine ? 'flex-end' : 'flex-start',
@@ -23,9 +22,9 @@ export const MessageHistory: FC<IData> = ({ message }) => {
     margin: '1rem',
     padding: '1rem',
     maxWidth: '70%',
-    boxShadow: tokens.shadow16,
+    boxShadow: tokens.shadow64,
   }
-// boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12)",
+  // boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12)",
   const content = message.content.trim().replace(/\n/g, '<br />')
 
   return (

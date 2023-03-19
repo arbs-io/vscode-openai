@@ -229,11 +229,8 @@ export class ChatMessageViewerPanel {
           this._conversation.summary = result
         })
       }
+      ConversationService.instance.update(this._conversation)
 
-      GlobalStorageService.instance.setValue<IConversation>(
-        `conversation-${this._conversation.conversationId}`,
-        this._conversation
-      )
     } catch (error) {
       window.showErrorMessage(error as string)
     }

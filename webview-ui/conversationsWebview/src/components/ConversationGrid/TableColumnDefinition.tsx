@@ -31,7 +31,7 @@ export const columns: TableColumnDefinition<IConversation>[] = [
   createTableColumn<IConversation>({
     columnId: 'persona',
     compare: (a, b) => {
-      return a.persona.roleName.localeCompare(b.persona.roleName)
+      return a.timestamp - b.timestamp
     },
     renderHeaderCell: () => {
       return ''
@@ -57,6 +57,9 @@ export const columns: TableColumnDefinition<IConversation>[] = [
 
   createTableColumn<IConversation>({
     columnId: 'summary',
+    compare: (a, b) => {
+      return a.timestamp - b.timestamp
+    },
     renderHeaderCell: () => {
       return 'Summary'
     },

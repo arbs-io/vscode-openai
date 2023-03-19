@@ -44,7 +44,7 @@ export default class ConversationService {
   }
 
   public getAll(): Array<IConversation> {
-    return this.conversations
+    return this.conversations.sort((n1, n2) => n1.timestamp - n2.timestamp)
   }
 
   public show(key: string) {
@@ -68,6 +68,10 @@ export default class ConversationService {
 
   public update(conversation: IConversation) {
     this.delete(conversation.conversationId)
+    GlobalStorageService.instance.setValue<IConversation>(
+      `conversation-${conversation.conversationId}`,
+      conversation as IConversation
+    )
     this.conversations.push(conversation)
     ConversationService._emitterDidChange.fire()
   }
@@ -75,6 +79,7 @@ export default class ConversationService {
   public create(persona: IPersonaOpenAI) {
     const uuid4 = crypto.randomUUID()
     const conversation: IConversation = {
+      timestamp: new Date().getTime(),
       conversationId: uuid4,
       persona: persona,
       summary: '<New Conversation>',

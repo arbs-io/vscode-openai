@@ -2,7 +2,7 @@ import * as crypto from 'crypto'
 import { EventEmitter, Event, ExtensionContext } from 'vscode'
 import { GlobalStorageService } from '../vscodeUtilities'
 import { IConversation, IPersonaOpenAI } from '../interfaces'
-import { ChatMessageViewerPanel } from '../panels'
+import { MessageViewerPanel } from '../panels'
 
 export default class ConversationService {
   private static _emitterDidChange = new EventEmitter<void>()
@@ -50,10 +50,7 @@ export default class ConversationService {
   public show(key: string) {
     this.conversations.forEach((conversation) => {
       if (key === conversation.conversationId) {
-        ChatMessageViewerPanel.render(
-          this.vscodeContext.extensionUri,
-          conversation
-        )
+        MessageViewerPanel.render(this.vscodeContext.extensionUri, conversation)
       }
     })
   }
@@ -110,7 +107,7 @@ export default class ConversationService {
    *    | extension	| webview		| rqstViewLoadConversations			| IConversation[]	|
    *    | webview		| extension	| rcvdViewDeleteConversation		| IConversation		|
    *
-   * Event Model: chatMessageViewerPanel
+   * Event Model: MessageViewerPanel
    *    | source		| target		| command												| model						|
    *    |-----------|-----------|-------------------------------|-----------------|
    *    | extension	| webview		| rqstViewRenderMessages				| IConversation		|

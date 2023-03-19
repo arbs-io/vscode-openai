@@ -13,11 +13,10 @@ import {
 import { getUri, getNonce } from '../vscodeUtilities'
 import { IChatMessage, IConversation } from '../interfaces'
 import { messageCompletion } from '../openaiUtilities'
-import { GlobalStorageService } from '../vscodeUtilities'
 import { ConversationService } from '../contexts'
 
-export class ChatMessageViewerPanel {
-  public static currentPanel: ChatMessageViewerPanel | undefined
+export class MessageViewerPanel {
+  public static currentPanel: MessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
   private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
@@ -27,7 +26,7 @@ export class ChatMessageViewerPanel {
   readonly onDidChangeConversation: Event<IConversation> = this._emitter.event
 
   /**
-   * The ChatMessageViewerPanel class private constructor (called only from the render method).
+   * The MessageViewerPanel class private constructor (called only from the render method).
    *
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
@@ -58,8 +57,8 @@ export class ChatMessageViewerPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri, conversation: IConversation) {
-    if (ChatMessageViewerPanel.currentPanel) {
-      ChatMessageViewerPanel.currentPanel._panel.dispose()
+    if (MessageViewerPanel.currentPanel) {
+      MessageViewerPanel.currentPanel._panel.dispose()
     }
     // If a webview panel does not already exist create and show a new one
     const panel = window.createWebviewPanel(
@@ -73,13 +72,13 @@ export class ChatMessageViewerPanel {
       }
     )
 
-    ChatMessageViewerPanel.currentPanel = new ChatMessageViewerPanel(
+    MessageViewerPanel.currentPanel = new MessageViewerPanel(
       panel,
       extensionUri
     )
 
-    ChatMessageViewerPanel.currentPanel._conversation = conversation
-    ChatMessageViewerPanel.currentPanel._render()
+    MessageViewerPanel.currentPanel._conversation = conversation
+    MessageViewerPanel.currentPanel._render()
   }
 
   private _render() {
@@ -91,7 +90,7 @@ export class ChatMessageViewerPanel {
       this._extensionUri
     )
 
-    ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
+    MessageViewerPanel.currentPanel?._panel.webview.postMessage({
       command: 'rqstViewRenderMessages',
       text: JSON.stringify(this._conversation.chatMessages),
     })
@@ -101,7 +100,7 @@ export class ChatMessageViewerPanel {
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    ChatMessageViewerPanel.currentPanel = undefined
+    MessageViewerPanel.currentPanel = undefined
 
     // Dispose of the current webview panel
     this._panel.dispose()
@@ -230,7 +229,6 @@ export class ChatMessageViewerPanel {
         })
       }
       ConversationService.instance.update(this._conversation)
-
     } catch (error) {
       window.showErrorMessage(error as string)
     }
@@ -249,7 +247,7 @@ export class ChatMessageViewerPanel {
         timestamp: new Date().toLocaleString(),
         mine: false,
       }
-      ChatMessageViewerPanel.currentPanel?._panel.webview.postMessage({
+      MessageViewerPanel.currentPanel?._panel.webview.postMessage({
         command: 'rqstViewAnswerMessage',
         text: JSON.stringify(chatThread),
       })

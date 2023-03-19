@@ -2,8 +2,8 @@ import { EventEmitter, Event } from 'vscode'
 import { IConversation, IPersonaOpenAI, IChatMessage } from '../interfaces'
 
 export class Conversation implements IConversation {
-  private _emitter = new EventEmitter<IConversation>()
-  readonly onDidChangeConversation: Event<IConversation> = this._emitter.event
+  private _emitterDidChange = new EventEmitter<IConversation>()
+  readonly onDidChange: Event<IConversation> = this._emitterDidChange.event
 
   private _conversationId: string
   private _persona: IPersonaOpenAI
@@ -15,7 +15,7 @@ export class Conversation implements IConversation {
   }
   public set conversationId(value: string) {
     this._conversationId = value
-    this._emitter.fire(this)
+    this._emitterDidChange.fire(this)
   }
 
   public get persona(): IPersonaOpenAI {
@@ -23,13 +23,16 @@ export class Conversation implements IConversation {
   }
   public set persona(value: IPersonaOpenAI) {
     this._persona = value
+    this._emitterDidChange.fire(this)
   }
 
   public get summary(): string {
     return this._summary
+    this._emitterDidChange.fire(this)
   }
   public set summary(value: string) {
     this._summary = value
+    this._emitterDidChange.fire(this)
   }
 
   public get chatMessages(): IChatMessage[] {
@@ -37,6 +40,7 @@ export class Conversation implements IConversation {
   }
   public set chatMessages(value: IChatMessage[]) {
     this._chatMessages = value
+    this._emitterDidChange.fire(this)
   }
 
   constructor(

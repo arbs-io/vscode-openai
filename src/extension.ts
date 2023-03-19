@@ -6,6 +6,7 @@ import {
   SecretStorageService,
 } from './vscodeUtilities'
 import {
+  ConversationService,
   registerApiKeyCommand,
   registerDefaultModelCommand,
   registerEditorCompletion,
@@ -26,6 +27,8 @@ export function activate(context: ExtensionContext) {
   registerDefaultModelCommand(context)
   registerEditorCompletion(context)
   registerSidebarProvider(context)
+
+  ConversationService.init(context)
 
   validateApiKey() //On activation check if the api key is valid
 }

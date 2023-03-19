@@ -14,6 +14,7 @@ import { getUri, getNonce } from '../vscodeUtilities'
 import { IChatMessage, IConversation } from '../interfaces'
 import { messageCompletion } from '../openaiUtilities'
 import { GlobalStorageService } from '../vscodeUtilities'
+import { ConversationService } from '../contexts'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined

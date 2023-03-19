@@ -1,4 +1,3 @@
-import * as crypto from 'crypto'
 import {
   Webview,
   window,
@@ -11,10 +10,10 @@ import {
   CancellationToken,
   ColorTheme,
 } from 'vscode'
-import { GlobalStorageService, getNonce, getUri } from '../vscodeUtilities'
-import { ChatMessageViewerPanel } from '../panels'
-import { IConversation, IPersonaOpenAI } from '../interfaces'
+import { getNonce, getUri } from '../vscodeUtilities'
+import { IPersonaOpenAI } from '../interfaces'
 import { SystemPersonas } from '../models'
+import { ConversationService } from '../contexts'
 
 export class PersonaWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -102,9 +101,6 @@ export class PersonaWebviewProvider implements WebviewViewProvider {
    *
    */
   private _sendWebviewLoadData() {
-    console.log(
-      `PersonaWebviewProvider::SystemPersonas ${SystemPersonas.length}`
-    )
     this._view?.webview.postMessage({
       command: 'rqstViewLoadPersonas',
       text: JSON.stringify(SystemPersonas),
@@ -115,12 +111,9 @@ export class PersonaWebviewProvider implements WebviewViewProvider {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
         case 'rcvdViewNewConversation':
-          //need to validate the persona uuid
-
-          console.log('personaWebviewProvider::rcvdViewNewConversation')
           // eslint-disable-next-line no-case-declarations
-          const personaOpenAI: IPersonaOpenAI = JSON.parse(message.text)
-          this._createNewConversation(personaOpenAI, extensionUri)
+          const persona: IPersonaOpenAI = JSON.parse(message.text)
+          ConversationService.instance.create(persona)
           return
 
         default:
@@ -128,24 +121,5 @@ export class PersonaWebviewProvider implements WebviewViewProvider {
           return
       }
     }, null)
-  }
-
-  private _createNewConversation(persona: IPersonaOpenAI, extensionUri: Uri) {
-    const uuid4 = crypto.randomUUID()
-    const conversation: IConversation = {
-      conversationId: uuid4,
-      persona: persona,
-      summary: '<New Conversation>',
-      chatMessages: [],
-    }
-
-    GlobalStorageService.instance.setValue<IConversation>(
-      `conversation-${conversation.conversationId}`,
-      conversation
-    )
-    console.log(
-      `_createNewConversation::ChatMessageViewerPanel.render: ${conversation.conversationId}`
-    )
-    ChatMessageViewerPanel.render(extensionUri, conversation)
   }
 }

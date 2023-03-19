@@ -22,7 +22,6 @@ const ConversationGrid: FC<IData> = ({ conversations }) => {
       size="extra-small"
       items={conversations}
       columns={columns}
-      sortable
       getRowId={(item) => item.itemId}
       resizableColumns
       columnSizingOptions={{

@@ -11,8 +11,8 @@ import {
   ColorTheme,
 } from 'vscode'
 import { IConversation } from '../interfaces'
-import { GlobalStorageService, getNonce, getUri } from '../vscodeUtilities'
-import { ChatMessageViewerPanel } from '../panels'
+import { getNonce, getUri } from '../vscodeUtilities'
+import { ConversationService } from '../contexts'
 
 export class ConversationsWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -22,6 +22,12 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
     window.onDidChangeActiveColorTheme((theme: ColorTheme) => {
       this._refreshWebview()
     })
+
+    ConversationService.onDidChange((e) => {
+      if (this._view?.visible) {
+        this._sendWebviewLoadData()
+      }
+    }, null)
   }
 
   public resolveWebviewView(
@@ -30,6 +36,11 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
     _token: CancellationToken
   ) {
     this._view = webviewView
+    this._view.onDidChangeVisibility((e) => {
+      if (this._view?.visible) {
+        this._sendWebviewLoadData()
+      }
+    }, null)
 
     webviewView.webview.options = {
       enableScripts: true,
@@ -48,12 +59,6 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
 
     this._setWebviewMessageListener(this._view.webview, this._extensionUri)
     this._sendWebviewLoadData()
-
-    this._view.onDidChangeVisibility((e) => {
-      if (this._view?.visible) {
-        this._sendWebviewLoadData()
-      }
-    }, null)
   }
 
   private _getHtmlForWebview(webview: Webview, extensionUri: Uri) {
@@ -101,19 +106,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
    *
    */
   private _sendWebviewLoadData() {
-    const keys = GlobalStorageService.instance.keys()
-    const conversations: IConversation[] = []
-
-    keys.forEach((key) => {
-      if (key.startsWith('conversation-')) {
-        const conversation =
-          GlobalStorageService.instance.getValue<IConversation>(key)
-        if (conversation !== undefined) {
-          conversations.push(conversation)
-        }
-      }
-    })
-
+    const conversations = ConversationService.instance.getAll()
     this._view?.webview.postMessage({
       command: 'rqstViewLoadConversations',
       text: JSON.stringify(conversations),
@@ -126,18 +119,13 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
         case 'openConversation':
           // eslint-disable-next-line no-case-declarations
           const openConversation: IConversation = JSON.parse(message.text)
-          ChatMessageViewerPanel.render(extensionUri, openConversation)
+          ConversationService.instance.show(openConversation.conversationId)
           return
 
         case 'rcvdViewDeleteConversation':
           // eslint-disable-next-line no-case-declarations
-          const rcvdViewDeleteConversation: IConversation = JSON.parse(
-            message.text
-          )
-          GlobalStorageService.instance.deleteKey(
-            `conversation-${rcvdViewDeleteConversation.conversationId}`
-          )
-          this._sendWebviewLoadData()
+          const deleteConversation: IConversation = JSON.parse(message.text)
+          ConversationService.instance.delete(deleteConversation.conversationId)
           return
 
         default:

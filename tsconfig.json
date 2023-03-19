@@ -6,11 +6,7 @@
     "outDir": "out",
     "sourceMap": true,
     "rootDir": "src",
-    "strict": true,
-    "baseUrl": ".",
-    "paths": {
-      "@app/*": ["./src/*"]
-    }
+    "strict": true
   },
   "include": ["src/**/*.ts", "src/models/SystemPersonas.ts"],
   "exclude": ["node_modules", ".vscode-test"]

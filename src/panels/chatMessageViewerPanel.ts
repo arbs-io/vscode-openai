@@ -14,6 +14,7 @@ import { getUri, getNonce } from '../vscodeUtilities'
 import { IChatMessage, IConversation } from '../interfaces'
 import { messageCompletion } from '../openaiUtilities'
 import { GlobalStorageService } from '../vscodeUtilities'
+import { ConversationService } from '../contexts'
 
 export class ChatMessageViewerPanel {
   public static currentPanel: ChatMessageViewerPanel | undefined
@@ -228,11 +229,8 @@ export class ChatMessageViewerPanel {
           this._conversation.summary = result
         })
       }
+      ConversationService.instance.update(this._conversation)
 
-      GlobalStorageService.instance.setValue<IConversation>(
-        `conversation-${this._conversation.conversationId}`,
-        this._conversation
-      )
     } catch (error) {
       window.showErrorMessage(error as string)
     }

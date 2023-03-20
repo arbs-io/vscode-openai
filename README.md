@@ -6,6 +6,16 @@ Simply enter your OpenAI Api-Key and enjoy the productivity.
 
 ## What features are provided
 
+### Chatbot
+
+The vscode-openai extension provides direct access to chatbot features directly from within your code editor. Say goodbye to switching back and forth between different applications to get answers to your questions - now you can get instant responses without leaving your coding environment.
+
+Our chatbot features are designed to make your coding experience smoother by providing quick answers to your coding questions. Whether you need help with syntax or debugging or want to learn more about a specific topic, our chatbot is here to assist you. We provide accurate and timely responses, so you can stay focused on your work without interruption.
+
+With the ChatBot Extension for Visual Studio Code, you can get the answers you need right when you need them, without any distractions. So why not give it a try? Download our extension today and experience the convenience of having a chatbot at your fingertips while coding.
+
+![vscode-openai-chatbot.png](images/vscode-openai-chatbot.png)
+
 ### Bug Bounty
 
 One of the critical features of vscode-openai is its powerful bug-finding capabilities. With this feature, you can easily select a method, and the extension will analyze your code, highlighting any potential bugs that could cause issues down the line. This functionality enables you to proactively identify and correct errors, improving your codebase's overall quality and reliability. By leveraging this tool, you can ensure that your software runs at peak performance and delivers the best possible experience for end-users.
@@ -63,7 +73,6 @@ The repo is not "Public" but will be in the future. This extension is still in f
 
 The features in development are:
 
-- General Prompt (ChatBot)
 - Prompt Developer
 - Embedding Analysis (Debugging vectors)
 - More Developer Features

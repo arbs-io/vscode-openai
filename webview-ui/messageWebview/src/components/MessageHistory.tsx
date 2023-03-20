@@ -1,5 +1,8 @@
 import { tokens } from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
+import ReactMarkdown from 'react-markdown'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { IChatMessage } from '../interfaces/IChatMessage'
 
 interface IData {
@@ -24,7 +27,6 @@ export const MessageHistory: FC<IData> = ({ message }) => {
     maxWidth: '70%',
     boxShadow: tokens.shadow64,
   }
-  const content = message.content.trim().replace(/\n/g, '<br />')
 
   return (
     <div style={style}>
@@ -38,7 +40,27 @@ export const MessageHistory: FC<IData> = ({ message }) => {
           <span style={{ fontSize: 10 }}> Date: {message.timestamp}</span>
         </div>
       </div>
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <ReactMarkdown
+        children={message.content.trim()}
+        components={{
+          code({ node, inline, className, children, ...props }) {
+            const match = /language-(\w+)/.exec(className || '')
+            return !inline && match ? (
+              <SyntaxHighlighter
+                children={String(children).replace(/\n$/, '')}
+                language={match[1]}
+                PreTag="div"
+                {...props}
+                style={tomorrow}
+              />
+            ) : (
+              <code className={className} {...props}>
+                {children}
+              </code>
+            )
+          },
+        }}
+      />
     </div>
   )
 }

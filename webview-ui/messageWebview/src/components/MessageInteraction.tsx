@@ -30,7 +30,7 @@ const MessageInteraction: FC = () => {
         // eslint-disable-next-line no-case-declarations
         const chatMessages: IChatMessage[] = JSON.parse(message.text)
         setChatHistory(chatMessages)
-        setIsNew(chatMessages.length === 0 ? true : false)
+        setIsNew(chatMessages.length <= 1 ? true : false)
         break
 
       case 'rqstViewAnswerMessage':

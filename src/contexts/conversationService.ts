@@ -1,7 +1,7 @@
 import * as crypto from 'crypto'
 import { EventEmitter, Event, ExtensionContext } from 'vscode'
 import { GlobalStorageService } from '../vscodeUtilities'
-import { IConversation, IPersonaOpenAI } from '../interfaces'
+import { IChatMessage, IConversation, IPersonaOpenAI } from '../interfaces'
 import { MessageViewerPanel } from '../panels'
 
 export default class ConversationService {
@@ -75,12 +75,21 @@ export default class ConversationService {
 
   public create(persona: IPersonaOpenAI) {
     const uuid4 = crypto.randomUUID()
+
+    const chatThreads: IChatMessage[] = []
+    chatThreads.push({
+      content: `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`,
+      author: `${persona.roleName} (${persona.configuration.service})`,
+      timestamp: new Date().toLocaleString(),
+      mine: false,
+    })
+
     const conversation: IConversation = {
       timestamp: new Date().getTime(),
       conversationId: uuid4,
       persona: persona,
       summary: '<New Conversation>',
-      chatMessages: [],
+      chatMessages: chatThreads,
     }
 
     GlobalStorageService.instance.setValue<IConversation>(

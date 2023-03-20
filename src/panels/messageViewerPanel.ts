@@ -240,7 +240,7 @@ export class MessageViewerPanel {
     //Note: rcvdViewSaveMessages has added the new question
     messageCompletion(this._conversation).then((result) => {
       const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
-
+      console.log(`result\n:${result}`)
       const chatThread: IChatMessage = {
         content: result,
         author: author,

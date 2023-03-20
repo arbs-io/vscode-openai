@@ -1,5 +1,6 @@
 import { tokens } from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { IChatMessage } from '../interfaces/IChatMessage'
 
 interface IData {
@@ -24,7 +25,7 @@ export const MessageHistory: FC<IData> = ({ message }) => {
     maxWidth: '70%',
     boxShadow: tokens.shadow64,
   }
-  const content = message.content.trim().replace(/\n/g, '<br />')
+  // const content = message.content.trim().replace(/\n/g, '<br />')
 
   return (
     <div style={style}>
@@ -38,7 +39,8 @@ export const MessageHistory: FC<IData> = ({ message }) => {
           <span style={{ fontSize: 10 }}> Date: {message.timestamp}</span>
         </div>
       </div>
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
+      <ReactMarkdown children={message.content.trim()} />
     </div>
   )
 }

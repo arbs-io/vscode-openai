@@ -92,36 +92,3 @@ export default class ConversationService {
     ConversationService._emitterDidChange.fire()
   }
 }
-
-/**
-   *
-   * Event Model: personaWebviewProvider
-   *    | source		| target		| command												| model						|
-   *    |-----------|-----------|-------------------------------|-----------------|
-   *    | extension	| webview		| rqstViewLoadPersonas					| IPersonaOpenAI[]	|
-   *    | webview		| extension	| rcvdViewNewConversation				| IPersonaOpenAI		|
-   *
-   * Event Model: conversationsWebviewProvider
-   *    | source		| target		| command												| model						|
-   *    |-----------|-----------|-------------------------------|-----------------|
-   *    | extension	| webview		| rqstViewLoadConversations			| IConversation[]	|
-   *    | webview		| extension	| rcvdViewDeleteConversation		| IConversation		|
-   *
-   * Event Model: MessageViewerPanel
-   *    | source		| target		| command												| model						|
-   *    |-----------|-----------|-------------------------------|-----------------|
-   *    | extension	| webview		| rqstViewRenderMessages				| IConversation		|
-   *    | extension	| webview		| rqstViewAnswerMessage					| IChatMessage		|
-   *    | webview		| extension	| rcvdViewSaveMessages					| IChatMessage[]	|
-   *    | webview		| extension	| rcvdViewQuestionMessage				| IChatMessage		|
-   *
-
-  Conversations
-  - New
-  - Delete(key)
-
-  Conversation
-  - newQuestion
-  - onQuestionAnswered
-
-  */

@@ -207,32 +207,38 @@ export class MessageViewerPanel {
       if (!this._conversation) return
 
       this._conversation.chatMessages = chatMessages
-
-      //Add summary to conversation
-      if (
-        this._conversation.chatMessages.length > 5 &&
-        this._conversation.summary === '<New Conversation>'
-      ) {
-        //Deep clone for summary
-        const summary = JSON.parse(
-          JSON.stringify(this._conversation)
-        ) as IConversation
-        const chatThread: IChatMessage = {
-          content:
-            'Summarise the conversation in one sentence. Be as concise as possible and only provide the facts. Start the sentence with the key points. Using no more than 150 characters',
-          author: 'summary',
-          timestamp: new Date().toLocaleString(),
-          mine: false,
-        }
-        summary.chatMessages.push(chatThread)
-        messageCompletion(summary).then((result) => {
-          if (!this._conversation) return
-          this._conversation.summary = result
-        })
-      }
       ConversationService.instance.update(this._conversation)
+
+      this._addSummary()
     } catch (error) {
       window.showErrorMessage(error as string)
+    }
+  }
+
+  private _addSummary() {
+    if (!this._conversation) return
+
+    //Add summary to conversation
+    if (
+      this._conversation.chatMessages.length > 5 &&
+      this._conversation.summary === '<New Conversation>'
+    ) {
+      //Deep clone for summary
+      const summary = JSON.parse(
+        JSON.stringify(this._conversation)
+      ) as IConversation
+      const chatThread: IChatMessage = {
+        content:
+          'Summarise the conversation in one sentence. Be as concise as possible and only provide the facts. Start the sentence with the key points. Using no more than 150 characters',
+        author: 'summary',
+        timestamp: new Date().toLocaleString(),
+        mine: false,
+      }
+      summary.chatMessages.push(chatThread)
+      messageCompletion(summary).then((result) => {
+        if (!this._conversation) return
+        this._conversation.summary = result
+      })
     }
   }
 

@@ -32,7 +32,7 @@ class VSCodeAPIWrapper {
     if (this.vsCodeApi) {
       this.vsCodeApi.postMessage(message)
     } else {
-      console.log(message)
+      console.log(`VSCodeAPIWrapper::postMessage ${message}`)
     }
   }
 

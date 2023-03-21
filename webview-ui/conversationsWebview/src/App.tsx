@@ -8,7 +8,6 @@ function App() {
 
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
-      console.log('personaWebview::onMessageReceivedFromIframe', event)
       switch (event.data.command) {
         case 'rqstViewLoadConversations':
           // eslint-disable-next-line no-case-declarations

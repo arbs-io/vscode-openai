@@ -176,21 +176,20 @@ export class MessageViewerPanel {
    *    | extension	| webview		| rqstViewRenderMessages	| IConversation		|
    *    | extension	| webview		| rqstViewAnswerMessage		| IChatMessage		|
    *    | webview		| extension	| rcvdViewSaveMessages		| IChatMessage[]	|
-   *    | webview		| extension	| rcvdViewQuestionMessage	| IChatMessage		|
    *
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
       (message) => {
         switch (message.command) {
-          case 'rcvdViewQuestionMessage':
-            this._rcvdViewQuestionMessage()
-            return
-
           case 'rcvdViewSaveMessages':
             // eslint-disable-next-line no-case-declarations
             const chatMessages: IChatMessage[] = JSON.parse(message.text)
             this._rcvdViewSaveMessages(chatMessages)
+            // If the last item was from user
+            if (chatMessages[chatMessages.length - 1].mine === true) {
+              this._askQuestion()
+            }
             return
 
           default:
@@ -214,7 +213,10 @@ export class MessageViewerPanel {
         this._conversation.chatMessages.length > 5 &&
         this._conversation.summary === '<New Conversation>'
       ) {
-        const summary = this._conversation
+        //Deep clone for summary
+        const summary = JSON.parse(
+          JSON.stringify(this._conversation)
+        ) as IConversation
         const chatThread: IChatMessage = {
           content:
             'Summarise the conversation in one sentence. Be as concise as possible and only provide the facts. Start the sentence with the key points. Using no more than 150 characters',
@@ -234,13 +236,12 @@ export class MessageViewerPanel {
     }
   }
 
-  private _rcvdViewQuestionMessage() {
+  private _askQuestion() {
     if (!this._conversation) return
 
     //Note: rcvdViewSaveMessages has added the new question
     messageCompletion(this._conversation).then((result) => {
       const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
-      console.log(`result\n:${result}`)
       const chatThread: IChatMessage = {
         content: result,
         author: author,

@@ -23,11 +23,6 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
     })
     setPreviousValue(text)
     setValue('')
-
-    vscode.postMessage({
-      command: 'rcvdViewQuestionMessage',
-      text: text,
-    })
   }
 
   return (

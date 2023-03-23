@@ -1,5 +1,6 @@
-import { commands, window, workspace } from 'vscode'
+import { commands, workspace } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
+import { getRequestConfig } from './getRequestConfig'
 import {
   ExtensionStatusBarItem,
   SecretStorageService,
@@ -32,7 +33,7 @@ export async function verifyApiKey(apiKey: string): Promise<boolean> {
       basePath: baseurl,
     })
     const openai = new OpenAIApi(configuration)
-    const response = await openai.listModels()
+    const response = await openai.listModels(getRequestConfig(apiKey))
     if (response.status === 200) {
       SecretStorageService.instance.setAuthApiKey(apiKey)
       commands.executeCommand(

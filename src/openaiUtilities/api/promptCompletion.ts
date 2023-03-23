@@ -1,4 +1,4 @@
-import { window, workspace } from 'vscode'
+import { workspace } from 'vscode'
 import {
   ChatCompletionRequestMessageRoleEnum,
   Configuration,

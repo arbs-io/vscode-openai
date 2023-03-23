@@ -10,6 +10,7 @@ import {
   SecretStorageService,
 } from '../../vscodeUtilities'
 import { IConversation } from '../../interfaces'
+import { getRequestConfig } from './getRequestConfig'
 
 async function buildMessages(
   conversation: IConversation
@@ -42,6 +43,8 @@ export async function messageCompletion(
     )
     const apiKey = await SecretStorageService.instance.getAuthApiKey()
 
+    if (!apiKey) return 'invalid ApiKey'
+
     const ws = workspace.getConfiguration('vscode-openai')
     const baseurl = ws.get('baseurl') as string
     const model = ws.get('default-model') as string
@@ -54,15 +57,18 @@ export async function messageCompletion(
 
     const chatCompletions = await buildMessages(conversation)
 
-    const completion = await openai.createChatCompletion({
-      model: model,
-      messages: chatCompletions,
-      temperature: 0.1,
-      max_tokens: 2048,
-      top_p: 1,
-      frequency_penalty: 0.5,
-      presence_penalty: 0.5,
-    })
+    const completion = await openai.createChatCompletion(
+      {
+        model: model,
+        messages: chatCompletions,
+        temperature: 0.1,
+        max_tokens: 2048,
+        top_p: 1,
+        frequency_penalty: 0.5,
+        presence_penalty: 0.5,
+      },
+      getRequestConfig(apiKey)
+    )
 
     const answer = completion.data.choices[0].message?.content
 

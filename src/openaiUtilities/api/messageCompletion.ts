@@ -10,6 +10,7 @@ import {
   SecretStorageService,
 } from '../../vscodeUtilities'
 import { IConversation } from '../../interfaces'
+import { getRequestConfig } from './getRequestConfig'
 
 async function buildMessages(
   conversation: IConversation
@@ -36,37 +37,38 @@ export async function messageCompletion(
   conversation: IConversation
 ): Promise<string> {
   try {
+    const requestConfig = await getRequestConfig()
+
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
-      'OpenAI: Running'
+      'Running'
     )
-    const apiKey = await SecretStorageService.instance.getAuthApiKey()
-
-    const ws = workspace.getConfiguration('vscode-openai')
-    const baseurl = ws.get('baseurl') as string
-    const model = ws.get('default-model') as string
+    if (!requestConfig.apiKey) return 'invalid ApiKey'
 
     const configuration = new Configuration({
-      apiKey: apiKey,
-      basePath: baseurl,
+      apiKey: requestConfig.apiKey,
+      basePath: requestConfig.inferenceUrl,
     })
     const openai = new OpenAIApi(configuration)
 
     const chatCompletions = await buildMessages(conversation)
 
-    const completion = await openai.createChatCompletion({
-      model: model,
-      messages: chatCompletions,
-      temperature: 0.1,
-      max_tokens: 2048,
-      top_p: 1,
-      frequency_penalty: 0.5,
-      presence_penalty: 0.5,
-    })
+    const completion = await openai.createChatCompletion(
+      {
+        model: requestConfig.defaultModel,
+        messages: chatCompletions,
+        temperature: 0.1,
+        max_tokens: 2048,
+        top_p: 1,
+        frequency_penalty: 0.5,
+        presence_penalty: 0.5,
+      },
+      requestConfig.requestConfig
+    )
 
     const answer = completion.data.choices[0].message?.content
 
-    ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', 'OpenAI')
+    ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
     return answer ? answer : ''
   } catch (error: any) {
     if (error.response) {

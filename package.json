@@ -18,7 +18,22 @@
     "vscode": "^1.73.0"
   },
   "categories": [
+    "Programming Languages",
+    "Linters",
+    "Data Science",
+    "Testing",
     "Formatters"
+  ],
+  "keywords": [
+    "ai",
+    "chatgpt",
+    "codex",
+    "copilot",
+    "gpt",
+    "gpt3",
+    "gpt4",
+    "openai",
+    "testing"
   ],
   "activationEvents": [
     "onStartupFinished"
@@ -59,33 +74,61 @@
     "configuration": {
       "title": "vscode-openai",
       "properties": {
-        "vscode-openai.useCodeSnippetsOnMethodSuggest": {
-          "type": "boolean",
-          "default": false,
-          "description": "Complete functions with their parameter signature."
-        },
-        "vscode-openai.baseurl": {
+        "vscode-openai.serviceProvider": {
           "type": "string",
-          "default": "https://api.openai.com/v1",
-          "format": "url",
-          "description": "Specifies the base url for the openai service."
-        },
-        "vscode-openai.default-model": {
-          "type": "string",
-          "default": "gpt-3.5-turbo",
-          "description": "Specifies the default openai model."
+          "default": "OpenAI",
+          "markdownDescription": "The service provider for OpenAI. If Microsoft Azure then instance name must be updated in `#vscode-openai.baseUrl#`.",
+          "enum": [
+            "OpenAI",
+            "Azure-OpenAI"
+          ],
+          "enumDescriptions": [
+            "Use OpenAI native service (https://api.openai.com)",
+            "Use Azure OpenAI service (https://<instance-name>.openai.azure.com/openai)."
+          ],
+          "order": 1
         },
         "vscode-openai.authentication": {
           "type": "string",
-          "default": "api-key",
+          "default": "ApiKey",
+          "markdownDescription": "The type of authentication used by the service.",
           "enum": [
-            "api-key",
-            "oauth2"
+            "ApiKey"
           ],
           "enumDescriptions": [
-            "Use OpenAI API keys for authentication. Visit your API Keys page to retrieve the API key you'll use in your requests.",
-            "Use OAuth2 for authentication (Enterprise)."
-          ]
+            "Use OpenAI API keys for authentication. Visit your API Keys page to retrieve the API key you'll use in your requests."
+          ],
+          "order": 2
+        },
+        "vscode-openai.baseUrl": {
+          "type": "string",
+          "default": "https://api.openai.com/v1",
+          "markdownDescription": "The base url for the OpenAI service dependencies on `#vscode-openai.serviceProvider#`.\n- `OpenAI` then default `https://api.openai.com/v1`\n- `Azure-OpenAI` then default `https://<instance-name>.openai.azure.com/openai`",
+          "format": "url",
+          "description": "Specifies the base url for the openai service.",
+          "order": 3
+        },
+        "vscode-openai.defaultModel": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "description": "Specifies the default openai model.",
+          "order": 4
+        },
+        "vscode-openai.azureDeployment": {
+          "type": "string",
+          "default": "azure-deployment",
+          "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
+          "format": "url",
+          "description": "Specifies the base url for the openai service.",
+          "order": 5
+        },
+        "vscode-openai.azureApiVersion": {
+          "type": "string",
+          "default": "2023-03-15-preview",
+          "markdownDescription": "The api version used by Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
+          "format": "url",
+          "description": "Specifies the base url for the openai service.",
+          "order": 6
         }
       }
     },

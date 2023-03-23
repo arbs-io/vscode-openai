@@ -1,50 +1,49 @@
-import { window, workspace } from 'vscode'
+import { workspace } from 'vscode'
 import {
   ChatCompletionRequestMessageRoleEnum,
   Configuration,
   OpenAIApi,
 } from 'openai'
-import {
-  ExtensionStatusBarItem,
-  SecretStorageService,
-} from '../../vscodeUtilities'
+import { ExtensionStatusBarItem } from '../../vscodeUtilities'
+import { getRequestConfig } from './getRequestConfig'
 
 export async function promptCompletion(prompt: string): Promise<string> {
   try {
+    const requestConfig = await getRequestConfig()
+
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
-      'OpenAI: Running'
+      'Running'
     )
-    const apiKey = await SecretStorageService.instance.getAuthApiKey()
-
-    const ws = workspace.getConfiguration('vscode-openai')
-    const baseurl = ws.get('baseurl') as string
-    const model = ws.get('default-model') as string
+    if (!requestConfig.apiKey) return 'invalid ApiKey'
 
     const configuration = new Configuration({
-      apiKey: apiKey,
-      basePath: baseurl,
+      apiKey: requestConfig.apiKey,
+      basePath: requestConfig.inferenceUrl,
     })
     const openai = new OpenAIApi(configuration)
 
-    const completion = await openai.createChatCompletion({
-      model: model,
-      messages: [
-        {
-          role: ChatCompletionRequestMessageRoleEnum.Assistant,
-          content: prompt,
-        },
-      ],
-      temperature: 0.1,
-      max_tokens: 2048,
-      top_p: 1,
-      frequency_penalty: 0.5,
-      presence_penalty: 0.5,
-    })
+    const completion = await openai.createChatCompletion(
+      {
+        model: requestConfig.defaultModel,
+        messages: [
+          {
+            role: ChatCompletionRequestMessageRoleEnum.Assistant,
+            content: prompt,
+          },
+        ],
+        temperature: 0.1,
+        max_tokens: 2048,
+        top_p: 1,
+        frequency_penalty: 0.5,
+        presence_penalty: 0.5,
+      },
+      requestConfig.requestConfig
+    )
 
     const answer = completion.data.choices[0].message?.content
 
-    ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', 'OpenAI')
+    ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
     return answer ? answer : ''
   } catch (error: any) {
     if (error.response) {

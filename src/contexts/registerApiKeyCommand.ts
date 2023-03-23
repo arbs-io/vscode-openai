@@ -1,9 +1,7 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
-import { verifyApiKey } from '../openaiUtilities'
+import { getRequestConfig, verifyApiKey } from '../openaiUtilities'
+import { SecretStorageService } from '../vscodeUtilities'
 import { VSCODE_OPENAI_REGISTER } from './constants'
-
-const OPENAI_APIKEY_LENGTH = 51
-const OPENAI_APIKEY_STARTSWITH = 'sk-'
 
 export function registerApiKeyCommand(context: ExtensionContext) {
   _registerApiKeyCommand(context)
@@ -22,9 +20,39 @@ function _registerApiKeyCommand(context: ExtensionContext) {
 }
 
 async function _inputApiKeyOpenAI() {
-  const apiKey = await window.showInputBox({
-    title: "OpenAI Api-Key",
-    placeHolder: 'For example: sk-Uzm...MgS3',    
+  const requestConfig = await getRequestConfig()
+
+  const apiKey =
+    requestConfig.serviceProvider === 'Azure-OpenAI'
+      ? await _azureApiKey()
+      : await _openaiApiKey()
+
+  if (apiKey !== undefined) {
+    await SecretStorageService.instance
+      .setAuthApiKey(apiKey)
+      .then((x) => verifyApiKey())
+  }
+}
+
+async function _azureApiKey(): Promise<string | undefined> {
+  const OPENAI_APIKEY_LENGTH = 32
+
+  return await window.showInputBox({
+    title: 'Azure-OpenAI Api-Key',
+    placeHolder: 'ed4af062d8567543ad104587ea4505ce',
+    validateInput: (text) => {
+      return text.length === OPENAI_APIKEY_LENGTH ? null : 'Invalid Api Key'
+    },
+  })
+}
+
+async function _openaiApiKey(): Promise<string | undefined> {
+  const OPENAI_APIKEY_LENGTH = 51
+  const OPENAI_APIKEY_STARTSWITH = 'sk-'
+
+  return await window.showInputBox({
+    title: 'OpenAI Api-Key',
+    placeHolder: 'sk-8i6055nAY3eAwARfHFjiT5BlbkFJAEFUvG5GwtAV2RiwP87h',
     validateInput: (text) => {
       return text.length === OPENAI_APIKEY_LENGTH &&
         text.startsWith(OPENAI_APIKEY_STARTSWITH)
@@ -32,8 +60,4 @@ async function _inputApiKeyOpenAI() {
         : 'Invalid Api Key'
     },
   })
-
-  if (apiKey !== undefined) {
-    await verifyApiKey(apiKey)
-  }
 }

@@ -8,6 +8,7 @@ import {
 import {
   ConversationService,
   registerApiKeyCommand,
+  registerChangeConfiguration,
   registerDefaultModelCommand,
   registerEditorCompletion,
   registerSidebarProvider,
@@ -27,6 +28,7 @@ export function activate(context: ExtensionContext) {
   registerDefaultModelCommand(context)
   registerEditorCompletion(context)
   registerSidebarProvider(context)
+  registerChangeConfiguration(context)
 
   ConversationService.init(context)
 

@@ -7,5 +7,6 @@ export { registerApiKeyCommand } from './registerApiKeyCommand'
 export { registerDefaultModelCommand } from './registerDefaultModelCommand'
 export { registerEditorCompletion } from './registerEditorCompletion'
 export { registerSidebarProvider } from './registerSidebarProvider'
+export { registerChangeConfiguration } from './registerChangeConfiguration'
 
 export { default as ConversationService } from './conversationService'

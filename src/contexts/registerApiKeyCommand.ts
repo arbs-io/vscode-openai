@@ -1,5 +1,6 @@
 import { commands, ExtensionContext, Uri, window, workspace } from 'vscode'
-import { verifyApiKey } from '../openaiUtilities'
+import { getRequestConfig, verifyApiKey } from '../openaiUtilities'
+import { SecretStorageService } from '../vscodeUtilities'
 import { VSCODE_OPENAI_REGISTER } from './constants'
 
 const OPENAI_APIKEY_LENGTH = 51
@@ -23,27 +24,40 @@ function _registerApiKeyCommand(context: ExtensionContext) {
 }
 
 async function _inputApiKeyOpenAI() {
-  const ws = workspace.getConfiguration('vscode-openai')
-  const authentication = ws.get('authentication') as string
+  const requestConfig = await getRequestConfig()
 
-  const apiKey = await window.showInputBox({
-    title: 'OpenAI Api-Key',
-    placeHolder: 'For example: sk-Uzm...MgS3',
-    validateInput: (text) => {
-      if (authentication === 'OpenAI (ApiKey)') {
-        return text.length === OPENAI_APIKEY_LENGTH &&
-          text.startsWith(OPENAI_APIKEY_STARTSWITH)
-          ? null
-          : 'Invalid Api Key'
-      } else {
-        return text.length === AZURE_OPENAI_APIKEY_LENGTH
-          ? null
-          : 'Invalid Api Key'
-      }
-    },
-  })
+  const apiKey =
+    requestConfig.serviceProvider === 'Azure-OpenAI'
+      ? await _azureApiKey()
+      : await _openaiApiKey()
 
   if (apiKey !== undefined) {
-    await verifyApiKey(apiKey)
+    SecretStorageService.instance.setAuthApiKey(apiKey)
+    await verifyApiKey()
   }
+}
+
+async function _azureApiKey(): Promise<string | undefined> {
+  return await window.showInputBox({
+    title: 'Azure-OpenAI Api-Key',
+    placeHolder: 'ec3af062d8567543ad104587ea4505ce',
+    validateInput: (text) => {
+      return text.length === AZURE_OPENAI_APIKEY_LENGTH
+        ? null
+        : 'Invalid Api Key'
+    },
+  })
+}
+
+async function _openaiApiKey(): Promise<string | undefined> {
+  return await window.showInputBox({
+    title: 'OpenAI Api-Key',
+    placeHolder: 'sk-8i6055nAY3eAwARfHFjiT5BlbkFJAEFUvG5GwtAV2RiwP87h',
+    validateInput: (text) => {
+      return text.length === OPENAI_APIKEY_LENGTH &&
+        text.startsWith(OPENAI_APIKEY_STARTSWITH)
+        ? null
+        : 'Invalid Api Key'
+    },
+  })
 }

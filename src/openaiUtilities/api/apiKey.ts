@@ -7,54 +7,47 @@ import {
 } from '../../vscodeUtilities'
 
 export async function validateApiKey() {
-  const apiKey = await SecretStorageService.instance.getAuthApiKey()
-  if (apiKey !== undefined && apiKey !== '<invalid-key>') {
+  const requestConfig = await getRequestConfig()
+  if (
+    requestConfig.apiKey !== undefined &&
+    requestConfig.apiKey !== '<invalid-key>'
+  ) {
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'loading~spin',
-      'OpenAI: Connecting'
+      'Connecting'
     )
-    verifyApiKey(apiKey)
+    verifyApiKey()
   } else {
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
     ExtensionStatusBarItem.instance.showStatusBarError(
       'lock',
-      'OpenAI: Invalid Api-Key'
+      'Invalid Api-Key'
     )
   }
 }
 
-export async function verifyApiKey(apiKey: string): Promise<boolean> {
+export async function verifyApiKey(): Promise<boolean> {
   try {
-    const ws = workspace.getConfiguration('vscode-openai')
-    const baseurl = ws.get('baseurl') as string
-
+    const requestConfig = await getRequestConfig()
     const configuration = new Configuration({
-      apiKey: apiKey,
-      basePath: baseurl,
+      apiKey: requestConfig.apiKey,
+      basePath: requestConfig.baseUrl,
     })
     const openai = new OpenAIApi(configuration)
-    const response = await openai.listModels(getRequestConfig(apiKey))
+    const response = await openai.listModels(requestConfig.requestConfig)
     if (response.status === 200) {
-      SecretStorageService.instance.setAuthApiKey(apiKey)
       commands.executeCommand(
         'setContext',
         'vscode-openai.context.apikey',
         true
       )
-      ExtensionStatusBarItem.instance.showStatusBarInformation(
-        'unlock',
-        'OpenAI'
-      )
+      ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
       return true
     }
   } catch (error: any) {
     SecretStorageService.instance.setAuthApiKey('<invalid-key>')
-    const apiKey = await SecretStorageService.instance.getAuthApiKey()
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
   }
-  ExtensionStatusBarItem.instance.showStatusBarError(
-    'lock',
-    'OpenAI: Invalid Api-Key'
-  )
+  ExtensionStatusBarItem.instance.showStatusBarError('lock', 'Invalid Api-Key')
   return false
 }

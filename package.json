@@ -18,7 +18,22 @@
     "vscode": "^1.73.0"
   },
   "categories": [
+    "Programming Languages",
+    "Linters",
+    "Data Science",
+    "Testing",
     "Formatters"
+  ],
+  "keywords": [
+    "ai",
+    "chatgpt",
+    "codex",
+    "copilot",
+    "gpt",
+    "gpt3",
+    "gpt4",
+    "openai",
+    "testing"
   ],
   "activationEvents": [
     "onStartupFinished"
@@ -76,7 +91,7 @@
         "vscode-openai.authentication": {
           "type": "string",
           "default": "ApiKey",
-          "markdownDescription": "The type of authentication used by the service. Only applies when `#vscode-openai.serviceProvider#` default set to `ApiKey`.",
+          "markdownDescription": "The type of authentication used by the service.",
           "enum": [
             "ApiKey"
           ],

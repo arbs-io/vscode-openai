@@ -4,31 +4,26 @@ import {
   Configuration,
   OpenAIApi,
 } from 'openai'
-import {
-  ExtensionStatusBarItem,
-  SecretStorageService,
-} from '../../vscodeUtilities'
+import { ExtensionStatusBarItem } from '../../vscodeUtilities'
+import { getRequestConfig } from './getRequestConfig'
 
 export async function promptCompletion(prompt: string): Promise<string> {
   try {
+    const requestConfig = await getRequestConfig()
+
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
-      'OpenAI: Running'
+      'Running'
     )
-    const apiKey = await SecretStorageService.instance.getAuthApiKey()
-
-    const ws = workspace.getConfiguration('vscode-openai')
-    const baseurl = ws.get('baseurl') as string
-    const model = ws.get('default-model') as string
 
     const configuration = new Configuration({
-      apiKey: apiKey,
-      basePath: baseurl,
+      apiKey: requestConfig.apiKey,
+      basePath: requestConfig.inferenceUrl,
     })
     const openai = new OpenAIApi(configuration)
 
     const completion = await openai.createChatCompletion({
-      model: model,
+      model: requestConfig.defaultModel,
       messages: [
         {
           role: ChatCompletionRequestMessageRoleEnum.Assistant,
@@ -44,7 +39,7 @@ export async function promptCompletion(prompt: string): Promise<string> {
 
     const answer = completion.data.choices[0].message?.content
 
-    ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', 'OpenAI')
+    ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
     return answer ? answer : ''
   } catch (error: any) {
     if (error.response) {

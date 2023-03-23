@@ -37,21 +37,17 @@ export async function messageCompletion(
   conversation: IConversation
 ): Promise<string> {
   try {
+    const requestConfig = await getRequestConfig()
+
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
-      'OpenAI: Running'
+      'Running'
     )
-    const apiKey = await SecretStorageService.instance.getAuthApiKey()
-
-    if (!apiKey) return 'invalid ApiKey'
-
-    const ws = workspace.getConfiguration('vscode-openai')
-    const baseurl = ws.get('baseurl') as string
-    const model = ws.get('default-model') as string
+    if (!requestConfig.apiKey) return 'invalid ApiKey'
 
     const configuration = new Configuration({
-      apiKey: apiKey,
-      basePath: baseurl,
+      apiKey: requestConfig.apiKey,
+      basePath: requestConfig.inferenceUrl,
     })
     const openai = new OpenAIApi(configuration)
 
@@ -59,7 +55,7 @@ export async function messageCompletion(
 
     const completion = await openai.createChatCompletion(
       {
-        model: model,
+        model: requestConfig.defaultModel,
         messages: chatCompletions,
         temperature: 0.1,
         max_tokens: 2048,
@@ -67,12 +63,12 @@ export async function messageCompletion(
         frequency_penalty: 0.5,
         presence_penalty: 0.5,
       },
-      getRequestConfig(apiKey)
+      requestConfig.requestConfig
     )
 
     const answer = completion.data.choices[0].message?.content
 
-    ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', 'OpenAI')
+    ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
     return answer ? answer : ''
   } catch (error: any) {
     if (error.response) {

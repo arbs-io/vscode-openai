@@ -1,20 +1,17 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { workspace } from 'vscode'
-import { SecretStorageService } from '../../vscodeUtilities'
+import { getRequestConfig } from './getRequestConfig'
 
 export async function listModels(): Promise<string[]> {
   const models = new Array<string>()
-  const apiKey = await SecretStorageService.instance.getAuthApiKey()
-
-  const ws = workspace.getConfiguration('vscode-openai')
-  const baseurl = ws.get('baseurl') as string
+  const requestConfig = await getRequestConfig()
 
   const configuration = new Configuration({
-    apiKey: apiKey,
-    basePath: baseurl,
+    apiKey: requestConfig.apiKey,
+    basePath: requestConfig.baseUrl,
   })
   const openai = new OpenAIApi(configuration)
-  const response = await openai.listModels()
+  const response = await openai.listModels(requestConfig.requestConfig)
 
   response.data.data.forEach((model) => {
     if (model.id.startsWith('gpt') && model.id.indexOf('turbo')) {

@@ -13,10 +13,8 @@ export default class SecretStorageService {
     return SecretStorageService._instance
   }
 
-  async setAuthApiKey(token?: string): Promise<void> {
-    if (token) {
-      this.secretStorage.store('openai_apikey', token)
-    }
+  async setAuthApiKey(token: string): Promise<void> {
+    await this.secretStorage.store('openai_apikey', token)
   }
 
   async getAuthApiKey(): Promise<string | undefined> {

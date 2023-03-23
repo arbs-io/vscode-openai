@@ -33,10 +33,9 @@ export default class ExtensionStatusBarItem {
   }
 
   static get serviceProvider(): string {
-    return ExtensionStatusBarItem._serviceProvider
-  }
-  static set serviceProvider(value: string) {
-    ExtensionStatusBarItem._serviceProvider = value
+    const ws = workspace.getConfiguration('vscode-openai')
+    const serviceProvider = ws.get('serviceProvider') as string
+    return serviceProvider
   }
 
   public showStatusBarInformation(icon: string, text: string) {
@@ -46,7 +45,7 @@ export default class ExtensionStatusBarItem {
   }
 
   public showStatusBarError(icon: string, text: string) {
-    this.statusBarItem.text = `$(${icon}) ${ExtensionStatusBarItem._instance} ${text}`
+    this.statusBarItem.text = `$(${icon}) ${ExtensionStatusBarItem.serviceProvider} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(
       'statusBarItem.errorBackground'
     )

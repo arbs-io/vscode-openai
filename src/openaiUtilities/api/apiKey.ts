@@ -45,7 +45,7 @@ export async function verifyApiKey(): Promise<boolean> {
       return true
     }
   } catch (error: any) {
-    SecretStorageService.instance.setAuthApiKey('<invalid-key>')
+    await SecretStorageService.instance.setAuthApiKey('<invalid-key>')
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
   }
   ExtensionStatusBarItem.instance.showStatusBarError('lock', 'Invalid Api-Key')

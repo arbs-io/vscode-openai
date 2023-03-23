@@ -15,6 +15,7 @@ export async function promptCompletion(prompt: string): Promise<string> {
       'sync~spin',
       'Running'
     )
+    if (!requestConfig.apiKey) return 'invalid ApiKey'
 
     const configuration = new Configuration({
       apiKey: requestConfig.apiKey,
@@ -22,20 +23,23 @@ export async function promptCompletion(prompt: string): Promise<string> {
     })
     const openai = new OpenAIApi(configuration)
 
-    const completion = await openai.createChatCompletion({
-      model: requestConfig.defaultModel,
-      messages: [
-        {
-          role: ChatCompletionRequestMessageRoleEnum.Assistant,
-          content: prompt,
-        },
-      ],
-      temperature: 0.1,
-      max_tokens: 2048,
-      top_p: 1,
-      frequency_penalty: 0.5,
-      presence_penalty: 0.5,
-    })
+    const completion = await openai.createChatCompletion(
+      {
+        model: requestConfig.defaultModel,
+        messages: [
+          {
+            role: ChatCompletionRequestMessageRoleEnum.Assistant,
+            content: prompt,
+          },
+        ],
+        temperature: 0.1,
+        max_tokens: 2048,
+        top_p: 1,
+        frequency_penalty: 0.5,
+        presence_penalty: 0.5,
+      },
+      requestConfig.requestConfig
+    )
 
     const answer = completion.data.choices[0].message?.content
 

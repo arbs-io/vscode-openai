@@ -124,7 +124,7 @@
         },
         "vscode-openai.azureApiVersion": {
           "type": "string",
-          "default": "2022-12-01",
+          "default": "2023-03-15-preview",
           "markdownDescription": "The api version used by Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
           "format": "url",
           "description": "Specifies the base url for the openai service.",

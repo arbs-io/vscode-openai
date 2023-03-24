@@ -1,20 +1,19 @@
 import { workspace, ExtensionContext } from 'vscode'
 import { IConfigurationProperties } from '../../interfaces'
-import { SecretStorageService } from '../'
+import { SecretStorageService } from '..'
 
-export default class ConfigurationPropertiesService {
-  private static _instance: ConfigurationPropertiesService
+export default class ConfigurationService {
+  private static _instance: ConfigurationService
   private _configurationProperties: IConfigurationProperties | undefined
 
   constructor(private context: ExtensionContext) {}
 
   static init(context: ExtensionContext): void {
-    ConfigurationPropertiesService._instance =
-      new ConfigurationPropertiesService(context)
+    ConfigurationService._instance = new ConfigurationService(context)
   }
 
-  static get instance(): ConfigurationPropertiesService {
-    return ConfigurationPropertiesService._instance
+  static get instance(): ConfigurationService {
+    return ConfigurationService._instance
   }
 
   async load() {

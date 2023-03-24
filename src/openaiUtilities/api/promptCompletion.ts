@@ -1,15 +1,14 @@
-import { workspace } from 'vscode'
 import {
   ChatCompletionRequestMessageRoleEnum,
   Configuration,
   OpenAIApi,
 } from 'openai'
 import { ExtensionStatusBarItem } from '../../vscodeUtilities'
-import { ConfigurationPropertiesService } from '../../vscodeUtilities'
+import { ConfigurationService } from '../../vscodeUtilities'
 
 export async function promptCompletion(prompt: string): Promise<string> {
   try {
-    const requestConfig = await ConfigurationPropertiesService.instance.get()
+    const requestConfig = await ConfigurationService.instance.get()
 
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',

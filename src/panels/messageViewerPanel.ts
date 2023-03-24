@@ -114,11 +114,24 @@ export class MessageViewerPanel {
     }
   }
 
+  private _isThemeDark() {
+    return {
+      [ColorThemeKind.Light]: false,
+      [ColorThemeKind.Dark]: true,
+      [ColorThemeKind.HighContrast]: true,
+      [ColorThemeKind.HighContrastLight]: false,
+    }[window.activeColorTheme.kind]
+  }
+
   private _setPanelIcon() {
+    const openaiWebviewIcon = this._isThemeDark()
+      ? 'openai-webview-dark.png'
+      : 'openai-webview-light.png'
+
     const iconPathOnDisk = Uri.joinPath(
       this._extensionUri,
       'assets',
-      'openai-webview.png'
+      openaiWebviewIcon
     )
     this._panel.iconPath = iconPathOnDisk
   }
@@ -142,12 +155,8 @@ export class MessageViewerPanel {
       'index.js',
     ])
 
-    const panelTheme = {
-      [ColorThemeKind.Light]: 'light',
-      [ColorThemeKind.Dark]: 'dark',
-      [ColorThemeKind.HighContrast]: 'dark',
-      [ColorThemeKind.HighContrastLight]: 'light',
-    }[window.activeColorTheme.kind]
+    const panelTheme = this._isThemeDark() ? 'dark' : 'light'
+    this._setPanelIcon()
 
     const nonce = getNonce()
 

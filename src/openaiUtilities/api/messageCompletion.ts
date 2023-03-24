@@ -10,7 +10,7 @@ import {
   SecretStorageService,
 } from '../../vscodeUtilities'
 import { IConversation } from '../../interfaces'
-import { getRequestConfig } from './getRequestConfig'
+import { ConfigurationPropertiesService } from '../../vscodeUtilities'
 
 async function buildMessages(
   conversation: IConversation
@@ -37,7 +37,7 @@ export async function messageCompletion(
   conversation: IConversation
 ): Promise<string> {
   try {
-    const requestConfig = await getRequestConfig()
+    const requestConfig = await ConfigurationPropertiesService.instance.get()
 
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',

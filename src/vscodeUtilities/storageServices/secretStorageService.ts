@@ -1,4 +1,4 @@
-import { ExtensionContext, SecretStorage } from 'vscode'
+import { commands, ExtensionContext, SecretStorage } from 'vscode'
 
 export default class SecretStorageService {
   private static _instance: SecretStorageService
@@ -14,6 +14,13 @@ export default class SecretStorageService {
   }
 
   async setAuthApiKey(token: string): Promise<void> {
+    if (token === '<invalid-key>') {
+      commands.executeCommand(
+        'setContext',
+        'vscode-openai.context.apikey',
+        false
+      )
+    }
     await this.secretStorage.store('openai_apikey', token)
   }
 

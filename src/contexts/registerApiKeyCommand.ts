@@ -1,6 +1,9 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
-import { getRequestConfig, verifyApiKey } from '../openaiUtilities'
-import { SecretStorageService } from '../vscodeUtilities'
+import { verifyApiKey } from '../openaiUtilities'
+import {
+  ConfigurationPropertiesService,
+  SecretStorageService,
+} from '../vscodeUtilities'
 import { VSCODE_OPENAI_REGISTER } from './constants'
 
 export function registerApiKeyCommand(context: ExtensionContext) {
@@ -20,7 +23,7 @@ function _registerApiKeyCommand(context: ExtensionContext) {
 }
 
 async function _inputApiKeyOpenAI() {
-  const requestConfig = await getRequestConfig()
+  const requestConfig = await ConfigurationPropertiesService.instance.get()
 
   const apiKey =
     requestConfig.serviceProvider === 'Azure-OpenAI'
@@ -30,6 +33,7 @@ async function _inputApiKeyOpenAI() {
   if (apiKey !== undefined) {
     await SecretStorageService.instance
       .setAuthApiKey(apiKey)
+      .then((x) => ConfigurationPropertiesService.instance.load())
       .then((x) => verifyApiKey())
   }
 }

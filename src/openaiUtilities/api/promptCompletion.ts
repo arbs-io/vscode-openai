@@ -5,11 +5,11 @@ import {
   OpenAIApi,
 } from 'openai'
 import { ExtensionStatusBarItem } from '../../vscodeUtilities'
-import { getRequestConfig } from './getRequestConfig'
+import { ConfigurationPropertiesService } from '../../vscodeUtilities'
 
 export async function promptCompletion(prompt: string): Promise<string> {
   try {
-    const requestConfig = await getRequestConfig()
+    const requestConfig = await ConfigurationPropertiesService.instance.get()
 
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',

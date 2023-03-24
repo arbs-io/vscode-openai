@@ -1,6 +1,7 @@
 import { commands, ExtensionContext } from 'vscode'
 import { validateApiKey } from './openaiUtilities'
 import {
+  ConfigurationPropertiesService,
   ExtensionStatusBarItem,
   GlobalStorageService,
   SecretStorageService,
@@ -22,6 +23,8 @@ export function activate(context: ExtensionContext) {
   SecretStorageService.init(context)
   GlobalStorageService.init(context)
   ExtensionStatusBarItem.init(context)
+
+  ConfigurationPropertiesService.init(context)
 
   //registerCommands
   registerApiKeyCommand(context)

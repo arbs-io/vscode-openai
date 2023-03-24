@@ -1,10 +1,9 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { workspace } from 'vscode'
-import { getRequestConfig } from './getRequestConfig'
+import { ConfigurationPropertiesService } from '../../vscodeUtilities'
 
 export async function listModels(): Promise<string[]> {
   const models = new Array<string>()
-  const requestConfig = await getRequestConfig()
+  const requestConfig = await ConfigurationPropertiesService.instance.get()
 
   const configuration = new Configuration({
     apiKey: requestConfig.apiKey,

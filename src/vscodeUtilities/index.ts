@@ -10,3 +10,5 @@ export { default as GlobalStorageService } from './storageServices/globalStateSe
 export { default as SecretStorageService } from './storageServices/secretStorageService'
 
 export { default as ExtensionStatusBarItem } from './statusBarItem/ExtensionStatusBarItem'
+
+export { default as ConfigurationPropertiesService } from './configurationProperties/ConfigurationPropertiesService'

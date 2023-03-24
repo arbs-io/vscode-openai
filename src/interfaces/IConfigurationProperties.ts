@@ -1,4 +1,4 @@
-export interface IOpenAIConfig {
+export interface IConfigurationProperties {
   serviceProvider: string
   baseUrl: string
   inferenceUrl: string

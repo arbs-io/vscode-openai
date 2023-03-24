@@ -45,7 +45,7 @@ export async function verifyApiKey(): Promise<boolean> {
       return true
     }
   } catch (error: any) {
-    await SecretStorageService.instance.setAuthApiKey('<invalid-key>')
+    await SecretStorageService.instance.invalidateApiKey()
   }
   ExtensionStatusBarItem.instance.showStatusBarError('lock', 'Invalid Api-Key')
   return false

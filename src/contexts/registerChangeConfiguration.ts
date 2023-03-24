@@ -8,12 +8,7 @@ import {
 export function registerChangeConfiguration(context: ExtensionContext) {
   workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration('vscode-openai.serviceProvider')) {
-      SecretStorageService.instance.setAuthApiKey('<invalid-key>')
-      // commands.executeCommand(
-      //   'setContext',
-      //   'vscode-openai.context.apikey',
-      //   false
-      // )
+      SecretStorageService.instance.invalidateApiKey()
       ConfigurationPropertiesService.instance.load().then((x) => verifyApiKey())
     }
 

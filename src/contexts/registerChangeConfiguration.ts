@@ -9,9 +9,8 @@ export function registerChangeConfiguration(context: ExtensionContext) {
   workspace.onDidChangeConfiguration(async (event) => {
     if (event.affectsConfiguration('vscode-openai.serviceProvider')) {
       await SecretStorageService.instance.invalidateApiKey()
-      await ConfigurationPropertiesService.instance
-        .load()
-        .then((x) => verifyApiKey())
+      await ConfigurationPropertiesService.instance.load()
+      await verifyApiKey()
     }
 
     if (

@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "A vscode extension can significantly enhance your productivity and efficiency when developing complex software applications using OpenAI latest models",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,

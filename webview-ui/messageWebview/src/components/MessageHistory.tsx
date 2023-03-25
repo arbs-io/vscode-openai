@@ -1,8 +1,14 @@
-import { tokens } from '@fluentui/react-components'
+import {
+  tokens,
+  makeStyles,
+  Table,
+  tableClassName,
+} from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import remarkGfm from 'remark-gfm'
 import { IChatMessage } from '../interfaces/IChatMessage'
 
 interface IData {
@@ -42,6 +48,7 @@ export const MessageHistory: FC<IData> = ({ message }) => {
       </div>
       <ReactMarkdown
         children={message.content.trim()}
+        remarkPlugins={[remarkGfm]}
         components={{
           code({ node, inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '')

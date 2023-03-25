@@ -1,4 +1,3 @@
-import { workspace } from 'vscode'
 import {
   ChatCompletionRequestMessage,
   ChatCompletionRequestMessageRoleEnum,
@@ -7,10 +6,9 @@ import {
 } from 'openai'
 import {
   ExtensionStatusBarItem,
-  SecretStorageService,
 } from '../../vscodeUtilities'
 import { IConversation } from '../../interfaces'
-import { ConfigurationPropertiesService } from '../../vscodeUtilities'
+import { ConfigurationService } from '../../vscodeUtilities'
 
 async function buildMessages(
   conversation: IConversation
@@ -37,7 +35,7 @@ export async function messageCompletion(
   conversation: IConversation
 ): Promise<string> {
   try {
-    const requestConfig = await ConfigurationPropertiesService.instance.get()
+    const requestConfig = await ConfigurationService.instance.get()
 
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',

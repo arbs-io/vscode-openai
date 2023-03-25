@@ -1,15 +1,12 @@
 import { ExtensionContext, workspace } from 'vscode'
 import { verifyApiKey } from '../openaiUtilities'
-import {
-  ConfigurationPropertiesService,
-  SecretStorageService,
-} from '../vscodeUtilities'
+import { ConfigurationService, SecretStorageService } from '../vscodeUtilities'
 
 export function registerChangeConfiguration(context: ExtensionContext) {
   workspace.onDidChangeConfiguration(async (event) => {
     if (event.affectsConfiguration('vscode-openai.serviceProvider')) {
       await SecretStorageService.instance.invalidateApiKey()
-      await ConfigurationPropertiesService.instance.load()
+      await ConfigurationService.instance.load()
       await verifyApiKey()
     }
 
@@ -20,7 +17,7 @@ export function registerChangeConfiguration(context: ExtensionContext) {
       event.affectsConfiguration('vscode-openai.azureDeployment') ||
       event.affectsConfiguration('vscode-openai.azureApiVersion')
     ) {
-      await ConfigurationPropertiesService.instance.load()
+      await ConfigurationService.instance.load()
     }
   })
 }

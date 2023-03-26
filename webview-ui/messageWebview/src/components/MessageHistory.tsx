@@ -29,6 +29,10 @@ export const MessageHistory: FC<IData> = ({ message }) => {
     boxShadow: tokens.shadow64,
   }
 
+  const styleWrap: CSSProperties = {
+    whiteSpace: 'pre-wrap',
+  }
+
   return (
     <div style={style}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -51,17 +55,15 @@ export const MessageHistory: FC<IData> = ({ message }) => {
               <SyntaxHighlighter
                 children={String(children).replace(/\n$/, '')}
                 language={match[1]}
+                lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
+                wrapLines={true}
                 wrapLongLines={true}
-                // wrapLines={true}
-                // lineProps={{
-                //   style: { whiteSpace: 'pre-wrap' },
-                // }}
                 PreTag="div"
                 {...props}
                 style={tomorrow}
               />
             ) : (
-              <code className={className} {...props}>
+              <code className={className} style={styleWrap} {...props}>
                 {children}
               </code>
             )

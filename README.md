@@ -1,5 +1,10 @@
 # vscode-openai
 
+![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/AndrewButson.vscode-openai)
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/AndrewButson.vscode-openai)
+[![GitHub issues](https://img.shields.io/github/issues/arbs-io/vscode-openai-docs.svg)](https://github.com/arbs-io/vscode-openai-docs/issues)
+![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/AndrewButson.vscode-openai)
+
 The vscode-openai extension provides direct access to openai features directly from within your code editor. Say goodbye to switching back and forth between different applications to get answers to your questions - now you can get instant responses without leaving your coding environment.
 
 The extension supports native `openai` and `azure-openai`. See `Configuring Azure` section to use your azure instance. Then simply enter your OpenAI Api-Key and enjoy the productivity.

@@ -1,9 +1,4 @@
-import {
-  tokens,
-  makeStyles,
-  Table,
-  tableClassName,
-} from '@fluentui/react-components'
+import { tokens } from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -34,6 +29,10 @@ export const MessageHistory: FC<IData> = ({ message }) => {
     boxShadow: tokens.shadow64,
   }
 
+  const styleWrap: CSSProperties = {
+    whiteSpace: 'pre-wrap',
+  }
+
   return (
     <div style={style}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -56,12 +55,15 @@ export const MessageHistory: FC<IData> = ({ message }) => {
               <SyntaxHighlighter
                 children={String(children).replace(/\n$/, '')}
                 language={match[1]}
+                lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
+                wrapLines={true}
+                wrapLongLines={true}
                 PreTag="div"
                 {...props}
                 style={tomorrow}
               />
             ) : (
-              <code className={className} {...props}>
+              <code className={className} style={styleWrap} {...props}>
                 {children}
               </code>
             )

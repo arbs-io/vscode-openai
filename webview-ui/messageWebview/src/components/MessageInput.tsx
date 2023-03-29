@@ -6,11 +6,10 @@ import { IChatMessage } from '../interfaces/IChatMessage'
 
 interface MessageInputProps {
   onSubmit: (message: IChatMessage) => void
-  disableInput: boolean
 }
 
 export const MessageInput: FC<MessageInputProps> = (props) => {
-  const { onSubmit, disableInput } = props
+  const { onSubmit } = props
   const [value, setValue] = React.useState<string>('')
   const [previousValue, setPreviousValue] = React.useState<string>('')
 
@@ -28,7 +27,6 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
       <Input
-        disabled={disableInput}
         style={{ width: '100%' }}
         placeholder="Type your message here"
         value={value}
@@ -45,7 +43,6 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
         }}
       />
       <Button
-        disabled={disableInput}
         appearance="transparent"
         icon={<Send16Regular />}
         onClick={() => handleSubmit(value)}

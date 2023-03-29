@@ -9,8 +9,6 @@ const MessageInteraction: FC = () => {
   const chatBottomRef = useRef<HTMLDivElement>(null)
   const [chatHistory, setChatHistory] = useState<IChatMessage[]>([])
   const [forceRefresh, setForceRefresh] = useState<boolean>()
-  const [isNew, setIsNew] = useState<boolean>(false)
-
   const styles = useStyles()
 
   useEffect(() => {
@@ -30,7 +28,6 @@ const MessageInteraction: FC = () => {
         // eslint-disable-next-line no-case-declarations
         const chatMessages: IChatMessage[] = JSON.parse(message.text)
         setChatHistory(chatMessages)
-        setIsNew(chatMessages.length <= 1 ? true : false)
         break
 
       case 'rqstViewAnswerMessage':
@@ -50,9 +47,8 @@ const MessageInteraction: FC = () => {
         ))}
         <div ref={chatBottomRef} />
       </div>
-      <div hidden={!isNew} className={mergeClasses(styles.input)}>
+      <div className={mergeClasses(styles.input)}>
         <MessageInput
-          disableInput={!isNew}
           onSubmit={(m) => {
             setChatHistory([...chatHistory, m])
           }}

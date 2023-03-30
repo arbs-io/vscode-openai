@@ -55,7 +55,7 @@ That's where vscode-openai comes in. By analyzing the structure and behaviour of
 
 Overall, the design pattern suggestion feature of vscode-openai is a powerful tool that can help developers of all levels write better code more efficiently. By leveraging this feature, you can build more practical applications that are easier to maintain and scale, saving you time and effort in the long run.
 
-![vscode-openai-designpatterns.gif](images/vscode-openai-designpatterns.gif)
+### Summary
 
 Understand the importance of having the right tools to make your work easier and more efficient. That's why I'm excited to introduce vscode-openai, a free extension for VS Code that uses the power of OpenAI to provide advanced features and technology to developers of all levels.
 

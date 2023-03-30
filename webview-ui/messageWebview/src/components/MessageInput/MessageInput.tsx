@@ -1,6 +1,6 @@
 import { Button, Textarea } from '@fluentui/react-components'
 import { Send16Regular } from '@fluentui/react-icons'
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { IChatMessage } from '../../interfaces/IChatMessage'
 
 interface MessageInputProps {
@@ -13,19 +13,23 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
   const [previousValue, setPreviousValue] = useState<string>('')
   const chatBottomRef = useRef<HTMLTextAreaElement>(null)
 
+  useEffect(() => {
+    if (chatBottomRef.current) autoGrow(chatBottomRef.current)
+  }, [value])
+
   const handleSubmit = (text: string) => {
     onSubmit({
       timestamp: new Date().toLocaleString(),
       mine: true,
       author: '',
-      content: text,
+      content: text.replace(/\n/g, '\n\n'),
     })
     setPreviousValue(text)
     setValue('')
   }
 
   const autoGrow = (element: HTMLTextAreaElement) => {
-    element.style.height = '2px'
+    element.style.height = '5px'
     element.style.height = element.scrollHeight + 'px'
   }
 
@@ -35,20 +39,14 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
         ref={chatBottomRef}
         style={{ width: '100%' }}
         placeholder="Type your message here..."
-        appearance="filled-lighter-shadow"
         value={value}
-        onInput={(e) => {
-          if (chatBottomRef.current) autoGrow(chatBottomRef.current)
-        }}
         onChange={(e, d) => {
           setValue(d.value)
-          autoGrow(e.target)
         }}
         onKeyDown={(event) => {
           if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault()
             handleSubmit(value)
-            autoGrow(event.currentTarget)
           } else if (event.key === 'ArrowUp') {
             event.preventDefault()
             setValue(previousValue)
@@ -61,7 +59,6 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
         icon={<Send16Regular />}
         onClick={() => {
           handleSubmit(value)
-          if (chatBottomRef.current) autoGrow(chatBottomRef.current)
         }}
       />
     </div>

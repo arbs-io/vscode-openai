@@ -53,8 +53,7 @@ export const MessageHistory: FC<IData> = ({ message }) => {
             const match = /language-(\w+)/.exec(className || '')
             return !inline && match ? (
               <SyntaxHighlighter
-                // children={String(children).replace(/\n$/, '')}
-                children={String(children)}
+                children={String(children).replace(/\n$/, '')}
                 language={match[1]}
                 lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
                 wrapLines={true}

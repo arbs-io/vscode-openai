@@ -1,9 +1,9 @@
 import { makeStyles, mergeClasses, tokens } from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState } from 'react'
-import { MessageHistory } from './MessageHistory'
-import { MessageInput } from './MessageInput'
-import { vscode } from '../utilities/vscode'
-import { IChatMessage } from '../interfaces/IChatMessage'
+import { MessageHistory } from '../MessageHistory'
+import { MessageInput } from '../MessageInput'
+import { vscode } from '../../utilities/vscode'
+import { IChatMessage } from '../../interfaces/IChatMessage'
 
 const MessageInteraction: FC = () => {
   const chatBottomRef = useRef<HTMLDivElement>(null)

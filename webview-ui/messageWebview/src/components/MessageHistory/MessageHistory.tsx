@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
-import { IChatMessage } from '../interfaces/IChatMessage'
+import { IChatMessage } from '../../interfaces/IChatMessage'
 
 interface IData {
   message: IChatMessage
@@ -53,7 +53,8 @@ export const MessageHistory: FC<IData> = ({ message }) => {
             const match = /language-(\w+)/.exec(className || '')
             return !inline && match ? (
               <SyntaxHighlighter
-                children={String(children).replace(/\n$/, '')}
+                // children={String(children).replace(/\n$/, '')}
+                children={String(children)}
                 language={match[1]}
                 lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
                 wrapLines={true}

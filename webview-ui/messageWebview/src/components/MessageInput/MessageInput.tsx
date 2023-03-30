@@ -1,7 +1,7 @@
 import { Button, Textarea } from '@fluentui/react-components'
 import { Send16Regular } from '@fluentui/react-icons'
 import { FC, useRef, useState } from 'react'
-import { IChatMessage } from '../interfaces/IChatMessage'
+import { IChatMessage } from '../../interfaces/IChatMessage'
 
 interface MessageInputProps {
   onSubmit: (message: IChatMessage) => void
@@ -22,11 +22,10 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
     })
     setPreviousValue(text)
     setValue('')
-    if (chatBottomRef.current) autoGrow(chatBottomRef.current)
   }
 
   const autoGrow = (element: HTMLTextAreaElement) => {
-    element.style.height = '5px'
+    element.style.height = '2px'
     element.style.height = element.scrollHeight + 'px'
   }
 
@@ -38,6 +37,9 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
         placeholder="Type your message here..."
         appearance="filled-lighter-shadow"
         value={value}
+        onInput={(e) => {
+          if (chatBottomRef.current) autoGrow(chatBottomRef.current)
+        }}
         onChange={(e, d) => {
           setValue(d.value)
           autoGrow(e.target)
@@ -57,7 +59,10 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
       <Button
         appearance="transparent"
         icon={<Send16Regular />}
-        onClick={() => handleSubmit(value)}
+        onClick={() => {
+          handleSubmit(value)
+          if (chatBottomRef.current) autoGrow(chatBottomRef.current)
+        }}
       />
     </div>
   )

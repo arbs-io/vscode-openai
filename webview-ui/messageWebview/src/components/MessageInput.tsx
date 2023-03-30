@@ -1,7 +1,6 @@
-import { Button, Input } from '@fluentui/react-components'
+import { Button, Textarea } from '@fluentui/react-components'
 import { Send16Regular } from '@fluentui/react-icons'
-import React, { FC } from 'react'
-import { vscode } from '../utilities/vscode'
+import { FC, useRef, useState } from 'react'
 import { IChatMessage } from '../interfaces/IChatMessage'
 
 interface MessageInputProps {
@@ -10,8 +9,9 @@ interface MessageInputProps {
 
 export const MessageInput: FC<MessageInputProps> = (props) => {
   const { onSubmit } = props
-  const [value, setValue] = React.useState<string>('')
-  const [previousValue, setPreviousValue] = React.useState<string>('')
+  const [value, setValue] = useState<string>('')
+  const [previousValue, setPreviousValue] = useState<string>('')
+  const chatBottomRef = useRef<HTMLTextAreaElement>(null)
 
   const handleSubmit = (text: string) => {
     onSubmit({
@@ -22,26 +22,38 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
     })
     setPreviousValue(text)
     setValue('')
+    if (chatBottomRef.current) autoGrow(chatBottomRef.current)
+  }
+
+  const autoGrow = (element: HTMLTextAreaElement) => {
+    element.style.height = '5px'
+    element.style.height = element.scrollHeight + 'px'
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
-      <Input
+      <Textarea
+        ref={chatBottomRef}
         style={{ width: '100%' }}
-        placeholder="Type your message here"
+        placeholder="Type your message here..."
+        appearance="filled-lighter-shadow"
         value={value}
-        multiple
-        onChange={(e, d) => setValue(d.value)}
+        onChange={(e, d) => {
+          setValue(d.value)
+          autoGrow(e.target)
+        }}
         onKeyDown={(event) => {
           if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault()
             handleSubmit(value)
+            autoGrow(event.currentTarget)
           } else if (event.key === 'ArrowUp') {
             event.preventDefault()
             setValue(previousValue)
           }
         }}
       />
+
       <Button
         appearance="transparent"
         icon={<Send16Regular />}

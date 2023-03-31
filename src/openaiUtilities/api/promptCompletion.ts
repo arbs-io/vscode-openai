@@ -3,8 +3,10 @@ import {
   Configuration,
   OpenAIApi,
 } from 'openai'
-import { ExtensionStatusBarItem } from '../../vscodeUtilities'
-import { ConfigurationService } from '../../vscodeUtilities'
+import {
+  ExtensionStatusBarItem,
+  ConfigurationService,
+} from '../../vscodeUtilities'
 
 export async function promptCompletion(prompt: string): Promise<string> {
   try {

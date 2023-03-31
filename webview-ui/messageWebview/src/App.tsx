@@ -1,6 +1,6 @@
-import { makeStyles, mergeClasses } from '@fluentui/react-components'
 import { FC } from 'react'
-import MessageInteraction from './components/MessageInteraction/MessageInteraction'
+import { makeStyles, mergeClasses } from '@fluentui/react-components'
+import { MessageInteraction } from './components/MessageInteraction'
 
 const useStyles = makeStyles({
   container: {

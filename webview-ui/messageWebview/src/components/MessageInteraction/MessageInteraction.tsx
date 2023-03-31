@@ -6,13 +6,13 @@ import { vscode } from '../../utilities/vscode'
 import { IChatMessage } from '../../interfaces/IChatMessage'
 
 const MessageInteraction: FC = () => {
-  const chatBottomRef = useRef<HTMLDivElement>(null)
+  const bottomAnchorRef = useRef<HTMLDivElement>(null)
   const [chatHistory, setChatHistory] = useState<IChatMessage[]>([])
   const [forceRefresh, setForceRefresh] = useState<boolean>()
-  const styles = useStyles()
+  const messageStyles = useMessageStyles()
 
   useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    bottomAnchorRef.current?.scrollIntoView({ behavior: 'smooth' })
     if (chatHistory.length > 0) {
       vscode.postMessage({
         command: 'rcvdViewSaveMessages',
@@ -40,14 +40,14 @@ const MessageInteraction: FC = () => {
   })
 
   return (
-    <div className={mergeClasses(styles.container)}>
-      <div className={mergeClasses(styles.history)}>
+    <div className={mergeClasses(messageStyles.container)}>
+      <div className={mergeClasses(messageStyles.history)}>
         {chatHistory.map((m, idx) => (
           <MessageHistory key={idx} message={m} />
         ))}
-        <div ref={chatBottomRef} />
+        <div ref={bottomAnchorRef} />
       </div>
-      <div className={mergeClasses(styles.input)}>
+      <div className={mergeClasses(messageStyles.input)}>
         <MessageInput
           onSubmit={(m) => {
             setChatHistory([...chatHistory, m])
@@ -59,30 +59,61 @@ const MessageInteraction: FC = () => {
 }
 export default MessageInteraction
 
-const useStyles = makeStyles({
+const useMessageStyles = makeStyles({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    rowGap: '5px',
+    flexWrap: 'nowrap',
+    width: 'auto',
+    height: 'auto',
+    // '> :not(:last-child)': {
+    //   position: 'fixed',
+    // },
   },
   history: {
     display: 'flex',
     flexDirection: 'column',
-    rowGap: '5px',
+    flexGrow: 1,
+    rowGap: '2px',
     paddingLeft: '1rem',
     paddingRight: '1rem',
-    paddingBottom: '3rem',
-    // backgroundColor: tokens.colorNeutralBackground1,
+    paddingBottom: '7rem',
+    overflowY: 'auto',
   },
   input: {
     position: 'fixed',
     bottom: 0,
     left: 0,
     right: 0,
-    paddingBottom: '1rem',
+    paddingBottom: '2rem',
     paddingLeft: '1rem',
     paddingRight: '1rem',
-    paddingTop: '1rem',
-    // backgroundColor: tokens.colorNeutralBackground1,
+    paddingTop: '2rem',
   },
 })
+
+// const useStyles = makeStyles({
+//   container: {
+//     display: 'flex',
+//     flexDirection: 'column',
+//     rowGap: '5px',
+//   },
+//   history: {
+//     display: 'flex',
+//     flexDirection: 'column',
+//     rowGap: '5px',
+//     paddingLeft: '1rem',
+//     paddingRight: '1rem',
+//     paddingBottom: '3rem',
+//   },
+//   input: {
+//     position: 'fixed',
+//     bottom: 0,
+//     left: 0,
+//     right: 0,
+//     paddingBottom: '1rem',
+//     paddingLeft: '1rem',
+//     paddingRight: '1rem',
+//     paddingTop: '1rem',
+//   },
+// })

@@ -31,7 +31,7 @@ async function buildMessages(
   return chatCompletion
 }
 
-export async function messageCompletion(
+export async function createChatCompletion(
   conversation: IConversation
 ): Promise<string> {
   try {

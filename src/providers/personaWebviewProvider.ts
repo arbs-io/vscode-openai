@@ -11,7 +11,7 @@ import {
   ColorTheme,
 } from 'vscode'
 import { getNonce, getUri } from '../vscodeUtilities'
-import { IPersonaOpenAI } from '../interfaces'
+import { IConversation, IPersonaOpenAI } from '../interfaces'
 import { SystemPersonas } from '../models'
 import { ConversationService } from '../contexts'
 
@@ -110,11 +110,14 @@ export class PersonaWebviewProvider implements WebviewViewProvider {
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
-        case 'rcvdViewNewConversation':
-          // eslint-disable-next-line no-case-declarations
+        case 'rcvdViewNewConversation': {
           const persona: IPersonaOpenAI = JSON.parse(message.text)
-          ConversationService.instance.create(persona)
+          const conversation: IConversation =
+            ConversationService.instance.create(persona)
+          ConversationService.instance.update(conversation)
+          ConversationService.instance.show(conversation.conversationId)
           return
+        }
 
         default:
           window.showErrorMessage(message.command)

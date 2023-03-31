@@ -24,18 +24,18 @@ const MessageInteraction: FC = () => {
   window.addEventListener('message', (event) => {
     const message = event.data // The JSON data our extension sent
     switch (message.command) {
-      case 'rqstViewRenderMessages':
-        // eslint-disable-next-line no-case-declarations
+      case 'rqstViewRenderMessages': {
         const chatMessages: IChatMessage[] = JSON.parse(message.text)
         setChatHistory(chatMessages)
         break
+      }
 
-      case 'rqstViewAnswerMessage':
-        // eslint-disable-next-line no-case-declarations
+      case 'rqstViewAnswerMessage': {
         const chatMessage: IChatMessage = JSON.parse(message.text)
         chatHistory.push(chatMessage)
         setForceRefresh(!forceRefresh)
         break
+      }
     }
   })
 

@@ -9,8 +9,7 @@ function App() {
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
       switch (event.data.command) {
-        case 'rqstViewLoadConversations':
-          // eslint-disable-next-line no-case-declarations
+        case 'rqstViewLoadConversations': {
           const loadedConversations: IConversation[] = JSON.parse(
             event.data.text
           )
@@ -19,6 +18,7 @@ function App() {
           )
           setConversations(loadedConversations)
           break
+        }
       }
 
       setState(event)

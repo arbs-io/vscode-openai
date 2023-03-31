@@ -12,7 +12,7 @@ import {
 } from 'vscode'
 import { getUri, getNonce } from '../vscodeUtilities'
 import { IChatMessage, IConversation } from '../interfaces'
-import { messageCompletion } from '../openaiUtilities'
+import { createChatCompletion } from '../openaiUtilities'
 import { ConversationService } from '../contexts'
 
 export class MessageViewerPanel {
@@ -191,8 +191,7 @@ export class MessageViewerPanel {
     webview.onDidReceiveMessage(
       (message) => {
         switch (message.command) {
-          case 'rcvdViewSaveMessages':
-            // eslint-disable-next-line no-case-declarations
+          case 'rcvdViewSaveMessages': {
             const chatMessages: IChatMessage[] = JSON.parse(message.text)
             this._rcvdViewSaveMessages(chatMessages)
             // If the last item was from user
@@ -200,6 +199,7 @@ export class MessageViewerPanel {
               this._askQuestion()
             }
             return
+          }
 
           default:
             window.showErrorMessage(message.command)
@@ -244,7 +244,7 @@ export class MessageViewerPanel {
         mine: false,
       }
       summary.chatMessages.push(chatThread)
-      messageCompletion(summary).then((result) => {
+      createChatCompletion(summary).then((result) => {
         if (!this._conversation) return
         this._conversation.summary = result
       })
@@ -255,7 +255,7 @@ export class MessageViewerPanel {
     if (!this._conversation) return
 
     //Note: rcvdViewSaveMessages has added the new question
-    messageCompletion(this._conversation).then((result) => {
+    createChatCompletion(this._conversation).then((result) => {
       const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
       const chatThread: IChatMessage = {
         content: result,

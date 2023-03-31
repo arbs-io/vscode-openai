@@ -6,9 +6,9 @@ import {
 } from 'openai'
 import {
   ExtensionStatusBarItem,
+  ConfigurationService
 } from '../../vscodeUtilities'
 import { IConversation } from '../../interfaces'
-import { ConfigurationService } from '../../vscodeUtilities'
 
 async function buildMessages(
   conversation: IConversation

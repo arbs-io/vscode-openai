@@ -1,4 +1,6 @@
 import { commands, ExtensionContext, Uri } from 'vscode'
+import { IChatMessage, IConversation } from '../interfaces'
+import { SystemPersonas } from '../models'
 
 import {
   PromptFactory,
@@ -7,10 +9,11 @@ import {
   ExplainPromptFactory,
   OptimizePromptFactory,
   PatternPromptFactory,
-  promptCompletion,
+  createChatCompletion,
 } from '../openaiUtilities'
 import { compareFileToClipboard } from '../vscodeUtilities'
 import { VSCODE_OPENAI_PROMPT } from './constants'
+import ConversationService from './conversationService'
 
 // Define a command registry that uses the factory pattern
 class CommandRegistry {
@@ -45,9 +48,24 @@ class CommandRegistry {
     for (const [commandId, factory] of this.factories.entries()) {
       const commandHandler = async (uri: Uri) => {
         try {
-          const prompt = await factory.createPrompt()()
-          const solution = await promptCompletion(prompt)
-          compareFileToClipboard(solution)
+          const persona = SystemPersonas.find(
+            (a) => a.roleName === 'Developer/Programmer'
+          )
+          if (persona) {
+            const conversation: IConversation =
+              ConversationService.instance.create(persona)
+            const prompt = await factory.createPrompt()()
+
+            const chatThread: IChatMessage = {
+              content: prompt,
+              author: 'vscode-openai-editor',
+              timestamp: new Date().toLocaleString(),
+              mine: false,
+            }
+            conversation.chatMessages.push(chatThread)
+            const solution = await createChatCompletion(conversation)
+            compareFileToClipboard(solution)
+          }
         } catch (error) {
           console.log(error)
         }

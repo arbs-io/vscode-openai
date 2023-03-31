@@ -116,17 +116,17 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
   private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
-        case 'openConversation':
-          // eslint-disable-next-line no-case-declarations
+        case 'openConversation': {
           const openConversation: IConversation = JSON.parse(message.text)
           ConversationService.instance.show(openConversation.conversationId)
           return
+        }
 
-        case 'rcvdViewDeleteConversation':
-          // eslint-disable-next-line no-case-declarations
+        case 'rcvdViewDeleteConversation': {
           const deleteConversation: IConversation = JSON.parse(message.text)
           ConversationService.instance.delete(deleteConversation.conversationId)
           return
+        }
 
         default:
           window.showErrorMessage(message.command)

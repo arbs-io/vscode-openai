@@ -191,8 +191,7 @@ export class MessageViewerPanel {
     webview.onDidReceiveMessage(
       (message) => {
         switch (message.command) {
-          case 'rcvdViewSaveMessages':
-            // eslint-disable-next-line no-case-declarations
+          case 'rcvdViewSaveMessages': {
             const chatMessages: IChatMessage[] = JSON.parse(message.text)
             this._rcvdViewSaveMessages(chatMessages)
             // If the last item was from user
@@ -200,6 +199,7 @@ export class MessageViewerPanel {
               this._askQuestion()
             }
             return
+          }
 
           default:
             window.showErrorMessage(message.command)

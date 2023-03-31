@@ -31,7 +31,6 @@ export default class ConversationService {
         const conversation =
           GlobalStorageService.instance.getValue<IConversation>(key)
         if (conversation !== undefined) {
-          // this.instance.addConversation(conversation)
           convs.push(conversation)
         }
       }
@@ -73,7 +72,7 @@ export default class ConversationService {
     ConversationService._emitterDidChange.fire()
   }
 
-  public create(persona: IPersonaOpenAI) {
+  public create(persona: IPersonaOpenAI): IConversation {
     const uuid4 = crypto.randomUUID()
 
     const chatThreads: IChatMessage[] = []
@@ -91,13 +90,13 @@ export default class ConversationService {
       summary: '<New Conversation>',
       chatMessages: chatThreads,
     }
-
-    GlobalStorageService.instance.setValue<IConversation>(
-      `conversation-${conversation.conversationId}`,
-      conversation as IConversation
-    )
-    this.conversations.push(conversation)
-    this.show(conversation.conversationId)
-    ConversationService._emitterDidChange.fire()
+    return conversation
+    //update
+    // GlobalStorageService.instance.setValue<IConversation>(
+    //   `conversation-${conversation.conversationId}`,
+    //   conversation as IConversation
+    // )
+    // this.conversations.push(conversation)
+    // this.show(conversation.conversationId)
   }
 }

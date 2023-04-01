@@ -1,1 +1,1 @@
-export { MessageHistory } from './MessageHistory'
+export { default as MessageHistory } from './MessageHistory'

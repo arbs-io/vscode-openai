@@ -2,7 +2,6 @@ import {
   TableCellLayout,
   TableColumnDefinition,
   createTableColumn,
-  Persona,
   TableCell,
   Button,
   Tooltip,
@@ -10,16 +9,11 @@ import {
   Avatar,
 } from '@fluentui/react-components'
 import { Open24Regular, Delete24Regular } from '@fluentui/react-icons'
-import { IConversation } from '@appInterfaces/IConversation'
+import { IConversation } from '../../interfaces/IConversation'
 import { useStyles } from './useStyles'
 import { vscode } from '../../utilities/vscode'
+import { DeleteConfirmation } from '../../components/DeleteConfirmation'
 
-const handleDeleteConversation = (conversation: IConversation) => {
-  vscode.postMessage({
-    command: 'rcvdViewDeleteConversation',
-    text: JSON.stringify(conversation),
-  })
-}
 const handleOpenConversation = (conversation: IConversation) => {
   vscode.postMessage({
     command: 'openConversation',
@@ -84,14 +78,7 @@ export const columns: TableColumnDefinition<IConversation>[] = [
             content="Permanently remove conversation"
             relationship="label"
           >
-            <Button
-              size="small"
-              shape="rounded"
-              className={mergeClasses(useStyles().horizontalPadding)}
-              appearance="transparent"
-              icon={<Delete24Regular />}
-              onClick={() => handleDeleteConversation(conversation)}
-            />
+            <DeleteConfirmation conversation={conversation} />
           </Tooltip>
         </TableCell>
       )

@@ -4,12 +4,9 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
-import { IChatMessage } from '../../interfaces/IChatMessage'
+import { default as IData } from './IData'
 
-interface IData {
-  message: IChatMessage
-}
-export const MessageHistory: FC<IData> = ({ message }) => {
+const MessageHistory: FC<IData> = ({ message }) => {
   if (!message) {
     throw new Error('Invalid memory')
   }
@@ -73,3 +70,5 @@ export const MessageHistory: FC<IData> = ({ message }) => {
     </div>
   )
 }
+
+export default MessageHistory

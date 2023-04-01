@@ -8,13 +8,10 @@ import {
   DataGridCell,
   mergeClasses,
 } from '@fluentui/react-components'
-import { columns } from './ConversationGrid/TableColumnDefinition'
-import { useStyles } from './ConversationGrid/useStyles'
-import { IConversation } from '@appInterfaces/IConversation'
-
-interface IData {
-  conversations: IConversation[]
-}
+import { columns } from './TableColumnDefinition'
+import { useStyles } from './useStyles'
+import { IConversation } from '../../interfaces/IConversation'
+import IData from './IData'
 
 const ConversationGrid: FC<IData> = ({ conversations }) => {
   return (

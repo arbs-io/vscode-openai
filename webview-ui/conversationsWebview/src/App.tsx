@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import ConversationGrid from './components/ConversationGrid'
-import { IConversation } from '@appInterfaces/IConversation'
+import ConversationGrid from './components/ConversationGrid/ConversationGrid'
+import { IConversation } from './interfaces/IConversation'
 
 function App() {
   const [state, setState] = useState<MessageEvent>()

@@ -11,6 +11,7 @@ import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
 import { default as IData } from './IData'
 import { Clipboard24Regular, Open24Regular } from '@fluentui/react-icons'
+import { vscode } from '../../utilities/vscode'
 
 const MessageHistory: FC<IData> = ({ message }) => {
   if (!message) {
@@ -33,7 +34,6 @@ const MessageHistory: FC<IData> = ({ message }) => {
   }
 
   const styleCode: CSSProperties = {
-    backgroundColor: tokens.colorPalettePlatinumBackground2,
     borderRadius: tokens.borderRadiusSmall,
     padding: '0.5rem',
     boxShadow: tokens.shadow16,
@@ -48,6 +48,25 @@ const MessageHistory: FC<IData> = ({ message }) => {
       justifyContent: 'right',
     },
   })
+
+  const handleCopyToClipboard = (code: string) => {
+    navigator.clipboard.writeText(code)
+  }
+
+  interface ICodeDocument {
+    language: string
+    content: string
+  }
+  const handleCreateCodeDocument = (language: string, content: string) => {
+    const codeDocument: ICodeDocument = {
+      language: language,
+      content: content,
+    }
+    vscode.postMessage({
+      command: 'rqstViewCreateDocument',
+      text: JSON.stringify(codeDocument),
+    })
+  }
 
   return (
     <div style={style}>
@@ -79,11 +98,20 @@ const MessageHistory: FC<IData> = ({ message }) => {
                     aria-label="Copy to clipboard"
                     appearance="subtle"
                     icon={<Clipboard24Regular />}
+                    onClick={() =>
+                      handleCopyToClipboard(String(children).replace(/\n$/, ''))
+                    }
                   />
                   <ToolbarButton
                     aria-label="Open in virtual document"
                     appearance="subtle"
                     icon={<Open24Regular />}
+                    onClick={() =>
+                      handleCreateCodeDocument(
+                        match[1],
+                        String(children).replace(/\n$/, '')
+                      )
+                    }
                   />
                 </Toolbar>
                 <SyntaxHighlighter

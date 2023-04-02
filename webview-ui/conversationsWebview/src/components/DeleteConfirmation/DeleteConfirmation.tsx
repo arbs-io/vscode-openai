@@ -47,7 +47,7 @@ const DeleteConfirmation: FC<IData> = ({ conversation }) => {
               <Button appearance="secondary">Cancel</Button>
             </DialogTrigger>
             <Button
-              appearance="primary"
+              className={mergeClasses(useStyles().dangerButton)}
               onClick={() => handleDeleteConversation(conversation)}
             >
               Delete

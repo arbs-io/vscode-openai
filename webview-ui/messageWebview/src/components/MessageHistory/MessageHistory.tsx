@@ -3,6 +3,7 @@ import {
   tokens,
   Toolbar,
   ToolbarButton,
+  Tooltip,
 } from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -96,25 +97,39 @@ const MessageHistory: FC<IData> = ({ message }) => {
                   {...props}
                   className={useStyles().toolbar}
                 >
-                  <ToolbarButton
-                    aria-label="Copy to clipboard"
-                    appearance="subtle"
-                    icon={<Clipboard24Regular />}
-                    onClick={() =>
-                      handleCopyToClipboard(String(children).replace(/\n$/, ''))
-                    }
-                  />
-                  <ToolbarButton
-                    aria-label="Open in virtual document"
-                    appearance="subtle"
-                    icon={<Open24Regular />}
-                    onClick={() =>
-                      handleCreateCodeDocument(
-                        match[1],
-                        String(children).replace(/\n$/, '')
-                      )
-                    }
-                  />
+                  <Tooltip
+                    withArrow
+                    content="Copy to clipboard"
+                    relationship="label"
+                  >
+                    <ToolbarButton
+                      aria-label="Copy to clipboard"
+                      appearance="subtle"
+                      icon={<Clipboard24Regular />}
+                      onClick={() =>
+                        handleCopyToClipboard(
+                          String(children).replace(/\n$/, '')
+                        )
+                      }
+                    />
+                  </Tooltip>
+                  <Tooltip
+                    withArrow
+                    content="Create source code file"
+                    relationship="label"
+                  >
+                    <ToolbarButton
+                      aria-label="Open in virtual document"
+                      appearance="subtle"
+                      icon={<Open24Regular />}
+                      onClick={() =>
+                        handleCreateCodeDocument(
+                          match[1],
+                          String(children).replace(/\n$/, '')
+                        )
+                      }
+                    />
+                  </Tooltip>
                 </Toolbar>
                 <SyntaxHighlighter
                   children={String(children).replace(/\n$/, '')}

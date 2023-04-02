@@ -1,10 +1,18 @@
-import { tokens } from '@fluentui/react-components'
+import {
+  makeStyles,
+  tokens,
+  Toolbar,
+  ToolbarButton,
+  Tooltip,
+} from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
 import { default as IData } from './IData'
+import { Clipboard24Regular, Open24Regular } from '@fluentui/react-icons'
+import { vscode } from '../../utilities/vscode'
 
 const MessageHistory: FC<IData> = ({ message }) => {
   if (!message) {
@@ -26,8 +34,41 @@ const MessageHistory: FC<IData> = ({ message }) => {
     boxShadow: tokens.shadow64,
   }
 
+  const styleCode: CSSProperties = {
+    borderWidth: '1rem',
+    borderColor: 'lightgrey',
+    borderRadius: tokens.borderRadiusSmall,
+    padding: '0.3rem',
+    boxShadow: tokens.shadow16,
+  }
+
   const styleWrap: CSSProperties = {
     whiteSpace: 'pre-wrap',
+  }
+
+  const useStyles = makeStyles({
+    toolbar: {
+      justifyContent: 'right',
+    },
+  })
+
+  const handleCopyToClipboard = (code: string) => {
+    navigator.clipboard.writeText(code)
+  }
+
+  interface ICodeDocument {
+    language: string
+    content: string
+  }
+  const handleCreateCodeDocument = (language: string, content: string) => {
+    const codeDocument: ICodeDocument = {
+      language: language,
+      content: content,
+    }
+    vscode.postMessage({
+      command: 'rqstViewCreateDocument',
+      text: JSON.stringify(codeDocument),
+    })
   }
 
   return (
@@ -49,16 +90,58 @@ const MessageHistory: FC<IData> = ({ message }) => {
           code({ node, inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '')
             return !inline && match ? (
-              <SyntaxHighlighter
-                children={String(children).replace(/\n$/, '')}
-                language={match[1]}
-                lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
-                wrapLines={true}
-                wrapLongLines={true}
-                PreTag="div"
-                {...props}
-                style={tomorrow}
-              />
+              <div style={styleCode}>
+                <Toolbar
+                  aria-label="Small"
+                  size="small"
+                  {...props}
+                  className={useStyles().toolbar}
+                >
+                  <Tooltip
+                    withArrow
+                    content="Copy to clipboard"
+                    relationship="label"
+                  >
+                    <ToolbarButton
+                      aria-label="Copy to clipboard"
+                      appearance="subtle"
+                      icon={<Clipboard24Regular />}
+                      onClick={() =>
+                        handleCopyToClipboard(
+                          String(children).replace(/\n$/, '')
+                        )
+                      }
+                    />
+                  </Tooltip>
+                  <Tooltip
+                    withArrow
+                    content="Create source code file"
+                    relationship="label"
+                  >
+                    <ToolbarButton
+                      aria-label="Open in virtual document"
+                      appearance="subtle"
+                      icon={<Open24Regular />}
+                      onClick={() =>
+                        handleCreateCodeDocument(
+                          match[1],
+                          String(children).replace(/\n$/, '')
+                        )
+                      }
+                    />
+                  </Tooltip>
+                </Toolbar>
+                <SyntaxHighlighter
+                  children={String(children).replace(/\n$/, '')}
+                  language={match[1]}
+                  lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
+                  wrapLines={true}
+                  wrapLongLines={true}
+                  PreTag="div"
+                  {...props}
+                  style={tomorrow}
+                />
+              </div>
             ) : (
               <code className={className} style={styleWrap} {...props}>
                 {children}

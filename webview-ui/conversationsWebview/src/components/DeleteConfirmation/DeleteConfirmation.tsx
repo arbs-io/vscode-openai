@@ -46,12 +46,14 @@ const DeleteConfirmation: FC<IData> = ({ conversation }) => {
             <DialogTrigger disableButtonEnhancement>
               <Button appearance="secondary">Cancel</Button>
             </DialogTrigger>
-            <Button
-              appearance="primary"
-              onClick={() => handleDeleteConversation(conversation)}
-            >
-              Delete
-            </Button>
+            <DialogTrigger disableButtonEnhancement>
+              <Button
+                className={mergeClasses(useStyles().dangerButton)}
+                onClick={() => handleDeleteConversation(conversation)}
+              >
+                Delete
+              </Button>
+            </DialogTrigger>
           </DialogActions>
         </DialogBody>
       </DialogSurface>

@@ -9,6 +9,7 @@ import {
   ColorTheme,
   EventEmitter,
   Event,
+  workspace,
 } from 'vscode'
 import { getUri, getNonce } from '../vscodeUtilities'
 import { IChatMessage, IConversation } from '../interfaces'
@@ -185,6 +186,7 @@ export class MessageViewerPanel {
    *    | extension	| webview		| rqstViewRenderMessages	| IConversation		|
    *    | extension	| webview		| rqstViewAnswerMessage		| IChatMessage		|
    *    | webview		| extension	| rcvdViewSaveMessages		| IChatMessage[]	|
+   *    | webview		| extension	| rqstViewCreateDocument	| string					|
    *
    */
   private _setWebviewMessageListener(webview: Webview) {
@@ -198,6 +200,22 @@ export class MessageViewerPanel {
             if (chatMessages[chatMessages.length - 1].mine === true) {
               this._askQuestion()
             }
+            return
+          }
+          case 'rqstViewCreateDocument': {
+            const codeDocument: ICodeDocument = JSON.parse(message.text)
+            workspace
+              .openTextDocument({
+                content: codeDocument.content,
+                language: codeDocument.language,
+              })
+              .then((doc) =>
+                window.showTextDocument(doc, {
+                  preserveFocus: true,
+                  preview: false,
+                  viewColumn: ViewColumn.Beside,
+                })
+              )
             return
           }
 
@@ -269,4 +287,9 @@ export class MessageViewerPanel {
       })
     })
   }
+}
+
+interface ICodeDocument {
+  language: string
+  content: string
 }

@@ -34,8 +34,10 @@ const MessageHistory: FC<IData> = ({ message }) => {
   }
 
   const styleCode: CSSProperties = {
+    borderWidth: '1rem',
+    borderColor: 'lightgrey',
     borderRadius: tokens.borderRadiusSmall,
-    padding: '0.5rem',
+    padding: '0.3rem',
     boxShadow: tokens.shadow16,
   }
 

@@ -7,16 +7,17 @@ import {
   workspace,
 } from 'vscode'
 import { VSCODE_OPENAI_REGISTER } from '../../contexts/constants'
+import { ConfigurationService } from '../../vscodeUtilities'
+import { IConfigurationProperties } from '../../interfaces'
+import { Url } from 'url'
 
 export default class ExtensionStatusBarItem {
   private static _instance: ExtensionStatusBarItem
-  private static _serviceProvider: string
-
+  private static _requestConfig: IConfigurationProperties
   constructor(private statusBarItem: StatusBarItem) {}
 
-  static init(context: ExtensionContext): void {
-    const ws = workspace.getConfiguration('vscode-openai')
-    this._serviceProvider = ws.get('serviceProvider') as string
+  static async init(context: ExtensionContext): Promise<void> {
+    ExtensionStatusBarItem._requestConfig = await ConfigurationService.instance.get()
 
     const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right)
     statusBarItem.name = 'vscode-openai'
@@ -33,9 +34,8 @@ export default class ExtensionStatusBarItem {
   }
 
   static get serviceProvider(): string {
-    const ws = workspace.getConfiguration('vscode-openai')
-    const serviceProvider = ws.get('serviceProvider') as string
-    return serviceProvider
+    const baseUrl: URL = new URL(ExtensionStatusBarItem._requestConfig.baseUrl);
+    return baseUrl.host
   }
 
   public showStatusBarInformation(icon: string, text: string) {

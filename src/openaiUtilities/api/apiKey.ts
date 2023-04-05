@@ -1,17 +1,15 @@
 import { commands } from 'vscode'
-import { Configuration, OpenAIApi,  } from 'openai'
+import { Configuration, OpenAIApi } from 'openai'
 import { ConfigurationService } from '../../vscodeUtilities'
-import {
-  ExtensionStatusBarItem,
-} from '../../vscodeUtilities'
+import { ExtensionStatusBarItem } from '../../vscodeUtilities'
 import { errorHandler } from './errorHandler'
 
 export async function validateApiKey() {
   ExtensionStatusBarItem.instance.showStatusBarInformation(
-      'loading~spin',
-      '- initializing'
-    )
-    await verifyApiKey()
+    'loading~spin',
+    '- initializing'
+  )
+  await verifyApiKey()
 }
 
 export async function verifyApiKey(): Promise<boolean> {

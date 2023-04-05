@@ -6,7 +6,7 @@ import {
 } from 'openai'
 import {
   ExtensionStatusBarItem,
-  ConfigurationService
+  ConfigurationService,
 } from '../../vscodeUtilities'
 import { IConversation } from '../../interfaces'
 import { errorHandler } from './errorHandler'

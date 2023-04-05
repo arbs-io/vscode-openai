@@ -6,9 +6,10 @@ import {
 } from 'openai'
 import {
   ExtensionStatusBarItem,
-  ConfigurationService
+  ConfigurationService,
 } from '../../vscodeUtilities'
 import { IConversation } from '../../interfaces'
+import { errorHandler } from './errorHandler'
 
 async function buildMessages(
   conversation: IConversation
@@ -39,7 +40,7 @@ export async function createChatCompletion(
 
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
-      'Running'
+      '- waiting'
     )
     if (!requestConfig.apiKey) return 'invalid ApiKey'
 
@@ -67,13 +68,8 @@ export async function createChatCompletion(
     ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
     return answer ? answer : ''
   } catch (error: any) {
-    if (error.response) {
-      console.log(error.response.status)
-      console.log(error.response.data)
-      throw error
-    } else {
-      console.log(error.message)
-      throw error
-    }
+    errorHandler(error)
+    throw error
   }
+  return ''
 }

@@ -13,11 +13,6 @@ export default class SecretStorageService {
     return SecretStorageService._instance
   }
 
-  async invalidateApiKey(): Promise<void> {
-    commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
-    await this.secretStorage.store('openai_apikey', '<invalid-key>')
-  }
-
   async setAuthApiKey(token: string): Promise<void> {
     await this.secretStorage.store('openai_apikey', token)
   }

@@ -22,9 +22,11 @@ export function activate(context: ExtensionContext) {
   //register storage (Singletons)
   SecretStorageService.init(context)
   GlobalStorageService.init(context)
-  ExtensionStatusBarItem.init(context)
 
+  //load configuration
   ConfigurationService.init(context)
+
+  ExtensionStatusBarItem.init(context)
 
   //registerCommands
   registerApiKeyCommand(context)

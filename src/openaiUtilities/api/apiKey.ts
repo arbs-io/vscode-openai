@@ -1,29 +1,15 @@
-import { commands, workspace } from 'vscode'
+import { commands } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
 import { ConfigurationService } from '../../vscodeUtilities'
-import {
-  ExtensionStatusBarItem,
-  SecretStorageService,
-} from '../../vscodeUtilities'
+import { ExtensionStatusBarItem } from '../../vscodeUtilities'
+import { errorHandler } from './errorHandler'
 
 export async function validateApiKey() {
-  const requestConfig = await ConfigurationService.instance.get()
-  if (
-    requestConfig.apiKey !== undefined &&
-    requestConfig.apiKey !== '<invalid-key>'
-  ) {
-    ExtensionStatusBarItem.instance.showStatusBarInformation(
-      'loading~spin',
-      'Connecting'
-    )
-    verifyApiKey()
-  } else {
-    commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
-    ExtensionStatusBarItem.instance.showStatusBarError(
-      'lock',
-      'Invalid Api-Key'
-    )
-  }
+  ExtensionStatusBarItem.instance.showStatusBarInformation(
+    'loading~spin',
+    '- initializing'
+  )
+  await verifyApiKey()
 }
 
 export async function verifyApiKey(): Promise<boolean> {
@@ -45,10 +31,7 @@ export async function verifyApiKey(): Promise<boolean> {
       return true
     }
   } catch (error: any) {
-    if (error.code !== 'ENOTFOUND') {
-      await SecretStorageService.instance.invalidateApiKey()
-    }
+    errorHandler(error)
   }
-  ExtensionStatusBarItem.instance.showStatusBarError('lock', 'Invalid Api-Key')
   return false
 }

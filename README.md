@@ -7,7 +7,9 @@
 
 The vscode-openai extension provides direct access to openai features directly from within your code editor. Say goodbye to switching back and forth between different applications to get answers to your questions - now you can get instant responses without leaving your coding environment.
 
-The extension supports native `openai` and `azure-openai`. See `Configuring Azure` section to use your azure instance. Then simply enter your OpenAI Api-Key and enjoy the productivity.
+The extension supports native **openai** and **azure-openai**. See [Configuring Azure](#configuring-azure) section to use your azure instance. Then simply enter your OpenAI Api-Key and enjoy the productivity.
+
+Are you receiving any issues connecting to your OpenAI service? Please check the [Detecting Issues](#detecting-issues) segment.
 
 # What features are provided
 
@@ -65,6 +67,35 @@ One of the critical benefits of vscode-openai is its use of the latest and most 
 Using vscode-openai can also help you to write more readable, maintainable, and scalable code. In addition, the explanation and commenting features help you to communicate more effectively with other developers and organize your thoughts. In contrast, the design pattern suggestion feature can save you time and effort in researching and implementing established solutions to common problems.
 
 Overall, vscode-openai is a valuable tool for developers who want to improve their coding skills and streamline their workflow. Its advanced features and affordable price point make it a must-have extension for anyone looking to write better code faster.
+
+# Detecting Issues
+
+### Not Found
+
+This error occurs if any of the configuration parameters are incorrect. Please check the following:
+
+- OpenAI:
+  - The version (e.g. /v1) is present on the base url.
+- Azure: Check you have:
+  - The openai segment (e.g. /openai) is on the base url.
+  - The api-version is valid and is available in your region.
+  - The deployment name is correct.
+
+If any of these values are incorrect, the following error will be displayed.
+
+![vscode-openai-error-notfound.png](images/vscode-openai-error-notfound.png)
+
+### Authentication Issue
+
+If your Api-Key is invalid, the following error will be displayed
+
+![vscode-openai-error-failedauthentication.png](images/vscode-openai-error-failedauthentication.png)
+
+### Unknown Host
+
+The host is not found. Either your Azure instance or your Api-Gateway URL can't be resolved. The following error will be displayed.
+
+![vscode-openai-error-unknownhost.png](images/vscode-openai-error-unknownhost.png)
 
 # Configuring Azure
 

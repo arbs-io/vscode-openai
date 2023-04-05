@@ -7,17 +7,15 @@ import {
   workspace,
 } from 'vscode'
 import { VSCODE_OPENAI_REGISTER } from '../../contexts/constants'
+import { ConfigurationService } from '../../vscodeUtilities'
+import { IConfigurationProperties } from '../../interfaces'
+import { Url } from 'url'
 
 export default class ExtensionStatusBarItem {
   private static _instance: ExtensionStatusBarItem
-  private static _serviceProvider: string
-
   constructor(private statusBarItem: StatusBarItem) {}
 
-  static init(context: ExtensionContext): void {
-    const ws = workspace.getConfiguration('vscode-openai')
-    this._serviceProvider = ws.get('serviceProvider') as string
-
+  static init(context: ExtensionContext) {
     const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right)
     statusBarItem.name = 'vscode-openai'
     statusBarItem.command = VSCODE_OPENAI_REGISTER.APIKEY_COMMAND_ID
@@ -32,20 +30,16 @@ export default class ExtensionStatusBarItem {
     return ExtensionStatusBarItem._instance
   }
 
-  static get serviceProvider(): string {
-    const ws = workspace.getConfiguration('vscode-openai')
-    const serviceProvider = ws.get('serviceProvider') as string
-    return serviceProvider
-  }
-
-  public showStatusBarInformation(icon: string, text: string) {
-    this.statusBarItem.text = `$(${icon}) ${ExtensionStatusBarItem.serviceProvider} ${text}`
+  public async showStatusBarInformation(icon: string, text: string) {
+    const requestConfig = await ConfigurationService.instance.get()
+    this.statusBarItem.text = `$(${icon}) ${requestConfig.host} ${text}`
     this.statusBarItem.backgroundColor = undefined
     this.statusBarItem.show()
   }
 
-  public showStatusBarError(icon: string, text: string) {
-    this.statusBarItem.text = `$(${icon}) ${ExtensionStatusBarItem.serviceProvider} ${text}`
+  public async showStatusBarError(icon: string, text: string) {
+    const requestConfig = await ConfigurationService.instance.get()
+    this.statusBarItem.text = `$(${icon}) ${requestConfig.host} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(
       'statusBarItem.errorBackground'
     )

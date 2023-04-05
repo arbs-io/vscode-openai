@@ -5,4 +5,5 @@ export interface IConfigurationProperties {
   apiKey: string
   defaultModel: string
   requestConfig: any
+  host: string
 }

@@ -31,6 +31,7 @@ export default class ConfigurationService {
       this._configurationProperties = {
         serviceProvider: serviceProvider,
         baseUrl: `${baseUrl}`,
+        host: new URL(baseUrl).host,
         inferenceUrl: `${baseUrl}/deployments/${azureDeployment}`,
         apiKey: apiKey,
         defaultModel: defaultModel,
@@ -43,6 +44,7 @@ export default class ConfigurationService {
       this._configurationProperties = {
         serviceProvider: serviceProvider,
         baseUrl: baseUrl,
+        host: new URL(baseUrl).host,
         inferenceUrl: baseUrl,
         apiKey: apiKey,
         defaultModel: defaultModel,

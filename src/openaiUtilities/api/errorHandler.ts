@@ -20,6 +20,6 @@ export function errorHandler(error: any) {
       showMessageWithTimeout("Resource not found: check baseurl, api version or deployment name", 5000)
     }
     else {
-      console.log(error.code)
+      showMessageWithTimeout(`unexpected error occured: ${error.code}, Please help and report issue to github issue. Providing operation and configuration setup (excluding any sensitive data)`, 10000)
     }  
 }

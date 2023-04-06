@@ -1,8 +1,5 @@
-export interface IChatCompletion {
+export interface IMessage {
   content: string
-  author: string
-  timestamp: string
-  mine: boolean
   completionTokens: number
   promptTokens: number
   totalTokens: number

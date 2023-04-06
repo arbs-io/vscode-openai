@@ -56,15 +56,18 @@ class CommandRegistry {
               ConversationService.instance.create(persona)
             const prompt = await factory.createPrompt()()
 
-            const chatThread: IChatCompletion = {
+            const chatCompletion: IChatCompletion = {
               content: prompt,
               author: 'vscode-openai-editor',
               timestamp: new Date().toLocaleString(),
               mine: false,
+              completionTokens: 0,
+              promptTokens: 0,
+              totalTokens: 0,
             }
-            conversation.chatMessages.push(chatThread)
-            const solution = await createChatCompletion(conversation)
-            compareFileToClipboard(solution)
+            conversation.chatMessages.push(chatCompletion)
+            const result = await createChatCompletion(conversation)
+            compareFileToClipboard(result?.content ? result?.content : '')
           }
         } catch (error) {
           console.log(error)

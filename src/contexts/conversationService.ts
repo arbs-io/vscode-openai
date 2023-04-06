@@ -81,6 +81,9 @@ export default class ConversationService {
       author: `${persona.roleName} (${persona.configuration.service})`,
       timestamp: new Date().toLocaleString(),
       mine: false,
+      completionTokens: 0,
+      promptTokens: 0,
+      totalTokens: 0,
     })
 
     const conversation: IConversation = {

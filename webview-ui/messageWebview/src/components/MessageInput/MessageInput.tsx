@@ -23,6 +23,9 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
       mine: true,
       author: '',
       content: text.replace(/\n/g, '\n\n'),
+      completionTokens: 0,
+      promptTokens: 0,
+      totalTokens: 0,
     })
     setPreviousValue(text)
     setValue('')

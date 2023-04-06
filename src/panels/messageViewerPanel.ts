@@ -254,17 +254,20 @@ export class MessageViewerPanel {
       const summary = JSON.parse(
         JSON.stringify(this._conversation)
       ) as IConversation
-      const chatThread: IChatCompletion = {
+      const chatCompletion: IChatCompletion = {
         content:
           'Summarise the conversation in one sentence. Be as concise as possible and only provide the facts. Start the sentence with the key points. Using no more than 150 characters',
         author: 'summary',
         timestamp: new Date().toLocaleString(),
         mine: false,
+        completionTokens: 0,
+        promptTokens: 0,
+        totalTokens: 0,
       }
-      summary.chatMessages.push(chatThread)
+      summary.chatMessages.push(chatCompletion)
       createChatCompletion(summary).then((result) => {
         if (!this._conversation) return
-        this._conversation.summary = result
+        if (result?.content) this._conversation.summary = result?.content
       })
     }
   }
@@ -274,16 +277,21 @@ export class MessageViewerPanel {
 
     //Note: rcvdViewSaveMessages has added the new question
     createChatCompletion(this._conversation).then((result) => {
+      if (!result) return
+
       const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
-      const chatThread: IChatCompletion = {
-        content: result,
+      const chatCompletion: IChatCompletion = {
+        content: result.content,
         author: author,
         timestamp: new Date().toLocaleString(),
         mine: false,
+        completionTokens: result.completionTokens,
+        promptTokens: result.promptTokens,
+        totalTokens: result.totalTokens,
       }
       MessageViewerPanel.currentPanel?._panel.webview.postMessage({
         command: 'rqstViewAnswerMessage',
-        text: JSON.stringify(chatThread),
+        text: JSON.stringify(chatCompletion),
       })
     })
   }

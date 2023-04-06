@@ -3,11 +3,11 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { MessageHistory } from '../MessageHistory'
 import { MessageInput } from '../MessageInput'
 import { vscode } from '../../utilities/vscode'
-import { IChatMessage } from '../../interfaces/IChatMessage'
+import { IChatCompletion } from '../../interfaces/IChatCompletion'
 
 const MessageInteraction: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)
-  const [chatHistory, setChatHistory] = useState<IChatMessage[]>([])
+  const [chatHistory, setChatHistory] = useState<IChatCompletion[]>([])
   const [forceRefresh, setForceRefresh] = useState<boolean>()
   const messageStyles = useMessageStyles()
 
@@ -25,13 +25,13 @@ const MessageInteraction: FC = () => {
     const message = event.data // The JSON data our extension sent
     switch (message.command) {
       case 'rqstViewRenderMessages': {
-        const chatMessages: IChatMessage[] = JSON.parse(message.text)
+        const chatMessages: IChatCompletion[] = JSON.parse(message.text)
         setChatHistory(chatMessages)
         break
       }
 
       case 'rqstViewAnswerMessage': {
-        const chatMessage: IChatMessage = JSON.parse(message.text)
+        const chatMessage: IChatCompletion = JSON.parse(message.text)
         chatHistory.push(chatMessage)
         setForceRefresh(!forceRefresh)
         break

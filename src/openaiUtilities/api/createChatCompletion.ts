@@ -8,7 +8,7 @@ import {
   ExtensionStatusBarItem,
   ConfigurationService,
 } from '../../vscodeUtilities'
-import { IConversation } from '../../interfaces'
+import { IConversation, IChatCompletion, IMessage } from '../../interfaces'
 import { errorHandler } from './errorHandler'
 
 async function buildMessages(
@@ -34,7 +34,7 @@ async function buildMessages(
 
 export async function createChatCompletion(
   conversation: IConversation
-): Promise<string> {
+): Promise<IMessage | undefined> {
   try {
     const requestConfig = await ConfigurationService.instance.get()
 
@@ -42,7 +42,7 @@ export async function createChatCompletion(
       'sync~spin',
       '- waiting'
     )
-    if (!requestConfig.apiKey) return 'invalid ApiKey'
+    if (!requestConfig.apiKey) return undefined
 
     const configuration = new Configuration({
       apiKey: requestConfig.apiKey,
@@ -63,13 +63,25 @@ export async function createChatCompletion(
       requestConfig.requestConfig
     )
 
-    const answer = completion.data.choices[0].message?.content
+    const content = completion.data.choices[0].message?.content
+    if (!content) return undefined
+    const message: IMessage = {
+      content: content,
+      completionTokens: completion.data.usage?.completion_tokens
+        ? completion.data.usage?.completion_tokens
+        : 0,
+      promptTokens: completion.data.usage?.prompt_tokens
+        ? completion.data.usage?.prompt_tokens
+        : 0,
+      totalTokens: completion.data.usage?.total_tokens
+        ? completion.data.usage?.total_tokens
+        : 0,
+    }
 
     ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
-    return answer ? answer : ''
+    return message
   } catch (error: any) {
     errorHandler(error)
     throw error
   }
-  return ''
 }

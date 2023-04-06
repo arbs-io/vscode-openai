@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: '../../out/webview-ui/personaWebview',
+    chunkSizeWarningLimit: 2048,
     rollupOptions: {
       output: {
         entryFileNames: `[name].js`,

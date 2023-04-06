@@ -1,7 +1,7 @@
-import { IChatMessage } from '../../interfaces/IChatMessage'
+import { IChatCompletion } from '../../interfaces/IChatCompletion'
 
 interface IData {
-  message: IChatMessage
+  message: IChatCompletion
 }
 
 export default IData

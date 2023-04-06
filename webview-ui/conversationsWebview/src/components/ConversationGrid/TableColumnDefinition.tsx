@@ -9,7 +9,7 @@ import {
   Avatar,
 } from '@fluentui/react-components'
 import { Open24Regular } from '@fluentui/react-icons'
-import { IConversation } from '../../interfaces/IConversation'
+import { IConversation } from '../../interfaces'
 import { useStyles } from './useStyles'
 import { vscode } from '../../utilities/vscode'
 import { DeleteConfirmation } from '../../components/DeleteConfirmation'

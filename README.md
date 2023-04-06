@@ -70,7 +70,7 @@ Overall, vscode-openai is a valuable tool for developers who want to improve the
 
 # Detecting Issues
 
-### Not Found ![vscode-openai-vscode-codicons-cloud.png](images/vscode-openai-vscode-codicons-cloud.png)
+### ![vscode-openai-vscode-codicons-cloud.png](images/vscode-openai-vscode-codicons-cloud.png) **Not Found**
 
 - Message: "**vscode-openai.openai.azure.com - not found**"
 - Description: This error occurs if any of the configuration parameters are incorrect. Please check the following:
@@ -81,12 +81,12 @@ Overall, vscode-openai is a valuable tool for developers who want to improve the
     - The api-version is valid and is available in your region.
     - The deployment name is correct.
 
-### Authentication Issue ![vscode-openai-vscode-codicons-lock.png](images/vscode-openai-vscode-codicons-lock.png)
+### ![vscode-openai-vscode-codicons-lock.png](images/vscode-openai-vscode-codicons-lock.png) **Authentication Issue**
 
 - Message: "**vscode-openai.openai.azure.com - failed authentication**"
 - Description: This error occurs if your Api-Key is invalid. Check the Api-Key is valid for the instance or has expired
 
-### Unknown Host ![vscode-openai-vscode-codicons-server-environment.png](images/vscode-openai-vscode-codicons-server-environment.png)
+### ![vscode-openai-vscode-codicons-server-environment.png](images/vscode-openai-vscode-codicons-server-environment.png) **Unknown Host**
 
 - Message: "**vscode-openai1.openai.azure.com - unknown host**"
 - Description: This error occurs if the host is not found. Either your Azure instance or your Api-Gateway URL can't be resolved. The following error will be displayed.

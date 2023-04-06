@@ -1,10 +1,10 @@
 import { Button, Textarea } from '@fluentui/react-components'
 import { Send16Regular } from '@fluentui/react-icons'
 import { FC, useEffect, useRef, useState } from 'react'
-import { IChatMessage } from '../../interfaces/IChatMessage'
+import { IChatCompletion } from '../../interfaces/IChatCompletion'
 
 interface MessageInputProps {
-  onSubmit: (message: IChatMessage) => void
+  onSubmit: (message: IChatCompletion) => void
 }
 
 export const MessageInput: FC<MessageInputProps> = (props) => {
@@ -23,6 +23,9 @@ export const MessageInput: FC<MessageInputProps> = (props) => {
       mine: true,
       author: '',
       content: text.replace(/\n/g, '\n\n'),
+      completionTokens: 0,
+      promptTokens: 0,
+      totalTokens: 0,
     })
     setPreviousValue(text)
     setValue('')

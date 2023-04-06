@@ -1,10 +1,9 @@
-import { IPersonaOpenAI } from './IPersonaOpenAI'
-import { IChatMessage } from './IChatMessage'
+import { IPersonaOpenAI, IChatCompletion } from '.'
 
 export interface IConversation {
   timestamp: number
   conversationId: string
   persona: IPersonaOpenAI
   summary: string
-  chatMessages: IChatMessage[]
+  chatMessages: IChatCompletion[]
 }

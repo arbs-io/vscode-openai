@@ -5,6 +5,7 @@ import {
   ToolbarButton,
   Tooltip,
 } from '@fluentui/react-components'
+import { InfoButton } from '@fluentui/react-components/unstable'
 import { CSSProperties, FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -13,6 +14,7 @@ import remarkGfm from 'remark-gfm'
 import { default as IData } from './IData'
 import { Clipboard24Regular, Open24Regular } from '@fluentui/react-icons'
 import { vscode } from '../../utilities/vscode'
+import { TokenInfo } from '../TokenInfo'
 
 const MessageHistory: FC<IData> = ({ message }) => {
   if (!message) {
@@ -81,6 +83,7 @@ const MessageHistory: FC<IData> = ({ message }) => {
             </span>
           )}
           <span style={{ fontSize: 10 }}> Date: {message.timestamp}</span>
+          {message.totalTokens > 0 && <TokenInfo message={message} />}
         </div>
       </div>
       <ReactMarkdown
@@ -111,7 +114,9 @@ const MessageHistory: FC<IData> = ({ message }) => {
                           String(children).replace(/\n$/, '')
                         )
                       }
-                    />
+                    >
+                      Copy
+                    </ToolbarButton>
                   </Tooltip>
                   <Tooltip
                     withArrow
@@ -128,7 +133,9 @@ const MessageHistory: FC<IData> = ({ message }) => {
                           String(children).replace(/\n$/, '')
                         )
                       }
-                    />
+                    >
+                      New
+                    </ToolbarButton>
                   </Tooltip>
                 </Toolbar>
                 <SyntaxHighlighter

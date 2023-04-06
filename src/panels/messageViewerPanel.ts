@@ -12,7 +12,7 @@ import {
   workspace,
 } from 'vscode'
 import { getUri, getNonce } from '../vscodeUtilities'
-import { IChatMessage, IConversation } from '../interfaces'
+import { IChatCompletion, IConversation } from '../interfaces'
 import { createChatCompletion } from '../openaiUtilities'
 import { ConversationService } from '../contexts'
 
@@ -184,8 +184,8 @@ export class MessageViewerPanel {
    *    | source		| target		| command									| model						|
    *    |-----------|-----------|-------------------------|-----------------|
    *    | extension	| webview		| rqstViewRenderMessages	| IConversation		|
-   *    | extension	| webview		| rqstViewAnswerMessage		| IChatMessage		|
-   *    | webview		| extension	| rcvdViewSaveMessages		| IChatMessage[]	|
+   *    | extension	| webview		| rqstViewAnswerMessage		| IChatCompletion		|
+   *    | webview		| extension	| rcvdViewSaveMessages		| IChatCompletion[]	|
    *    | webview		| extension	| rqstViewCreateDocument	| string					|
    *
    */
@@ -194,7 +194,7 @@ export class MessageViewerPanel {
       (message) => {
         switch (message.command) {
           case 'rcvdViewSaveMessages': {
-            const chatMessages: IChatMessage[] = JSON.parse(message.text)
+            const chatMessages: IChatCompletion[] = JSON.parse(message.text)
             this._rcvdViewSaveMessages(chatMessages)
             // If the last item was from user
             if (chatMessages[chatMessages.length - 1].mine === true) {
@@ -229,7 +229,7 @@ export class MessageViewerPanel {
     )
   }
 
-  private _rcvdViewSaveMessages(chatMessages: IChatMessage[]) {
+  private _rcvdViewSaveMessages(chatMessages: IChatCompletion[]) {
     try {
       if (!this._conversation) return
 
@@ -254,17 +254,20 @@ export class MessageViewerPanel {
       const summary = JSON.parse(
         JSON.stringify(this._conversation)
       ) as IConversation
-      const chatThread: IChatMessage = {
+      const chatCompletion: IChatCompletion = {
         content:
           'Summarise the conversation in one sentence. Be as concise as possible and only provide the facts. Start the sentence with the key points. Using no more than 150 characters',
         author: 'summary',
         timestamp: new Date().toLocaleString(),
         mine: false,
+        completionTokens: 0,
+        promptTokens: 0,
+        totalTokens: 0,
       }
-      summary.chatMessages.push(chatThread)
+      summary.chatMessages.push(chatCompletion)
       createChatCompletion(summary).then((result) => {
         if (!this._conversation) return
-        this._conversation.summary = result
+        if (result?.content) this._conversation.summary = result?.content
       })
     }
   }
@@ -274,16 +277,21 @@ export class MessageViewerPanel {
 
     //Note: rcvdViewSaveMessages has added the new question
     createChatCompletion(this._conversation).then((result) => {
+      if (!result) return
+
       const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
-      const chatThread: IChatMessage = {
-        content: result,
+      const chatCompletion: IChatCompletion = {
+        content: result.content,
         author: author,
         timestamp: new Date().toLocaleString(),
         mine: false,
+        completionTokens: result.completionTokens,
+        promptTokens: result.promptTokens,
+        totalTokens: result.totalTokens,
       }
       MessageViewerPanel.currentPanel?._panel.webview.postMessage({
         command: 'rqstViewAnswerMessage',
-        text: JSON.stringify(chatThread),
+        text: JSON.stringify(chatCompletion),
       })
     })
   }

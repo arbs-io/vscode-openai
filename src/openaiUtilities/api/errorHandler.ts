@@ -10,6 +10,7 @@ export function errorHandler(error: any) {
     )
     // disable extension when exception occurs
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
+    return
   } else if (error.response !== undefined && error.response.status === 401) {
     ExtensionStatusBarItem.instance.showStatusBarError(
       'lock',
@@ -17,12 +18,14 @@ export function errorHandler(error: any) {
     )
     // disable extension when exception occurs
     commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
+    return
   } else if (error.response !== undefined && error.response.status === 404) {
     ExtensionStatusBarItem.instance.showStatusBarError('cloud', '- not found')
     showMessageWithTimeout(
       'Resource not found: check baseurl, api version or deployment name',
       7500
     )
+    return
   }
 
   delete error.stack

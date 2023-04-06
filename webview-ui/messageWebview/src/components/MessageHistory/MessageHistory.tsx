@@ -111,7 +111,9 @@ const MessageHistory: FC<IData> = ({ message }) => {
                           String(children).replace(/\n$/, '')
                         )
                       }
-                    />
+                    >
+                      Copy
+                    </ToolbarButton>
                   </Tooltip>
                   <Tooltip
                     withArrow
@@ -128,7 +130,9 @@ const MessageHistory: FC<IData> = ({ message }) => {
                           String(children).replace(/\n$/, '')
                         )
                       }
-                    />
+                    >
+                      New
+                    </ToolbarButton>
                   </Tooltip>
                 </Toolbar>
                 <SyntaxHighlighter

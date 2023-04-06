@@ -8,7 +8,7 @@ import {
   ExtensionStatusBarItem,
   ConfigurationService,
 } from '../../vscodeUtilities'
-import { IConversation } from '../../interfaces'
+import { IConversation, IChatCompletion } from '../../interfaces'
 import { errorHandler } from './errorHandler'
 
 async function buildMessages(
@@ -64,6 +64,8 @@ export async function createChatCompletion(
     )
 
     const answer = completion.data.choices[0].message?.content
+
+    completion.data.usage?.completion_tokens
 
     ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
     return answer ? answer : ''

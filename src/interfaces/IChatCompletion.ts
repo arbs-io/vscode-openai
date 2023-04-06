@@ -1,4 +1,4 @@
-export interface IChatMessage {
+export interface IChatCompletion {
   content: string
   author: string
   timestamp: string

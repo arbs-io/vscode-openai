@@ -10,7 +10,7 @@ import {
 } from '@fluentui/react-components'
 import { columns } from './TableColumnDefinition'
 import { useStyles } from './useStyles'
-import { IConversation } from '../../interfaces/IConversation'
+import { IConversation } from '../../interfaces'
 import IData from './IData'
 
 const ConversationGrid: FC<IData> = ({ conversations }) => {

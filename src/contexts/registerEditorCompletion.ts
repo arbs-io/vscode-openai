@@ -1,5 +1,5 @@
 import { commands, ExtensionContext, Uri } from 'vscode'
-import { IChatMessage, IConversation } from '../interfaces'
+import { IChatCompletion, IConversation } from '../interfaces'
 import { SystemPersonas } from '../models'
 
 import {
@@ -56,7 +56,7 @@ class CommandRegistry {
               ConversationService.instance.create(persona)
             const prompt = await factory.createPrompt()()
 
-            const chatThread: IChatMessage = {
+            const chatThread: IChatCompletion = {
               content: prompt,
               author: 'vscode-openai-editor',
               timestamp: new Date().toLocaleString(),

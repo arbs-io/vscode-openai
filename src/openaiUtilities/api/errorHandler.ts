@@ -23,10 +23,11 @@ export function errorHandler(error: any) {
       'Resource not found: check baseurl, api version or deployment name',
       7500
     )
-  } else {
-    showMessageWithTimeout(
-      `unexpected error occured: ${error.code}, Please help and report issue to github issue. Providing operation and configuration setup (excluding any sensitive data)`,
-      15000
-    )
   }
+
+  delete error.stack
+  const reportError = JSON.stringify(error)
+  window.showErrorMessage(
+    `unexpected error: Please report the following details to github (remove any sensitive data). ${reportError}`
+  )
 }

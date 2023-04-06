@@ -4,11 +4,15 @@ import {
   Popover,
   PopoverTrigger,
   PopoverSurface,
-  Caption1,
-  Caption1Stronger,
   shorthands,
+  Caption1,
 } from '@fluentui/react-components'
-import { Info24Regular } from '@fluentui/react-icons'
+import {
+  Info16Regular,
+  Pen16Regular,
+  Notebook16Regular,
+  CommentArrowRight16Regular,
+} from '@fluentui/react-icons'
 import { IChatCompletion } from '../../interfaces'
 import { FC } from 'react'
 
@@ -31,9 +35,15 @@ const TokenPopover: FC<IData> = ({ message }) => {
   const styles = useStyles()
   return (
     <div className={styles.container}>
-      <Caption1>completion: {message.completionTokens}</Caption1>
-      <Caption1>prompt: {message.promptTokens}</Caption1>
-      <Caption1>total: {message.totalTokens}</Caption1>
+      <Caption1>
+        {<Pen16Regular />} Completion: {message.completionTokens}
+      </Caption1>
+      <Caption1>
+        {<Notebook16Regular />} Prompt: {message.promptTokens}
+      </Caption1>
+      <Caption1>
+        {<CommentArrowRight16Regular />} Total: {message.totalTokens}
+      </Caption1>
     </div>
   )
 }
@@ -46,7 +56,7 @@ export const TokenInfo: FC<IData> = ({ message }) => {
           <Button
             appearance="transparent"
             size="small"
-            icon={<Info24Regular />}
+            icon={<Info16Regular />}
           />
         </PopoverTrigger>
 

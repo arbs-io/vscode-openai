@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import {
   DataGridBody,
   DataGridRow,
@@ -11,8 +11,8 @@ import {
   TableRowId,
 } from '@fluentui/react-components'
 import { Chat24Regular } from '@fluentui/react-icons'
-import { useStyles } from './PersonaGrid/useStyles'
-import { columns } from './PersonaGrid/TableColumnDefinition'
+import { useStyles } from './useStyles'
+import { PersonaGridColumnDefinition } from '../PersonaGridColumnDefinition'
 import IPersonaOpenAI from '@appInterfaces/IPersonaOpenAI'
 import { vscode } from '../../utilities/vscode'
 
@@ -21,9 +21,10 @@ interface IData {
 }
 
 const PersonaGrid: FC<IData> = ({ personas }) => {
-  const [selectedPersona, setSelectedPersona] = useState<
-    TableRowId | undefined
-  >(undefined)
+  const [selectedPersona, setSelectedPersona] = useState<TableRowId>(
+    '627026d2-8df7-4bd2-9fb8-7a478309f9bf'
+  )
+  const defaultSelectedItems: Array<TableRowId> = [selectedPersona]
 
   const handleChangePersona = (selectedItems: Set<TableRowId>) => {
     selectedItems.forEach((item) => {
@@ -58,10 +59,11 @@ const PersonaGrid: FC<IData> = ({ personas }) => {
       <DataGrid
         size="extra-small"
         items={personas}
-        columns={columns}
+        columns={PersonaGridColumnDefinition}
         sortable
         selectionMode="single"
         getRowId={(item) => item.roleId}
+        defaultSelectedItems={defaultSelectedItems}
         onSelectionChange={(e, data) => handleChangePersona(data.selectedItems)}
         columnSizingOptions={{
           persona: {

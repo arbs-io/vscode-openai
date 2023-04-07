@@ -13,8 +13,11 @@ import {
 import { Delete24Regular } from '@fluentui/react-icons'
 import { FC } from 'react'
 import { vscode } from '../../utilities/vscode'
-import IData from './IData'
 import { useStyles } from './useStyles'
+
+interface IData {
+  conversation: IConversation
+}
 
 const handleDeleteConversation = (conversation: IConversation) => {
   vscode.postMessage({

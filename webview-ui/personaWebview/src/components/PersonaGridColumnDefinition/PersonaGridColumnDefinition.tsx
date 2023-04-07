@@ -1,4 +1,3 @@
-import { FC, useState } from 'react'
 import {
   TableCellLayout,
   TableColumnDefinition,
@@ -8,7 +7,7 @@ import {
 } from '@fluentui/react-components'
 import IPersonaOpenAI from 'interfaces/IPersonaOpenAI'
 
-export const columns: TableColumnDefinition<IPersonaOpenAI>[] = [
+const PersonaGridColumnDefinition: TableColumnDefinition<IPersonaOpenAI>[] = [
   createTableColumn<IPersonaOpenAI>({
     columnId: 'persona',
     compare: (source, target) => {
@@ -38,20 +37,6 @@ export const columns: TableColumnDefinition<IPersonaOpenAI>[] = [
       )
     },
   }),
-
-  // createTableColumn<IPersonaOpenAI>({
-  //   columnId: 'prompt',
-  //   renderHeaderCell: () => {
-  //     return 'Prompt'
-  //   },
-  //   renderCell: (item) => {
-  //     return (
-  //       <TableCell tabIndex={0} role="gridcell">
-  //         <TableCellLayout
-  //           description={`${item.prompt.system.substring(0, 100)}...`}
-  //         />
-  //       </TableCell>
-  //     )
-  //   },
-  // }),
 ]
+
+export default PersonaGridColumnDefinition

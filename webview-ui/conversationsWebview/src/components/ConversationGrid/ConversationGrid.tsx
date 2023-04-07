@@ -8,17 +8,20 @@ import {
   DataGridCell,
   mergeClasses,
 } from '@fluentui/react-components'
-import { columns } from './TableColumnDefinition'
+import { ConversationGridColumnDefinition } from '../ConversationGridColumnDefinition'
 import { useStyles } from './useStyles'
 import { IConversation } from '../../interfaces'
-import IData from './IData'
+
+interface IData {
+  conversations: IConversation[]
+}
 
 const ConversationGrid: FC<IData> = ({ conversations }) => {
   return (
     <DataGrid
       size="extra-small"
       items={conversations}
-      columns={columns}
+      columns={ConversationGridColumnDefinition}
       getRowId={(item) => item.itemId}
       resizableColumns
       columnSizingOptions={{

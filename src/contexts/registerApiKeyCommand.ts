@@ -20,17 +20,14 @@ function _registerApiKeyCommand(context: ExtensionContext) {
 }
 
 async function _inputApiKeyOpenAI() {
-  const requestConfig = await ConfigurationService.instance.get()
-
   const apiKey =
-    requestConfig.serviceProvider === 'Azure-OpenAI'
+    ConfigurationService.instance.serviceProvider === 'Azure-OpenAI'
       ? await _azureApiKey()
       : await _openaiApiKey()
 
   if (apiKey !== undefined) {
     await SecretStorageService.instance
       .setAuthApiKey(apiKey)
-      .then((x) => ConfigurationService.instance.load())
       .then((x) => verifyApiKey())
   }
 }

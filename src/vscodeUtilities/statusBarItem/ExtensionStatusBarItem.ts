@@ -31,15 +31,13 @@ export default class ExtensionStatusBarItem {
   }
 
   public async showStatusBarInformation(icon: string, text: string) {
-    const requestConfig = await ConfigurationService.instance.get()
-    this.statusBarItem.text = `$(${icon}) ${requestConfig.host} ${text}`
+    this.statusBarItem.text = `$(${icon}) ${ConfigurationService.instance.host} ${text}`
     this.statusBarItem.backgroundColor = undefined
     this.statusBarItem.show()
   }
 
   public async showStatusBarError(icon: string, text: string) {
-    const requestConfig = await ConfigurationService.instance.get()
-    this.statusBarItem.text = `$(${icon}) ${requestConfig.host} ${text}`
+    this.statusBarItem.text = `$(${icon}) ${ConfigurationService.instance.host} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(
       'statusBarItem.errorBackground'
     )

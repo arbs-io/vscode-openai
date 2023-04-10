@@ -13,8 +13,9 @@ export default class ConfigurationService {
   }
 
   public get serviceProvider(): string {
-    const ws = workspace.getConfiguration('vscode-openai')
-    return ws.get('serviceProvider') as string
+    return workspace
+      .getConfiguration('vscode-openai')
+      .get('serviceProvider') as string
   }
   public set serviceProvider(value: string) {
     const ws = workspace.getConfiguration('vscode-openai')
@@ -24,8 +25,7 @@ export default class ConfigurationService {
   }
 
   public get baseUrl(): string {
-    const ws = workspace.getConfiguration('vscode-openai')
-    return ws.get('baseUrl') as string
+    return workspace.getConfiguration('vscode-openai').get('baseUrl') as string
   }
   public set baseUrl(value: string) {
     const ws = workspace.getConfiguration('vscode-openai')
@@ -37,8 +37,9 @@ export default class ConfigurationService {
   }
 
   public get azureDeployment(): string {
-    const ws = workspace.getConfiguration('vscode-openai')
-    return ws.get('azureDeployment') as string
+    return workspace
+      .getConfiguration('vscode-openai')
+      .get('azureDeployment') as string
   }
   public set azureDeployment(value: string) {
     const ws = workspace.getConfiguration('vscode-openai')
@@ -48,8 +49,9 @@ export default class ConfigurationService {
   }
 
   public get azureApiVersion(): string {
-    const ws = workspace.getConfiguration('vscode-openai')
-    return ws.get('azureApiVersion') as string
+    return workspace
+      .getConfiguration('vscode-openai')
+      .get('azureApiVersion') as string
   }
   public set azureApiVersion(value: string) {
     const ws = workspace.getConfiguration('vscode-openai')
@@ -59,8 +61,9 @@ export default class ConfigurationService {
   }
 
   public get defaultModel(): string {
-    const ws = workspace.getConfiguration('vscode-openai')
-    return ws.get('defaultModel') as string
+    return workspace
+      .getConfiguration('vscode-openai')
+      .get('defaultModel') as string
   }
   public set defaultModel(value: string) {
     const ws = workspace.getConfiguration('vscode-openai')
@@ -69,8 +72,7 @@ export default class ConfigurationService {
     ws.update(configName, value, setAsGlobal)
   }
 
-  //
-
+  // composed properties
   public get host(): string {
     return new URL(this.baseUrl).host
   }

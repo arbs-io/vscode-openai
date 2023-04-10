@@ -36,17 +36,16 @@ export async function createChatCompletion(
   conversation: IConversation
 ): Promise<IMessage | undefined> {
   try {
-    const requestConfig = await ConfigurationService.instance.get()
-
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
       '- waiting'
     )
-    if (!requestConfig.apiKey) return undefined
+    const apiKey = await ConfigurationService.instance.getApiKey()
+    if (!apiKey) return undefined
 
     const configuration = new Configuration({
-      apiKey: requestConfig.apiKey,
-      basePath: requestConfig.inferenceUrl,
+      apiKey: apiKey,
+      basePath: ConfigurationService.instance.inferenceUrl,
     })
     const openai = new OpenAIApi(configuration)
 
@@ -54,13 +53,13 @@ export async function createChatCompletion(
 
     const completion = await openai.createChatCompletion(
       {
-        model: requestConfig.defaultModel,
+        model: ConfigurationService.instance.defaultModel,
         messages: chatCompletions,
         temperature: 0.2,
         frequency_penalty: 0.5,
         presence_penalty: 0.5,
       },
-      requestConfig.requestConfig
+      await ConfigurationService.instance.getRequestConfig()
     )
 
     const content = completion.data.choices[0].message?.content

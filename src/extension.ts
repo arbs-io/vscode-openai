@@ -24,7 +24,7 @@ export function activate(context: ExtensionContext) {
   GlobalStorageService.init(context)
 
   //load configuration
-  ConfigurationService.init(context)
+  ConfigurationService.init()
 
   ExtensionStatusBarItem.init(context)
 

@@ -14,13 +14,14 @@ export async function validateApiKey() {
 
 export async function verifyApiKey(): Promise<boolean> {
   try {
-    const requestConfig = await ConfigurationService.instance.get()
     const configuration = new Configuration({
-      apiKey: requestConfig.apiKey,
-      basePath: requestConfig.baseUrl,
+      apiKey: await ConfigurationService.instance.getApiKey(),
+      basePath: ConfigurationService.instance.baseUrl,
     })
     const openai = new OpenAIApi(configuration)
-    const response = await openai.listModels(requestConfig.requestConfig)
+    const response = await openai.listModels(
+      await ConfigurationService.instance.getRequestConfig()
+    )
     if (response.status === 200) {
       commands.executeCommand(
         'setContext',

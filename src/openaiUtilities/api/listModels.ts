@@ -3,14 +3,16 @@ import { ConfigurationService } from '../../vscodeUtilities'
 
 export async function listModels(): Promise<string[]> {
   const models = new Array<string>()
-  const requestConfig = await ConfigurationService.instance.get()
+  const apiKey = await ConfigurationService.instance.getApiKey()
 
   const configuration = new Configuration({
-    apiKey: requestConfig.apiKey,
-    basePath: requestConfig.baseUrl,
+    apiKey: apiKey,
+    basePath: ConfigurationService.instance.baseUrl,
   })
   const openai = new OpenAIApi(configuration)
-  const response = await openai.listModels(requestConfig.requestConfig)
+  const response = await openai.listModels(
+    await ConfigurationService.instance.getRequestConfig()
+  )
 
   response.data.data.forEach((model) => {
     if (model.id.startsWith('gpt') && model.id.indexOf('turbo')) {

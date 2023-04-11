@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "A vscode extension can significantly enhance your productivity and efficiency when developing complex software applications using OpenAI latest models",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -242,14 +242,14 @@
     "deploy": "vsce publish --yarn"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "@types/vscode": "^1.73.0",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
-    "@vscode/vsce": "^2.16.0",
-    "esbuild": "^0.17.4",
-    "eslint": "^8.32.0",
-    "typescript": "^4.9.5"
+    "@types/node": "^18.15.11",
+    "@types/vscode": "^1.77.0",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "@vscode/vsce": "^2.18.0",
+    "esbuild": "^0.17.16",
+    "eslint": "^8.38.0",
+    "typescript": "^5.0.4"
   },
   "dependencies": {
     "openai": "^3.2.1"

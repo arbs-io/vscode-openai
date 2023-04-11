@@ -5,23 +5,22 @@ import {
   ToolbarButton,
   Tooltip,
 } from '@fluentui/react-components'
-import { InfoButton } from '@fluentui/react-components/unstable'
 import { CSSProperties, FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
-import { default as IData } from './IData'
 import { Clipboard24Regular, Open24Regular } from '@fluentui/react-icons'
 import { vscode } from '../../utilities/vscode'
 import { TokenInfo } from '../TokenInfo'
+import { IMessageHistoryProps, ICodeDocument } from '../../interfaces'
 
-const MessageHistory: FC<IData> = ({ message }) => {
+const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   if (!message) {
     throw new Error('Invalid memory')
   }
 
-  const style: CSSProperties = {
+  const styleMessageHistory: CSSProperties = {
     alignSelf: message.mine ? 'flex-end' : 'flex-start',
     backgroundColor: message.mine
       ? tokens.colorNeutralBackground4
@@ -58,10 +57,6 @@ const MessageHistory: FC<IData> = ({ message }) => {
     navigator.clipboard.writeText(code)
   }
 
-  interface ICodeDocument {
-    language: string
-    content: string
-  }
   const handleCreateCodeDocument = (language: string, content: string) => {
     const codeDocument: ICodeDocument = {
       language: language,
@@ -74,7 +69,7 @@ const MessageHistory: FC<IData> = ({ message }) => {
   }
 
   return (
-    <div style={style}>
+    <div style={styleMessageHistory}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div style={{ paddingBottom: 10 }}>
           {message.mine ? null : (
@@ -146,7 +141,7 @@ const MessageHistory: FC<IData> = ({ message }) => {
                   wrapLongLines={true}
                   PreTag="div"
                   {...props}
-                  style={tomorrow}
+                  style={vscDarkPlus}
                 />
               </div>
             ) : (

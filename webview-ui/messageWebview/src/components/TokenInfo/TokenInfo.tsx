@@ -13,12 +13,8 @@ import {
   Notebook16Regular,
   CommentArrowRight16Regular,
 } from '@fluentui/react-icons'
-import { IChatCompletion } from '../../interfaces'
+import { ITokenInfoProps } from '../../interfaces'
 import { FC } from 'react'
-
-interface IData {
-  message: IChatCompletion
-}
 
 const useStyles = makeStyles({
   container: {
@@ -31,7 +27,7 @@ const useStyles = makeStyles({
     float: 'right',
   },
 })
-const TokenPopover: FC<IData> = ({ message }) => {
+const TokenPopover: FC<ITokenInfoProps> = ({ message }) => {
   const styles = useStyles()
   return (
     <div className={styles.container}>
@@ -47,7 +43,7 @@ const TokenPopover: FC<IData> = ({ message }) => {
     </div>
   )
 }
-export const TokenInfo: FC<IData> = ({ message }) => {
+export const TokenInfo: FC<ITokenInfoProps> = ({ message }) => {
   const styles = useStyles()
   return (
     <span className={styles.infoButton}>

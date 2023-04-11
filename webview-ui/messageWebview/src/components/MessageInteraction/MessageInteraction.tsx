@@ -1,4 +1,4 @@
-import { makeStyles, mergeClasses, tokens } from '@fluentui/react-components'
+import { makeStyles, mergeClasses } from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState } from 'react'
 import { MessageHistory } from '../MessageHistory'
 import { MessageInput } from '../MessageInput'

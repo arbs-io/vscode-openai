@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react'
+import { FC, useState } from 'react'
 import {
   DataGridBody,
   DataGridRow,
@@ -13,14 +13,10 @@ import {
 import { Chat24Regular } from '@fluentui/react-icons'
 import { useStyles } from './useStyles'
 import { PersonaGridColumnDefinition } from '../PersonaGridColumnDefinition'
-import IPersonaOpenAI from '@appInterfaces/IPersonaOpenAI'
+import { IPersonaOpenAI, IPersonaGridProps } from '../../interfaces'
 import { vscode } from '../../utilities/vscode'
 
-interface IData {
-  personas: IPersonaOpenAI[]
-}
-
-const PersonaGrid: FC<IData> = ({ personas }) => {
+const PersonaGrid: FC<IPersonaGridProps> = ({ personas }) => {
   const [selectedPersona, setSelectedPersona] = useState<TableRowId>(
     '627026d2-8df7-4bd2-9fb8-7a478309f9bf'
   )

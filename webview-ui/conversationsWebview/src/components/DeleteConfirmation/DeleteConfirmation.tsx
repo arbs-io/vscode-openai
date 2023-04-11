@@ -1,4 +1,4 @@
-import { IConversation } from '../../interfaces/IConversation'
+import { FC } from 'react'
 import {
   Dialog,
   DialogTrigger,
@@ -11,13 +11,9 @@ import {
   mergeClasses,
 } from '@fluentui/react-components'
 import { Delete24Regular } from '@fluentui/react-icons'
-import { FC } from 'react'
-import { vscode } from '../../utilities/vscode'
 import { useStyles } from './useStyles'
-
-interface IData {
-  conversation: IConversation
-}
+import { vscode } from '../../utilities/vscode'
+import { IConversation, IDeleteConfirmationProps } from '../../interfaces'
 
 const handleDeleteConversation = (conversation: IConversation) => {
   vscode.postMessage({
@@ -26,7 +22,7 @@ const handleDeleteConversation = (conversation: IConversation) => {
   })
 }
 
-const DeleteConfirmation: FC<IData> = ({ conversation }) => {
+const DeleteConfirmation: FC<IDeleteConfirmationProps> = ({ conversation }) => {
   return (
     <Dialog modalType="alert">
       <DialogTrigger disableButtonEnhancement>

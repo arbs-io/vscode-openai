@@ -12,8 +12,10 @@ import {
 } from 'vscode'
 import { getNonce, getUri } from '../vscodeUtilities'
 import { IConversation, IPersonaOpenAI } from '../interfaces'
-import { SystemPersonas } from '../models'
-import { ConversationService } from '../contexts'
+import { getSystemPersonas } from '../models'
+import {
+  ConversationService,
+} from '../services'
 
 export class PersonaWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -103,7 +105,7 @@ export class PersonaWebviewProvider implements WebviewViewProvider {
   private _sendWebviewLoadData() {
     this._view?.webview.postMessage({
       command: 'rqstViewLoadPersonas',
-      text: JSON.stringify(SystemPersonas),
+      text: JSON.stringify(getSystemPersonas()),
     })
   }
 

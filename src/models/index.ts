@@ -1,1 +1,1 @@
-export { SystemPersonas } from './SystemPersonas'
+export { default as getSystemPersonas } from './SystemPersonas'

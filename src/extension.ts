@@ -7,13 +7,15 @@ import {
   SecretStorageService,
 } from './vscodeUtilities'
 import {
-  ConversationService,
   registerApiKeyCommand,
   registerChangeConfiguration,
   registerDefaultModelCommand,
   registerEditorCompletion,
   registerSidebarProvider,
 } from './contexts'
+import {
+  ConversationService,
+} from './services'
 
 export function activate(context: ExtensionContext) {
   // Disable functionality until we validate auth

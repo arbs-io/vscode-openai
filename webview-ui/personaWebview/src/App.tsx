@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import PersonaGrid from './components/PersonaGrid/PersonaGrid'
-import IPersonaOpenAI from 'interfaces/IPersonaOpenAI'
+import { IPersonaOpenAI } from './interfaces'
 
 function App() {
   const [state, setState] = useState<MessageEvent>()
@@ -15,7 +15,6 @@ function App() {
           break
         }
       }
-
       setState(event)
     },
     [state]

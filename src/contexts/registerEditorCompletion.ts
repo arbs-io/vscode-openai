@@ -1,6 +1,6 @@
 import { commands, ExtensionContext, Uri } from 'vscode'
 import { IChatCompletion, IConversation } from '../interfaces'
-import { SystemPersonas } from '../models'
+import { getSystemPersonas } from '../models'
 
 import {
   PromptFactory,
@@ -13,7 +13,7 @@ import {
 } from '../openaiUtilities'
 import { compareFileToClipboard } from '../vscodeUtilities'
 import { VSCODE_OPENAI_PROMPT } from './constants'
-import ConversationService from './conversationService'
+import ConversationService from '../services/conversationService'
 
 // Define a command registry that uses the factory pattern
 class CommandRegistry {
@@ -48,7 +48,7 @@ class CommandRegistry {
     for (const [commandId, factory] of this.factories.entries()) {
       const commandHandler = async (uri: Uri) => {
         try {
-          const persona = SystemPersonas.find(
+          const persona = getSystemPersonas().find(
             (a) => a.roleName === 'Developer/Programmer'
           )
           if (persona) {

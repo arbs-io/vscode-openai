@@ -10,13 +10,10 @@ import {
 } from '@fluentui/react-components'
 import { ConversationGridColumnDefinition } from '../ConversationGridColumnDefinition'
 import { useStyles } from './useStyles'
-import { IConversation } from '../../interfaces'
+import { IConversation, IConversationGridProps } from '../../interfaces'
 
-interface IData {
-  conversations: IConversation[]
-}
 
-const ConversationGrid: FC<IData> = ({ conversations }) => {
+const ConversationGrid: FC<IConversationGridProps> = ({ conversations }) => {
   return (
     <DataGrid
       size="extra-small"

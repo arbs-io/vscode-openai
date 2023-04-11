@@ -1,13 +1,9 @@
 import { Button, Textarea } from '@fluentui/react-components'
 import { Send16Regular } from '@fluentui/react-icons'
 import { FC, useEffect, useRef, useState } from 'react'
-import { IChatCompletion } from '../../interfaces/IChatCompletion'
+import { IMessageInputProps } from '../../interfaces'
 
-interface MessageInputProps {
-  onSubmit: (message: IChatCompletion) => void
-}
-
-export const MessageInput: FC<MessageInputProps> = (props) => {
+export const MessageInput: FC<IMessageInputProps> = (props) => {
   const { onSubmit } = props
   const [value, setValue] = useState<string>('')
   const [previousValue, setPreviousValue] = useState<string>('')

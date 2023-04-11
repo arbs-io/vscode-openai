@@ -94,12 +94,5 @@ export default class ConversationService {
       chatMessages: chatThreads,
     }
     return conversation
-    //update
-    // GlobalStorageService.instance.setValue<IConversation>(
-    //   `conversation-${conversation.conversationId}`,
-    //   conversation as IConversation
-    // )
-    // this.conversations.push(conversation)
-    // this.show(conversation.conversationId)
   }
 }

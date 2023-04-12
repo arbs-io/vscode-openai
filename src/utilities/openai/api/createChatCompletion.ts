@@ -78,7 +78,10 @@ export async function createChatCompletion(
         : 0,
     }
 
-    ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
+    ExtensionStatusBarItem.instance.showStatusBarInformation(
+      'vscode-openai',
+      ''
+    )
     return message
   } catch (error: any) {
     errorHandler(error)

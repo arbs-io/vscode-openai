@@ -2,23 +2,23 @@ import { PromptFactory } from './promptFactory'
 import {
   getActiveTextEditorValue,
   getActiveTextLanguageId,
-} from '../../vscodeUtilities'
+} from '../../../utilities/vscode'
 
-async function commentPrompt(): Promise<string> {
+async function bountyPrompt(): Promise<string> {
   const language = getActiveTextLanguageId()
   const inputCode = getActiveTextEditorValue()
 
   const persona = `Act like a programming expert in ${language}.\n`
-  const request = `Given the following code, add comments to explain any complex logic:\n`
+  const request = `Fix the bugs in the following source code and include comments next to the fixed code to explain any changes made. Use the prefix "Bugfix: " for each bug using ${language} comment notation for the details. The code to review is below:\n`
   const sourceCode = `\n${inputCode}\n\n`
-  const rules = `Add a comment next to each line that requires an explanation. Only add comments if the code is complex enough to require an explanation. The prompt should only return the original code with the comments included.\n`
+  const rules = ``
   const prompt = persona.concat(request, sourceCode, rules)
   return prompt
 }
 
 // Define concrete prompt factories for each type of prompt
-export class CommentPromptFactory implements PromptFactory {
+export class BountyPromptFactory implements PromptFactory {
   createPrompt(): () => Promise<string> {
-    return commentPrompt
+    return bountyPrompt
   }
 }

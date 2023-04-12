@@ -11,10 +11,8 @@ import {
   ColorTheme,
 } from 'vscode'
 import { IConversation } from '../interfaces'
-import { getNonce, getUri } from '../vscodeUtilities'
-import {
-  ConversationService,
-} from '../services'
+import { getNonce, getUri } from '../utilities/vscode'
+import { ConversationService } from '../services'
 
 export class ConversationsWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView

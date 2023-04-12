@@ -1,9 +1,8 @@
-
 /**
  * ConfigurationService class that handles getting and setting configuration values for the vscode-openai extension.
  */
-import { workspace, WorkspaceConfiguration } from 'vscode'
-import { SecretStorageService } from '..'
+import { workspace } from 'vscode'
+import { SecretStorageService } from '../utilities/vscode'
 
 export default class ConfigurationService {
   private static _instance: ConfigurationService
@@ -71,10 +70,10 @@ export default class ConfigurationService {
     ws.update(configName, value, setAsGlobal)
   }
 
-/**
-* Gets or sets the Azure API version used by the extension.
-* @returns The Azure API version used by the extension.
-*/
+  /**
+   * Gets or sets the Azure API version used by the extension.
+   * @returns The Azure API version used by the extension.
+   */
   public get azureApiVersion(): string {
     return workspace
       .getConfiguration('vscode-openai')
@@ -87,10 +86,10 @@ export default class ConfigurationService {
     ws.update(configName, value, setAsGlobal)
   }
 
-/**
-* Gets or sets default model for inference requests made to OpenAI API.
-* @returns Default model for inference requests made to OpenAI API.
-*/
+  /**
+   * Gets or sets default model for inference requests made to OpenAI API.
+   * @returns Default model for inference requests made to OpenAI API.
+   */
   public get defaultModel(): string {
     return workspace
       .getConfiguration('vscode-openai')
@@ -103,20 +102,36 @@ export default class ConfigurationService {
     ws.update(configName, value, setAsGlobal)
   }
 
+  /**
+   * Gets or sets default model for inference requests made to OpenAI API.
+   * @returns Default model for inference requests made to OpenAI API.
+   */
+  public get conversationHistory(): number {
+    return workspace
+      .getConfiguration('vscode-openai')
+      .get('conversationHistory') as number
+  }
+  public set conversationHistory(value: number) {
+    const ws = workspace.getConfiguration('vscode-openai')
+    const configName = 'conversationHistory'
+    const setAsGlobal = ws.inspect(configName)?.workspaceValue == undefined
+    ws.update(configName, value, setAsGlobal)
+  }
+
   // composed properties
 
-/**
-* Returns host name derived from base URL.
-* @returns Host name derived from base URL.
-*/
+  /**
+   * Returns host name derived from base URL.
+   * @returns Host name derived from base URL.
+   */
   public get host(): string {
     return new URL(this.baseUrl).host
   }
 
-/**
-* Returns inference URL based on service provider and base URL.
-* @returns Inference URL based on service provider and base URL.
-*/
+  /**
+   * Returns inference URL based on service provider and base URL.
+   * @returns Inference URL based on service provider and base URL.
+   */
   public get inferenceUrl(): string {
     if (this.serviceProvider === 'Azure-OpenAI') {
       return `${this.baseUrl}/deployments/${this.azureDeployment}`
@@ -125,10 +140,10 @@ export default class ConfigurationService {
     }
   }
 
-/**
-* Returns request configuration object with headers and parameters based on current configuration settings.
-*@returns Request configuration object with headers and parameters based on current configuration settings.
-*/
+  /**
+   * Returns request configuration object with headers and parameters based on current configuration settings.
+   *@returns Request configuration object with headers and parameters based on current configuration settings.
+   */
   public async getRequestConfig(): Promise<any> {
     if (this.serviceProvider === 'Azure-OpenAI') {
       return {
@@ -140,10 +155,10 @@ export default class ConfigurationService {
     }
   }
 
-/**
-* Returns authentication key for OpenAI API requests.
-*@returns Authentication key for OpenAI API requests.
-*/
+  /**
+   * Returns authentication key for OpenAI API requests.
+   *@returns Authentication key for OpenAI API requests.
+   */
   public async getApiKey(): Promise<string> {
     return (await SecretStorageService.instance.getAuthApiKey()) as string
   }

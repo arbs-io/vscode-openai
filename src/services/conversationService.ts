@@ -1,6 +1,6 @@
 import * as crypto from 'crypto'
 import { EventEmitter, Event, ExtensionContext } from 'vscode'
-import { GlobalStorageService } from '../vscodeUtilities'
+import { GlobalStorageService } from '../utilities/vscode'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '../interfaces'
 import { MessageViewerPanel } from '../panels'
 

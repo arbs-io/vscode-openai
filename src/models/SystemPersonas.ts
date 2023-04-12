@@ -1,5 +1,5 @@
 import { IPersonaOpenAI } from '../interfaces/IPersonaOpenAI'
-import { ConfigurationService } from '../vscodeUtilities'
+import { ConfigurationService } from '../services'
 
 function getSystemPersonas(): IPersonaOpenAI[] {
   const SystemPersonas: IPersonaOpenAI[] = [

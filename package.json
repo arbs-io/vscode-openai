@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "A vscode extension can significantly enhance your productivity and efficiency when developing complex software applications using OpenAI latest models",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -132,6 +132,15 @@
           "format": "url",
           "description": "Specifies the base url for the openai service.",
           "order": 6
+        },
+        "vscode-openai.conversationHistory": {
+          "type": "number",
+          "default": 6,
+          "markdownDescription": "The number of previous messages sent to the current prompt.",
+          "minimum": 0,
+          "maximum": 25,
+          "description": "Specifies the base url for the openai service.",
+          "order": 7
         }
       }
     },

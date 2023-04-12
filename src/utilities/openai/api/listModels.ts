@@ -1,5 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { ConfigurationService } from '../../vscodeUtilities'
+import { ConfigurationService } from '../../../services'
 
 export async function listModels(): Promise<string[]> {
   const models = new Array<string>()

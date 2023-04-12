@@ -1,7 +1,7 @@
 import { commands } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
-import { ConfigurationService } from '../../vscodeUtilities'
-import { ExtensionStatusBarItem } from '../../vscodeUtilities'
+import { ConfigurationService } from '../../../services'
+import { ExtensionStatusBarItem } from '../../vscode'
 import { errorHandler } from './errorHandler'
 
 export async function validateApiKey() {

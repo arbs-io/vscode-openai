@@ -4,11 +4,9 @@ import {
   Configuration,
   OpenAIApi,
 } from 'openai'
-import {
-  ExtensionStatusBarItem,
-  ConfigurationService,
-} from '../../vscodeUtilities'
-import { IConversation, IChatCompletion, IMessage } from '../../interfaces'
+import { ExtensionStatusBarItem } from '../../vscode'
+import { ConfigurationService } from '../../../services'
+import { IConversation, IMessage } from '../../../interfaces'
 import { errorHandler } from './errorHandler'
 
 async function buildMessages(
@@ -21,14 +19,17 @@ async function buildMessages(
     content: `You are a ${conversation.persona.prompt.system}`,
   })
 
-  conversation.chatMessages.forEach((chatMessage) => {
-    chatCompletion.push({
-      role: chatMessage.mine
-        ? ChatCompletionRequestMessageRoleEnum.User
-        : ChatCompletionRequestMessageRoleEnum.Assistant,
-      content: chatMessage.content,
+  const conversationHistory = ConfigurationService.instance.conversationHistory
+  conversation.chatMessages
+    .splice(conversationHistory * -1)
+    .forEach((chatMessage) => {
+      chatCompletion.push({
+        role: chatMessage.mine
+          ? ChatCompletionRequestMessageRoleEnum.User
+          : ChatCompletionRequestMessageRoleEnum.Assistant,
+        content: chatMessage.content,
+      })
     })
-  })
   return chatCompletion
 }
 

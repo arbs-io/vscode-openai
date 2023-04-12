@@ -11,12 +11,10 @@ import {
   Event,
   workspace,
 } from 'vscode'
-import { getUri, getNonce } from '../vscodeUtilities'
+import { getUri, getNonce } from '../utilities/vscode'
 import { IChatCompletion, IConversation } from '../interfaces'
-import { createChatCompletion } from '../openaiUtilities'
-import {
-  ConversationService,
-} from '../services'
+import { createChatCompletion } from '../utilities/openai'
+import { ConversationService } from '../services'
 
 export class MessageViewerPanel {
   public static currentPanel: MessageViewerPanel | undefined

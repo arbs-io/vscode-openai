@@ -11,5 +11,4 @@ export { default as SecretStorageService } from './storageServices/secretStorage
 
 export { default as ExtensionStatusBarItem } from './statusBarItem/ExtensionStatusBarItem'
 
-export { default as ConfigurationService } from './configurationService/configurationService'
 export { showMessageWithTimeout } from './showMessage/showMessageWithTimeout'

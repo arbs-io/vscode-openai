@@ -10,8 +10,8 @@ import {
   OptimizePromptFactory,
   PatternPromptFactory,
   createChatCompletion,
-} from '../openaiUtilities'
-import { compareFileToClipboard } from '../vscodeUtilities'
+} from '../utilities/openai'
+import { compareFileToClipboard } from '../utilities/vscode'
 import { VSCODE_OPENAI_PROMPT } from './constants'
 import ConversationService from '../services/conversationService'
 

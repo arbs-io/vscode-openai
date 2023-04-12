@@ -1,6 +1,7 @@
 import { commands, ExtensionContext, Uri, window } from 'vscode'
-import { verifyApiKey } from '../openaiUtilities'
-import { ConfigurationService, SecretStorageService } from '../vscodeUtilities'
+import { verifyApiKey } from '../utilities/openai'
+import { SecretStorageService } from '../utilities/vscode'
+import { ConfigurationService } from '../services'
 import { VSCODE_OPENAI_REGISTER } from './constants'
 
 export function registerApiKeyCommand(context: ExtensionContext) {

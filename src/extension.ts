@@ -1,11 +1,10 @@
 import { commands, ExtensionContext } from 'vscode'
-import { validateApiKey } from './openaiUtilities'
+import { validateApiKey } from './utilities/openai'
 import {
-  ConfigurationService,
   ExtensionStatusBarItem,
   GlobalStorageService,
   SecretStorageService,
-} from './vscodeUtilities'
+} from './utilities/vscode'
 import {
   registerApiKeyCommand,
   registerChangeConfiguration,
@@ -13,9 +12,7 @@ import {
   registerEditorCompletion,
   registerSidebarProvider,
 } from './contexts'
-import {
-  ConversationService,
-} from './services'
+import { ConfigurationService, ConversationService } from './services'
 
 export function activate(context: ExtensionContext) {
   // Disable functionality until we validate auth

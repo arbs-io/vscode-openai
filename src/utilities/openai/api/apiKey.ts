@@ -28,7 +28,7 @@ export async function verifyApiKey(): Promise<boolean> {
         'vscode-openai.context.apikey',
         true
       )
-      ExtensionStatusBarItem.instance.showStatusBarInformation('unlock', '')
+      ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
       return true
     }
   } catch (error: any) {

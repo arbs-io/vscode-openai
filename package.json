@@ -44,6 +44,15 @@
   "main": "./out/extension.js",
   "browser": "./out/extension.js",
   "contributes": {
+    "icons": {
+      "vscode-openai": {
+        "description": "vscode-openai",
+        "default": {
+          "fontPath": "./assets/vscode-openai.woff",
+          "fontCharacter": "\\E900"
+        }
+      }
+    },
     "viewsContainers": {
       "activitybar": [
         {

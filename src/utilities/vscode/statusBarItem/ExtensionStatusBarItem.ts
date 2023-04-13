@@ -16,7 +16,7 @@ export default class ExtensionStatusBarItem {
   static init(context: ExtensionContext) {
     const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right)
     statusBarItem.name = 'vscode-openai'
-    statusBarItem.command = VSCODE_OPENAI_REGISTER.APIKEY_COMMAND_ID
+    statusBarItem.command = VSCODE_OPENAI_REGISTER.SERVICE_COMMAND_ID
     statusBarItem.backgroundColor = new ThemeColor(
       'statusBarItem.errorBackground'
     )

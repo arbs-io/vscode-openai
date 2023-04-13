@@ -8,8 +8,8 @@ import {
 import {
   registerApiKeyCommand,
   registerChangeConfiguration,
-  registerDefaultModelCommand,
   registerEditorCompletion,
+  registerOpenaiServiceCommand,
   registerSidebarProvider,
 } from './contexts'
 import { ConfigurationService, ConversationService } from './services'
@@ -29,10 +29,10 @@ export function activate(context: ExtensionContext) {
 
   //registerCommands
   registerApiKeyCommand(context)
-  registerDefaultModelCommand(context)
   registerEditorCompletion(context)
   registerSidebarProvider(context)
   registerChangeConfiguration(context)
+  registerOpenaiServiceCommand(context)
 
   ConversationService.init(context)
 

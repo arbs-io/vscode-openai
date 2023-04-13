@@ -12,3 +12,6 @@ export { default as SecretStorageService } from './storageServices/secretStorage
 export { default as ExtensionStatusBarItem } from './statusBarItem/ExtensionStatusBarItem'
 
 export { showMessageWithTimeout } from './showMessage/showMessageWithTimeout'
+
+export { quickPickOpenAI } from './quickPick/quickPickOpenAI'
+export { quickPickAzure } from './quickPick/quickPickAzure'

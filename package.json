@@ -95,7 +95,7 @@
             "Azure-OpenAI"
           ],
           "enumDescriptions": [
-            "Use OpenAI native service (https://api.openai.com)",
+            "Use OpenAI native service (https://api.openai.com/v1)",
             "Use Azure OpenAI service (https://<instance-name>.openai.azure.com/openai)."
           ],
           "order": 1
@@ -202,8 +202,8 @@
     ],
     "commands": [
       {
-        "command": "vscode-openai.register.defaultmodel",
-        "title": "Default Model...",
+        "command": "vscode-openai.register.openaiService",
+        "title": "Register OpenAI Service",
         "category": "vscode-openai.register"
       },
       {

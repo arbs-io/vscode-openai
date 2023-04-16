@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { ConfigurationService } from '../../../services'
 
-export async function listModels(): Promise<string[]> {
+export async function listModels(): Promise<Array<string>> {
   const models = new Array<string>()
   const apiKey = await ConfigurationService.instance.getApiKey()
 

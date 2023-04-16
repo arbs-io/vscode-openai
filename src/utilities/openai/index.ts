@@ -8,4 +8,5 @@ export { PatternPromptFactory } from './prompt/patternPrompt'
 
 export { validateApiKey, verifyApiKey } from './api/apiKey'
 export { listModels } from './api/listModels'
+export { apiListModelsOpenai } from './api/apiListModelsOpenai'
 export { createChatCompletion } from './api/createChatCompletion'

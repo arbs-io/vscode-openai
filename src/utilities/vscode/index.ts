@@ -13,5 +13,6 @@ export { default as ExtensionStatusBarItem } from './statusBarItem/ExtensionStat
 
 export { showMessageWithTimeout } from './showMessage/showMessageWithTimeout'
 
+export { quickPickSetupOpenai } from './quickPick/quickPickSetupOpenai'
 export { quickPickOpenAI } from './quickPick/quickPickOpenAI'
 export { quickPickAzure } from './quickPick/quickPickAzure'

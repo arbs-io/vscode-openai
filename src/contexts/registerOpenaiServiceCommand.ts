@@ -1,6 +1,10 @@
 import { commands, ExtensionContext, QuickPickItem, window } from 'vscode'
 import { VSCODE_OPENAI_REGISTER } from './constants'
-import { quickPickOpenAI, quickPickAzure } from '../utilities/vscode'
+import {
+  quickPickOpenAI,
+  quickPickAzure,
+  quickPickSetupOpenai,
+} from '../utilities/vscode'
 
 export function registerOpenaiServiceCommand(context: ExtensionContext) {
   _registerOpenaiServiceCommand(context)
@@ -23,7 +27,7 @@ function _registerOpenaiServiceCommand(context: ExtensionContext) {
                 break
 
               case 'openai.com':
-                quickPickOpenAI()
+                quickPickSetupOpenai(context)
                 break
 
               case 'openai.azure.com':

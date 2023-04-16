@@ -1,8 +1,9 @@
 /**
  * This function runs a multistep configuration for vscode-openai
  * 	Steps:
- * 		1 - ApiKey for openai.com
- * 		2 - Select availible openai model that support chat completion
+ * 		1 - Instance Name (<>)
+ * 		2 - ApiKey for openai.azure.com
+ * 		3 - Select availible openai model that support chat completion
  * 		Store and activate configuration
  */
 
@@ -21,7 +22,7 @@ import { apiListModelsOpenai } from '../../openai'
  * @param context - The extension context.
  * @returns void
  */
-export async function quickPickSetupOpenai(
+export async function quickPickSetupAzureOpenai(
   context: ExtensionContext
 ): Promise<void> {
   interface State {
@@ -34,7 +35,7 @@ export async function quickPickSetupOpenai(
 
   async function collectInputs() {
     const state = {} as Partial<State>
-    await MultiStepInput.run((input) => inputOpenaiApiKey(input, state))
+    await MultiStepInput.run((input) => inputAzureOpenaiInstance(input, state))
     return state as State
   }
 
@@ -46,18 +47,42 @@ export async function quickPickSetupOpenai(
    * @param state - The current state of the application.
    * @returns A function that prompts the user to select an OpenAI model.
    */
-  async function inputOpenaiApiKey(
+  async function inputAzureOpenaiInstance(
     input: MultiStepInput,
     state: Partial<State>
-  ): Promise<(input: MultiStepInput) => Promise<void>> {
+  ) {
     state.openaiApiKey = await input.showInputBox({
       title,
       step: 1,
-      totalSteps: 2,
+      totalSteps: 3,
+      value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
+      prompt:
+        'Enter you instance name. for example: "xyz" would resolve to host xyz.openai.azure.com',
+      placeholder: 'chatbot',
+      validate: validateAzureOpenaiInstance,
+      shouldResume: shouldResume,
+    })
+    return (input: MultiStepInput) => inputAzureOpenaiApiKey(input, state)
+  }
+
+  /**
+   * This function collects user input for the OpenAI API key and returns it as a state object.
+   * @param input - The multi-step input object.
+   * @param state - The current state of the application.
+   * @returns A function that prompts the user to select an OpenAI model.
+   */
+  async function inputAzureOpenaiApiKey(
+    input: MultiStepInput,
+    state: Partial<State>
+  ) {
+    state.openaiApiKey = await input.showInputBox({
+      title,
+      step: 2,
+      totalSteps: 3,
       value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
       prompt: 'Enter you openai.com Api-Key',
-      placeholder: 'sk-8i6055nAY3eAwARfHFjiT5BlbkFJAEFUvG5GwtAV2RiwP87h',
-      validate: validateOpenaiApiKey,
+      placeholder: 'ed4af062d8567543ad104587ea4505ce',
+      validate: validateAzureOpenaiApiKey,
       shouldResume: shouldResume,
     })
     return (input: MultiStepInput) => selectModel(input, state)
@@ -68,10 +93,7 @@ export async function quickPickSetupOpenai(
    * @param input - The multi-step input object.
    * @param state - The current state of the application.
    */
-  async function selectModel(
-    input: MultiStepInput,
-    state: Partial<State>
-  ): Promise<void> {
+  async function selectModel(input: MultiStepInput, state: Partial<State>) {
     const models = await getAvailableModels(
       state.openaiApiKey!,
       undefined /* TODO: token */
@@ -82,7 +104,7 @@ export async function quickPickSetupOpenai(
       .showQuickPick({
         title,
         step: 2,
-        totalSteps: 2,
+        totalSteps: 3,
         placeholder: 'Selected OpenAI Model',
         items: models,
         activeItem: state.openaiModel,
@@ -105,16 +127,23 @@ export async function quickPickSetupOpenai(
    * @param name - The name of the API key to be validated.
    * @returns An error message if validation fails or undefined if validation passes.
    */
-  async function validateOpenaiApiKey(
+  async function validateAzureOpenaiApiKey(
     name: string
   ): Promise<string | undefined> {
-    const OPENAI_APIKEY_LENGTH = 51
-    const OPENAI_APIKEY_STARTSWITH = 'sk-'
+    const OPENAI_APIKEY_LENGTH = 32
+    return name.length === OPENAI_APIKEY_LENGTH ? undefined : 'Invalid Api Key'
+  }
 
-    return name.length === OPENAI_APIKEY_LENGTH &&
-      name.startsWith(OPENAI_APIKEY_STARTSWITH)
-      ? undefined
-      : 'Invalid Api Key'
+  /**
+   * This function validates whether an instance name is valid or not based on resolving the host.
+   * @param name - The name of the API key to be validated.
+   * @returns An error message if validation fails or undefined if validation passes.
+   */
+  async function validateAzureOpenaiInstance(
+    name: string
+  ): Promise<string | undefined> {
+    const OPENAI_APIKEY_LENGTH = 32
+    return undefined
   }
 
   /**

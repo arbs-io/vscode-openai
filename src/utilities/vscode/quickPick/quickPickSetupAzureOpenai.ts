@@ -29,8 +29,9 @@ export async function quickPickSetupAzureOpenai(
     title: string
     step: number
     totalSteps: number
-    openaiApiKey: string
-    openaiModel: QuickPickItem
+    azureOpenaiInstance: string
+    azureOpenaiKey: string
+    azureOpenaiModel: QuickPickItem
   }
 
   async function collectInputs() {
@@ -51,13 +52,16 @@ export async function quickPickSetupAzureOpenai(
     input: MultiStepInput,
     state: Partial<State>
   ) {
-    state.openaiApiKey = await input.showInputBox({
+    state.azureOpenaiInstance = await input.showInputBox({
       title,
       step: 1,
       totalSteps: 3,
-      value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
+      value:
+        typeof state.azureOpenaiInstance === 'string'
+          ? state.azureOpenaiInstance
+          : '',
       prompt:
-        'Enter you instance name. for example: "xyz" would resolve to host xyz.openai.azure.com',
+        'Enter you instance name. Provide the full host name for example "xyz.openai.azure.com"',
       placeholder: 'chatbot',
       validate: validateAzureOpenaiInstance,
       shouldResume: shouldResume,
@@ -75,11 +79,12 @@ export async function quickPickSetupAzureOpenai(
     input: MultiStepInput,
     state: Partial<State>
   ) {
-    state.openaiApiKey = await input.showInputBox({
+    state.azureOpenaiKey = await input.showInputBox({
       title,
       step: 2,
       totalSteps: 3,
-      value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
+      value:
+        typeof state.azureOpenaiKey === 'string' ? state.azureOpenaiKey : '',
       prompt: 'Enter you openai.com Api-Key',
       placeholder: 'ed4af062d8567543ad104587ea4505ce',
       validate: validateAzureOpenaiApiKey,
@@ -95,7 +100,7 @@ export async function quickPickSetupAzureOpenai(
    */
   async function selectModel(input: MultiStepInput, state: Partial<State>) {
     const models = await getAvailableModels(
-      state.openaiApiKey!,
+      state.azureOpenaiKey!,
       undefined /* TODO: token */
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
@@ -107,14 +112,14 @@ export async function quickPickSetupAzureOpenai(
         totalSteps: 3,
         placeholder: 'Selected OpenAI Model',
         items: models,
-        activeItem: state.openaiModel,
+        activeItem: state.azureOpenaiModel,
         shouldResume: shouldResume,
       })
       .then((selectedModel) => {
         if (selectedModel) {
           // Update application's selected model in its current context.
           window.showInformationMessage(
-            `Creating Application Service ${state.openaiApiKey} - ${selectedModel.label}`
+            `Creating Application Service ${state.azureOpenaiKey} - ${selectedModel.label}`
           )
           return
         }
@@ -172,6 +177,6 @@ export async function quickPickSetupAzureOpenai(
   //Start openai.com configuration processes
   const state = await collectInputs()
   window.showInformationMessage(
-    `Creating Application Service ${state.openaiApiKey} - ${state.openaiModel.label}`
+    `Creating Application Service ${state.azureOpenaiKey} - ${state.azureOpenaiModel.label}`
   )
 }

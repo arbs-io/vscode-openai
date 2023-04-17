@@ -1,8 +1,9 @@
 /**
  * This function runs a multistep configuration for vscode-openai
  * 	Steps:
- * 		1 - ApiKey for openai.com
- * 		2 - Select availible openai model that support chat completion
+ * 		1 - Base Url (openai.com/v1)
+ * 		2 - ApiKey for openai.com service
+ * 		3 - Select availible openai model that support chat completion
  * 		Store and activate configuration
  */
 
@@ -28,17 +29,47 @@ export async function quickPickSetupOpenai(
     title: string
     step: number
     totalSteps: number
+    openaiBaseUrl: string
     openaiApiKey: string
     openaiModel: QuickPickItem
   }
 
   async function collectInputs() {
     const state = {} as Partial<State>
-    await MultiStepInput.run((input) => inputOpenaiApiKey(input, state))
+    await MultiStepInput.run((input) => inputOpenaiBaseUrl(input, state))
     return state as State
   }
 
   const title = 'Configure Service Provider (openai.com)'
+
+  /**
+   * This function collects user input for the service baseurl and returns it as a state object.
+   * @param input - The multi-step input object.
+   * @param state - The current state of the application.
+   * @returns A function that prompts the user to select an OpenAI model.
+   */
+  async function inputOpenaiBaseUrl(
+    input: MultiStepInput,
+    state: Partial<State>
+  ) {
+    state.openaiBaseUrl = await input.showInputBox({
+      title,
+      step: 1,
+      totalSteps: 3,
+      value:
+        typeof state.openaiBaseUrl === 'string'
+          ? state.openaiBaseUrl
+          : 'api.openai.com/v1',
+      valueSelection:
+        typeof state.openaiBaseUrl === 'string' ? undefined : [0, 18],
+      prompt:
+        'Enter you instance name. Provide the base url default service is  "api.openai.com/v1"',
+      placeholder: 'chatbot',
+      validate: validateOpenaiBaseUrl,
+      shouldResume: shouldResume,
+    })
+    return (input: MultiStepInput) => inputOpenaiApiKey(input, state)
+  }
 
   /**
    * This function collects user input for the OpenAI API key and returns it as a state object.
@@ -60,7 +91,7 @@ export async function quickPickSetupOpenai(
       validate: validateOpenaiApiKey,
       shouldResume: shouldResume,
     })
-    return (input: MultiStepInput) => selectModel(input, state)
+    return (input: MultiStepInput) => selectOpenaiModel(input, state)
   }
 
   /**
@@ -68,7 +99,7 @@ export async function quickPickSetupOpenai(
    * @param input - The multi-step input object.
    * @param state - The current state of the application.
    */
-  async function selectModel(
+  async function selectOpenaiModel(
     input: MultiStepInput,
     state: Partial<State>
   ): Promise<void> {
@@ -115,6 +146,18 @@ export async function quickPickSetupOpenai(
       name.startsWith(OPENAI_APIKEY_STARTSWITH)
       ? undefined
       : 'Invalid Api Key'
+  }
+
+  /**
+   * This function validates whether an instance name is valid or not based on resolving the host.
+   * @param name - The name of the API key to be validated.
+   * @returns An error message if validation fails or undefined if validation passes.
+   */
+  async function validateOpenaiBaseUrl(
+    name: string
+  ): Promise<string | undefined> {
+    const OPENAI_APIKEY_LENGTH = 32
+    return undefined
   }
 
   /**

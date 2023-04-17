@@ -1,8 +1,8 @@
 /**
  * This function runs a multistep configuration for vscode-openai
  * 	Steps:
- * 		1 - Instance Name (<>)
- * 		2 - ApiKey for openai.azure.com
+ * 		1 - Base Url (instance.openai.azure.com/openai)
+ * 		2 - ApiKey for openai.azure.com service
  * 		3 - Select availible openai model that support chat completion
  * 		Store and activate configuration
  */
@@ -29,44 +29,46 @@ export async function quickPickSetupAzureOpenai(
     title: string
     step: number
     totalSteps: number
-    azureOpenaiInstance: string
-    azureOpenaiKey: string
-    azureOpenaiModel: QuickPickItem
+    openaiBaseUrl: string
+    openaiApiKey: string
+    openaiModel: QuickPickItem
   }
 
   async function collectInputs() {
     const state = {} as Partial<State>
-    await MultiStepInput.run((input) => inputAzureOpenaiInstance(input, state))
+    await MultiStepInput.run((input) => inputOpenaiBaseUrl(input, state))
     return state as State
   }
 
-  const title = 'Configure Service Provider (openai.com)'
+  const title = 'Configure Service Provider (openai.azure.com)'
 
   /**
-   * This function collects user input for the OpenAI API key and returns it as a state object.
+   * This function collects user input for the service baseurl and returns it as a state object.
    * @param input - The multi-step input object.
    * @param state - The current state of the application.
    * @returns A function that prompts the user to select an OpenAI model.
    */
-  async function inputAzureOpenaiInstance(
+  async function inputOpenaiBaseUrl(
     input: MultiStepInput,
     state: Partial<State>
   ) {
-    state.azureOpenaiInstance = await input.showInputBox({
+    state.openaiBaseUrl = await input.showInputBox({
       title,
       step: 1,
       totalSteps: 3,
       value:
-        typeof state.azureOpenaiInstance === 'string'
-          ? state.azureOpenaiInstance
-          : '',
+        typeof state.openaiBaseUrl === 'string'
+          ? state.openaiBaseUrl
+          : 'instance.openai.azure.com/openai',
+      valueSelection:
+        typeof state.openaiBaseUrl === 'string' ? undefined : [0, 8],
       prompt:
-        'Enter you instance name. Provide the full host name for example "xyz.openai.azure.com"',
+        'Enter you instance name. Provide the base url for example "instance.openai.azure.com/openai"',
       placeholder: 'chatbot',
-      validate: validateAzureOpenaiInstance,
+      validate: validateOpenaiBaseUrl,
       shouldResume: shouldResume,
     })
-    return (input: MultiStepInput) => inputAzureOpenaiApiKey(input, state)
+    return (input: MultiStepInput) => inputOpenaiApiKey(input, state)
   }
 
   /**
@@ -75,22 +77,21 @@ export async function quickPickSetupAzureOpenai(
    * @param state - The current state of the application.
    * @returns A function that prompts the user to select an OpenAI model.
    */
-  async function inputAzureOpenaiApiKey(
+  async function inputOpenaiApiKey(
     input: MultiStepInput,
     state: Partial<State>
   ) {
-    state.azureOpenaiKey = await input.showInputBox({
+    state.openaiApiKey = await input.showInputBox({
       title,
       step: 2,
       totalSteps: 3,
-      value:
-        typeof state.azureOpenaiKey === 'string' ? state.azureOpenaiKey : '',
+      value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
       prompt: 'Enter you openai.com Api-Key',
       placeholder: 'ed4af062d8567543ad104587ea4505ce',
       validate: validateAzureOpenaiApiKey,
       shouldResume: shouldResume,
     })
-    return (input: MultiStepInput) => selectModel(input, state)
+    return (input: MultiStepInput) => selectOpenaiModel(input, state)
   }
 
   /**
@@ -98,9 +99,12 @@ export async function quickPickSetupAzureOpenai(
    * @param input - The multi-step input object.
    * @param state - The current state of the application.
    */
-  async function selectModel(input: MultiStepInput, state: Partial<State>) {
+  async function selectOpenaiModel(
+    input: MultiStepInput,
+    state: Partial<State>
+  ) {
     const models = await getAvailableModels(
-      state.azureOpenaiKey!,
+      state.openaiApiKey!,
       undefined /* TODO: token */
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
@@ -112,14 +116,14 @@ export async function quickPickSetupAzureOpenai(
         totalSteps: 3,
         placeholder: 'Selected OpenAI Model',
         items: models,
-        activeItem: state.azureOpenaiModel,
+        activeItem: state.openaiModel,
         shouldResume: shouldResume,
       })
       .then((selectedModel) => {
         if (selectedModel) {
           // Update application's selected model in its current context.
           window.showInformationMessage(
-            `Creating Application Service ${state.azureOpenaiKey} - ${selectedModel.label}`
+            `Creating Application Service ${state.openaiApiKey} - ${selectedModel.label}`
           )
           return
         }
@@ -144,7 +148,7 @@ export async function quickPickSetupAzureOpenai(
    * @param name - The name of the API key to be validated.
    * @returns An error message if validation fails or undefined if validation passes.
    */
-  async function validateAzureOpenaiInstance(
+  async function validateOpenaiBaseUrl(
     name: string
   ): Promise<string | undefined> {
     const OPENAI_APIKEY_LENGTH = 32
@@ -177,6 +181,6 @@ export async function quickPickSetupAzureOpenai(
   //Start openai.com configuration processes
   const state = await collectInputs()
   window.showInformationMessage(
-    `Creating Application Service ${state.azureOpenaiKey} - ${state.azureOpenaiModel.label}`
+    `Creating Application Service ${state.openaiApiKey} - ${state.openaiModel.label}`
   )
 }

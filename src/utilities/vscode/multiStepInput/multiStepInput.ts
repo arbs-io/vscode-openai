@@ -118,6 +118,7 @@ export class MultiStepInput {
     value,
     prompt,
     validate,
+    valueSelection,
     buttons,
     ignoreFocusOut,
     placeholder,
@@ -133,6 +134,7 @@ export class MultiStepInput {
         input.step = step
         input.totalSteps = totalSteps
         input.value = value || ''
+        input.valueSelection = valueSelection
         input.prompt = prompt
         input.ignoreFocusOut = ignoreFocusOut ?? false
         input.placeholder = placeholder

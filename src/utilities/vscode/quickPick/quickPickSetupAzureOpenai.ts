@@ -117,7 +117,8 @@ export async function quickPickSetupAzureOpenai(
       step: 3,
       totalSteps: 3,
       ignoreFocusOut: true,
-      placeholder: 'Selected OpenAI Model',
+      placeholder:
+        'Selected Azure OpenAI Model (Note: if deployment != model name configure in settings)',
       items: models,
       activeItem: state.openaiModel,
       shouldResume: shouldResume,

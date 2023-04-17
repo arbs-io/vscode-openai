@@ -28,6 +28,16 @@ export function errorHandler(error: any) {
       7500
     )
     return
+  } else if (error.response !== undefined && error.response.status === 429) {
+    ExtensionStatusBarItem.instance.showStatusBarError(
+      'exclude',
+      '- rate limit'
+    )
+    showMessageWithTimeout(
+      'Resource not found: check baseurl, api version or deployment name',
+      7500
+    )
+    return
   }
 
   delete error.stack

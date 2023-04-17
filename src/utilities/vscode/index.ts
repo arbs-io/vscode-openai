@@ -15,5 +15,3 @@ export { showMessageWithTimeout } from './showMessage/showMessageWithTimeout'
 
 export { quickPickSetupOpenai } from './quickPick/quickPickSetupOpenai'
 export { quickPickSetupAzureOpenai } from './quickPick/quickPickSetupAzureOpenai'
-
-export { quickPickAzure } from './quickPick/quickPickAzure'

@@ -59,21 +59,21 @@ function BuildOpenAiServiceTypes(): OpenAiServiceType[] {
   openAiServiceType.push(
     new OpenAiServiceType(
       'vscode-openai',
-      '(free) Use vscode-openai openai instance',
+      '(Sponsored) Use vscode-openai service',
       undefined
     )
   )
   openAiServiceType.push(
     new OpenAiServiceType(
       'openai.com',
-      '(BYOK) Use Azure OpenAI service (instance.openai.azure.com)',
+      '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
       undefined
     )
   )
   openAiServiceType.push(
     new OpenAiServiceType(
       'openai.azure.com',
-      '(BYOK) Use OpenAI native service (api.openai.com)',
+      '(BYOK) Use your own OpenAI subscription (api.openai.com)',
       undefined
     )
   )

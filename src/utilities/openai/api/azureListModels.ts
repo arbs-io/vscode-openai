@@ -1,28 +1,24 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
-// import { ConfigurationService } from '../../../services'
 
-export async function apiListModelsOpenai(
-  apiKey: string
+export async function azureListModels(
+  apiKey: string,
+  baseUrl: string
 ): Promise<Array<string>> {
   try {
     const models = new Array<string>()
     const configuration = new Configuration({
       apiKey: apiKey,
+      basePath: `https://${baseUrl}`,
     })
     const openai = new OpenAIApi(configuration)
-    const response = await openai.listModels()
+    const response = await openai.listModels({
+      headers: { 'api-key': apiKey },
+      params: { 'api-version': '2023-03-15-preview' },
+    })
 
-    const chatCompletionModels = [
-      'gpt-4',
-      'gpt-4-0314',
-      'gpt-4-32k',
-      'gpt-4-32k-0314',
-      'gpt-3.5-turbo',
-      'gpt-3.5-turbo-0301',
-    ]
-    response.data.data.forEach((model) => {
-      if (chatCompletionModels.includes(model.id)) {
+    response.data.data.forEach((model: any) => {
+      if (model.capabilities.chat_completion) {
         models.push(model.id)
       }
     })

@@ -15,7 +15,7 @@ import {
   Uri,
 } from 'vscode'
 import { MultiStepInput } from '../multiStepInput/multiStepInput'
-import { apiListModelsOpenai } from '../../openai'
+import { azureListModels } from '../../openai'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -105,30 +105,20 @@ export async function quickPickSetupAzureOpenai(
   ) {
     const models = await getAvailableModels(
       state.openaiApiKey!,
+      state.openaiBaseUrl!,
       undefined /* TODO: token */
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
-    await input
-      .showQuickPick({
-        title,
-        step: 2,
-        totalSteps: 3,
-        placeholder: 'Selected OpenAI Model',
-        items: models,
-        activeItem: state.openaiModel,
-        shouldResume: shouldResume,
-      })
-      .then((selectedModel) => {
-        if (selectedModel) {
-          // Update application's selected model in its current context.
-          window.showInformationMessage(
-            `Creating Application Service ${state.openaiApiKey} - ${selectedModel.label}`
-          )
-          return
-        }
-        throw new Error('No model was selected')
-      })
+    state.openaiModel = await input.showQuickPick({
+      title,
+      step: 3,
+      totalSteps: 3,
+      placeholder: 'Selected OpenAI Model',
+      items: models,
+      activeItem: state.openaiModel,
+      shouldResume: shouldResume,
+    })
   }
 
   /**
@@ -163,9 +153,13 @@ export async function quickPickSetupAzureOpenai(
    */
   async function getAvailableModels(
     openapiAPIKey: string,
+    openapiBaseUrl: string,
     token?: CancellationToken
   ): Promise<QuickPickItem[]> {
-    const chatCompletionModels = await apiListModelsOpenai(openapiAPIKey)
+    const chatCompletionModels = await azureListModels(
+      openapiAPIKey,
+      openapiBaseUrl
+    )
 
     // Map each returned label into a QuickPickItem object with label property set as label value returned by API call.
     return chatCompletionModels.map((label) => ({ label }))
@@ -181,6 +175,6 @@ export async function quickPickSetupAzureOpenai(
   //Start openai.com configuration processes
   const state = await collectInputs()
   window.showInformationMessage(
-    `Creating Application Service ${state.openaiApiKey} - ${state.openaiModel.label}`
+    `Creating Application Service ${state.openaiBaseUrl} - ${state.openaiModel.label} - ${state.openaiApiKey}`
   )
 }

@@ -56,14 +56,15 @@ export async function quickPickSetupOpenai(
       title,
       step: 1,
       totalSteps: 3,
+      ignoreFocusOut: true,
       value:
         typeof state.openaiBaseUrl === 'string'
           ? state.openaiBaseUrl
-          : 'api.openai.com/v1',
+          : 'https://api.openai.com/v1',
       valueSelection:
-        typeof state.openaiBaseUrl === 'string' ? undefined : [0, 18],
+        typeof state.openaiBaseUrl === 'string' ? undefined : [0, 25],
       prompt:
-        'Enter you instance name. Provide the base url default service is  "api.openai.com/v1"',
+        'Enter you instance name. Provide the base url default https://api.openai.com/v1"',
       placeholder: 'chatbot',
       validate: validateOpenaiBaseUrl,
       shouldResume: shouldResume,
@@ -85,6 +86,7 @@ export async function quickPickSetupOpenai(
       title,
       step: 2,
       totalSteps: 3,
+      ignoreFocusOut: true,
       value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
       prompt: 'Enter you openai.com Api-Key',
       placeholder: 'sk-8i6055nAY3eAwARfHFjiT5BlbkFJAEFUvG5GwtAV2RiwP87h',
@@ -104,6 +106,7 @@ export async function quickPickSetupOpenai(
     state: Partial<State>
   ): Promise<void> {
     const models = await getAvailableModels(
+      state.openaiBaseUrl!,
       state.openaiApiKey!,
       undefined /* TODO: token */
     )
@@ -113,6 +116,7 @@ export async function quickPickSetupOpenai(
       title,
       step: 3,
       totalSteps: 3,
+      ignoreFocusOut: true,
       placeholder: 'Selected OpenAI Model',
       items: models,
       activeItem: state.openaiModel,
@@ -143,10 +147,9 @@ export async function quickPickSetupOpenai(
    * @returns An error message if validation fails or undefined if validation passes.
    */
   async function validateOpenaiBaseUrl(
-    name: string
+    baseUrl: string
   ): Promise<string | undefined> {
-    const OPENAI_APIKEY_LENGTH = 32
-    return undefined
+    return Uri.parse(baseUrl) ? undefined : 'Invalid Uri'
   }
 
   /**
@@ -156,10 +159,11 @@ export async function quickPickSetupOpenai(
    * @returns A list of QuickPickItems representing each available model returned by the API call to Open AI.
    */
   async function getAvailableModels(
-    openapiAPIKey: string,
+    baseUrl: string,
+    apiKey: string,
     token?: CancellationToken
   ): Promise<QuickPickItem[]> {
-    const chatCompletionModels = await openaiListModels(openapiAPIKey)
+    const chatCompletionModels = await openaiListModels(baseUrl, apiKey)
 
     // Map each returned label into a QuickPickItem object with label property set as label value returned by API call.
     return chatCompletionModels.map((label) => ({ label }))

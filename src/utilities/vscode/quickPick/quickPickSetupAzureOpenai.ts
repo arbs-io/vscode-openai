@@ -56,14 +56,15 @@ export async function quickPickSetupAzureOpenai(
       title,
       step: 1,
       totalSteps: 3,
+      ignoreFocusOut: true,
       value:
         typeof state.openaiBaseUrl === 'string'
           ? state.openaiBaseUrl
-          : 'instance.openai.azure.com/openai',
+          : 'https://instance.openai.azure.com/openai',
       valueSelection:
-        typeof state.openaiBaseUrl === 'string' ? undefined : [0, 8],
+        typeof state.openaiBaseUrl === 'string' ? undefined : [8, 16],
       prompt:
-        'Enter you instance name. Provide the base url for example "instance.openai.azure.com/openai"',
+        'Enter you instance name. Provide the base url for example "https://instance.openai.azure.com/openai"',
       placeholder: 'chatbot',
       validate: validateOpenaiBaseUrl,
       shouldResume: shouldResume,
@@ -85,6 +86,7 @@ export async function quickPickSetupAzureOpenai(
       title,
       step: 2,
       totalSteps: 3,
+      ignoreFocusOut: true,
       value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
       prompt: 'Enter you openai.com Api-Key',
       placeholder: 'ed4af062d8567543ad104587ea4505ce',
@@ -114,6 +116,7 @@ export async function quickPickSetupAzureOpenai(
       title,
       step: 3,
       totalSteps: 3,
+      ignoreFocusOut: true,
       placeholder: 'Selected OpenAI Model',
       items: models,
       activeItem: state.openaiModel,
@@ -139,10 +142,9 @@ export async function quickPickSetupAzureOpenai(
    * @returns An error message if validation fails or undefined if validation passes.
    */
   async function validateOpenaiBaseUrl(
-    name: string
+    baseUrl: string
   ): Promise<string | undefined> {
-    const OPENAI_APIKEY_LENGTH = 32
-    return undefined
+    return Uri.parse(baseUrl) ? undefined : 'Invalid Uri'
   }
 
   /**

@@ -66,9 +66,6 @@ const useMessageStyles = makeStyles({
     flexWrap: 'nowrap',
     width: 'auto',
     height: 'auto',
-    // '> :not(:last-child)': {
-    //   position: 'fixed',
-    // },
   },
   history: {
     display: 'flex',
@@ -91,29 +88,3 @@ const useMessageStyles = makeStyles({
     paddingTop: '2rem',
   },
 })
-
-// const useStyles = makeStyles({
-//   container: {
-//     display: 'flex',
-//     flexDirection: 'column',
-//     rowGap: '5px',
-//   },
-//   history: {
-//     display: 'flex',
-//     flexDirection: 'column',
-//     rowGap: '5px',
-//     paddingLeft: '1rem',
-//     paddingRight: '1rem',
-//     paddingBottom: '3rem',
-//   },
-//   input: {
-//     position: 'fixed',
-//     bottom: 0,
-//     left: 0,
-//     right: 0,
-//     paddingBottom: '1rem',
-//     paddingLeft: '1rem',
-//     paddingRight: '1rem',
-//     paddingTop: '1rem',
-//   },
-// })

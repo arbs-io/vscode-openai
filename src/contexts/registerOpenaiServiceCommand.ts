@@ -3,6 +3,7 @@ import { VSCODE_OPENAI_REGISTER } from './constants'
 import {
   quickPickSetupAzureOpenai,
   quickPickSetupOpenai,
+  quickPickSetupVscodeOpenai,
 } from '../utilities/vscode'
 
 export function registerOpenaiServiceCommand(context: ExtensionContext) {
@@ -22,7 +23,7 @@ function _registerOpenaiServiceCommand(context: ExtensionContext) {
           if (selection[0]) {
             switch (selection[0].label) {
               case 'vscode-openai':
-                quickPickSetupOpenai(context)
+                quickPickSetupVscodeOpenai(context)
                 break
 
               case 'openai.com':
@@ -46,36 +47,21 @@ function _registerOpenaiServiceCommand(context: ExtensionContext) {
   )
 }
 
-class OpenAiServiceType implements QuickPickItem {
-  constructor(
-    public label: string,
-    public description: string,
-    public detail: string | undefined
-  ) {}
-}
-
-function BuildOpenAiServiceTypes(): OpenAiServiceType[] {
-  const openAiServiceType: OpenAiServiceType[] = []
-  openAiServiceType.push(
-    new OpenAiServiceType(
-      'vscode-openai',
-      '(Sponsored) Use vscode-openai service',
-      undefined
-    )
-  )
-  openAiServiceType.push(
-    new OpenAiServiceType(
-      'openai.com',
-      '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
-      undefined
-    )
-  )
-  openAiServiceType.push(
-    new OpenAiServiceType(
-      'openai.azure.com',
-      '(BYOK) Use your own OpenAI subscription (api.openai.com)',
-      undefined
-    )
-  )
-  return openAiServiceType
+function BuildOpenAiServiceTypes(): QuickPickItem[] {
+  const quickPickItemTypes: QuickPickItem[] = [
+    {
+      label: 'vscode-openai',
+      description: '(Sponsored) Use vscode-openai service',
+    },
+    {
+      label: 'openai.com',
+      description:
+        '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
+    },
+    {
+      label: 'openai.azure.com',
+      description: '(BYOK) Use your own OpenAI subscription (api.openai.com)',
+    },
+  ]
+  return quickPickItemTypes
 }

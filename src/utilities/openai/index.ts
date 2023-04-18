@@ -11,5 +11,5 @@ export { listModels } from './api/listModels'
 
 export { createChatCompletion } from './api/createChatCompletion'
 
-export { azureListModels } from './api/azureListModels'
+export { azureListDeployments } from './api/azureListDeployments'
 export { openaiListModels } from './api/openaiListModels'

@@ -1,12 +1,12 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
+import { HttpRequest } from './httpClient'
 
-export async function azureListModels(
+export async function azureListDeployments(
   apiKey: string,
   baseUrl: string
 ): Promise<Array<string>> {
   try {
-    const models = new Array<string>()
     const configuration = new Configuration({
       apiKey: apiKey,
       basePath: baseUrl,
@@ -18,12 +18,28 @@ export async function azureListModels(
       params: { 'api-version': '2023-03-15-preview' },
     })
 
+    const models = new Array<string>()
     response.data.data.forEach((model: any) => {
       if (model.capabilities.chat_completion) {
         models.push(model.id)
       }
     })
-    return models.sort((a, b) => b.localeCompare(a))
+
+    //Get all deployments
+    const request = new HttpRequest(
+      apiKey,
+      `${baseUrl}/deployments?api-version=2022-12-01`
+    )
+    const resp = await request.send()
+
+    const deployments = new Array<string>()
+    resp.data.forEach((deployment: any) => {
+      if (models.includes(deployment.model)) {
+        deployments.push(deployment.id)
+      }
+    })
+
+    return deployments.sort((a, b) => b.localeCompare(a))
   } catch (error: any) {
     errorHandler(error)
     throw error

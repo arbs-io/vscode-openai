@@ -15,7 +15,7 @@ import {
   Uri,
 } from 'vscode'
 import { MultiStepInput } from '../multiStepInput/multiStepInput'
-import { azureListModels } from '../../openai'
+import { azureListDeployments } from '../../openai'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -159,7 +159,7 @@ export async function quickPickSetupAzureOpenai(
     openapiBaseUrl: string,
     token?: CancellationToken
   ): Promise<QuickPickItem[]> {
-    const chatCompletionModels = await azureListModels(
+    const chatCompletionModels = await azureListDeployments(
       openapiAPIKey,
       openapiBaseUrl
     )

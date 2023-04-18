@@ -16,6 +16,8 @@ import {
 } from 'vscode'
 import { MultiStepInput } from '../multiStepInput/multiStepInput'
 import { openaiListModels } from '../../openai'
+import { ConfigurationService } from '../../../services'
+import { SecretStorageService } from '..'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -178,7 +180,8 @@ export async function quickPickSetupOpenai(
 
   //Start openai.com configuration processes
   const state = await collectInputs()
-  window.showInformationMessage(
-    `Creating Application Service ${state.openaiBaseUrl} - ${state.openaiModel.label} - ${state.openaiApiKey}`
-  )
+  ConfigurationService.instance.serviceProvider = 'openai.com'
+  ConfigurationService.instance.baseUrl = state.openaiBaseUrl
+  ConfigurationService.instance.defaultModel = state.openaiModel.label
+  SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
 }

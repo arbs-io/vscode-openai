@@ -27,6 +27,7 @@ export async function azureListDeployments(
 
     //Get all deployments
     const request = new HttpRequest(
+      'GET',
       apiKey,
       `${baseUrl}/deployments?api-version=2022-12-01`
     )

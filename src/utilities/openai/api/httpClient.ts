@@ -8,11 +8,11 @@ import { Uri } from 'vscode'
  */
 export class HttpRequest {
   private _requestOptions: http.RequestOptions = {}
-  constructor(apiKey: string, baseUrl: string) {
+  constructor(method: string, apiKey: string, baseUrl: string) {
     const uri = Uri.parse(baseUrl)
     this._requestOptions = {
       hostname: uri.authority,
-      method: 'GET',
+      method: method,
       path: `${uri.path}?${uri.query}`,
       port: 443,
       headers: {

@@ -6,7 +6,6 @@ import {
   SecretStorageService,
 } from './utilities/vscode'
 import {
-  registerApiKeyCommand,
   registerChangeConfiguration,
   registerEditorCompletion,
   registerOpenaiServiceCommand,
@@ -28,7 +27,6 @@ export function activate(context: ExtensionContext) {
   ExtensionStatusBarItem.init(context)
 
   //registerCommands
-  registerApiKeyCommand(context)
   registerEditorCompletion(context)
   registerSidebarProvider(context)
   registerChangeConfiguration(context)

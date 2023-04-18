@@ -164,8 +164,17 @@ export async function quickPickSetupAzureOpenai(
       openapiBaseUrl
     )
 
+    const quickPickItems: QuickPickItem[] = []
+    chatCompletionModels.forEach((deployment) => {
+      quickPickItems.push({
+        label: deployment.deployment,
+        description: deployment.model,
+      })
+    })
+    return quickPickItems
+
     // Map each returned label into a QuickPickItem object with label property set as label value returned by API call.
-    return chatCompletionModels.map((label) => ({ label }))
+    // return chatCompletionModels.map((label) => ({ label }))
   }
 
   function shouldResume() {
@@ -178,6 +187,6 @@ export async function quickPickSetupAzureOpenai(
   //Start openai.com configuration processes
   const state = await collectInputs()
   window.showInformationMessage(
-    `Creating Application Service ${state.openaiBaseUrl} - ${state.openaiModel.label} - ${state.openaiApiKey}`
+    `Creating Application Service openaiBaseUrl:${state.openaiBaseUrl} Deployment:${state.openaiModel.label} Model:${state.openaiModel.description} - openaiApiKey:${state.openaiApiKey}`
   )
 }

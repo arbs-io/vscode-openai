@@ -1,5 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { ConfigurationService } from '../../../services'
+import { ConfigurationService } from '@app/services'
 
 export async function listModels(): Promise<Array<string>> {
   const models = new Array<string>()

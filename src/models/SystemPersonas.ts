@@ -1,5 +1,5 @@
-import { IPersonaOpenAI } from '../interfaces/IPersonaOpenAI'
-import { ConfigurationService } from '../services'
+import { IPersonaOpenAI } from '@app/interfaces/IPersonaOpenAI'
+import { ConfigurationService } from '@app/services'
 
 const assistantName = 'You are an AI assistant called vscode-openai. '
 const assistantRule = [

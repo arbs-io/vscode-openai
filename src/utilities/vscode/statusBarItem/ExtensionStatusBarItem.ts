@@ -6,8 +6,8 @@ import {
   window,
   workspace,
 } from 'vscode'
-import { VSCODE_OPENAI_REGISTER } from '../../../contexts/constants'
-import { ConfigurationService } from '../../../services'
+import { VSCODE_OPENAI_REGISTER } from '@app/contexts/constants'
+import { ConfigurationService } from '@app/services'
 
 export default class ExtensionStatusBarItem {
   private static _instance: ExtensionStatusBarItem

@@ -2,7 +2,7 @@
  * ConfigurationService class that handles getting and setting configuration values for the vscode-openai extension.
  */
 import { workspace } from 'vscode'
-import { SecretStorageService } from '../utilities/vscode'
+import { SecretStorageService } from '@app/utilities/vscode'
 
 export default class ConfigurationService {
   private static _instance: ConfigurationService

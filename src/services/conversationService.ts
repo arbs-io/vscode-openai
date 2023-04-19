@@ -1,8 +1,8 @@
 import * as crypto from 'crypto'
 import { EventEmitter, Event, ExtensionContext } from 'vscode'
-import { GlobalStorageService } from '../utilities/vscode'
-import { IChatCompletion, IConversation, IPersonaOpenAI } from '../interfaces'
-import { MessageViewerPanel } from '../panels'
+import { GlobalStorageService } from '@app/utilities/vscode'
+import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
+import { MessageViewerPanel } from '@app/panels'
 
 export default class ConversationService {
   private static _emitterDidChange = new EventEmitter<void>()

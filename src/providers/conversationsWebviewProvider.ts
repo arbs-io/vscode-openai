@@ -10,9 +10,9 @@ import {
   CancellationToken,
   ColorTheme,
 } from 'vscode'
-import { IConversation } from '../interfaces'
-import { getNonce, getUri } from '../utilities/vscode'
-import { ConversationService } from '../services'
+import { IConversation } from '@app/interfaces'
+import { getNonce, getUri } from '@app/utilities/vscode'
+import { ConversationService } from '@app/services'
 
 export class ConversationsWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView

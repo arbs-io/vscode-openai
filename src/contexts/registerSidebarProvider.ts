@@ -2,8 +2,8 @@ import { ExtensionContext, window, workspace } from 'vscode'
 import {
   ConversationsWebviewProvider,
   PersonaWebviewProvider,
-} from '../providers'
-import { VSCODE_OPENAI_SIDEBAR } from './constants'
+} from '@app/providers'
+import { VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
 
 export function registerSidebarProvider(context: ExtensionContext) {
   _registerSidebarProvider(context)

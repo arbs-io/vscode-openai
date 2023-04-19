@@ -2,7 +2,7 @@ import { PromptFactory } from './promptFactory'
 import {
   getActiveTextEditorValue,
   getActiveTextLanguageId,
-} from '../../../utilities/vscode'
+} from '@app/utilities/vscode'
 
 async function bountyPrompt(): Promise<string> {
   const language = getActiveTextLanguageId()

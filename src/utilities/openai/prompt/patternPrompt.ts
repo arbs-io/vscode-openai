@@ -2,7 +2,7 @@ import { PromptFactory } from './promptFactory'
 import {
   getActiveTextEditorValue,
   getActiveTextLanguageId,
-} from '../../../utilities/vscode'
+} from '@app/utilities/vscode'
 
 export async function patternPrompt(): Promise<string> {
   const language = getActiveTextLanguageId()

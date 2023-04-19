@@ -4,9 +4,9 @@ import {
   Configuration,
   OpenAIApi,
 } from 'openai'
-import { ExtensionStatusBarItem } from '../../vscode'
-import { ConfigurationService } from '../../../services'
-import { IConversation, IMessage } from '../../../interfaces'
+import { ExtensionStatusBarItem } from '@app/utilities/vscode'
+import { ConfigurationService } from '@app/services'
+import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 
 async function buildMessages(

@@ -1,4 +1,4 @@
-import { IPersonaOpenAI, IChatCompletion } from '.'
+import { IPersonaOpenAI, IChatCompletion } from '@app/interfaces'
 
 export interface IConversation {
   timestamp: number

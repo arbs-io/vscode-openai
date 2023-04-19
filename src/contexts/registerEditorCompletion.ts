@@ -1,6 +1,6 @@
 import { commands, ExtensionContext, Uri } from 'vscode'
-import { IChatCompletion, IConversation } from '../interfaces'
-import { getSystemPersonas } from '../models'
+import { IChatCompletion, IConversation } from '@app/interfaces'
+import { getSystemPersonas } from '@app/models'
 
 import {
   PromptFactory,
@@ -10,10 +10,10 @@ import {
   OptimizePromptFactory,
   PatternPromptFactory,
   createChatCompletion,
-} from '../utilities/openai'
-import { compareFileToClipboard } from '../utilities/vscode'
-import { VSCODE_OPENAI_PROMPT } from './constants'
-import ConversationService from '../services/conversationService'
+} from '@app/utilities/openai'
+import { compareFileToClipboard } from '@app/utilities/vscode'
+import { VSCODE_OPENAI_PROMPT } from '@app/contexts'
+import { ConversationService } from '@app/services'
 
 // Define a command registry that uses the factory pattern
 class CommandRegistry {

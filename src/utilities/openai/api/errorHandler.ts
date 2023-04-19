@@ -2,7 +2,7 @@ import { commands, window } from 'vscode'
 import {
   ExtensionStatusBarItem,
   showMessageWithTimeout,
-} from '../../../utilities/vscode'
+} from '@app/utilities/vscode'
 
 export function errorHandler(error: any) {
   if (error.syscall === 'getaddrinfo' && error.errno === -3008) {

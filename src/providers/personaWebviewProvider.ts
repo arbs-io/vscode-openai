@@ -10,10 +10,10 @@ import {
   CancellationToken,
   ColorTheme,
 } from 'vscode'
-import { getNonce, getUri } from '../utilities/vscode'
-import { IConversation, IPersonaOpenAI } from '../interfaces'
-import { getSystemPersonas } from '../models'
-import { ConversationService } from '../services'
+import { getNonce, getUri } from '@app/utilities/vscode'
+import { IConversation, IPersonaOpenAI } from '@app/interfaces'
+import { getSystemPersonas } from '@app/models'
+import { ConversationService } from '@app/services'
 
 export class PersonaWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView

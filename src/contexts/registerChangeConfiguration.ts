@@ -1,6 +1,5 @@
 import { ExtensionContext, workspace } from 'vscode'
 import { verifyApiKey } from '@app/utilities/openai'
-import { ConfigurationService } from '../services'
 
 export function registerChangeConfiguration(context: ExtensionContext) {
   workspace.onDidChangeConfiguration(async (event) => {

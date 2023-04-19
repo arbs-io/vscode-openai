@@ -12,19 +12,6 @@ export default class ConfigurationService {
    */
   static init(): void {
     ConfigurationService._instance = new ConfigurationService()
-
-    //Migrate
-    switch (ConfigurationService._instance.serviceProvider) {
-      case 'OpenAI':
-        ConfigurationService._instance.serviceProvider = 'openai.com'
-        break
-      case 'Azure-OpenAI':
-        ConfigurationService._instance.serviceProvider = 'openai.azure.com'
-        break
-
-      default:
-        break
-    }
   }
 
   /**
@@ -146,7 +133,7 @@ export default class ConfigurationService {
    * @returns Inference URL based on service provider and base URL.
    */
   public get inferenceUrl(): string {
-    if (this.serviceProvider === 'openai.azure.com') {
+    if (this.serviceProvider === 'Azure-OpenAI') {
       return `${this.baseUrl}/deployments/${this.azureDeployment}`
     } else {
       return `${this.baseUrl}`
@@ -158,7 +145,7 @@ export default class ConfigurationService {
    *@returns Request configuration object with headers and parameters based on current configuration settings.
    */
   public async getRequestConfig(): Promise<any> {
-    if (this.serviceProvider === 'openai.azure.com') {
+    if (this.serviceProvider === 'Azure-OpenAI') {
       return {
         headers: { 'api-key': await this.getApiKey() },
         params: { 'api-version': this.azureApiVersion },

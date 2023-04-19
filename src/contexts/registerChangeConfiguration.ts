@@ -4,15 +4,6 @@ import { ConfigurationService } from '../services'
 
 export function registerChangeConfiguration(context: ExtensionContext) {
   workspace.onDidChangeConfiguration(async (event) => {
-    // if (event.affectsConfiguration('vscode-openai.serviceProvider')) {
-    //   if (ConfigurationService.instance.serviceProvider === 'openai.azure.com') {
-    //     ConfigurationService.instance.baseUrl =
-    //       'https://instance.openai.azure.com/openai'
-    //   } else if (ConfigurationService.instance.serviceProvider === openai.com) {
-    //     ConfigurationService.instance.baseUrl = 'https://api.openai.com/v1'
-    //   }
-    // }
-
     if (
       event.affectsConfiguration('vscode-openai.serviceProvider') ||
       event.affectsConfiguration('vscode-openai.authentication') ||

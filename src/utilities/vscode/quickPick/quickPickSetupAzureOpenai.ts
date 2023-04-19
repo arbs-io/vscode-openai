@@ -181,7 +181,7 @@ export async function quickPickSetupAzureOpenai(
 
   //Start openai.com configuration processes
   const state = await collectInputs()
-  ConfigurationService.instance.serviceProvider = 'openai.azure.com'
+  ConfigurationService.instance.serviceProvider = 'Azure-OpenAI'
   ConfigurationService.instance.baseUrl = state.openaiBaseUrl
   ConfigurationService.instance.azureDeployment = state.openaiModel.label
   ConfigurationService.instance.defaultModel = state.openaiModel

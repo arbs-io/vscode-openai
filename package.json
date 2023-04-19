@@ -88,15 +88,15 @@
       "properties": {
         "vscode-openai.serviceProvider": {
           "type": "string",
-          "default": "openai.com",
+          "default": "OpenAI",
           "markdownDescription": "The service provider for OpenAI. If Microsoft Azure then instance name must be updated in `#vscode-openai.baseUrl#`.",
           "enum": [
-            "openai.com",
-            "openai.azure.com"
+            "OpenAI",
+            "Azure-OpenAI"
           ],
           "enumDescriptions": [
-            "Use OpenAI native service (https://api.openai.com/v1)",
-            "Use Azure OpenAI service (https://<instance-name>.openai.azure.com/openai)."
+            "Use OpenAI native service (https://api.openai.com)",
+            "Use Azure OpenAI service (https://instance-name.openai.azure.com/openai)."
           ],
           "order": 1
         },
@@ -129,7 +129,7 @@
         "vscode-openai.azureDeployment": {
           "type": "string",
           "default": "azure-deployment",
-          "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `openai.azure.com`.",
+          "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
           "format": "url",
           "description": "Specifies the base url for the openai service.",
           "order": 5
@@ -137,7 +137,7 @@
         "vscode-openai.azureApiVersion": {
           "type": "string",
           "default": "2023-03-15-preview",
-          "markdownDescription": "The api version used by Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `openai.azure.com`.",
+          "markdownDescription": "The api version used by Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
           "format": "url",
           "description": "Specifies the base url for the openai service.",
           "order": 6

@@ -179,7 +179,7 @@ export async function quickPickSetupOpenai(
 
   //Start openai.com configuration processes
   const state = await collectInputs()
-  ConfigurationService.instance.serviceProvider = 'openai.com'
+  ConfigurationService.instance.serviceProvider = 'OpenAI'
   ConfigurationService.instance.baseUrl = state.openaiBaseUrl
   ConfigurationService.instance.defaultModel = state.openaiModel.label
   SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)

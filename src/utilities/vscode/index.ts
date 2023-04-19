@@ -13,6 +13,11 @@ export { default as ExtensionStatusBarItem } from './statusBarItem/ExtensionStat
 
 export { showMessageWithTimeout } from './showMessage/showMessageWithTimeout'
 
+export { MultiStepInput } from './multiStepInput/multiStepInput'
+
 export { quickPickSetupOpenai } from './quickPick/quickPickSetupOpenai'
 export { quickPickSetupAzureOpenai } from './quickPick/quickPickSetupAzureOpenai'
 export { quickPickSetupVscodeOpenai } from './quickPick/quickPickSetupVscodeOpenai'
+
+export { getAzureADAccessToken } from './authentication/getAzureADAccessToken'
+export { getGitAccessToken } from './authentication/getGitAccessToken'

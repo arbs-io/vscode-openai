@@ -6,18 +6,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run Extension",
-      "type": "extensionHost",
-      "request": "launch",
-      "runtimeExecutable": "${execPath}",
-      "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}",
-        "${workspaceFolder}/sample"
-      ],
-      "outFiles": ["${workspaceFolder}/out/**/*.js"],
-      "preLaunchTask": "npm: watch"
-    },
-    {
       "name": "Run Extension - esbuild-base",
       "type": "extensionHost",
       "request": "launch",
@@ -27,7 +15,7 @@
         "${workspaceFolder}/sample"
       ],
       "outFiles": ["${workspaceFolder}/out/**/*.js"],
-      "preLaunchTask": "npm: esbuild-base"
+      "preLaunchTask": "${defaultBuildTask}"
     }
   ]
 }

@@ -14,10 +14,9 @@ import {
   ExtensionContext,
   Uri,
 } from 'vscode'
-import { MultiStepInput } from '../multiStepInput/multiStepInput'
-import { openaiListModels } from '../../openai'
-import { ConfigurationService } from '../../../services'
-import { SecretStorageService } from '..'
+import { ConfigurationService } from '@app/services'
+import { openaiListModels } from '@app/utilities/openai'
+import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.

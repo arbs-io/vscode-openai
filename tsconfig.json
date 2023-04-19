@@ -1,13 +1,18 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "moduleResolution": "nodenext",
     "target": "es2020",
     "lib": ["es2020"],
     "outDir": "out",
     "sourceMap": true,
     "rootDir": "src",
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["./src/*"]
+    }
   },
-  "include": ["src/**/*.ts", "src/models/SystemPersonas.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", ".vscode-test"]
 }

@@ -6,7 +6,7 @@
  */
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
-import { MultiStepInput } from '../multiStepInput/multiStepInput'
+import { MultiStepInput } from '@app/utilities/vscode'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.

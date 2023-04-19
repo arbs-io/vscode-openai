@@ -1,5 +1,5 @@
 import { ExtensionContext, workspace } from 'vscode'
-import { verifyApiKey } from '../utilities/openai'
+import { verifyApiKey } from '@app/utilities/openai'
 import { ConfigurationService } from '../services'
 
 export function registerChangeConfiguration(context: ExtensionContext) {

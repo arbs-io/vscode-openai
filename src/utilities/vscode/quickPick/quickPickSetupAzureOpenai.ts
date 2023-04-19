@@ -7,17 +7,10 @@
  * 		Store and activate configuration
  */
 
-import {
-  QuickPickItem,
-  window,
-  CancellationToken,
-  ExtensionContext,
-  Uri,
-} from 'vscode'
-import { MultiStepInput } from '../multiStepInput/multiStepInput'
-import { azureListDeployments } from '../../openai'
-import { ConfigurationService } from '../../../services'
-import { SecretStorageService } from '..'
+import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
+import { ConfigurationService } from '@app/services'
+import { azureListDeployments } from '@app/utilities/openai'
+import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.

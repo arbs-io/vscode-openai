@@ -34,8 +34,14 @@ export default class ExtensionStatusBarItem {
     this.statusBarItem.show()
   }
 
-  public async showStatusBarError(icon: string, text: string) {
-    this.statusBarItem.text = `$(${icon}) ${ConfigurationService.instance.host} ${text}`
+  public async showStatusBarError(
+    icon: string,
+    text: string,
+    hostname?: string
+  ) {
+    if (hostname === undefined) hostname = ConfigurationService.instance.host
+
+    this.statusBarItem.text = `$(${icon}) ${hostname} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(
       'statusBarItem.errorBackground'
     )

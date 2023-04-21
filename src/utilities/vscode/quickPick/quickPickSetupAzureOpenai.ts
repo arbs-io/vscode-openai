@@ -113,7 +113,7 @@ export async function quickPickSetupAzureOpenai(
       totalSteps: 3,
       ignoreFocusOut: true,
       placeholder:
-        'Selected Azure OpenAI Model (Note: if deployment != model name configure in settings)',
+        'Selected DeploymentModel (if empty, no valid chat completion models found)',
       items: models,
       activeItem: state.openaiModel,
       shouldResume: shouldResume,

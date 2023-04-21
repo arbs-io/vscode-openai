@@ -21,3 +21,5 @@ export { quickPickSetupVscodeOpenai } from './quickPick/quickPickSetupVscodeOpen
 
 export { getAzureADAccessToken } from './authentication/getAzureADAccessToken'
 export { getGitAccessToken } from './authentication/getGitAccessToken'
+
+export * from './outputChannel/outputChannel'

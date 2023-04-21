@@ -2,6 +2,7 @@ import { commands, window } from 'vscode'
 import {
   ExtensionStatusBarItem,
   showMessageWithTimeout,
+  logError,
 } from '@app/utilities/vscode'
 
 interface IStatusBarItem {
@@ -10,6 +11,8 @@ interface IStatusBarItem {
 }
 
 export function errorHandler(error: any) {
+  logError(error.message)
+
   if (
     error.syscall !== undefined &&
     error.syscall === 'getaddrinfo' &&
@@ -37,12 +40,6 @@ export function errorHandler(error: any) {
     )
     return
   }
-
-  delete error.stack
-  const reportError = JSON.stringify(error)
-  window.showErrorMessage(
-    `unexpected error: Please report issue to github (remove any sensitive data). ${reportError}`
-  )
 }
 
 export function responseErrorHandler(error: any): IStatusBarItem {

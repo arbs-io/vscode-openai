@@ -44,6 +44,18 @@
   "main": "./out/extension.js",
   "browser": "./out/extension.js",
   "contributes": {
+    "languages": [
+      {
+        "id": "vscode-openai-log"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "vscode-openai-log",
+        "scopeName": "vscode-openai.log",
+        "path": "./assets/log.tmLanguage.json"
+      }
+    ],
     "icons": {
       "vscode-openai": {
         "description": "vscode-openai",
@@ -154,6 +166,22 @@
           "maximum": 25,
           "description": "Specifies the base url for the openai service.",
           "order": 7
+        },
+        "vscode-openai.logLevel": {
+          "type": "string",
+          "default": "Debug",
+          "markdownDescription": "The output level for vscode-openai.",
+          "enum": [
+            "Debug",
+            "Info",
+            "Error"
+          ],
+          "enumDescriptions": [
+            "Debug",
+            "Info",
+            "Error"
+          ],
+          "order": 8
         }
       }
     },

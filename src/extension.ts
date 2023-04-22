@@ -16,25 +16,25 @@ import {
 import { ConfigurationService, ConversationService } from '@app/services'
 
 export function activate(context: ExtensionContext) {
-  logDebug('activate')
+  logInfo('activate vscode-openai')
 
   // Disable functionality until we validate auth
   commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
 
   //register storage (Singletons)
-  logDebug('loading storage')
+  logDebug('initialise storage services')
   SecretStorageService.init(context)
   GlobalStorageService.init(context)
 
   //load configuration
-  logDebug('loading configuration')
+  logDebug('initialise configuration service')
   ConfigurationService.init()
 
-  logDebug('vscode initialise components')
+  logDebug('initialise components')
   ExtensionStatusBarItem.init(context)
 
   //registerCommands
-  logDebug('vscode register commands')
+  logDebug('register commands')
   registerEditorCompletion(context)
   registerSidebarProvider(context)
   registerChangeConfiguration(context)
@@ -43,8 +43,8 @@ export function activate(context: ExtensionContext) {
   logDebug('starting conversation service')
   ConversationService.init(context)
 
-  logDebug('checking openai service authentication')
+  logDebug('verifying authentication openai service')
   validateApiKey() //On activation check if the api key is valid
 
-  logInfo('started')
+  logInfo('vscode-openai ready')
 }

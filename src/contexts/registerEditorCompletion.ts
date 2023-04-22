@@ -11,7 +11,7 @@ import {
   PatternPromptFactory,
   createChatCompletion,
 } from '@app/utilities/openai'
-import { compareFileToClipboard } from '@app/utilities/vscode'
+import { compareFileToClipboard, logError } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_PROMPT } from '@app/contexts'
 import { ConversationService } from '@app/services'
 
@@ -70,7 +70,7 @@ class CommandRegistry {
             compareFileToClipboard(result?.content ? result?.content : '')
           }
         } catch (error) {
-          console.log(error)
+          logError(error)
         }
       }
       context.subscriptions.push(

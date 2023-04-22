@@ -34,10 +34,6 @@ export function errorHandler(error: any) {
       statusBarItem.icon,
       statusBarItem.message
     )
-    showMessageWithTimeout(
-      `${error.response.status} ${error.response.statusText}`,
-      10000
-    )
     return
   }
 }

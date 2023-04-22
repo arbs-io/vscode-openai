@@ -31,8 +31,6 @@ class VSCodeAPIWrapper {
   public postMessage(message: unknown) {
     if (this.vsCodeApi) {
       this.vsCodeApi.postMessage(message)
-    } else {
-      console.log(`VSCodeAPIWrapper::postMessage ${message}`)
     }
   }
 

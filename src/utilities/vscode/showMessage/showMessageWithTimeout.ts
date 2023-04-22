@@ -1,5 +1,5 @@
 import { ProgressLocation, window } from 'vscode'
-import { waitFor } from './waitFor'
+import { waitFor } from '@app/utilities/node'
 
 export const showMessageWithTimeout = (
   message: string,

@@ -55,12 +55,12 @@ function BuildOpenAiServiceTypes(): QuickPickItem[] {
     // },
     {
       label: 'openai.com',
-      description:
-        '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
+      description: '(BYOK) Use your own OpenAI subscription (api.openai.com)',
     },
     {
       label: 'openai.azure.com',
-      description: '(BYOK) Use your own OpenAI subscription (api.openai.com)',
+      description:
+        '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
     },
   ]
   return quickPickItemTypes

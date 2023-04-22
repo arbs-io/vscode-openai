@@ -1,5 +1,6 @@
 import { ExtensionContext, workspace } from 'vscode'
 import { verifyApiKey } from '@app/utilities/openai'
+import { waitFor } from '@app/utilities/node'
 
 export function registerChangeConfiguration(context: ExtensionContext) {
   workspace.onDidChangeConfiguration(async (event) => {
@@ -11,7 +12,21 @@ export function registerChangeConfiguration(context: ExtensionContext) {
       event.affectsConfiguration('vscode-openai.azureDeployment') ||
       event.affectsConfiguration('vscode-openai.azureApiVersion')
     ) {
-      await verifyApiKey()
+      await managedApiKey.verify()
     }
   })
+}
+
+class managedApiKey {
+  static _isQueued = false
+  static async verify() {
+    if (this._isQueued === true) return
+
+    this._isQueued = true
+    await waitFor(500, () => {
+      return false
+    })
+    await verifyApiKey()
+    this._isQueued = false
+  }
 }

@@ -1,7 +1,7 @@
 import { commands } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
 import { ConfigurationService } from '@app/services'
-import { ExtensionStatusBarItem } from '@app/utilities/vscode'
+import { ExtensionStatusBarItem, logInfo } from '@app/utilities/vscode'
 import { errorHandler } from './errorHandler'
 
 export async function validateApiKey() {
@@ -28,6 +28,7 @@ export async function verifyApiKey(): Promise<boolean> {
         'vscode-openai.context.apikey',
         true
       )
+      logInfo('verifyApiKey success')
       ExtensionStatusBarItem.instance.showStatusBarInformation(
         'vscode-openai',
         ''

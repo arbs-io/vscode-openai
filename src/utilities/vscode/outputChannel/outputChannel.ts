@@ -20,7 +20,7 @@ export function logDebug(message: string): void {
     .get('logLevel') as string
 
   if (logLevel === 'Debug') {
-    const logMessage = `${getTimeAndms()} [debug] ${message}`
+    const logMessage = `${getTimeAndms()} [debug]\t${message}`
     OutputChannelFactory.getLogChannel().appendLine(logMessage)
   }
 }
@@ -31,13 +31,13 @@ export function logInfo(message: string): void {
     .get('logLevel') as string
 
   if (logLevel === 'Info' || logLevel === 'Debug') {
-    const logMessage = `${getTimeAndms()} [info] ${message}`
+    const logMessage = `${getTimeAndms()} [info]\t${message}`
     OutputChannelFactory.getLogChannel().appendLine(logMessage)
   }
 }
 
 export function logError(error: any): void {
-  const logMessage = `${getTimeAndms()} [error] ${error.toString()}`.replace(
+  const logMessage = `${getTimeAndms()} [error]\t${error.toString()}`.replace(
     /(\r\n|\n|\r)/gm,
     ''
   )

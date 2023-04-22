@@ -1,3 +1,4 @@
+import { logDebug } from '@app/utilities/vscode'
 import { ClientRequest } from 'http'
 import http = require('https')
 import { Uri } from 'vscode'
@@ -26,15 +27,11 @@ export class HttpRequest {
     let result = ''
     const promise = new Promise((resolve, reject) => {
       const req: ClientRequest = http.request(this._requestOptions, (res) => {
-        //console.log('statusCode:', res.statusCode)
-        //console.log('headers:', res.headers)
-
         res.on('data', (chunk) => {
           result += chunk
         })
 
         res.on('error', (err) => {
-          // console.log(err)
           reject(err)
         })
 
@@ -47,11 +44,8 @@ export class HttpRequest {
               body = JSON.parse(result)
             }
 
-            // console.log(res.statusCode, result)
-
             resolve(body)
           } catch (err) {
-            // console.log(err)
             reject(err)
           }
         })
@@ -61,7 +55,6 @@ export class HttpRequest {
        * handles the errors on the request
        */
       req.on('error', (err) => {
-        // console.log(err)
         reject(err)
       })
 
@@ -69,7 +62,6 @@ export class HttpRequest {
        * handles the timeout error
        */
       req.on('timeout', (err: any) => {
-        // console.log(err)
         req.abort()
       })
 
@@ -77,7 +69,6 @@ export class HttpRequest {
        * unhandle errors on the request
        */
       req.on('uncaughtException', (err) => {
-        // console.log(err)
         req.abort()
       })
 
@@ -93,7 +84,7 @@ export class HttpRequest {
        * end the request to prevent ECONNRESETand socket hung errors
        */
       req.end(() => {
-        console.log('request ends')
+        logDebug('HttpRequest request ends')
       })
     })
 

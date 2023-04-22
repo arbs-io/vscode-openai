@@ -13,9 +13,6 @@ function App() {
           const loadedConversations: IConversation[] = JSON.parse(
             event.data.text
           )
-          console.log(
-            `conversationsWebview::loadedConversations ${loadedConversations.length}`
-          )
           setConversations(loadedConversations)
           break
         }

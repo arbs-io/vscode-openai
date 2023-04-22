@@ -4,7 +4,7 @@ import {
   Configuration,
   OpenAIApi,
 } from 'openai'
-import { ExtensionStatusBarItem } from '@app/utilities/vscode'
+import { ExtensionStatusBarItem, logInfo } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
@@ -77,6 +77,10 @@ export async function createChatCompletion(
         ? completion.data.usage?.total_tokens
         : 0,
     }
+
+    logInfo(
+      `chatCompletions promptTokens:${message.promptTokens} completionTokens:${message.completionTokens} totalTokens:${message.totalTokens}`
+    )
 
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'vscode-openai',

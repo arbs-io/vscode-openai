@@ -49,10 +49,10 @@ function _registerOpenaiServiceCommand(context: ExtensionContext) {
 
 function BuildOpenAiServiceTypes(): QuickPickItem[] {
   const quickPickItemTypes: QuickPickItem[] = [
-    {
-      label: 'vscode-openai',
-      description: '(Sponsored) Use vscode-openai service',
-    },
+    // {
+    //   label: 'vscode-openai',
+    //   description: '(Sponsored) Use vscode-openai service',
+    // },
     {
       label: 'openai.com',
       description:

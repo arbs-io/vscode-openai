@@ -2,7 +2,7 @@
  * ConfigurationService class that handles getting and setting configuration values for the vscode-openai extension.
  */
 import { workspace } from 'vscode'
-import { SecretStorageService } from '@app/utilities/vscode'
+import { SecretStorageService, logDebug } from '@app/utilities/vscode'
 
 export default class ConfigurationService {
   private static _instance: ConfigurationService
@@ -50,7 +50,7 @@ export default class ConfigurationService {
     const configName = 'baseUrl'
     const setAsGlobal = ws.inspect(configName)?.workspaceValue == undefined
     ws.update(configName, value, setAsGlobal).then(() => {
-      console.log(value)
+      logDebug(`setting base url ${value}`)
     })
   }
 

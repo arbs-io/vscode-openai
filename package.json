@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "A vscode extension can significantly enhance your productivity and efficiency when developing complex software applications using OpenAI latest models",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -169,7 +169,7 @@
         },
         "vscode-openai.logLevel": {
           "type": "string",
-          "default": "Debug",
+          "default": "Info",
           "markdownDescription": "The output level for vscode-openai.",
           "enum": [
             "Debug",
@@ -177,9 +177,9 @@
             "Error"
           ],
           "enumDescriptions": [
-            "Debug",
-            "Info",
-            "Error"
+            "Debug messages for fine-grained events within vscode-openai",
+            "Information messages about the progress of vscode-openai and external services",
+            "Error messages for events that could potentially cause issues for vscode-openai"
           ],
           "order": 8
         }

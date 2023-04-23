@@ -2,7 +2,12 @@
  * ConfigurationService class that handles getting and setting configuration values for the vscode-openai extension.
  */
 import { workspace } from 'vscode'
-import { SecretStorageService, logDebug } from '@app/utilities/vscode'
+import {
+  SecretStorageService,
+  getGitAccessToken,
+  logDebug,
+} from '@app/utilities/vscode'
+import { HttpRequest } from '@app/utilities/node'
 
 export default class ConfigurationService {
   private static _instance: ConfigurationService
@@ -43,6 +48,9 @@ export default class ConfigurationService {
    * @returns The base URL used by the extension.
    */
   public get baseUrl(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return 'https://api.arbs.io/openai/inference/v1'
+
     return workspace.getConfiguration('vscode-openai').get('baseUrl') as string
   }
   public set baseUrl(value: string) {
@@ -59,6 +67,8 @@ export default class ConfigurationService {
    * @returns The Azure deployment used by the extension.
    */
   public get azureDeployment(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI') return 'gpt-35-turbo'
+
     return workspace
       .getConfiguration('vscode-openai')
       .get('azureDeployment') as string
@@ -75,6 +85,8 @@ export default class ConfigurationService {
    * @returns The Azure API version used by the extension.
    */
   public get azureApiVersion(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI') return '2023-03-15-preview'
+
     return workspace
       .getConfiguration('vscode-openai')
       .get('azureApiVersion') as string
@@ -91,6 +103,8 @@ export default class ConfigurationService {
    * @returns Default model for inference requests made to OpenAI API.
    */
   public get defaultModel(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI') return 'gpt-35-turbo'
+
     return workspace
       .getConfiguration('vscode-openai')
       .get('defaultModel') as string
@@ -107,6 +121,8 @@ export default class ConfigurationService {
    * @returns Default model for inference requests made to OpenAI API.
    */
   public get conversationHistory(): number {
+    if (this.serviceProvider === 'VSCode-OpenAI') return 4
+
     return workspace
       .getConfiguration('vscode-openai')
       .get('conversationHistory') as number
@@ -125,6 +141,9 @@ export default class ConfigurationService {
    * @returns Host name derived from base URL.
    */
   public get host(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI') {
+      return 'vscode-openai'
+    }
     return new URL(this.baseUrl).host
   }
 
@@ -133,7 +152,9 @@ export default class ConfigurationService {
    * @returns Inference URL based on service provider and base URL.
    */
   public get inferenceUrl(): string {
-    if (this.serviceProvider === 'Azure-OpenAI') {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return 'https://api.arbs.io/openai/inference/v1/deployments/gpt-35-turbo'
+    else if (this.serviceProvider === 'Azure-OpenAI') {
       return `${this.baseUrl}/deployments/${this.azureDeployment}`
     } else {
       return `${this.baseUrl}`
@@ -160,6 +181,16 @@ export default class ConfigurationService {
    *@returns Authentication key for OpenAI API requests.
    */
   public async getApiKey(): Promise<string> {
+    if (this.serviceProvider === 'VSCode-OpenAI') {
+      const accessToken = await getGitAccessToken()
+      const request = new HttpRequest(
+        'GET',
+        `Bearer ${accessToken}`,
+        'https://api.arbs.io/openai/oauth2/token'
+      )
+      const resp = await request.send()
+      return resp.token
+    }
     return (await SecretStorageService.instance.getAuthApiKey()) as string
   }
 }

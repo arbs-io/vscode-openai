@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
-import { HttpRequest } from './httpClient'
+import { HttpRequest } from '@app/utilities/node'
 import { logError } from '@app/utilities/vscode'
 
 export interface IDeploymentModel {

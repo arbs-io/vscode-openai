@@ -19,6 +19,7 @@ export class HttpRequest {
       headers: {
         Accept: 'application/json;odata=verbose',
         'api-key': apiKey,
+        Authorization: apiKey,
         'Content-Type': 'application/json;odata=verbose',
       },
     }

@@ -11,7 +11,7 @@ export async function optimizePrompt(): Promise<string> {
   const persona = `Act like a programming expert in ${language}.\n`
   const request = `Please optimize the following code by reducing the number of operations performed during execution, without changing the functionality of the code. Please provide comments for any lines that require explanation:\n`
   const sourceCode = `\n${inputCode}\n\n`
-  const rules = `Do not provide additional explanation or the original code. Instead, we require the optimised code with comments about the source code lines that have been optimised.`
+  const rules = `Use the following rules. The response must use the ${language} programming language. The response should only contain source code and comments in ${language}. Do not use markdown or fenced code block in your response.`
   const prompt = persona.concat(request, sourceCode, rules)
   return prompt
 }

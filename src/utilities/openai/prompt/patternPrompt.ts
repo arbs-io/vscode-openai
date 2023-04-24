@@ -11,7 +11,7 @@ export async function patternPrompt(): Promise<string> {
   const persona = `Act like a programming expert in ${language}.\n`
   const request = `Please analyze the following source code and rewrite it using appropriate design patterns. The design pattern include but are not limited to Singleton, Factory, Builder, ... Return the updated code with comments next to each line of code explaining the design patterns used. Only include comments if the code is complex enough to require an explanation:\n`
   const sourceCode = `\n${inputCode}\n\n`
-  const rules = `The response must use the ${language} programming language. Only provide the updated code in ${language}. Do not provide additional details or information`
+  const rules = `Use the following rules. The response must use the ${language} programming language. The response should only contain source code and comments in ${language}. Do not use markdown or fenced code block in your response.`
   const prompt = persona.concat(request, sourceCode, rules)
   return prompt
 }

@@ -6,7 +6,12 @@
  */
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
-import { MultiStepInput } from '@app/utilities/vscode'
+import {
+  MultiStepInput,
+  getGitAccessToken,
+  logInfo,
+} from '@app/utilities/vscode'
+import { ConfigurationService } from '@app/services'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -20,9 +25,7 @@ export async function quickPickSetupVscodeOpenai(
     title: string
     step: number
     totalSteps: number
-    openaiBaseUrl: string
-    openaiApiKey: string
-    openaiModel: QuickPickItem
+    authType: QuickPickItem
   }
 
   async function collectInputs() {
@@ -45,14 +48,14 @@ export async function quickPickSetupVscodeOpenai(
     const models = await getAvailableRuntimes()
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
-    state.openaiModel = await input.showQuickPick({
+    state.authType = await input.showQuickPick({
       title,
       step: 1,
       totalSteps: 1,
       ignoreFocusOut: true,
       placeholder: 'Selected OpenAI Model',
       items: models,
-      activeItem: state.openaiModel,
+      activeItem: state.authType,
       shouldResume: shouldResume,
     })
   }
@@ -64,11 +67,11 @@ export async function quickPickSetupVscodeOpenai(
         description:
           'Use your github.com profile to sign into to vscode-openai service',
       },
-      {
-        label: 'Microsoft',
-        description:
-          'Use microsoft profile to sign into to vscode-openai service',
-      },
+      // {
+      //   label: 'Microsoft',
+      //   description:
+      //     'Use microsoft profile to sign into to vscode-openai service',
+      // },
     ]
     return quickPickItemTypes
   }
@@ -81,5 +84,10 @@ export async function quickPickSetupVscodeOpenai(
   }
 
   //Start openai.com configuration processes
-  const state = await collectInputs()
+  await collectInputs()
+  const accessToken = await getGitAccessToken()
+  if (accessToken) {
+    ConfigurationService.instance.serviceProvider = 'VSCode-OpenAI'
+    logInfo(`ServiceProvider (VSCode-OpenAI)`)
+  }
 }

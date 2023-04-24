@@ -1,0 +1,20 @@
+<policies>
+    <inbound>
+        <base />
+        <return-response>
+            <set-status code="200" reason="OK" />
+            <set-header name="Content-Type" exists-action="override">
+                <value>application/json</value>
+            </set-header>
+        </return-response>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

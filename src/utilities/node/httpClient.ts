@@ -19,6 +19,7 @@ export class HttpRequest {
       headers: {
         Accept: 'application/json;odata=verbose',
         'api-key': apiKey,
+        Authorization: apiKey,
         'Content-Type': 'application/json;odata=verbose',
       },
     }
@@ -84,7 +85,7 @@ export class HttpRequest {
        * end the request to prevent ECONNRESETand socket hung errors
        */
       req.end(() => {
-        logDebug('HttpRequest request ends')
+        // logDebug(`HttpRequest: ${req.method}::${req.host}`)
       })
     })
 

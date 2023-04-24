@@ -2,10 +2,25 @@
  * ConfigurationService class that handles getting and setting configuration values for the vscode-openai extension.
  */
 import { workspace } from 'vscode'
-import { SecretStorageService, logDebug } from '@app/utilities/vscode'
+import {
+  SecretStorageService,
+  getGitAccessToken,
+  logDebug,
+} from '@app/utilities/vscode'
+import { HttpRequest } from '@app/utilities/node'
 
 export default class ConfigurationService {
   private static _instance: ConfigurationService
+  private readonly VSCODE_OPENAI_BASEURL =
+    'https://api.arbs.io/openai/inference/v1'
+  private readonly VSCODE_OPENAI_DEPLOYMENTMODEL = 'gpt-35-turbo'
+  private readonly VSCODE_OPENAI_APIVERSION = '2023-03-15-preview'
+  private readonly VSCODE_OPENAI_CONVERSATION_HISTORY = 4
+  private readonly VSCODE_OPENAI_HOST = 'vscode-openai'
+  private readonly VSCODE_OPENAI_INFERENCE_URL =
+    'https://api.arbs.io/openai/inference/v1/deployments/gpt-35-turbo'
+  private readonly VSCODE_OPENAI_TOKEN_URL =
+    'https://api.arbs.io/openai/oauth2/token'
 
   /**
    * Initializes a new instance of the ConfigurationService class.
@@ -43,6 +58,9 @@ export default class ConfigurationService {
    * @returns The base URL used by the extension.
    */
   public get baseUrl(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return this.VSCODE_OPENAI_BASEURL
+
     return workspace.getConfiguration('vscode-openai').get('baseUrl') as string
   }
   public set baseUrl(value: string) {
@@ -59,6 +77,9 @@ export default class ConfigurationService {
    * @returns The Azure deployment used by the extension.
    */
   public get azureDeployment(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return this.VSCODE_OPENAI_DEPLOYMENTMODEL
+
     return workspace
       .getConfiguration('vscode-openai')
       .get('azureDeployment') as string
@@ -75,6 +96,9 @@ export default class ConfigurationService {
    * @returns The Azure API version used by the extension.
    */
   public get azureApiVersion(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return this.VSCODE_OPENAI_APIVERSION
+
     return workspace
       .getConfiguration('vscode-openai')
       .get('azureApiVersion') as string
@@ -91,6 +115,9 @@ export default class ConfigurationService {
    * @returns Default model for inference requests made to OpenAI API.
    */
   public get defaultModel(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return this.VSCODE_OPENAI_DEPLOYMENTMODEL
+
     return workspace
       .getConfiguration('vscode-openai')
       .get('defaultModel') as string
@@ -107,6 +134,9 @@ export default class ConfigurationService {
    * @returns Default model for inference requests made to OpenAI API.
    */
   public get conversationHistory(): number {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return this.VSCODE_OPENAI_CONVERSATION_HISTORY
+
     return workspace
       .getConfiguration('vscode-openai')
       .get('conversationHistory') as number
@@ -125,6 +155,8 @@ export default class ConfigurationService {
    * @returns Host name derived from base URL.
    */
   public get host(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI') return this.VSCODE_OPENAI_HOST
+
     return new URL(this.baseUrl).host
   }
 
@@ -133,7 +165,9 @@ export default class ConfigurationService {
    * @returns Inference URL based on service provider and base URL.
    */
   public get inferenceUrl(): string {
-    if (this.serviceProvider === 'Azure-OpenAI') {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return this.VSCODE_OPENAI_INFERENCE_URL
+    else if (this.serviceProvider === 'Azure-OpenAI') {
       return `${this.baseUrl}/deployments/${this.azureDeployment}`
     } else {
       return `${this.baseUrl}`
@@ -160,6 +194,18 @@ export default class ConfigurationService {
    *@returns Authentication key for OpenAI API requests.
    */
   public async getApiKey(): Promise<string> {
+    if (this.serviceProvider === 'VSCode-OpenAI') {
+      logDebug(`getGitAccessToken()`)
+      const accessToken = await getGitAccessToken()
+      const request = new HttpRequest(
+        'GET',
+        `Bearer ${accessToken}`,
+        this.VSCODE_OPENAI_TOKEN_URL
+      )
+      const resp = await request.send()
+      return resp.token
+    }
+    logDebug(`getAuthApiKey()`)
     return (await SecretStorageService.instance.getAuthApiKey()) as string
   }
 }

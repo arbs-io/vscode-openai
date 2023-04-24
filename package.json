@@ -1,8 +1,8 @@
 {
   "name": "vscode-openai",
   "displayName": "vscode-openai",
-  "description": "A vscode extension can significantly enhance your productivity and efficiency when developing complex software applications using OpenAI latest models",
-  "version": "1.0.20",
+  "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
+  "version": "1.0.21",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -103,10 +103,12 @@
           "default": "OpenAI",
           "markdownDescription": "The service provider for OpenAI. If Microsoft Azure then instance name must be updated in `#vscode-openai.baseUrl#`.",
           "enum": [
+            "VSCode-OpenAI",
             "OpenAI",
             "Azure-OpenAI"
           ],
           "enumDescriptions": [
+            "Use VSCode-OpenAI Sponsored service",
             "Use OpenAI native service (https://api.openai.com)",
             "Use Azure OpenAI service (https://instance-name.openai.azure.com/openai)."
           ],

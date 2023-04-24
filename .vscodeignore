@@ -5,6 +5,7 @@ node_modules
 releases
 tools
 sample
+api-gateway
 out/test/**
 out/**/*.map
 src/**

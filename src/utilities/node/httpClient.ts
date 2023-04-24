@@ -85,7 +85,7 @@ export class HttpRequest {
        * end the request to prevent ECONNRESETand socket hung errors
        */
       req.end(() => {
-        logDebug('HttpRequest request ends')
+        // logDebug(`HttpRequest: ${req.method}::${req.host}`)
       })
     })
 

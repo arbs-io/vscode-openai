@@ -6,7 +6,11 @@
  */
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
-import { MultiStepInput, getGitAccessToken } from '@app/utilities/vscode'
+import {
+  MultiStepInput,
+  getGitAccessToken,
+  logInfo,
+} from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 
 /**
@@ -84,5 +88,6 @@ export async function quickPickSetupVscodeOpenai(
   const accessToken = await getGitAccessToken()
   if (accessToken) {
     ConfigurationService.instance.serviceProvider = 'VSCode-OpenAI'
+    logInfo(`ServiceProvider (VSCode-OpenAI)`)
   }
 }

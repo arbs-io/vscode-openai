@@ -9,6 +9,7 @@ import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 
+let sessionToken = 0
 async function buildMessages(
   conversation: IConversation
 ): Promise<ChatCompletionRequestMessage[]> {
@@ -79,8 +80,9 @@ export async function createChatCompletion(
         : 0,
     }
 
+    sessionToken = sessionToken + message.totalTokens
     logInfo(
-      `chatCompletions promptTokens:${message.promptTokens} completionTokens:${message.completionTokens} totalTokens:${message.totalTokens}`
+      `chatCompletions (prompt:${message.promptTokens} completion:${message.completionTokens} total:${message.totalTokens}) [session:${sessionToken}]`
     )
 
     ExtensionStatusBarItem.instance.showStatusBarInformation(

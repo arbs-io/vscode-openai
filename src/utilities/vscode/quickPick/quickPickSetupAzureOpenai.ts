@@ -10,7 +10,11 @@
 import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationService } from '@app/services'
 import { azureListDeployments } from '@app/utilities/openai'
-import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
+import {
+  SecretStorageService,
+  MultiStepInput,
+  logInfo,
+} from '@app/utilities/vscode'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -187,4 +191,7 @@ export async function quickPickSetupAzureOpenai(
   ConfigurationService.instance.defaultModel = state.openaiModel
     .description as string
   SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
+  logInfo(
+    `ServiceProvider (Azure): ${state.openaiBaseUrl} ${state.openaiModel.label}`
+  )
 }

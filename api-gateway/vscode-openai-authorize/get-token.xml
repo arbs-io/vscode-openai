@@ -26,11 +26,6 @@
             <set-header name="Content-Type" exists-action="override">
                 <value>application/json</value>
             </set-header>
-            <set-header name="Authorization" exists-action="override">
-                <value>@{
-                    return "dasfd";
-                }</value>
-            </set-header>
             <set-body>@{
                 var jwtHeaderBase64UrlEncoded = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9";
 

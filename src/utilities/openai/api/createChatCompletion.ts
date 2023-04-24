@@ -52,6 +52,7 @@ export async function createChatCompletion(
 
     const chatCompletions = await buildMessages(conversation)
 
+    const requestConfig = await ConfigurationService.instance.getRequestConfig()
     const completion = await openai.createChatCompletion(
       {
         model: ConfigurationService.instance.defaultModel,
@@ -60,7 +61,7 @@ export async function createChatCompletion(
         frequency_penalty: 0.5,
         presence_penalty: 0.5,
       },
-      await ConfigurationService.instance.getRequestConfig()
+      requestConfig
     )
 
     const content = completion.data.choices[0].message?.content

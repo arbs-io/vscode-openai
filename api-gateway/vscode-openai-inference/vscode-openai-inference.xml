@@ -40,7 +40,17 @@
         </set-query-parameter>
     </inbound>
     <backend>
-        <base />
+        <retry condition="@( (context.Response.StatusCode == 500 && context.LastError?.Reason == "BackendConnectionFailure") || Array.Exists(new int[] { 408, 425, 429, 502, 503, 504 }, x => x == context.Response.StatusCode) )" count="10" interval="1" delta="3" first-fast-retry="false">
+            <set-variable name="ApiRequestRetryCount" value="@(context.Variables.GetValueOrDefault<int>("ApiRequestRetryCount", 0) + 1)" />
+            <choose>
+                <when condition="@(context.Variables.GetValueOrDefault("ApiRequestRetryCount", 0) > 1)">
+                    <trace source="arbs trace" severity="information">
+                        <message>@( $"arbs gateway request (backend): retry({context.Variables.GetValueOrDefault("ApiRequestRetryCount", 0)})" )</message>
+                    </trace>
+                </when>
+            </choose>
+            <forward-request fail-on-error-status-code="true" timeout="30" follow-redirects="false" buffer-request-body="true" buffer-response="false" />
+        </retry>
     </backend>
     <outbound>
         <base />

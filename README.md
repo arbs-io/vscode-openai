@@ -15,7 +15,9 @@ If you're having trouble connecting to your own OpenAI service, please check out
 
 ## Setup
 
-The quick pick is a helpful feature that lets you easily configure the instance type for vscode-openai. You can choose from sponsored, native, or azure-openai instances that best suit your needs. It saves time and hassle by guiding you through each step of the process and customizing your settings. Once configured, you can use openai features directly within vscode without interrupting your workflow.
+The quick pick feature in vscode-openai is a useful tool that simplifies the process of configuring service providers. You have the option to select from sponsored, native, or azure-openai instances based on your requirements. This feature saves you time and effort by providing step-by-step guidance and personalized settings. Once configured, you can seamlessly use openai features within vscode without any disruption to your workflow.
+
+Note: To activate the setup, you can either use the command **"vscode-openai.register.openaiService"** or access it through the **vscode-openai StatusBar** located at the bottom left of vscode.
 
 ![vscode-openai-serviceproviders.png](images/vscode-openai-serviceproviders.png)
 

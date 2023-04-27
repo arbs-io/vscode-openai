@@ -13,7 +13,7 @@ import {
 } from 'vscode'
 import { getUri, getNonce } from '@app/utilities/vscode'
 import { IChatCompletion, IConversation } from '@app/interfaces'
-import { createChatCompletion } from '@app/utilities/openai'
+import { ResponseFormat, createChatCompletion } from '@app/utilities/openai'
 import { ConversationService } from '@app/services'
 
 export class MessageViewerPanel {
@@ -265,7 +265,7 @@ export class MessageViewerPanel {
         totalTokens: 0,
       }
       summary.chatMessages.push(chatCompletion)
-      createChatCompletion(summary).then((result) => {
+      createChatCompletion(summary, ResponseFormat.Markdown).then((result) => {
         if (!this._conversation) return
         if (result?.content) this._conversation.summary = result?.content
       })
@@ -276,24 +276,26 @@ export class MessageViewerPanel {
     if (!this._conversation) return
 
     //Note: rcvdViewSaveMessages has added the new question
-    createChatCompletion(this._conversation).then((result) => {
-      if (!result) return
+    createChatCompletion(this._conversation, ResponseFormat.Markdown).then(
+      (result) => {
+        if (!result) return
 
-      const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
-      const chatCompletion: IChatCompletion = {
-        content: result.content,
-        author: author,
-        timestamp: new Date().toLocaleString(),
-        mine: false,
-        completionTokens: result.completionTokens,
-        promptTokens: result.promptTokens,
-        totalTokens: result.totalTokens,
+        const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
+        const chatCompletion: IChatCompletion = {
+          content: result.content,
+          author: author,
+          timestamp: new Date().toLocaleString(),
+          mine: false,
+          completionTokens: result.completionTokens,
+          promptTokens: result.promptTokens,
+          totalTokens: result.totalTokens,
+        }
+        MessageViewerPanel.currentPanel?._panel.webview.postMessage({
+          command: 'rqstViewAnswerMessage',
+          text: JSON.stringify(chatCompletion),
+        })
       }
-      MessageViewerPanel.currentPanel?._panel.webview.postMessage({
-        command: 'rqstViewAnswerMessage',
-        text: JSON.stringify(chatCompletion),
-      })
-    })
+    )
   }
 }
 

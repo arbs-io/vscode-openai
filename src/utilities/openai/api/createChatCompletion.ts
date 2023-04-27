@@ -9,15 +9,26 @@ import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 
+export enum ResponseFormat {
+  Markdown = '- vscode-openai response should be in markdown and always displays code as markdown in markdown fenced code block, with the language tag. For example "```xml", "```cpp" and "```go"',
+  SourceCode = `- vscode-openai response must be able to compile. Only providing source code must be plain text and not markdown. All information must be in "comment" format, for example "//" for cpp, "#" for python, ...`,
+}
+
 let sessionToken = 0
 async function buildMessages(
-  conversation: IConversation
+  conversation: IConversation,
+  responseFormat: ResponseFormat
 ): Promise<ChatCompletionRequestMessage[]> {
   const chatCompletion: ChatCompletionRequestMessage[] = []
 
+  const content = [
+    `${conversation.persona.prompt.system}`,
+    responseFormat,
+  ].join('\n')
+
   chatCompletion.push({
     role: ChatCompletionRequestMessageRoleEnum.System,
-    content: `You are a ${conversation.persona.prompt.system}`,
+    content: content,
   })
 
   const conversationHistory = ConfigurationService.instance.conversationHistory
@@ -35,7 +46,8 @@ async function buildMessages(
 }
 
 export async function createChatCompletion(
-  conversation: IConversation
+  conversation: IConversation,
+  responseFormat: ResponseFormat
 ): Promise<IMessage | undefined> {
   try {
     ExtensionStatusBarItem.instance.showStatusBarInformation(
@@ -51,7 +63,7 @@ export async function createChatCompletion(
     })
     const openai = new OpenAIApi(configuration)
 
-    const chatCompletions = await buildMessages(conversation)
+    const chatCompletions = await buildMessages(conversation, responseFormat)
 
     const requestConfig = await ConfigurationService.instance.getRequestConfig()
     const completion = await openai.createChatCompletion(

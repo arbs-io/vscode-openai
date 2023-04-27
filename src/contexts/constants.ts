@@ -1,6 +1,5 @@
 export const VSCODE_OPENAI_REGISTER = {
   SERVICE_COMMAND_ID: 'vscode-openai.register.openaiService',
-  APIKEY_COMMAND_ID: 'vscode-openai.register.apikey',
 }
 
 export const VSCODE_OPENAI_PROMPT = {

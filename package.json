@@ -238,11 +238,6 @@
       {
         "command": "vscode-openai.register.openaiService",
         "title": "Register OpenAI Service",
-        "category": "vscode-openai.register"
-      },
-      {
-        "command": "vscode-openai.register.apikey",
-        "title": "Register API Key...",
         "category": "vscode-openai.register",
         "icon": {
           "light": "./assets/openai-light.png",

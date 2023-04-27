@@ -17,7 +17,7 @@ async function buildMessages(
 
   chatCompletion.push({
     role: ChatCompletionRequestMessageRoleEnum.System,
-    content: `You are a ${conversation.persona.prompt.system}`,
+    content: `${conversation.persona.prompt.system}`,
   })
 
   const conversationHistory = ConfigurationService.instance.conversationHistory

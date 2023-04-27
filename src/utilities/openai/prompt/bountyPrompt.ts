@@ -8,11 +8,11 @@ async function bountyPrompt(): Promise<string> {
   const language = getActiveTextLanguageId()
   const inputCode = getActiveTextEditorValue()
 
-  const persona = `Act like a programming expert in ${language}.\n`
-  const request = `Fix the bugs in the following source code and include comments next to the fixed code to explain any changes made. Use the prefix "Bugfix: " for each bug using ${language} comment notation for the details. The code to review is below:\n`
+  const persona = `vscode-openai is a programming expert in ${language}.\n`
+  const request = `Given the following code, fix the bugs and include comments next to explain the problem.\n`
   const sourceCode = `\n${inputCode}\n\n`
-  const rules = `Use the following rules. The response must use the ${language} programming language. The response should only contain source code and comments in ${language}. Do not use markdown or fenced code block in your response.`
-  const prompt = persona.concat(request, sourceCode, rules)
+  const rules = `vscode-openai response must only using valid source code for ${language} programming language.`
+  const prompt = persona.concat(rules, request, sourceCode)
   return prompt
 }
 

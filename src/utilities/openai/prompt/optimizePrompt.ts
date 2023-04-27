@@ -8,11 +8,11 @@ export async function optimizePrompt(): Promise<string> {
   const language = getActiveTextLanguageId()
   const inputCode = getActiveTextEditorValue()
 
-  const persona = `Act like a programming expert in ${language}.\n`
-  const request = `Please optimize the following code by reducing the number of operations performed during execution, without changing the functionality of the code. Please provide comments for any lines that require explanation:\n`
+  const persona = `vscode-openai is a programming expert in ${language}.\n`
+  const request = `Given the following code, optimize the code by reducing the number of operations performed during execution, without changing the functionality of the code. Please provide comments for any lines that require explanation:\n`
   const sourceCode = `\n${inputCode}\n\n`
-  const rules = `Use the following rules. The response must use the ${language} programming language. The response should only contain source code and comments in ${language}. Do not use markdown or fenced code block in your response.`
-  const prompt = persona.concat(request, sourceCode, rules)
+  const rules = `vscode-openai response must only using valid source code for ${language} programming language.`
+  const prompt = persona.concat(rules, request, sourceCode)
   return prompt
 }
 

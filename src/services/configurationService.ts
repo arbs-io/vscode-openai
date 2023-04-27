@@ -11,6 +11,10 @@ import { HttpRequest } from '@app/utilities/node'
 
 export default class ConfigurationService {
   private static _instance: ConfigurationService
+
+  private _githubAccessToken: string | undefined
+  private _vscodeopenaiAccessToken: string | undefined
+
   private readonly VSCODE_OPENAI_BASEURL =
     'https://api.arbs.io/openai/inference/v1'
   private readonly VSCODE_OPENAI_DEPLOYMENTMODEL = 'gpt-35-turbo'
@@ -193,19 +197,25 @@ export default class ConfigurationService {
    * Returns authentication key for OpenAI API requests.
    *@returns Authentication key for OpenAI API requests.
    */
+
   public async getApiKey(): Promise<string> {
     if (this.serviceProvider === 'VSCode-OpenAI') {
-      logDebug(`getGitAccessToken()`)
-      const accessToken = await getGitAccessToken()
+      // Only auth once
+      if (this._vscodeopenaiAccessToken) return this._vscodeopenaiAccessToken
+
+      logDebug(`request github.com access_token`)
+      this._githubAccessToken = await getGitAccessToken()
       const request = new HttpRequest(
         'GET',
-        `Bearer ${accessToken}`,
+        `Bearer ${this._githubAccessToken}`,
         this.VSCODE_OPENAI_TOKEN_URL
       )
+      logDebug(`request vscode-openai access_token`)
       const resp = await request.send()
-      return resp.token
+      this._vscodeopenaiAccessToken = resp.token as string
+      return this._vscodeopenaiAccessToken
     }
-    logDebug(`getAuthApiKey()`)
+    logDebug(`retrieve api-key`)
     return (await SecretStorageService.instance.getAuthApiKey()) as string
   }
 }

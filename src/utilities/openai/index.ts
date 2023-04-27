@@ -9,7 +9,10 @@ export { PatternPromptFactory } from './prompt/patternPrompt'
 export { validateApiKey, verifyApiKey } from './api/apiKey'
 export { listModels } from './api/listModels'
 
-export { createChatCompletion } from './api/createChatCompletion'
+export {
+  createChatCompletion,
+  ResponseFormat,
+} from './api/createChatCompletion'
 
 export { azureListDeployments } from './api/azureListDeployments'
 export { openaiListModels } from './api/openaiListModels'

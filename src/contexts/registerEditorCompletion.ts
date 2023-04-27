@@ -10,6 +10,7 @@ import {
   OptimizePromptFactory,
   PatternPromptFactory,
   createChatCompletion,
+  ResponseFormat,
 } from '@app/utilities/openai'
 import { compareFileToClipboard, logError } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_PROMPT } from '@app/contexts'
@@ -66,7 +67,10 @@ class CommandRegistry {
               totalTokens: 0,
             }
             conversation.chatMessages.push(chatCompletion)
-            const result = await createChatCompletion(conversation)
+            const result = await createChatCompletion(
+              conversation,
+              ResponseFormat.SourceCode
+            )
             compareFileToClipboard(result?.content ? result?.content : '')
           }
         } catch (error) {

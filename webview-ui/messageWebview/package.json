@@ -1,6 +1,6 @@
 {
-  "name": "chatThread",
-  "version": "0.0.1",
+  "name": "messageWebview",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "vite",

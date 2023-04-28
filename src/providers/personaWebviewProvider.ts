@@ -10,7 +10,7 @@ import {
   CancellationToken,
   ColorTheme,
 } from 'vscode'
-import { getNonce, getUri } from '@app/utilities/vscode'
+import { getNonce, getUri, logDebug } from '@app/utilities/vscode'
 import { IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
 import { ConversationService } from '@app/services'
@@ -47,14 +47,7 @@ export class PersonaWebviewProvider implements WebviewViewProvider {
       this._extensionUri
     )
 
-    this._setWebviewMessageListener(this._view.webview, this._extensionUri)
-    this._sendWebviewLoadData()
-
-    this._view.onDidChangeVisibility((e) => {
-      if (this._view?.visible) {
-        this._sendWebviewLoadData()
-      }
-    }, null)
+    this._onDidMessageListener(this._view.webview, this._extensionUri)
   }
 
   private _getHtmlForWebview(webview: Webview, extensionUri: Uri) {
@@ -96,21 +89,26 @@ export class PersonaWebviewProvider implements WebviewViewProvider {
    * Event Model:
    *    | source		| target		| command									| model							|
    *    |-----------|-----------|-------------------------|-------------------|
-   *    | extension	| webview		| rqstViewLoadPersonas		| IPersonaOpenAI[]	|
-   *    | webview		| extension	| rcvdViewNewConversation	| IPersonaOpenAI		|
+   *    | extension	| webview		| onWillPersonasLoad			| IPersonaOpenAI[]	|
+   *    | webview		| extension	| onDidInitialize					|										|
+   *    | webview		| extension	| onDidConversationCreate	| IPersonaOpenAI		|
    *
    */
-  private _sendWebviewLoadData() {
+  private _onWillPersonasLoad() {
     this._view?.webview.postMessage({
-      command: 'rqstViewLoadPersonas',
+      command: 'onWillPersonasLoad',
       text: JSON.stringify(getSystemPersonas()),
     })
   }
 
-  private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
+  private _onDidMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
-        case 'rcvdViewNewConversation': {
+        case 'onDidInitialize': {
+          this._onWillPersonasLoad()
+          return
+        }
+        case 'onDidConversationCreate': {
           const persona: IPersonaOpenAI = JSON.parse(message.text)
           const conversation: IConversation =
             ConversationService.instance.create(persona)

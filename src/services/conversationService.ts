@@ -55,21 +55,29 @@ export default class ConversationService {
   }
 
   public delete(key: string) {
+    this._delete(key)
+    ConversationService._emitterDidChange.fire()
+  }
+
+  private _delete(key: string) {
     this.conversations.forEach((item, index) => {
       if (item.conversationId === key) this.conversations.splice(index, 1)
     })
     GlobalStorageService.instance.deleteKey(`conversation-${key}`)
-    ConversationService._emitterDidChange.fire()
   }
 
   public update(conversation: IConversation) {
-    this.delete(conversation.conversationId)
+    this._update(conversation)
+    ConversationService._emitterDidChange.fire()
+  }
+
+  private _update(conversation: IConversation) {
+    this._delete(conversation.conversationId)
     GlobalStorageService.instance.setValue<IConversation>(
       `conversation-${conversation.conversationId}`,
       conversation as IConversation
     )
     this.conversations.push(conversation)
-    ConversationService._emitterDidChange.fire()
   }
 
   public create(persona: IPersonaOpenAI): IConversation {

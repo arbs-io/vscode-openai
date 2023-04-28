@@ -17,7 +17,7 @@ import { IConversation, IDeleteConfirmationProps } from '../../interfaces'
 
 const handleDeleteConversation = (conversation: IConversation) => {
   vscode.postMessage({
-    command: 'rcvdViewDeleteConversation',
+    command: 'onDidConversationDelete',
     text: JSON.stringify(conversation),
   })
 }

@@ -11,7 +11,7 @@ import {
   ColorTheme,
 } from 'vscode'
 import { IConversation } from '@app/interfaces'
-import { getNonce, getUri } from '@app/utilities/vscode'
+import { getNonce, getUri, logDebug } from '@app/utilities/vscode'
 import { ConversationService } from '@app/services'
 
 export class ConversationsWebviewProvider implements WebviewViewProvider {
@@ -25,7 +25,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
 
     ConversationService.onDidChange((e) => {
       if (this._view?.visible) {
-        this._sendWebviewLoadData()
+        this._onWillConversationsLoad()
       }
     }, null)
   }
@@ -36,11 +36,6 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
     _token: CancellationToken
   ) {
     this._view = webviewView
-    this._view.onDidChangeVisibility((e) => {
-      if (this._view?.visible) {
-        this._sendWebviewLoadData()
-      }
-    }, null)
 
     webviewView.webview.options = {
       enableScripts: true,
@@ -57,8 +52,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
       this._extensionUri
     )
 
-    this._setWebviewMessageListener(this._view.webview, this._extensionUri)
-    this._sendWebviewLoadData()
+    this._onDidMessageListener(this._view.webview, this._extensionUri)
   }
 
   private _getHtmlForWebview(webview: Webview, extensionUri: Uri) {
@@ -100,29 +94,37 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
    * Event Model:
    *    | source		| target		| command												| model						|
    *    |-----------|-----------|-------------------------------|-----------------|
-   *    | extension	| webview		| rqstViewLoadConversations			| IConversation[]	|
-   *    | webview		| extension	| rcvdViewDeleteConversation		| IConversation		|
+   *    | extension	| webview		| onWillConversationsLoad				| IConversation[]	|
+   *    | webview		| extension	| onDidInitialize								|									|
+   *    | webview		| extension	| onDidConversationDelete				| IConversation		|
+   *    | webview		| extension	| onDidConversationOpen					| IConversation		|
    *
    *
    */
-  private _sendWebviewLoadData() {
+  private _onWillConversationsLoad() {
     const conversations = ConversationService.instance.getAll()
     this._view?.webview.postMessage({
-      command: 'rqstViewLoadConversations',
+      command: 'onWillConversationsLoad',
       text: JSON.stringify(conversations),
     })
   }
 
-  private _setWebviewMessageListener(webview: Webview, extensionUri: Uri) {
+  private _onDidMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
-        case 'openConversation': {
-          const openConversation: IConversation = JSON.parse(message.text)
-          ConversationService.instance.show(openConversation.conversationId)
+        case 'onDidInitialize': {
+          this._onWillConversationsLoad()
+          return
+        }
+        case 'onDidConversationOpen': {
+          const onDidConversationOpen: IConversation = JSON.parse(message.text)
+          ConversationService.instance.show(
+            onDidConversationOpen.conversationId
+          )
           return
         }
 
-        case 'rcvdViewDeleteConversation': {
+        case 'onDidConversationDelete': {
           const deleteConversation: IConversation = JSON.parse(message.text)
           ConversationService.instance.delete(deleteConversation.conversationId)
           return

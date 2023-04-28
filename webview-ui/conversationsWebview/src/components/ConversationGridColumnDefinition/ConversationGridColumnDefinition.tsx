@@ -16,7 +16,7 @@ import { DeleteConfirmation } from '../DeleteConfirmation'
 
 const handleOpenConversation = (conversation: IConversation) => {
   vscode.postMessage({
-    command: 'openConversation',
+    command: 'onDidConversationOpen',
     text: JSON.stringify(conversation),
   })
 }

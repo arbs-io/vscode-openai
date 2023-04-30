@@ -9,9 +9,9 @@ import {
 } from '@app/utilities/vscode'
 import {
   registerChangeConfiguration,
-  registerEditorCompletion,
+  registerOpenaiEditor,
   registerOpenaiServiceCommand,
-  registerSidebarProvider,
+  registerOpenaiActivityBarProvider,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
 
@@ -35,8 +35,8 @@ export function activate(context: ExtensionContext) {
 
   //registerCommands
   logDebug('register commands')
-  registerEditorCompletion(context)
-  registerSidebarProvider(context)
+  registerOpenaiEditor(context)
+  registerOpenaiActivityBarProvider(context)
   registerChangeConfiguration(context)
   registerOpenaiServiceCommand(context)
 

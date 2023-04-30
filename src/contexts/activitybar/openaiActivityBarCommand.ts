@@ -1,11 +1,11 @@
 import { ExtensionContext } from 'vscode'
 import { OpenaiActivityBarFacade } from './openaiActivityBarFacade'
 
-interface ICommand {
+interface ICommandOpenai {
   execute(): void
 }
 
-export class OpenaiActivityBarCommand implements ICommand {
+export class OpenaiActivityBarCommand implements ICommandOpenai {
   private context: ExtensionContext
   private facade: OpenaiActivityBarFacade
 

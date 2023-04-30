@@ -1,36 +1,44 @@
-import { commands, ExtensionContext, QuickPickItem, window } from 'vscode'
-import { VSCODE_OPENAI_REGISTER } from '@app/contexts'
+import { ExtensionContext, QuickPickItem, window } from 'vscode'
 import {
   quickPickSetupAzureOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
 } from '@app/utilities/vscode'
 
-export class QuickPickSetupCommand {
-  private static instance: QuickPickSetupCommand
+interface ICommandOpenai {
+  execute(): void
+}
 
-  public static getInstance(): QuickPickSetupCommand {
-    if (!QuickPickSetupCommand.instance) {
-      QuickPickSetupCommand.instance = new QuickPickSetupCommand()
-    }
-    return QuickPickSetupCommand.instance
+export class OpenaiQuickPickCommand implements ICommandOpenai {
+  private static instance: OpenaiQuickPickCommand
+  private context: ExtensionContext
+
+  constructor(context: ExtensionContext) {
+    this.context = context
   }
 
-  public async execute(context: ExtensionContext): Promise<void> {
+  public static getInstance(context: ExtensionContext): OpenaiQuickPickCommand {
+    if (!OpenaiQuickPickCommand.instance) {
+      OpenaiQuickPickCommand.instance = new OpenaiQuickPickCommand(context)
+    }
+    return OpenaiQuickPickCommand.instance
+  }
+
+  public async execute(): Promise<void> {
     const openAiServiceType = BuildOpenAiServiceTypes()
     const selectedProvider = await this.showQuickPick(openAiServiceType)
 
     switch (selectedProvider.label) {
       case 'vscode-openai':
-        quickPickSetupVscodeOpenai(context)
+        quickPickSetupVscodeOpenai(this.context)
         break
 
       case 'openai.com':
-        quickPickSetupOpenai(context)
+        quickPickSetupOpenai(this.context)
         break
 
       case 'openai.azure.com':
-        quickPickSetupAzureOpenai(context)
+        quickPickSetupAzureOpenai(this.context)
         break
 
       default:
@@ -38,7 +46,6 @@ export class QuickPickSetupCommand {
     }
   }
 
-  // Concurrency pattern: Observer
   private async showQuickPick(items: QuickPickItem[]): Promise<QuickPickItem> {
     return new Promise((resolve) => {
       const quickPick = window.createQuickPick()

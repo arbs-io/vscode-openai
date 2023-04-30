@@ -16,8 +16,11 @@ import { compareFileToClipboard, logError } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_PROMPT } from '@app/contexts'
 import { ConversationService } from '@app/services'
 
-// Define a command registry that uses the factory pattern
-class CommandRegistry {
+interface ICommandOpenai {
+  execute(): void
+}
+
+export class OpenaiEditorCommand {
   private factories: Map<string, PromptFactory>
 
   constructor() {
@@ -82,10 +85,4 @@ class CommandRegistry {
       )
     }
   }
-}
-
-// Register the commands using the registry
-export function registerEditorCompletion(context: ExtensionContext) {
-  const registry = new CommandRegistry()
-  registry.registerCommands(context)
 }

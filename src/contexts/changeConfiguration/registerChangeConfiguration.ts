@@ -13,7 +13,6 @@ export function registerChangeConfiguration(context: ExtensionContext): void {
     'vscode-openai.azureApiVersion',
   ]
 
-  // Behavioral Pattern: Observer
   workspace.onDidChangeConfiguration(async (event) => {
     if (
       eventAffectsConfigurations.some((config) =>

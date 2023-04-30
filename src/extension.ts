@@ -11,7 +11,7 @@ import {
   registerChangeConfiguration,
   registerEditorCompletion,
   registerOpenaiServiceCommand,
-  registerSidebarProvider,
+  registerOpenaiActivityBarProvider,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
 
@@ -36,7 +36,7 @@ export function activate(context: ExtensionContext) {
   //registerCommands
   logDebug('register commands')
   registerEditorCompletion(context)
-  registerSidebarProvider(context)
+  registerOpenaiActivityBarProvider(context)
   registerChangeConfiguration(context)
   registerOpenaiServiceCommand(context)
 

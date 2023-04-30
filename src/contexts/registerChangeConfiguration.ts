@@ -2,7 +2,61 @@ import { ExtensionContext, workspace } from 'vscode'
 import { verifyApiKey } from '@app/utilities/openai'
 import { waitFor } from '@app/utilities/node'
 
-export function registerChangeConfiguration(context: ExtensionContext) {
+// Creational Pattern: Singleton
+class ManagedApiKey {
+  private static instance: ManagedApiKey
+  private _isQueued = false
+
+  // private constructor() {}
+
+  public static getInstance(): ManagedApiKey {
+    if (!ManagedApiKey.instance) {
+      ManagedApiKey.instance = new ManagedApiKey()
+    }
+
+    return ManagedApiKey.instance
+  }
+
+  public async verify(): Promise<void> {
+    if (this._isQueued === true) return
+
+    this._isQueued = true
+
+    // Structural Pattern: Facade
+    const eventAffectsConfigurations = [
+      'vscode-openai.serviceProvider',
+      'vscode-openai.authentication',
+      'vscode-openai.baseUrl',
+      'vscode-openai.defaultModel',
+      'vscode-openai.azureDeployment',
+      'vscode-openai.azureApiVersion',
+    ]
+
+    // Behavioral Pattern: Observer
+    workspace.onDidChangeConfiguration(async (event) => {
+      if (
+        eventAffectsConfigurations.some((config) =>
+          event.affectsConfiguration(config)
+        )
+      ) {
+        await this.verify()
+      }
+    })
+
+    // Concurrency Pattern: Async/Await
+    await waitFor(500, () => false)
+
+    // Structural Pattern: Adapter
+    await verifyApiKey()
+
+    this._isQueued = false
+  }
+}
+
+export function registerChangeConfiguration(context: ExtensionContext): void {
+  const managedApiKeyInstance = ManagedApiKey.getInstance()
+
+  // Behavioral Pattern: Observer
   workspace.onDidChangeConfiguration(async (event) => {
     if (
       event.affectsConfiguration('vscode-openai.serviceProvider') ||
@@ -12,21 +66,7 @@ export function registerChangeConfiguration(context: ExtensionContext) {
       event.affectsConfiguration('vscode-openai.azureDeployment') ||
       event.affectsConfiguration('vscode-openai.azureApiVersion')
     ) {
-      await managedApiKey.verify()
+      await managedApiKeyInstance.verify()
     }
   })
-}
-
-class managedApiKey {
-  static _isQueued = false
-  static async verify() {
-    if (this._isQueued === true) return
-
-    this._isQueued = true
-    await waitFor(500, () => {
-      return false
-    })
-    await verifyApiKey()
-    this._isQueued = false
-  }
 }

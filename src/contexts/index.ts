@@ -4,6 +4,6 @@ export {
   VSCODE_OPENAI_SIDEBAR,
 } from './constants'
 export { registerEditorCompletion } from './registerEditorCompletion'
-export { registerSidebarProvider } from './registerSidebarProvider'
+export { registerOpenaiActivityBarProvider } from './activitybar/register'
 export { registerChangeConfiguration } from './registerChangeConfiguration'
 export { registerOpenaiServiceCommand } from './registerOpenaiServiceCommand'

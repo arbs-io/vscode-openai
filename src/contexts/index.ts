@@ -5,5 +5,5 @@ export {
 } from './constants'
 export { registerEditorCompletion } from './registerEditorCompletion'
 export { registerOpenaiActivityBarProvider } from './activitybar/register'
-export { registerChangeConfiguration } from './registerChangeConfiguration'
+export { registerChangeConfiguration } from './changeConfiguration/registerChangeConfiguration'
 export { registerOpenaiServiceCommand } from './quickPickSetup/registerOpenaiServiceCommand'

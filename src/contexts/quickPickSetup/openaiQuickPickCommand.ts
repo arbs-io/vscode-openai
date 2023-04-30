@@ -4,10 +4,7 @@ import {
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
 } from '@app/utilities/vscode'
-
-interface ICommandOpenai {
-  execute(): void
-}
+import { ICommandOpenai } from '@app/interfaces'
 
 export class OpenaiQuickPickCommand implements ICommandOpenai {
   private static instance: OpenaiQuickPickCommand

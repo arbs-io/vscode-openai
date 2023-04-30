@@ -16,10 +16,6 @@ import { compareFileToClipboard, logError } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_PROMPT } from '@app/contexts'
 import { ConversationService } from '@app/services'
 
-interface ICommandOpenai {
-  execute(): void
-}
-
 export class OpenaiEditorCommand {
   private factories: Map<string, PromptFactory>
 

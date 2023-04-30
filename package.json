@@ -272,7 +272,7 @@
     ]
   },
   "scripts": {
-    "install:all": "npm-run-all --parallel install:all:*",
+    "install:all": "npm install && npm-run-all --parallel install:all:*",
     "install:all:messageWebview": "npm --prefix ./webview-ui/messageWebview install",
     "install:all:personaWebview": "npm --prefix ./webview-ui/personaWebview install",
     "install:all:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview install",

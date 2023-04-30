@@ -6,4 +6,4 @@ export {
 export { registerEditorCompletion } from './registerEditorCompletion'
 export { registerOpenaiActivityBarProvider } from './activitybar/register'
 export { registerChangeConfiguration } from './registerChangeConfiguration'
-export { registerOpenaiServiceCommand } from './registerOpenaiServiceCommand'
+export { registerOpenaiServiceCommand } from './quickPickSetup/registerOpenaiServiceCommand'

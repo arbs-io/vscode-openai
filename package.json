@@ -188,6 +188,17 @@
       }
     },
     "menus": {
+      "scm/title": [
+        {
+          "when": "scmProvider == git",
+          "command": "vscode-openai.scm.comment",
+          "group": "navigation",
+          "icon": {
+            "light": "./assets/openai-light.png",
+            "dark": "./assets/openai-dark.png"
+          }
+        }
+      ],
       "editor/title": [
         {
           "submenu": "vscode-openai.menu.toolbox",
@@ -235,6 +246,15 @@
       }
     ],
     "commands": [
+      {
+        "command": "vscode-openai.scm.comment",
+        "title": "Auto generate comments using OpenAI",
+        "category": "vscode-openai.scm",
+        "icon": {
+          "light": "./assets/openai-light.png",
+          "dark": "./assets/openai-dark.png"
+        }
+      },
       {
         "command": "vscode-openai.register.openaiService",
         "title": "Register OpenAI Service",

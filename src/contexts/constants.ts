@@ -2,6 +2,10 @@ export const VSCODE_OPENAI_REGISTER = {
   SERVICE_COMMAND_ID: 'vscode-openai.register.openaiService',
 }
 
+export const VSCODE_OPENAI_SCM = {
+  COMMENT_COMMAND_ID: 'vscode-openai.scm.comment',
+}
+
 export const VSCODE_OPENAI_PROMPT = {
   PROMPT_COMMENTS_COMMAND_ID: 'vscode-openai.completion.comment',
   PROMPT_EXPLAIN_COMMAND_ID: 'vscode-openai.completion.explain',

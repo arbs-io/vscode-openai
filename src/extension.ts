@@ -12,6 +12,7 @@ import {
   registerOpenaiEditor,
   registerOpenaiServiceCommand,
   registerOpenaiActivityBarProvider,
+  registerOpenaiSCMCommand,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
 
@@ -39,6 +40,7 @@ export function activate(context: ExtensionContext) {
   registerOpenaiActivityBarProvider(context)
   registerChangeConfiguration(context)
   registerOpenaiServiceCommand(context)
+  registerOpenaiSCMCommand(context)
 
   logDebug('starting conversation service')
   ConversationService.init(context)

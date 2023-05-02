@@ -1,4 +1,3 @@
-// https://github.com/bendera/vscode-commit-message-editor/blob/91ed2bf9c68c4d36cad0f99268e2f4e99083a2e8/src/utils/GitService.ts
 import { commands, ExtensionContext } from 'vscode'
 import { VSCODE_OPENAI_SCM } from '@app/contexts'
 import GitService from '@app/utilities/git/gitService'
@@ -7,13 +6,16 @@ import { getSystemPersonas } from '@app/models'
 import { ConversationService } from '@app/services'
 import { createChatCompletion, ResponseFormat } from '@app/utilities/openai'
 
+// This function registers the Openai SCM command with VS Code.
+// It takes an ExtensionContext object as input and does not return anything.
 export function registerOpenaiSCMCommand(context: ExtensionContext) {
   _registerOpenaiSCMCommand(context)
 }
 
+// This is a helper function for registerOpenaiSCMCommand.
+// It takes an ExtensionContext object as input and does not return anything.
 function _registerOpenaiSCMCommand(context: ExtensionContext) {
   const gitService = new GitService()
-  // gitService.onRepositoryDidChange(handlerRepositoryDidChange)
 
   context.subscriptions.push(
     commands.registerCommand(VSCODE_OPENAI_SCM.COMMENT_COMMAND_ID, async () => {
@@ -26,6 +28,8 @@ function _registerOpenaiSCMCommand(context: ExtensionContext) {
   )
 }
 
+// This function generates comments for the given git differences using OpenAI's chatbot API.
+// It takes a string representing the git differences as input and returns a Promise that resolves to a string.
 const getComments = async (diff: string): Promise<string> => {
   const persona = getSystemPersonas().find(
     (a) => a.roleName === 'Developer/Programmer'
@@ -64,6 +68,8 @@ const getComments = async (diff: string): Promise<string> => {
   return ''
 }
 
+// This function retrieves the git differences for the selected repository and returns them as a string.
+// It takes a GitService object as input and returns a Promise that resolves to a string or undefined.
 const getGitDifferences = async (
   git: GitService
 ): Promise<string | undefined> => {
@@ -72,20 +78,3 @@ const getGitDifferences = async (
   if (!diff) diff = await repo?.diff(false)
   return diff
 }
-
-const getDiffs = async (git: GitService): Promise<string[] | undefined> => {
-  const repo = git.getSelectedRepository()
-  let diff = await repo?.diff(true)
-  if (!diff) diff = await repo?.diff(false)
-  return diff?.split('diff --git ')
-}
-
-// function handlerRepositoryDidChange(repositoryInfo: {
-//   numberOfRepositories: number
-//   selectedRepositoryPath: string
-//   availableRepositories: string[]
-// }): void {
-//   showMessageWithTimeout(
-//     `${repositoryInfo.numberOfRepositories} - ${repositoryInfo.selectedRepositoryPath}`
-//   )
-// }

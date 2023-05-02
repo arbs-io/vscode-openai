@@ -29,13 +29,23 @@ With the ChatBot Extension for Visual Studio Code, you can get the answers you n
 
 ![vscode-openai-chatbot.png](images/vscode-openai-chatbot.png)
 
-When OpenAI provide code samples you can copy directly to clipboard or open in a new source code file.
+When vscode-openai provides code examples you can copy directly into the clipboard or send the results to a new (source code) documents.
 
 ![vscode-openai-chat2editor.png](images/vscode-openai-chat2editor.png)
 
+## Source Control
+
+The vscode-openai extension has a powerful feature that allows it to automatically generate comments by analyzing source code changes. This feature saves developers time and effort by automating the process of writing comments for their code.
+
+When you make changes to your code, the vs code-open extension analyzes those changes and generates comments based on the context of the change. For example, if you add a new function to your code, the extension will create a comment describing what it does and how it works.
+
+This feature is handy for developers working on large projects or needing to make frequent changes to their code. By automating the process of writing comments, developers can focus on writing high-quality code without worrying about documenting every code change.
+
+![vscode-openai-scm.png](images/vscode-openai-scm.png)
+
 ## VSCode Editor
 
-Provides quick access to useful features whilst working with source code and design document.
+Provides quick access to useful features whilst working with source code and design documents.
 
 ![vscode-openai-explain.gif](images/vscode-openai-explain.gif)
 

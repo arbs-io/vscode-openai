@@ -15,7 +15,7 @@ async function explainPrompt(): Promise<string> {
     '- description, input and output parameters.',
     '- input parameters.',
     '- output parameters.',
-    'The code to analyse is below',
+    'The code to analyse is below:',
     inputCode,
   ].join('\n')
 

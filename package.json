@@ -203,7 +203,7 @@
         {
           "submenu": "vscode-openai.menu.toolbox",
           "group": "navigation",
-          "when": "editorTextFocus"
+          "when": "editorFocus && !editorReadonly"
         }
       ],
       "vscode-openai.menu.toolbox": [
@@ -238,11 +238,11 @@
       {
         "id": "vscode-openai.menu.toolbox",
         "label": "vscode-openai.menu.toolbox",
-        "when": "editorTextFocus",
         "icon": {
           "light": "./assets/openai-light.png",
           "dark": "./assets/openai-dark.png"
-        }
+        },
+        "when": "editorFocus && !editorReadonly"
       }
     ],
     "commands": [

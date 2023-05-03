@@ -1,5 +1,14 @@
 // This file contains constants used throughout the vscode-openai extension.
 
+// VSCODE_OPENAI_EXTENSION: Contains the command ID for extension activation.
+// Input: None
+// Output: A string representing the command ID for registering the OpenAI service.
+export const VSCODE_OPENAI_EXTENSION = {
+  ENABLED_COMMAND_ID: 'vscode-openai.extension.enabled',
+}
+
+
+
 // VSCODE_OPENAI_REGISTER: Contains the command ID for registering the OpenAI service.
 // Input: None
 // Output: A string representing the command ID for registering the OpenAI service.

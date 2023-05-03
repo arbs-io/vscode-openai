@@ -4,6 +4,7 @@ import {
   showMessageWithTimeout,
   logError,
 } from '@app/utilities/vscode'
+import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
 
 interface IStatusBarItem {
   icon: string
@@ -24,7 +25,11 @@ export function errorHandler(error: any) {
       error.hostname
     )
     // disable extension when exception occurs
-    commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
+    commands.executeCommand(
+      'setContext',
+      VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
+      false
+    )
     return
   }
 

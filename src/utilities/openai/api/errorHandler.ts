@@ -1,9 +1,5 @@
-import { commands, window } from 'vscode'
-import {
-  ExtensionStatusBarItem,
-  showMessageWithTimeout,
-  logError,
-} from '@app/utilities/vscode'
+import { commands } from 'vscode'
+import { ExtensionStatusBarItem, logError } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
 
 interface IStatusBarItem {

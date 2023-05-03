@@ -164,7 +164,7 @@ export async function quickPickSetupAzureOpenai(
     )
 
     const quickPickItems: QuickPickItem[] = []
-    chatCompletionModels.forEach((deployment) => {
+    chatCompletionModels?.forEach((deployment) => {
       quickPickItems.push({
         label: deployment.deployment,
         description: deployment.model,

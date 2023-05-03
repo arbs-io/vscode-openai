@@ -13,6 +13,7 @@ import {
   registerOpenaiServiceCommand,
   registerOpenaiActivityBarProvider,
   registerOpenaiSCMCommand,
+  VSCODE_OPENAI_EXTENSION,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
 
@@ -20,7 +21,11 @@ export function activate(context: ExtensionContext) {
   logInfo('activate vscode-openai')
 
   // Disable functionality until we validate auth
-  commands.executeCommand('setContext', 'vscode-openai.context.apikey', false)
+  commands.executeCommand(
+    'setContext',
+    VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
+    false
+  )
 
   //register storage (Singletons)
   logDebug('initialise storage services')

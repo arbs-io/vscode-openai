@@ -11,7 +11,7 @@ export interface IDeploymentModel {
 export async function azureListDeployments(
   apiKey: string,
   baseUrl: string
-): Promise<Array<IDeploymentModel>> {
+): Promise<Array<IDeploymentModel> | undefined> {
   try {
     const configuration = new Configuration({
       apiKey: apiKey,
@@ -55,6 +55,6 @@ export async function azureListDeployments(
     return deployments.sort((a, b) => b.deployment.localeCompare(a.deployment))
   } catch (error: any) {
     errorHandler(error)
-    throw error
+    return undefined
   }
 }

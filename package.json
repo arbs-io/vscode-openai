@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -71,7 +71,7 @@
           "id": "vscode-openai-sidebar-view",
           "title": "vscode-openai",
           "icon": "./assets/openai-sidebar.svg",
-          "when": "vscode-openai.context.apikey"
+          "when": "vscode-openai.extension.enabled"
         }
       ]
     },
@@ -83,7 +83,7 @@
           "name": "Persona",
           "icon": "./assets/openai-sidebar.svg",
           "contextualTitle": "vscode-openai personas",
-          "when": "vscode-openai.context.apikey"
+          "when": "vscode-openai.extension.enabled"
         },
         {
           "type": "webview",
@@ -91,7 +91,7 @@
           "name": "Conversations",
           "icon": "./assets/openai-sidebar.svg",
           "contextualTitle": "vscode-openai conversations",
-          "when": "vscode-openai.context.apikey"
+          "when": "vscode-openai.extension.enabled"
         }
       ]
     },
@@ -190,47 +190,47 @@
     "menus": {
       "scm/title": [
         {
-          "when": "scmProvider == git",
           "command": "vscode-openai.scm.comment",
           "group": "navigation",
           "icon": {
             "light": "./assets/openai-light.png",
             "dark": "./assets/openai-dark.png"
-          }
+          },
+          "when": "vscode-openai.extension.enabled && scmProvider == git"
         }
       ],
       "editor/title": [
         {
           "submenu": "vscode-openai.menu.toolbox",
           "group": "navigation",
-          "when": "editorTextFocus"
+          "when": "editorFocus && !editorReadonly"
         }
       ],
       "vscode-openai.menu.toolbox": [
         {
           "command": "vscode-openai.completion.comment",
           "group": "navigation.openai_1",
-          "when": "vscode-openai.context.apikey"
+          "when": "vscode-openai.extension.enabled"
         },
         {
           "command": "vscode-openai.completion.explain",
           "group": "navigation.openai_1",
-          "when": "vscode-openai.context.apikey"
+          "when": "vscode-openai.extension.enabled"
         },
         {
           "command": "vscode-openai.completion.bounty",
           "group": "navigation.openai_1",
-          "when": "vscode-openai.context.apikey"
+          "when": "vscode-openai.extension.enabled"
         },
         {
           "command": "vscode-openai.completion.optimize",
           "group": "navigation.openai_1",
-          "when": "vscode-openai.context.apikey"
+          "when": "vscode-openai.extension.enabled"
         },
         {
           "command": "vscode-openai.completion.patterns",
           "group": "navigation.openai_1",
-          "when": "vscode-openai.context.apikey"
+          "when": "vscode-openai.extension.enabled"
         }
       ]
     },
@@ -238,11 +238,11 @@
       {
         "id": "vscode-openai.menu.toolbox",
         "label": "vscode-openai.menu.toolbox",
-        "when": "editorTextFocus",
         "icon": {
           "light": "./assets/openai-light.png",
           "dark": "./assets/openai-dark.png"
-        }
+        },
+        "when": "editorFocus && !editorReadonly"
       }
     ],
     "commands": [

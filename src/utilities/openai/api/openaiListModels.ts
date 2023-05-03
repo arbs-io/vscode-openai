@@ -1,12 +1,13 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
+import { logError } from '@app/utilities/vscode'
 
 export async function openaiListModels(
   baseUrl: string,
   apiKey: string
 ): Promise<Array<string>> {
+  const models = new Array<string>()
   try {
-    const models = new Array<string>()
     const configuration = new Configuration({
       apiKey: apiKey,
       basePath: baseUrl,
@@ -30,6 +31,7 @@ export async function openaiListModels(
     return models.sort((a, b) => b.localeCompare(a))
   } catch (error: any) {
     errorHandler(error)
-    throw error
+    logError(error)
   }
+  return models
 }

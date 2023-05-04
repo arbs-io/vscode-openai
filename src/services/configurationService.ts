@@ -6,7 +6,6 @@ import {
   SecretStorageService,
   getGitAccessToken,
   logDebug,
-  logInfo,
 } from '@app/utilities/vscode'
 import { HttpRequest } from '@app/utilities/node'
 
@@ -226,15 +225,19 @@ export default class ConfigurationService {
     )?.packageJSON
     const instance = ConfigurationService._instance
 
-    logInfo(`vscode-configuration`)
-    logInfo(`\t- vscode-version: ${version}`)
-    logInfo(`\t- extension-version: ${extension.version}`)
-    logInfo(`openai-configuration`)
-    logInfo(`\t- serviceProvider: ${instance.serviceProvider}`)
-    logInfo(`\t- host: ${instance.host}`)
-    logInfo(`\t- defaultModel: ${instance.defaultModel}`)
-    logInfo(`\t- azureDeployment: ${instance.azureDeployment}`)
-    logInfo(`\t- azureApiVersion: ${instance.azureApiVersion}`)
-    logInfo(`\t- conversationHistory: ${instance.conversationHistory}`)
+    logDebug(`vscode-configuration`)
+    logDebug(`- vscode-version: ${version}`)
+    logDebug(`- extension-version: ${extension.version}`)
+    logDebug(`openai-configuration`)
+    logDebug(`- serviceProvider: ${instance.serviceProvider}`)
+    logDebug(`- host: ${instance.host}`)
+    //Hide config for vscode-openai sponsored instance
+    if (instance.host !== 'vscode-openai') {
+      logDebug(`- baseUrl: ${instance.baseUrl}`)
+      logDebug(`- defaultModel: ${instance.defaultModel}`)
+      logDebug(`- azureDeployment: ${instance.azureDeployment}`)
+      logDebug(`- azureApiVersion: ${instance.azureApiVersion}`)
+      logDebug(`- conversationHistory: ${instance.conversationHistory}`)
+    }
   }
 }

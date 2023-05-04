@@ -137,10 +137,10 @@ export async function quickPickSetupOpenai(
   async function validateOpenaiApiKey(
     name: string
   ): Promise<string | undefined> {
-    const OPENAI_APIKEY_LENGTH = 51
+    const OPENAI_APIKEY_MIN_LENGTH = 51
     const OPENAI_APIKEY_STARTSWITH = 'sk-'
 
-    return name.length === OPENAI_APIKEY_LENGTH &&
+    return name.length >= OPENAI_APIKEY_MIN_LENGTH &&
       name.startsWith(OPENAI_APIKEY_STARTSWITH)
       ? undefined
       : 'Invalid Api Key'

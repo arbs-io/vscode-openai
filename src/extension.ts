@@ -35,6 +35,7 @@ export function activate(context: ExtensionContext) {
   //load configuration
   logDebug('initialise configuration service')
   ConfigurationService.init()
+  ConfigurationService.LogConfigurationService()
 
   logDebug('initialise components')
   ExtensionStatusBarItem.init(context)

@@ -1,11 +1,12 @@
 /**
  * ConfigurationService class that handles getting and setting configuration values for the vscode-openai extension.
  */
-import { workspace } from 'vscode'
+import { extensions, workspace, version } from 'vscode'
 import {
   SecretStorageService,
   getGitAccessToken,
   logDebug,
+  logInfo,
 } from '@app/utilities/vscode'
 import { HttpRequest } from '@app/utilities/node'
 
@@ -217,5 +218,23 @@ export default class ConfigurationService {
     }
     logDebug(`retrieve api-key`)
     return (await SecretStorageService.instance.getAuthApiKey()) as string
+  }
+
+  static LogConfigurationService(): void {
+    const extension = extensions.getExtension(
+      'AndrewButson.vscode-openai'
+    )?.packageJSON
+    const instance = ConfigurationService._instance
+
+    logInfo(`vscode-configuration`)
+    logInfo(`\t- vscode-version: ${version}`)
+    logInfo(`\t- extension-version: ${extension.version}`)
+    logInfo(`openai-configuration`)
+    logInfo(`\t- serviceProvider: ${instance.serviceProvider}`)
+    logInfo(`\t- host: ${instance.host}`)
+    logInfo(`\t- defaultModel: ${instance.defaultModel}`)
+    logInfo(`\t- azureDeployment: ${instance.azureDeployment}`)
+    logInfo(`\t- azureApiVersion: ${instance.azureApiVersion}`)
+    logInfo(`\t- conversationHistory: ${instance.conversationHistory}`)
   }
 }

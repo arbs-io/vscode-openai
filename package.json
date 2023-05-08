@@ -184,6 +184,20 @@
             "Error messages for events that could potentially cause issues for vscode-openai"
           ],
           "order": 8
+        },
+        "vscode-openai.editor-prompt.optimize": {
+          "type": "string",
+          "default": "Enter your custom prompt here...",
+          "editPresentation": "multilineText",
+          "description": "Edit prompt optimize.",
+          "order": 9
+        },
+        "vscode-openai.editor-prompt.comment": {
+          "type": "string",
+          "default": "Enter your custom prompt here...",
+          "editPresentation": "multilineText",
+          "description": "Edit prompt optimize.",
+          "order": 10
         }
       }
     },
@@ -208,28 +222,33 @@
       ],
       "vscode-openai.menu.toolbox": [
         {
-          "command": "vscode-openai.completion.comment",
+          "command": "vscode-openai.editor-prompt.comment",
           "group": "navigation.openai_1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.completion.explain",
+          "command": "vscode-openai.editor-prompt.explain",
           "group": "navigation.openai_1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.completion.bounty",
+          "command": "vscode-openai.editor-prompt.bounty",
           "group": "navigation.openai_1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.completion.optimize",
+          "command": "vscode-openai.editor-prompt.optimize",
           "group": "navigation.openai_1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.completion.patterns",
+          "command": "vscode-openai.editor-prompt.patterns",
           "group": "navigation.openai_1",
+          "when": "vscode-openai.extension.enabled"
+        },
+        {
+          "command": "vscode-openai.editor-prompt.settings",
+          "group": "navigation.openai_2",
           "when": "vscode-openai.extension.enabled"
         }
       ]
@@ -246,6 +265,11 @@
       }
     ],
     "commands": [
+      {
+        "command": "vscode-openai.editor-prompt.settings",
+        "title": "Edit Prompts...",
+        "category": "vscode-openai.settings"
+      },
       {
         "command": "vscode-openai.scm.comment",
         "title": "Auto generate comments using OpenAI",
@@ -265,27 +289,27 @@
         }
       },
       {
-        "command": "vscode-openai.completion.comment",
+        "command": "vscode-openai.editor-prompt.comment",
         "title": "Comments",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.completion.explain",
+        "command": "vscode-openai.editor-prompt.explain",
         "title": "Explanation",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.completion.bounty",
+        "command": "vscode-openai.editor-prompt.bounty",
         "title": "Bug Bounty",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.completion.optimize",
+        "command": "vscode-openai.editor-prompt.optimize",
         "title": "Optimize",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.completion.patterns",
+        "command": "vscode-openai.editor-prompt.patterns",
         "title": "Design Patterns",
         "category": "vscode-openai.completion"
       }

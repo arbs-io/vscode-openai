@@ -4,7 +4,6 @@
 // Input: None
 // Output: A string representing the command ID for registering the OpenAI service.
 export const VSCODE_OPENAI_EXTENSION = {
-  SETTINGS_SHOW_COMMAND_ID: 'vscode-openai.settings.show',
   ENABLED_COMMAND_ID: 'vscode-openai.extension.enabled',
 }
 
@@ -26,11 +25,12 @@ export const VSCODE_OPENAI_SCM = {
 // Input: None
 // Output: An object containing strings representing various command IDs for prompting OpenAI to complete tasks.
 export const VSCODE_OPENAI_PROMPT = {
-  PROMPT_COMMENTS_COMMAND_ID: 'vscode-openai.completion.comment',
-  PROMPT_EXPLAIN_COMMAND_ID: 'vscode-openai.completion.explain',
-  PROMPT_BOUNTY_COMMAND_ID: 'vscode-openai.completion.bounty',
-  PROMPT_OPTIMIZE_COMMAND_ID: 'vscode-openai.completion.optimize',
-  PROMPT_PATTERNS_COMMAND_ID: 'vscode-openai.completion.patterns',
+  PROMPT_SETTINGS_EDIT_COMMAND_ID: 'vscode-openai.editor-prompt.settings',
+  PROMPT_COMMENTS_COMMAND_ID: 'vscode-openai.editor-prompt.comment',
+  PROMPT_EXPLAIN_COMMAND_ID: 'vscode-openai.editor-prompt.explain',
+  PROMPT_BOUNTY_COMMAND_ID: 'vscode-openai.editor-prompt.bounty',
+  PROMPT_OPTIMIZE_COMMAND_ID: 'vscode-openai.editor-prompt.optimize',
+  PROMPT_PATTERNS_COMMAND_ID: 'vscode-openai.editor-prompt.patterns',
 }
 
 // VSCODE_OPENAI_SIDEBAR: Contains various command IDs for opening webviews in the sidebar of VS Code.

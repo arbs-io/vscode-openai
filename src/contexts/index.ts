@@ -10,3 +10,4 @@ export { registerOpenaiActivityBarProvider } from './activitybar/registerOpenaiA
 export { registerChangeConfiguration } from './changeConfiguration/registerChangeConfiguration'
 export { registerOpenaiServiceCommand } from './quickPickSetup/registerOpenaiServiceCommand'
 export { registerOpenaiSCMCommand } from './scm/registerOpenaiSCMCommand'
+export { registerOpenSettings } from './settings/registerOpenSettings'

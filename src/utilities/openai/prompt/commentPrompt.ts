@@ -9,7 +9,7 @@ async function commentPrompt(): Promise<string> {
   const inputCode = getActiveTextEditorValue()
 
   const prompt = [
-    `vscode-openai is a programming expert in ${language}.`,
+    `vscode-openai is a programming expert in ${language} programming language.`,
     `vscode-openai response must only using valid source code for ${language} programming language.`,
     'Please add comments to the source code explaining what the code is doing.',
     'The code to analyse is below:',

@@ -4,6 +4,7 @@ import {
   ExtensionStatusBarItem,
   GlobalStorageService,
   logDebug,
+  logError,
   logInfo,
   SecretStorageService,
 } from '@app/utilities/vscode'
@@ -19,42 +20,46 @@ import {
 import { ConfigurationService, ConversationService } from '@app/services'
 
 export function activate(context: ExtensionContext) {
-  logInfo('activate vscode-openai')
+  try {
+    logInfo('activate vscode-openai')
 
-  // Disable functionality until we validate auth
-  commands.executeCommand(
-    'setContext',
-    VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
-    false
-  )
+    // Disable functionality until we validate auth
+    commands.executeCommand(
+      'setContext',
+      VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
+      false
+    )
 
-  //register storage (Singletons)
-  logDebug('initialise storage services')
-  SecretStorageService.init(context)
-  GlobalStorageService.init(context)
+    //register storage (Singletons)
+    logDebug('initialise storage services')
+    SecretStorageService.init(context)
+    GlobalStorageService.init(context)
 
-  //load configuration
-  logDebug('initialise configuration service')
-  ConfigurationService.init()
-  ConfigurationService.LogConfigurationService()
+    //load configuration
+    logDebug('initialise configuration service')
+    ConfigurationService.init()
+    ConfigurationService.LogConfigurationService()
 
-  logDebug('initialise components')
-  ExtensionStatusBarItem.init(context)
+    logDebug('initialise components')
+    ExtensionStatusBarItem.init(context)
 
-  //registerCommands
-  logDebug('register commands')
-  registerOpenaiEditor(context)
-  registerOpenaiActivityBarProvider(context)
-  registerChangeConfiguration(context)
-  registerOpenaiServiceCommand(context)
-  registerOpenaiSCMCommand(context)
-  registerOpenSettings(context)
+    //registerCommands
+    logDebug('register commands')
+    registerOpenaiEditor(context)
+    registerOpenaiActivityBarProvider(context)
+    registerChangeConfiguration(context)
+    registerOpenaiServiceCommand(context)
+    registerOpenaiSCMCommand(context)
+    registerOpenSettings(context)
 
-  logDebug('starting conversation service')
-  ConversationService.init(context)
+    logDebug('starting conversation service')
+    ConversationService.init(context)
 
-  logDebug('verifying authentication openai service')
-  validateApiKey() //On activation check if the api key is valid
+    logDebug('verifying authentication openai service')
+    validateApiKey() //On activation check if the api key is valid
 
-  logInfo('vscode-openai ready')
+    logInfo('vscode-openai ready')
+  } catch (error) {
+    logError(error)
+  }
 }

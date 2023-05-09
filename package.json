@@ -185,19 +185,41 @@
           ],
           "order": 8
         },
-        "vscode-openai.editor-prompt.optimize": {
+        "vscode-openai.prompt-editor.comment": {
           "type": "string",
-          "default": "Enter your custom prompt here...",
+          "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only using valid source code for #{language} programming language.\nPlease add comments to the source code explaining what the code is doing.\nThe code to analyse is below:\n#{source_code}",
           "editPresentation": "multilineText",
+          "markdownDescription": "The output level for vscode-openai.",
           "description": "Edit prompt optimize.",
           "order": 9
         },
-        "vscode-openai.editor-prompt.comment": {
+        "vscode-openai.prompt-editor.explain": {
           "type": "string",
-          "default": "Enter your custom prompt here...",
+          "default": "vscode-openai is a programming expert in #{language}.\nvscode-openai response must only using valid source code for #{language} programming language.\nPlease provide headers comments for each function in the source code for each function providing:\n- description, input and output parameters.\n- input parameters.\n- output parameters.\nThe code to analyse is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "description": "Edit prompt optimize.",
           "order": 10
+        },
+        "vscode-openai.prompt-editor.bounty": {
+          "type": "string",
+          "default": "vscode-openai is a programming expert in #{language}.\nvscode-openai response must only using valid source code for #{language} programming language.\nPlease fix any bugs and include comments for changed code explaining what was wrong with the original code.\nThe code to analyse is below:\n#{source_code}",
+          "editPresentation": "multilineText",
+          "description": "Edit prompt optimize.",
+          "order": 11
+        },
+        "vscode-openai.prompt-editor.optimize": {
+          "type": "string",
+          "default": "vscode-openai is a programming expert in #{language}.\nvscode-openai response must only using valid source code for #{language} programming language.\nPlease optimize the source code by reducing the number of operations performed during execution.\nDo not change the functionality of the code.\nThe code to analyse is below:\n#{source_code}",
+          "editPresentation": "multilineText",
+          "description": "Edit prompt optimize.",
+          "order": 12
+        },
+        "vscode-openai.prompt-editor.patterns": {
+          "type": "string",
+          "default": "vscode-openai is a programming expert in #{language}.\nvscode-openai response must only using valid source code for #{language} programming language.\nPlease rewrite the code using appropriate design patterns.\nThe design pattern should be a combination of Concurrency, Behavioral, Structural and Creational design patterns.\nThe response should be a single solution using all the useful patterns identified.\nDo not change the functionality of the code.\nThe code to analyse is below:\n#{source_code}",
+          "editPresentation": "multilineText",
+          "description": "Edit prompt optimize.",
+          "order": 13
         }
       }
     },
@@ -222,32 +244,32 @@
       ],
       "vscode-openai.menu.toolbox": [
         {
-          "command": "vscode-openai.editor-prompt.comment",
+          "command": "vscode-openai.prompt-editor.comment",
           "group": "navigation.openai_1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.editor-prompt.explain",
+          "command": "vscode-openai.prompt-editor.explain",
           "group": "navigation.openai_1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.editor-prompt.bounty",
+          "command": "vscode-openai.prompt-editor.bounty",
           "group": "navigation.openai_1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.editor-prompt.optimize",
+          "command": "vscode-openai.prompt-editor.optimize",
           "group": "navigation.openai_1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.editor-prompt.patterns",
+          "command": "vscode-openai.prompt-editor.patterns",
           "group": "navigation.openai_1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.editor-prompt.settings",
+          "command": "vscode-openai.settings.prompt-editor",
           "group": "navigation.openai_2",
           "when": "vscode-openai.extension.enabled"
         }
@@ -266,7 +288,7 @@
     ],
     "commands": [
       {
-        "command": "vscode-openai.editor-prompt.settings",
+        "command": "vscode-openai.settings.prompt-editor",
         "title": "Edit Prompts...",
         "category": "vscode-openai.settings"
       },
@@ -289,27 +311,27 @@
         }
       },
       {
-        "command": "vscode-openai.editor-prompt.comment",
+        "command": "vscode-openai.prompt-editor.comment",
         "title": "Comments",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.editor-prompt.explain",
+        "command": "vscode-openai.prompt-editor.explain",
         "title": "Explanation",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.editor-prompt.bounty",
+        "command": "vscode-openai.prompt-editor.bounty",
         "title": "Bug Bounty",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.editor-prompt.optimize",
+        "command": "vscode-openai.prompt-editor.optimize",
         "title": "Optimize",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.editor-prompt.patterns",
+        "command": "vscode-openai.prompt-editor.patterns",
         "title": "Design Patterns",
         "category": "vscode-openai.completion"
       }

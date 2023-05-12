@@ -3,7 +3,6 @@ import { ManagedApiKey } from './managedApiKey'
 
 export function registerChangeConfiguration(context: ExtensionContext): void {
   const managedApiKeyInstance = ManagedApiKey.getInstance()
-
   const eventAffectsConfigurations = [
     'vscode-openai.serviceProvider',
     'vscode-openai.authentication',

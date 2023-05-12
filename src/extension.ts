@@ -3,9 +3,8 @@ import { validateApiKey } from '@app/utilities/openai'
 import {
   ExtensionStatusBarItem,
   GlobalStorageService,
-  registerTelemetryReporter,
+  TelemetryService,
   logDebug,
-  logError,
   logInfo,
   SecretStorageService,
 } from '@app/utilities/vscode'
@@ -19,11 +18,11 @@ import {
   VSCODE_OPENAI_EXTENSION,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
+import { handleError } from './utilities/node'
 
 export function activate(context: ExtensionContext) {
   try {
-    registerTelemetryReporter(context)
-
+    TelemetryService.init(context)
     logInfo('activate vscode-openai')
 
     // Disable functionality until we validate auth
@@ -62,7 +61,7 @@ export function activate(context: ExtensionContext) {
     validateApiKey() //On activation check if the api key is valid
 
     logInfo('vscode-openai ready')
-  } catch (error: any) {
-    logError(error)
+  } catch (error: unknown) {
+    handleError(error)
   }
 }

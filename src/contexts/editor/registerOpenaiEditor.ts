@@ -12,9 +12,10 @@ import {
   createChatCompletion,
   ResponseFormat,
 } from '@app/utilities/openai'
-import { compareFileToClipboard, logError } from '@app/utilities/vscode'
+import { compareFileToClipboard } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_PROMPT } from '@app/contexts'
 import { ConversationService } from '@app/services'
+import { handleError } from '@app/utilities/node'
 
 // Define a command registry that uses the factory pattern
 class CommandRegistry {
@@ -73,8 +74,8 @@ class CommandRegistry {
             )
             compareFileToClipboard(result?.content ? result?.content : '')
           }
-        } catch (error) {
-          logError(error)
+        } catch (e) {
+          handleError(e)
         }
       }
       context.subscriptions.push(

@@ -23,3 +23,4 @@ export { getAzureADAccessToken } from './authentication/getAzureADAccessToken'
 export { getGitAccessToken } from './authentication/getGitAccessToken'
 
 export * from './outputChannel/outputChannel'
+export { default as TelemetryService } from './outputChannel/telemetryService'

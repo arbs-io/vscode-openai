@@ -1,7 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
-import { HttpRequest } from '@app/utilities/node'
-import { logError } from '@app/utilities/vscode'
+import { HttpRequest, handleError } from '@app/utilities/node'
 
 export interface IDeploymentModel {
   deployment: string
@@ -50,7 +49,9 @@ export async function azureListDeployments(
       }
     })
     if (deployments.length === 0) {
-      logError('Azure DeploymentModels not found (requires: gpt-3.5 and above)')
+      handleError(
+        'Azure DeploymentModels not found (requires: gpt-3.5 and above)'
+      )
     }
     return deployments.sort((a, b) => b.deployment.localeCompare(a.deployment))
   } catch (error: any) {

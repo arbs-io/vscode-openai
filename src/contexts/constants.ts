@@ -20,6 +20,7 @@ export const VSCODE_OPENAI_REGISTER = {
 // Input: None
 // Output: A string representing the command ID for commenting on a change in source control management.
 export const VSCODE_OPENAI_SCM = {
+  ENABLED_COMMAND_ID: 'vscode-openai.scm.enabled',
   COMMENT_COMMAND_ID: 'vscode-openai.scm.comment',
 }
 

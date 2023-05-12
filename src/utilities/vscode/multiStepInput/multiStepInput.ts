@@ -7,7 +7,7 @@ import {
 } from 'vscode'
 import { IParametersQuickPick, IParametersInputBox } from './interfaces'
 import { InputFlowAction } from './InputFlowAction'
-import { logError } from '..'
+import { handleError } from '@app/utilities/node'
 
 type InputStep = (input: MultiStepInput) => Thenable<InputStep | void>
 
@@ -30,16 +30,16 @@ export class MultiStepInput {
       }
       try {
         step = await step(this)
-      } catch (err) {
-        if (err === InputFlowAction.back) {
+      } catch (error) {
+        if (error === InputFlowAction.back) {
           this.steps.pop()
           step = this.steps.pop()
-        } else if (err === InputFlowAction.resume) {
+        } else if (error === InputFlowAction.resume) {
           step = this.steps.pop()
-        } else if (err === InputFlowAction.cancel) {
+        } else if (error === InputFlowAction.cancel) {
           step = undefined
         } else {
-          logError(err)
+          handleError(error)
           return
         }
       }

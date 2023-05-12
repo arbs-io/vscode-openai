@@ -1,6 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
-import { logError } from '@app/utilities/vscode'
 
 export async function openaiListModels(
   baseUrl: string,
@@ -31,7 +30,6 @@ export async function openaiListModels(
     return models.sort((a, b) => b.localeCompare(a))
   } catch (error: any) {
     errorHandler(error)
-    logError(error)
   }
   return models
 }

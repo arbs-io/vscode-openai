@@ -4,11 +4,7 @@ import {
   Configuration,
   OpenAIApi,
 } from 'openai'
-import {
-  ExtensionStatusBarItem,
-  logError,
-  logInfo,
-} from '@app/utilities/vscode'
+import { ExtensionStatusBarItem, logInfo } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
@@ -108,6 +104,5 @@ export async function createChatCompletion(
     return message
   } catch (error: any) {
     errorHandler(error)
-    logError(error)
   }
 }

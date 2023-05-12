@@ -2,6 +2,7 @@
  * ConfigurationService class that handles getting and setting configuration values for the vscode-openai extension.
  */
 import { extensions, workspace, version } from 'vscode'
+import * as crypto from 'crypto'
 import {
   SecretStorageService,
   getGitAccessToken,
@@ -183,7 +184,15 @@ export default class ConfigurationService {
    *@returns Request configuration object with headers and parameters based on current configuration settings.
    */
   public async getRequestConfig(): Promise<any> {
-    if (this.serviceProvider === 'Azure-OpenAI') {
+    if (this.serviceProvider === 'VSCode-OpenAI') {
+      const hash = crypto
+        .createHash('sha512')
+        .update('vscode-openai::1.1.4')
+        .digest('hex')
+      return {
+        headers: { 'vscode-openai': hash },
+      }
+    } else if (this.serviceProvider === 'Azure-OpenAI') {
       return {
         headers: { 'api-key': await this.getApiKey() },
         params: { 'api-version': this.azureApiVersion },

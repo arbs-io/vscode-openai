@@ -189,7 +189,7 @@
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease add comments to the source code explaining what the code is doing.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
-          "markdownDescription": "The output level for vscode-openai.",
+          "markdownDescription": "This prompt is designed to place inline comments into the `source code`\n- Author: **vscode-openai**",
           "description": "Edit prompt optimize.",
           "order": 9
         },
@@ -197,28 +197,28 @@
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease provide headers comments in the source code for each function providing:\n- description, input and output parameters.\n- input parameters.\n- output parameters.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
-          "description": "Edit prompt optimize.",
+          "markdownDescription": "This prompt is designed to place header comments for each class or function within the `source code`\n- Author: **Bryon Roscoe**",
           "order": 10
         },
         "vscode-openai.prompt-editor.bounty": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease fix any bugs and include comments for the changed code explaining what was wrong with the original code.\nOnly provide the fixed source code with comments in #{language} explaining the corrected problem.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
-          "description": "Edit prompt optimize.",
+          "markdownDescription": "This prompt is designed to find and fix bugs within the `source code`\n- Author: **Ed Linden**",
           "order": 11
         },
         "vscode-openai.prompt-editor.optimize": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease optimize the source code by reducing the number of operations performed during execution.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
-          "description": "Edit prompt optimize.",
+          "markdownDescription": "This prompt is designed to find inefficiencies and resolve them within the `source code`\n- Author: **vscode-openai**",
           "order": 12
         },
         "vscode-openai.prompt-editor.patterns": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease rewrite the code using appropriate design patterns.\nThe design pattern should combine Concurrency, Behavioral, Structural and Creational design patterns.\nThe response should be a single solution using all the valuable patterns identified.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
-          "description": "Edit prompt optimize.",
+          "markdownDescription": "This prompt is designed to suggest design patterns to improve readability, maintainability, ... in the `source code`\n- Author: **vscode-openai**",
           "order": 13
         }
       }

@@ -1,11 +1,7 @@
 import { commands } from 'vscode'
-import {
-  ExtensionStatusBarItem,
-  logError,
-  logWarning,
-} from '@app/utilities/vscode'
+import { ExtensionStatusBarItem, logWarning } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
-import { ensureError } from '@app/utilities/node'
+import { handleError } from '@app/utilities/node'
 
 interface IStatusBarItem {
   icon: string
@@ -30,15 +26,15 @@ export function errorHandler(error: any) {
       VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
       false
     )
-    logError(error.message)
+    handleError(error)
     return
   }
 
   if (error.response !== undefined) {
     const statusBarItem = handleResponse(error)
     if (statusBarItem.isError) {
-      const message = ensureError(`openai api ${statusBarItem.message}`)
-      logError(message)
+      handleError(error)
+
       ExtensionStatusBarItem.instance.showStatusBarError(
         statusBarItem.icon,
         statusBarItem.message

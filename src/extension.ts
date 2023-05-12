@@ -19,6 +19,7 @@ import {
   VSCODE_OPENAI_EXTENSION,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
+import { ensureError } from './utilities/node'
 
 export function activate(context: ExtensionContext) {
   try {
@@ -62,7 +63,8 @@ export function activate(context: ExtensionContext) {
     validateApiKey() //On activation check if the api key is valid
 
     logInfo('vscode-openai ready')
-  } catch (error: any) {
-    logError(error)
+  } catch (error: unknown) {
+    const resportError = ensureError(error)
+    logError(resportError)
   }
 }

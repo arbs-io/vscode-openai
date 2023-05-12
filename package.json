@@ -232,7 +232,7 @@
             "light": "./assets/openai-light.png",
             "dark": "./assets/openai-dark.png"
           },
-          "when": "vscode-openai.extension.enabled && scmProvider == git"
+          "when": "vscode-openai.extension.enabled && vscode-openai.scm.enabled && scmProvider == git"
         }
       ],
       "editor/title": [
@@ -299,7 +299,8 @@
         "icon": {
           "light": "./assets/openai-light.png",
           "dark": "./assets/openai-dark.png"
-        }
+        },
+        "when": "vscode-openai.extension.enabled && vscode-openai.scm.enabled && scmProvider == git"
       },
       {
         "command": "vscode-openai.register.openaiService",

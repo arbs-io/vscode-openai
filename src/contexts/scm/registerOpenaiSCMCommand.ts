@@ -5,6 +5,7 @@ import { IChatCompletion, IConversation } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
 import { ConversationService } from '@app/services'
 import { createChatCompletion, ResponseFormat } from '@app/utilities/openai'
+import { logInfo, logWarning } from '@app/utilities/vscode'
 
 // This function registers the Openai SCM command with VS Code.
 // It takes an ExtensionContext object as input and does not return anything.
@@ -16,6 +17,17 @@ export function registerOpenaiSCMCommand(context: ExtensionContext) {
 // It takes an ExtensionContext object as input and does not return anything.
 function _registerOpenaiSCMCommand(context: ExtensionContext) {
   const gitService = new GitService()
+
+  if (gitService.isAvailable()) {
+    commands.executeCommand(
+      'setContext',
+      VSCODE_OPENAI_SCM.ENABLED_COMMAND_ID,
+      true
+    )
+    logInfo('scm vscode.git ready')
+  } else {
+    logWarning('scm feature disabled vscode.git not found')
+  }
 
   context.subscriptions.push(
     commands.registerCommand(VSCODE_OPENAI_SCM.COMMENT_COMMAND_ID, async () => {

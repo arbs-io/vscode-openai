@@ -15,6 +15,7 @@ import {
 import { compareFileToClipboard, logError } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_PROMPT } from '@app/contexts'
 import { ConversationService } from '@app/services'
+import { ensureError } from '@app/utilities/node'
 
 // Define a command registry that uses the factory pattern
 class CommandRegistry {
@@ -73,7 +74,8 @@ class CommandRegistry {
             )
             compareFileToClipboard(result?.content ? result?.content : '')
           }
-        } catch (error) {
+        } catch (e) {
+          const error = ensureError(e)
           logError(error)
         }
       }

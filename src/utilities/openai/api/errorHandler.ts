@@ -1,15 +1,19 @@
 import { commands } from 'vscode'
-import { ExtensionStatusBarItem, logError } from '@app/utilities/vscode'
+import {
+  ExtensionStatusBarItem,
+  logError,
+  logWarning,
+} from '@app/utilities/vscode'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
+import { ensureError } from '@app/utilities/node'
 
 interface IStatusBarItem {
   icon: string
   message: string
+  isError: boolean
 }
 
 export function errorHandler(error: any) {
-  logError(error.message)
-
   if (
     error.syscall !== undefined &&
     error.syscall === 'getaddrinfo' &&
@@ -26,25 +30,47 @@ export function errorHandler(error: any) {
       VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
       false
     )
+    logError(error.message)
     return
   }
 
   if (error.response !== undefined) {
-    const statusBarItem = responseErrorHandler(error)
-    ExtensionStatusBarItem.instance.showStatusBarError(
-      statusBarItem.icon,
-      statusBarItem.message
-    )
+    const statusBarItem = handleResponse(error)
+    if (statusBarItem.isError) {
+      const message = ensureError(`openai api ${statusBarItem.message}`)
+      logError(message)
+      ExtensionStatusBarItem.instance.showStatusBarError(
+        statusBarItem.icon,
+        statusBarItem.message
+      )
+    } else {
+      logWarning(statusBarItem.message.split('- ').join(''))
+      ExtensionStatusBarItem.instance.showStatusBarWarning(
+        statusBarItem.icon,
+        statusBarItem.message
+      )
+    }
+
     return
   }
 }
 
-export function responseErrorHandler(error: any): IStatusBarItem {
+export function handleResponse(error: any): IStatusBarItem {
   switch (error.response.status as number) {
     case 401: {
       const statusBarItem: IStatusBarItem = {
         icon: 'lock',
         message: '- failed authentication',
+        isError: true,
+      }
+      return statusBarItem
+    }
+
+    case 400: {
+      const statusBarItem: IStatusBarItem = {
+        icon: 'exclude',
+        message: '- token limits',
+        isError: false,
       }
       return statusBarItem
     }
@@ -53,6 +79,7 @@ export function responseErrorHandler(error: any): IStatusBarItem {
       const statusBarItem: IStatusBarItem = {
         icon: 'cloud',
         message: '- not found',
+        isError: false,
       }
       return statusBarItem
     }
@@ -61,6 +88,7 @@ export function responseErrorHandler(error: any): IStatusBarItem {
       const statusBarItem: IStatusBarItem = {
         icon: 'exclude',
         message: '- rate limit',
+        isError: false,
       }
       return statusBarItem
     }
@@ -69,6 +97,7 @@ export function responseErrorHandler(error: any): IStatusBarItem {
       const statusBarItem: IStatusBarItem = {
         icon: 'error',
         message: `- (${error.response.status}) ${error.response.statusText}`,
+        isError: true,
       }
       return statusBarItem
     }

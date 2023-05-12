@@ -58,7 +58,22 @@ export function logInfo(message: string): void {
   }
 }
 
-export function logError(error: any): void {
+export function logWarning(warning: any): void {
+  const logMessage =
+    `${getTimeAndms()} [warning]\t${warning.toString()}`.replace(
+      /(\r\n|\n|\r)/gm,
+      ''
+    )
+  OutputChannelFactory.getLogChannel().appendLine(logMessage)
+  OutputChannelFactory.getLogChannel().show()
+
+  OutputChannelFactory.AppInsights.sendTelemetryEvent('logWarning', {
+    message: warning?.message,
+    stack: warning?.stack,
+  })
+}
+
+export function logError(error: Error): void {
   const logMessage = `${getTimeAndms()} [error]\t${error.toString()}`.replace(
     /(\r\n|\n|\r)/gm,
     ''
@@ -68,11 +83,11 @@ export function logError(error: any): void {
 
   OutputChannelFactory.AppInsights.sendTelemetryErrorEvent('logError', {
     message: error?.message,
-    stack: error?.stack,
+    stack: error.stack!,
   })
   OutputChannelFactory.AppInsights.sendTelemetryEvent('logError', {
     message: error?.message,
-    stack: error?.stack,
+    stack: error.stack!,
   })
 }
 

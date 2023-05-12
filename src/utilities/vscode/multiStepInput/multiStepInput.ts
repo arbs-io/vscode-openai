@@ -8,6 +8,7 @@ import {
 import { IParametersQuickPick, IParametersInputBox } from './interfaces'
 import { InputFlowAction } from './InputFlowAction'
 import { logError } from '..'
+import { ensureError } from '@app/utilities/node'
 
 type InputStep = (input: MultiStepInput) => Thenable<InputStep | void>
 
@@ -39,7 +40,8 @@ export class MultiStepInput {
         } else if (err === InputFlowAction.cancel) {
           step = undefined
         } else {
-          logError(err)
+          const error = ensureError(err)
+          logError(error)
           return
         }
       }

@@ -20,7 +20,7 @@ export default class TelemetryService {
   }
 
   async sendTelemetryEvent(message: string): Promise<void> {
-    this.telemetryReporter.sendTelemetryEvent('Error', {
+    this.telemetryReporter.sendTelemetryEvent('Event', {
       message: message,
     })
   }

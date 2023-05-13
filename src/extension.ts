@@ -22,15 +22,16 @@ import { handleError } from './utilities/node'
 
 export function activate(context: ExtensionContext) {
   try {
-    TelemetryService.init(context)
-    logInfo('activate vscode-openai')
-
     // Disable functionality until we validate auth
     commands.executeCommand(
       'setContext',
       VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
       false
     )
+    logInfo('activate vscode-openai')
+
+    // Enable logging and telemetry
+    TelemetryService.init(context)
 
     //register storage (Singletons)
     logDebug('initialise storage services')

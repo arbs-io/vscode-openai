@@ -6,11 +6,16 @@ import { getSystemPersonas } from '@app/models'
 import { ConversationService } from '@app/services'
 import { createChatCompletion, ResponseFormat } from '@app/utilities/openai'
 import { logInfo, logWarning } from '@app/utilities/vscode'
+import { handleError } from '@app/utilities/node'
 
 // This function registers the Openai SCM command with VS Code.
 // It takes an ExtensionContext object as input and does not return anything.
 export function registerOpenaiSCMCommand(context: ExtensionContext) {
-  _registerOpenaiSCMCommand(context)
+  try {
+    _registerOpenaiSCMCommand(context)
+  } catch (error) {
+    handleError(error)
+  }
 }
 
 // This is a helper function for registerOpenaiSCMCommand.

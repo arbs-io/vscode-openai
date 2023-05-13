@@ -1,16 +1,21 @@
 import { ExtensionContext, commands } from 'vscode'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
+import { handleError } from '@app/utilities/node'
 
 export function registerOpenSettings(context: ExtensionContext): void {
-  context.subscriptions.push(
-    commands.registerCommand(
-      VSCODE_OPENAI_EXTENSION.SETTINGS_PROMPT_EDIT_COMMAND_ID,
-      async () => {
-        commands.executeCommand(
-          'workbench.action.openSettings',
-          'vscode-openai.prompt-editor'
-        )
-      }
+  try {
+    context.subscriptions.push(
+      commands.registerCommand(
+        VSCODE_OPENAI_EXTENSION.SETTINGS_PROMPT_EDIT_COMMAND_ID,
+        async () => {
+          commands.executeCommand(
+            'workbench.action.openSettings',
+            'vscode-openai.prompt-editor'
+          )
+        }
+      )
     )
-  )
+  } catch (error) {
+    handleError(error)
+  }
 }

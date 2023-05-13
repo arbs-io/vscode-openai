@@ -8,7 +8,7 @@ import {
   getGitAccessToken,
   logDebug,
 } from '@app/utilities/vscode'
-import { HttpRequest } from '@app/utilities/node'
+import { HttpRequest, handleError } from '@app/utilities/node'
 
 export default class ConfigurationService {
   private static _instance: ConfigurationService
@@ -31,7 +31,11 @@ export default class ConfigurationService {
    * Initializes a new instance of the ConfigurationService class.
    */
   static init(): void {
-    ConfigurationService._instance = new ConfigurationService()
+    try {
+      ConfigurationService._instance = new ConfigurationService()
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   /**
@@ -229,24 +233,28 @@ export default class ConfigurationService {
   }
 
   static LogConfigurationService(): void {
-    const extension = extensions.getExtension(
-      'AndrewButson.vscode-openai'
-    )?.packageJSON
-    const instance = ConfigurationService._instance
+    try {
+      const extension = extensions.getExtension(
+        'AndrewButson.vscode-openai'
+      )?.packageJSON
+      const instance = ConfigurationService._instance
 
-    logDebug(`vscode-configuration`)
-    logDebug(`- vscode-version: ${version}`)
-    logDebug(`- extension-version: ${extension.version}`)
-    logDebug(`openai-configuration`)
-    logDebug(`- serviceProvider: ${instance.serviceProvider}`)
-    logDebug(`- host: ${instance.host}`)
-    //Hide config for vscode-openai sponsored instance
-    if (instance.host !== 'vscode-openai') {
-      logDebug(`- baseUrl: ${instance.baseUrl}`)
-      logDebug(`- defaultModel: ${instance.defaultModel}`)
-      logDebug(`- azureDeployment: ${instance.azureDeployment}`)
-      logDebug(`- azureApiVersion: ${instance.azureApiVersion}`)
-      logDebug(`- conversationHistory: ${instance.conversationHistory}`)
+      logDebug(`vscode-configuration`)
+      logDebug(`- vscode-version: ${version}`)
+      logDebug(`- extension-version: ${extension.version}`)
+      logDebug(`openai-configuration`)
+      logDebug(`- serviceProvider: ${instance.serviceProvider}`)
+      logDebug(`- host: ${instance.host}`)
+      //Hide config for vscode-openai sponsored instance
+      if (instance.host !== 'vscode-openai') {
+        logDebug(`- baseUrl: ${instance.baseUrl}`)
+        logDebug(`- defaultModel: ${instance.defaultModel}`)
+        logDebug(`- azureDeployment: ${instance.azureDeployment}`)
+        logDebug(`- azureApiVersion: ${instance.azureApiVersion}`)
+        logDebug(`- conversationHistory: ${instance.conversationHistory}`)
+      }
+    } catch (error) {
+      handleError(error)
     }
   }
 }

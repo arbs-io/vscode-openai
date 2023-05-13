@@ -4,13 +4,18 @@ import { ConfigurationService } from '@app/services'
 import { ExtensionStatusBarItem, logInfo } from '@app/utilities/vscode'
 import { errorHandler } from './errorHandler'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
+import { handleError } from '@app/utilities/node'
 
 export async function validateApiKey() {
-  ExtensionStatusBarItem.instance.showStatusBarInformation(
-    'loading~spin',
-    '- initializing'
-  )
-  await verifyApiKey()
+  try {
+    ExtensionStatusBarItem.instance.showStatusBarInformation(
+      'loading~spin',
+      '- initializing'
+    )
+    await verifyApiKey()
+  } catch (error) {
+    handleError(error)
+  }
 }
 
 export async function verifyApiKey(): Promise<boolean> {

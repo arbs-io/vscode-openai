@@ -4,7 +4,7 @@ import { ConfigurationService } from '@app/services'
 import { ExtensionStatusBarItem, logInfo } from '@app/utilities/vscode'
 import { errorHandler } from './errorHandler'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
-import { handleError } from '@app/utilities/node'
+import { sendTelemetryError } from '@app/utilities/node'
 
 export async function validateApiKey() {
   try {
@@ -14,7 +14,7 @@ export async function validateApiKey() {
     )
     await verifyApiKey()
   } catch (error) {
-    handleError(error)
+    sendTelemetryError(error)
   }
 }
 

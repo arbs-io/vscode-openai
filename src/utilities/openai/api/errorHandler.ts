@@ -1,7 +1,7 @@
 import { commands } from 'vscode'
 import { ExtensionStatusBarItem, logWarning } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
-import { handleError } from '@app/utilities/node'
+import { sendTelemetryError } from '@app/utilities/node'
 
 interface IStatusBarItem {
   icon: string
@@ -26,14 +26,14 @@ export function errorHandler(error: any) {
       VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
       false
     )
-    handleError(error)
+    sendTelemetryError(error)
     return
   }
 
   if (error.response !== undefined) {
     const statusBarItem = handleResponse(error)
     if (statusBarItem.isError) {
-      handleError(error)
+      sendTelemetryError(error)
 
       ExtensionStatusBarItem.instance.showStatusBarError(
         statusBarItem.icon,

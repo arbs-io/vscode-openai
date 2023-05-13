@@ -18,7 +18,7 @@ import {
   VSCODE_OPENAI_EXTENSION,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
-import { handleError } from './utilities/node'
+import { sendTelemetryError } from './utilities/node'
 
 export function activate(context: ExtensionContext) {
   try {
@@ -63,6 +63,6 @@ export function activate(context: ExtensionContext) {
 
     logInfo('vscode-openai ready')
   } catch (error: unknown) {
-    handleError(error)
+    sendTelemetryError(error)
   }
 }

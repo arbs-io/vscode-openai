@@ -15,7 +15,7 @@ import {
 import { compareFileToClipboard } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_PROMPT } from '@app/contexts'
 import { ConversationService } from '@app/services'
-import { handleError } from '@app/utilities/node'
+import { sendTelemetryError } from '@app/utilities/node'
 
 // Define a command registry that uses the factory pattern
 class CommandRegistry {
@@ -75,7 +75,7 @@ class CommandRegistry {
             compareFileToClipboard(result?.content ? result?.content : '')
           }
         } catch (e) {
-          handleError(e)
+          sendTelemetryError(e)
         }
       }
       context.subscriptions.push(
@@ -91,6 +91,6 @@ export function registerOpenaiEditor(context: ExtensionContext) {
     const registry = new CommandRegistry()
     registry.registerCommands(context)
   } catch (error) {
-    handleError(error)
+    sendTelemetryError(error)
   }
 }

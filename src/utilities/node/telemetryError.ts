@@ -15,7 +15,7 @@ function ensureError(value: unknown): Error {
   return error
 }
 
-export function handleError(value: unknown) {
+export function sendTelemetryError(value: unknown) {
   const error = ensureError(value)
   logError(error)
   TelemetryService.instance.sendTelemetryErrorEvent(error)

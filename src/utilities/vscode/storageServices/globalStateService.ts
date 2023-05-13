@@ -1,5 +1,5 @@
 import { ExtensionContext, Memento } from 'vscode'
-import { handleError } from '@app/utilities/node'
+import { sendTelemetryError } from '@app/utilities/node'
 
 export default class GlobalStorageService {
   private static _instance: GlobalStorageService
@@ -12,7 +12,7 @@ export default class GlobalStorageService {
         context.globalState
       )
     } catch (error) {
-      handleError(error)
+      sendTelemetryError(error)
     }
   }
 

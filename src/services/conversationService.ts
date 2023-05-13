@@ -3,7 +3,7 @@ import { EventEmitter, Event, ExtensionContext } from 'vscode'
 import { GlobalStorageService } from '@app/utilities/vscode'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { MessageViewerPanel } from '@app/panels'
-import { handleError } from '@app/utilities/node'
+import { sendTelemetryError } from '@app/utilities/node'
 
 export default class ConversationService {
   private static _emitterDidChange = new EventEmitter<void>()
@@ -24,7 +24,7 @@ export default class ConversationService {
         conversations
       )
     } catch (error) {
-      handleError(error)
+      sendTelemetryError(error)
     }
   }
 

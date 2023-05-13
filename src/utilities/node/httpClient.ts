@@ -1,4 +1,3 @@
-import { logDebug } from '@app/utilities/vscode'
 import { ClientRequest } from 'http'
 import http = require('https')
 import { Uri } from 'vscode'
@@ -85,7 +84,7 @@ export class HttpRequest {
        * end the request to prevent ECONNRESETand socket hung errors
        */
       req.end(() => {
-        // logDebug(`HttpRequest: ${req.method}::${req.host}`)
+        // createDebugNotification(`HttpRequest: ${req.method}::${req.host}`)
       })
     })
 

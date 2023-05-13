@@ -10,7 +10,7 @@ import {
   CancellationToken,
   ColorTheme,
 } from 'vscode'
-import { getNonce, getUri, logDebug } from '@app/utilities/vscode'
+import { getNonce, getUri } from '@app/utilities/vscode'
 import { IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
 import { ConversationService } from '@app/services'

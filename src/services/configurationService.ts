@@ -3,12 +3,12 @@
  */
 import { extensions, workspace, version } from 'vscode'
 import * as crypto from 'crypto'
+import { SecretStorageService, getGitAccessToken } from '@app/utilities/vscode'
 import {
-  SecretStorageService,
-  getGitAccessToken,
-  logDebug,
-} from '@app/utilities/vscode'
-import { HttpRequest, createErrorNotification } from '@app/utilities/node'
+  HttpRequest,
+  createDebugNotification,
+  createErrorNotification,
+} from '@app/utilities/node'
 
 export default class ConfigurationService {
   private static _instance: ConfigurationService
@@ -77,7 +77,7 @@ export default class ConfigurationService {
     const configName = 'baseUrl'
     const setAsGlobal = ws.inspect(configName)?.workspaceValue == undefined
     ws.update(configName, value, setAsGlobal).then(() => {
-      logDebug(`setting base url ${value}`)
+      createDebugNotification(`setting base url ${value}`)
     })
   }
 
@@ -216,19 +216,19 @@ export default class ConfigurationService {
       // Only auth once
       if (this._vscodeopenaiAccessToken) return this._vscodeopenaiAccessToken
 
-      logDebug(`request github.com access_token`)
+      createDebugNotification(`request github.com access_token`)
       this._githubAccessToken = await getGitAccessToken()
       const request = new HttpRequest(
         'GET',
         `Bearer ${this._githubAccessToken}`,
         this.VSCODE_OPENAI_TOKEN_URL
       )
-      logDebug(`request vscode-openai access_token`)
+      createDebugNotification(`request vscode-openai access_token`)
       const resp = await request.send()
       this._vscodeopenaiAccessToken = resp.token as string
       return this._vscodeopenaiAccessToken
     }
-    logDebug(`retrieve api-key`)
+    createDebugNotification(`retrieve api-key`)
     return (await SecretStorageService.instance.getAuthApiKey()) as string
   }
 
@@ -239,19 +239,25 @@ export default class ConfigurationService {
       )?.packageJSON
       const instance = ConfigurationService._instance
 
-      logDebug(`vscode-configuration`)
-      logDebug(`- vscode-version: ${version}`)
-      logDebug(`- extension-version: ${extension.version}`)
-      logDebug(`openai-configuration`)
-      logDebug(`- serviceProvider: ${instance.serviceProvider}`)
-      logDebug(`- host: ${instance.host}`)
+      createDebugNotification(`vscode-configuration`)
+      createDebugNotification(`- vscode-version: ${version}`)
+      createDebugNotification(`- extension-version: ${extension.version}`)
+      createDebugNotification(`openai-configuration`)
+      createDebugNotification(`- serviceProvider: ${instance.serviceProvider}`)
+      createDebugNotification(`- host: ${instance.host}`)
       //Hide config for vscode-openai sponsored instance
       if (instance.host !== 'vscode-openai') {
-        logDebug(`- baseUrl: ${instance.baseUrl}`)
-        logDebug(`- defaultModel: ${instance.defaultModel}`)
-        logDebug(`- azureDeployment: ${instance.azureDeployment}`)
-        logDebug(`- azureApiVersion: ${instance.azureApiVersion}`)
-        logDebug(`- conversationHistory: ${instance.conversationHistory}`)
+        createDebugNotification(`- baseUrl: ${instance.baseUrl}`)
+        createDebugNotification(`- defaultModel: ${instance.defaultModel}`)
+        createDebugNotification(
+          `- azureDeployment: ${instance.azureDeployment}`
+        )
+        createDebugNotification(
+          `- azureApiVersion: ${instance.azureApiVersion}`
+        )
+        createDebugNotification(
+          `- conversationHistory: ${instance.conversationHistory}`
+        )
       }
     } catch (error) {
       createErrorNotification(error)

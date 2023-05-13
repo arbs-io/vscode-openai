@@ -8,20 +8,27 @@ import {
 } from 'vscode'
 import { VSCODE_OPENAI_REGISTER } from '@app/contexts/constants'
 import { ConfigurationService } from '@app/services'
+import { handleError } from '@app/utilities/node'
 
 export default class ExtensionStatusBarItem {
   private static _instance: ExtensionStatusBarItem
   constructor(private statusBarItem: StatusBarItem) {}
 
   static init(context: ExtensionContext) {
-    const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right)
-    statusBarItem.name = 'vscode-openai'
-    statusBarItem.command = VSCODE_OPENAI_REGISTER.SERVICE_COMMAND_ID
-    statusBarItem.backgroundColor = new ThemeColor(
-      'statusBarItem.errorBackground'
-    )
-    context.subscriptions.push(statusBarItem)
-    ExtensionStatusBarItem._instance = new ExtensionStatusBarItem(statusBarItem)
+    try {
+      const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right)
+      statusBarItem.name = 'vscode-openai'
+      statusBarItem.command = VSCODE_OPENAI_REGISTER.SERVICE_COMMAND_ID
+      statusBarItem.backgroundColor = new ThemeColor(
+        'statusBarItem.errorBackground'
+      )
+      context.subscriptions.push(statusBarItem)
+      ExtensionStatusBarItem._instance = new ExtensionStatusBarItem(
+        statusBarItem
+      )
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   static get instance(): ExtensionStatusBarItem {

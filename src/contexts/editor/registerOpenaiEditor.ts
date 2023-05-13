@@ -87,6 +87,10 @@ class CommandRegistry {
 
 // Register the commands using the registry
 export function registerOpenaiEditor(context: ExtensionContext) {
-  const registry = new CommandRegistry()
-  registry.registerCommands(context)
+  try {
+    const registry = new CommandRegistry()
+    registry.registerCommands(context)
+  } catch (error) {
+    handleError(error)
+  }
 }

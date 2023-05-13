@@ -1,4 +1,5 @@
-import { commands, ExtensionContext, SecretStorage } from 'vscode'
+import { ExtensionContext, SecretStorage } from 'vscode'
+import { handleError } from '@app/utilities/node'
 
 export default class SecretStorageService {
   private static _instance: SecretStorageService
@@ -6,7 +7,11 @@ export default class SecretStorageService {
   constructor(private secretStorage: SecretStorage) {}
 
   static init(context: ExtensionContext): void {
-    SecretStorageService._instance = new SecretStorageService(context.secrets)
+    try {
+      SecretStorageService._instance = new SecretStorageService(context.secrets)
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   static get instance(): SecretStorageService {

@@ -15,12 +15,16 @@ export function registerChangeConfiguration(context: ExtensionContext): void {
     ]
 
     workspace.onDidChangeConfiguration(async (event) => {
-      if (
-        eventAffectsConfigurations.some((config) =>
-          event.affectsConfiguration(config)
-        )
-      ) {
-        await managedApiKeyInstance.verify()
+      try {
+        if (
+          eventAffectsConfigurations.some((config) =>
+            event.affectsConfiguration(config)
+          )
+        ) {
+          await managedApiKeyInstance.verify()
+        }
+      } catch (error) {
+        createErrorNotification(error)
       }
     })
   } catch (error) {

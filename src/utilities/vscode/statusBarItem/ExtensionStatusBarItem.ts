@@ -8,7 +8,7 @@ import {
 } from 'vscode'
 import { VSCODE_OPENAI_REGISTER } from '@app/contexts/constants'
 import { ConfigurationService } from '@app/services'
-import { handleError } from '@app/utilities/node'
+import { createErrorNotification } from '@app/utilities/node'
 
 export default class ExtensionStatusBarItem {
   private static _instance: ExtensionStatusBarItem
@@ -27,7 +27,7 @@ export default class ExtensionStatusBarItem {
         statusBarItem
       )
     } catch (error) {
-      handleError(error)
+      createErrorNotification(error)
     }
   }
 

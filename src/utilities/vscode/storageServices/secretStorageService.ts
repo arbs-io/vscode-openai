@@ -1,5 +1,5 @@
 import { ExtensionContext, SecretStorage } from 'vscode'
-import { handleError } from '@app/utilities/node'
+import { createErrorNotification } from '@app/utilities/node'
 
 export default class SecretStorageService {
   private static _instance: SecretStorageService
@@ -10,7 +10,7 @@ export default class SecretStorageService {
     try {
       SecretStorageService._instance = new SecretStorageService(context.secrets)
     } catch (error) {
-      handleError(error)
+      createErrorNotification(error)
     }
   }
 

@@ -1,7 +1,10 @@
 import { commands } from 'vscode'
-import { ExtensionStatusBarItem, logWarning } from '@app/utilities/vscode'
+import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
-import { handleError } from '@app/utilities/node'
+import {
+  createErrorNotification,
+  createWarningNotification,
+} from '@app/utilities/node'
 
 interface IStatusBarItem {
   icon: string
@@ -26,21 +29,21 @@ export function errorHandler(error: any) {
       VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
       false
     )
-    handleError(error)
+    createErrorNotification(error)
     return
   }
 
   if (error.response !== undefined) {
     const statusBarItem = handleResponse(error)
     if (statusBarItem.isError) {
-      handleError(error)
+      createErrorNotification(error)
 
       ExtensionStatusBarItem.instance.showStatusBarError(
         statusBarItem.icon,
         statusBarItem.message
       )
     } else {
-      logWarning(statusBarItem.message.split('- ').join(''))
+      createWarningNotification(statusBarItem.message.split('- ').join(''))
       ExtensionStatusBarItem.instance.showStatusBarWarning(
         statusBarItem.icon,
         statusBarItem.message

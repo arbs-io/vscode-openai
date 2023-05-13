@@ -1,7 +1,7 @@
 import { commands, ExtensionContext } from 'vscode'
 import { VSCODE_OPENAI_REGISTER } from '@app/contexts'
 import { OpenaiQuickPickCommand } from './openaiQuickPickCommand'
-import { handleError } from '@app/utilities/node'
+import { createErrorNotification } from '@app/utilities/node'
 
 export function registerOpenaiServiceCommand(context: ExtensionContext) {
   try {
@@ -13,6 +13,6 @@ export function registerOpenaiServiceCommand(context: ExtensionContext) {
       )
     )
   } catch (error) {
-    handleError(error)
+    createErrorNotification(error)
   }
 }

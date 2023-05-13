@@ -4,8 +4,6 @@ import {
   ExtensionStatusBarItem,
   GlobalStorageService,
   TelemetryService,
-  logDebug,
-  logInfo,
   SecretStorageService,
 } from '@app/utilities/vscode'
 import {
@@ -18,7 +16,11 @@ import {
   VSCODE_OPENAI_EXTENSION,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
-import { handleError } from './utilities/node'
+import {
+  createDebugNotification,
+  createErrorNotification,
+  createInfoNotification,
+} from '@app/utilities/node'
 
 export function activate(context: ExtensionContext) {
   try {
@@ -28,26 +30,26 @@ export function activate(context: ExtensionContext) {
       VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
       false
     )
-    logInfo('activate vscode-openai')
 
     // Enable logging and telemetry
     TelemetryService.init(context)
+    createInfoNotification('activate vscode-openai')
 
     //register storage (Singletons)
-    logDebug('initialise storage services')
+    createDebugNotification('initialise storage services')
     SecretStorageService.init(context)
     GlobalStorageService.init(context)
 
     //load configuration
-    logDebug('initialise configuration service')
+    createDebugNotification('initialise configuration service')
     ConfigurationService.init()
     ConfigurationService.LogConfigurationService()
 
-    logDebug('initialise components')
+    createDebugNotification('initialise components')
     ExtensionStatusBarItem.init(context)
 
     //registerCommands
-    logDebug('register commands')
+    createDebugNotification('register commands')
     registerOpenaiEditor(context)
     registerOpenaiActivityBarProvider(context)
     registerChangeConfiguration(context)
@@ -55,14 +57,14 @@ export function activate(context: ExtensionContext) {
     registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
 
-    logDebug('starting conversation service')
+    createDebugNotification('starting conversation service')
     ConversationService.init(context)
 
-    logDebug('verifying authentication openai service')
+    createDebugNotification('verifying authentication openai service')
     validateApiKey() //On activation check if the api key is valid
 
-    logInfo('vscode-openai ready')
+    createInfoNotification('vscode-openai ready')
   } catch (error: unknown) {
-    handleError(error)
+    createErrorNotification(error)
   }
 }

@@ -1,6 +1,6 @@
 import { ExtensionContext, workspace } from 'vscode'
 import { ManagedApiKey } from './managedApiKey'
-import { handleError } from '@app/utilities/node'
+import { createErrorNotification } from '@app/utilities/node'
 
 export function registerChangeConfiguration(context: ExtensionContext): void {
   try {
@@ -15,15 +15,19 @@ export function registerChangeConfiguration(context: ExtensionContext): void {
     ]
 
     workspace.onDidChangeConfiguration(async (event) => {
-      if (
-        eventAffectsConfigurations.some((config) =>
-          event.affectsConfiguration(config)
-        )
-      ) {
-        await managedApiKeyInstance.verify()
+      try {
+        if (
+          eventAffectsConfigurations.some((config) =>
+            event.affectsConfiguration(config)
+          )
+        ) {
+          await managedApiKeyInstance.verify()
+        }
+      } catch (error) {
+        createErrorNotification(error)
       }
     })
   } catch (error) {
-    handleError(error)
+    createErrorNotification(error)
   }
 }

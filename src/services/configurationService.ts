@@ -8,7 +8,7 @@ import {
   getGitAccessToken,
   logDebug,
 } from '@app/utilities/vscode'
-import { HttpRequest, sendTelemetryError } from '@app/utilities/node'
+import { HttpRequest, createErrorNotification } from '@app/utilities/node'
 
 export default class ConfigurationService {
   private static _instance: ConfigurationService
@@ -34,7 +34,7 @@ export default class ConfigurationService {
     try {
       ConfigurationService._instance = new ConfigurationService()
     } catch (error) {
-      sendTelemetryError(error)
+      createErrorNotification(error)
     }
   }
 
@@ -254,7 +254,7 @@ export default class ConfigurationService {
         logDebug(`- conversationHistory: ${instance.conversationHistory}`)
       }
     } catch (error) {
-      sendTelemetryError(error)
+      createErrorNotification(error)
     }
   }
 }

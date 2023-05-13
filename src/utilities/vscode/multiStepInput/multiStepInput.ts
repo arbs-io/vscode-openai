@@ -7,7 +7,7 @@ import {
 } from 'vscode'
 import { IParametersQuickPick, IParametersInputBox } from './interfaces'
 import { InputFlowAction } from './InputFlowAction'
-import { sendTelemetryError } from '@app/utilities/node'
+import { createErrorNotification } from '@app/utilities/node'
 
 type InputStep = (input: MultiStepInput) => Thenable<InputStep | void>
 
@@ -39,7 +39,7 @@ export class MultiStepInput {
         } else if (error === InputFlowAction.cancel) {
           step = undefined
         } else {
-          sendTelemetryError(error)
+          createErrorNotification(error)
           return
         }
       }

@@ -1,6 +1,6 @@
 import { ExtensionContext, commands } from 'vscode'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
-import { sendTelemetryError } from '@app/utilities/node'
+import { createErrorNotification } from '@app/utilities/node'
 
 export function registerOpenSettings(context: ExtensionContext): void {
   try {
@@ -16,6 +16,6 @@ export function registerOpenSettings(context: ExtensionContext): void {
       )
     )
   } catch (error) {
-    sendTelemetryError(error)
+    createErrorNotification(error)
   }
 }

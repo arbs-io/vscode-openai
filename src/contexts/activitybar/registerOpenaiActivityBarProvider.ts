@@ -1,7 +1,7 @@
 import { ExtensionContext, window } from 'vscode'
 import { OpenaiActivityBarFacade } from './openaiActivityBarFacade'
 import { OpenaiActivityBarCommand } from './openaiActivityBarCommand'
-import { sendTelemetryError } from '@app/utilities/node'
+import { createErrorNotification } from '@app/utilities/node'
 
 // Description: This function registers the OpenaiActivityBarProvider with the given ExtensionContext.
 // Input: context - an object of type ExtensionContext that represents the extension context.
@@ -12,7 +12,7 @@ function registerOpenaiActivityBarProvider(context: ExtensionContext) {
     const command = new OpenaiActivityBarCommand(context, facade)
     command.execute()
   } catch (error) {
-    sendTelemetryError(error)
+    createErrorNotification(error)
   }
 }
 

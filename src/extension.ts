@@ -5,7 +5,6 @@ import {
   GlobalStorageService,
   TelemetryService,
   logDebug,
-  logInfo,
   SecretStorageService,
 } from '@app/utilities/vscode'
 import {
@@ -18,7 +17,10 @@ import {
   VSCODE_OPENAI_EXTENSION,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
-import { sendTelemetryError } from './utilities/node'
+import {
+  createErrorNotification,
+  createInfoNotification,
+} from '@app/utilities/node'
 
 export function activate(context: ExtensionContext) {
   try {
@@ -28,10 +30,10 @@ export function activate(context: ExtensionContext) {
       VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
       false
     )
-    logInfo('activate vscode-openai')
 
     // Enable logging and telemetry
     TelemetryService.init(context)
+    createInfoNotification('activate vscode-openai')
 
     //register storage (Singletons)
     logDebug('initialise storage services')
@@ -61,8 +63,8 @@ export function activate(context: ExtensionContext) {
     logDebug('verifying authentication openai service')
     validateApiKey() //On activation check if the api key is valid
 
-    logInfo('vscode-openai ready')
+    createInfoNotification('vscode-openai ready')
   } catch (error: unknown) {
-    sendTelemetryError(error)
+    createErrorNotification(error)
   }
 }

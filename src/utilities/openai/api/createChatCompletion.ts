@@ -4,10 +4,11 @@ import {
   Configuration,
   OpenAIApi,
 } from 'openai'
-import { ExtensionStatusBarItem, logInfo } from '@app/utilities/vscode'
+import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
+import { createInfoNotification } from '@app/utilities/node'
 
 export enum ResponseFormat {
   Markdown = '- vscode-openai response should be in markdown and always displays code as markdown in markdown fenced code block, with the language tag. For example "```xml", "```cpp" and "```go"',
@@ -93,7 +94,7 @@ export async function createChatCompletion(
     }
 
     sessionToken = sessionToken + message.totalTokens
-    logInfo(
+    createInfoNotification(
       `chatCompletions (prompt:${message.promptTokens} completion:${message.completionTokens} total:${message.totalTokens}) [session:${sessionToken}]`
     )
 

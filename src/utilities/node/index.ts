@@ -1,3 +1,8 @@
-export { sendTelemetryError } from './telemetryError'
+export {
+  createErrorNotification,
+  createWarningNotification,
+  createInfoNotification,
+  createDebugNotification,
+} from './notificationManager'
 export { waitFor } from './waitFor'
 export { HttpRequest } from './httpClient'

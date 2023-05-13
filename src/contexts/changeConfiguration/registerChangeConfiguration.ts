@@ -1,6 +1,6 @@
 import { ExtensionContext, workspace } from 'vscode'
 import { ManagedApiKey } from './managedApiKey'
-import { sendTelemetryError } from '@app/utilities/node'
+import { createErrorNotification } from '@app/utilities/node'
 
 export function registerChangeConfiguration(context: ExtensionContext): void {
   try {
@@ -24,6 +24,6 @@ export function registerChangeConfiguration(context: ExtensionContext): void {
       }
     })
   } catch (error) {
-    sendTelemetryError(error)
+    createErrorNotification(error)
   }
 }

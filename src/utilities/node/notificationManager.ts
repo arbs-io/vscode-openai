@@ -1,4 +1,10 @@
-import { TelemetryService, logError } from '../vscode'
+import {
+  TelemetryService,
+  logDebug,
+  logError,
+  logInfo,
+  logWarning,
+} from '../vscode'
 
 function ensureError(value: unknown): Error {
   if (value instanceof Error) return value
@@ -15,8 +21,21 @@ function ensureError(value: unknown): Error {
   return error
 }
 
-export function sendTelemetryError(value: unknown) {
+export function createErrorNotification(value: unknown) {
   const error = ensureError(value)
   logError(error)
   TelemetryService.instance.sendTelemetryErrorEvent(error)
+}
+
+export function createWarningNotification(value: string) {
+  logWarning(value)
+}
+
+export function createInfoNotification(value: string) {
+  logInfo(value)
+  TelemetryService.instance.sendTelemetryEvent(value)
+}
+
+export function createDebugNotification(value: string) {
+  logDebug(value)
 }

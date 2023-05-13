@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
-import { HttpRequest, sendTelemetryError } from '@app/utilities/node'
+import { HttpRequest, createErrorNotification } from '@app/utilities/node'
 
 export interface IDeploymentModel {
   deployment: string
@@ -49,7 +49,7 @@ export async function azureListDeployments(
       }
     })
     if (deployments.length === 0) {
-      sendTelemetryError(
+      createErrorNotification(
         'Azure DeploymentModels not found (requires: gpt-3.5 and above)'
       )
     }

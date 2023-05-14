@@ -15,7 +15,7 @@ const MessageInteraction: FC = () => {
     bottomAnchorRef.current?.scrollIntoView({ behavior: 'smooth' })
     if (chatHistory.length > 0) {
       vscode.postMessage({
-        command: 'rcvdViewSaveMessages',
+        command: 'onDidSaveMessages',
         text: JSON.stringify(chatHistory),
       })
     }
@@ -24,13 +24,13 @@ const MessageInteraction: FC = () => {
   window.addEventListener('message', (event) => {
     const message = event.data // The JSON data our extension sent
     switch (message.command) {
-      case 'rqstViewRenderMessages': {
+      case 'onWillRenderMessages': {
         const chatMessages: IChatCompletion[] = JSON.parse(message.text)
         setChatHistory(chatMessages)
         break
       }
 
-      case 'rqstViewAnswerMessage': {
+      case 'onWillAnswerMessage': {
         const chatMessage: IChatCompletion = JSON.parse(message.text)
         chatHistory.push(chatMessage)
         setForceRefresh(!forceRefresh)

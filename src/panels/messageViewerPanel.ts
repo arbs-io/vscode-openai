@@ -90,11 +90,6 @@ export class MessageViewerPanel {
       this._panel.webview,
       this._extensionUri
     )
-
-    MessageViewerPanel.currentPanel?._panel.webview.postMessage({
-      command: 'rqstViewRenderMessages',
-      text: JSON.stringify(this._conversation.chatMessages),
-    })
   }
 
   /**
@@ -181,28 +176,36 @@ export class MessageViewerPanel {
   /**
    *
    * Event Model:
-   *    | source		| target		| command									| model						|
-   *    |-----------|-----------|-------------------------|-----------------|
-   *    | extension	| webview		| rqstViewRenderMessages	| IConversation		|
-   *    | extension	| webview		| rqstViewAnswerMessage		| IChatCompletion		|
-   *    | webview		| extension	| rcvdViewSaveMessages		| IChatCompletion[]	|
-   *    | webview		| extension	| rqstViewCreateDocument	| string					|
+   *    | source		| target		| command									| model						  |
+   *    |-----------|-----------|-------------------------|-------------------|
+   *    | webview		| extension	| onDidInitialize					|									  |
+   *    | extension	| webview		| onWillRenderMessages		| IConversation			|
+   *    | extension	| webview		| onWillAnswerMessage			| IChatCompletion		|
+   *    | webview		| extension	| onDidSaveMessages				| IChatCompletion[]	|
+   *    | webview		| extension	| onDidCreateDocument			| string						|
    *
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
       (message) => {
         switch (message.command) {
-          case 'rcvdViewSaveMessages': {
+          case 'onDidInitialize': {
+            MessageViewerPanel.currentPanel?._panel.webview.postMessage({
+              command: 'onWillRenderMessages',
+              text: JSON.stringify(this._conversation!.chatMessages),
+            })
+            return
+          }
+          case 'onDidSaveMessages': {
             const chatMessages: IChatCompletion[] = JSON.parse(message.text)
-            this._rcvdViewSaveMessages(chatMessages)
+            this._onDidSaveMessages(chatMessages)
             // If the last item was from user
             if (chatMessages[chatMessages.length - 1].mine === true) {
               this._askQuestion()
             }
             return
           }
-          case 'rqstViewCreateDocument': {
+          case 'onDidCreateDocument': {
             const codeDocument: ICodeDocument = JSON.parse(message.text)
             workspace
               .openTextDocument({
@@ -229,7 +232,7 @@ export class MessageViewerPanel {
     )
   }
 
-  private _rcvdViewSaveMessages(chatMessages: IChatCompletion[]) {
+  private _onDidSaveMessages(chatMessages: IChatCompletion[]) {
     try {
       if (!this._conversation) return
 
@@ -275,7 +278,7 @@ export class MessageViewerPanel {
   private _askQuestion() {
     if (!this._conversation) return
 
-    //Note: rcvdViewSaveMessages has added the new question
+    //Note: onDidSaveMessages has added the new question
     createChatCompletion(this._conversation, ResponseFormat.Markdown).then(
       (result) => {
         if (!result) return
@@ -291,7 +294,7 @@ export class MessageViewerPanel {
           totalTokens: result.totalTokens,
         }
         MessageViewerPanel.currentPanel?._panel.webview.postMessage({
-          command: 'rqstViewAnswerMessage',
+          command: 'onWillAnswerMessage',
           text: JSON.stringify(chatCompletion),
         })
       }

@@ -87,11 +87,11 @@ export class PersonaWebviewProvider implements WebviewViewProvider {
   /**
    *
    * Event Model:
-   *    | source		| target		| command									| model							|
-   *    |-----------|-----------|-------------------------|-------------------|
-   *    | extension	| webview		| onWillPersonasLoad			| IPersonaOpenAI[]	|
-   *    | webview		| extension	| onDidInitialize					|										|
-   *    | webview		| extension	| onDidConversationCreate	| IPersonaOpenAI		|
+   *    | source		| target		| command									| model								|
+   *    |-----------|-----------|-------------------------|---------------------|
+   *    | webview		| extension	| onDidInitialize					|											|
+   *    | extension	| webview		| onWillPersonasLoad			| IPersonaOpenAI[]		|
+   *    | webview		| extension	| onDidConversationCreate	| IPersonaOpenAI			|
    *
    */
   private _onWillPersonasLoad() {

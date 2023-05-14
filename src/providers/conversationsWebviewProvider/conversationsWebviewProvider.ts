@@ -94,8 +94,8 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
    * Event Model:
    *    | source		| target		| command												| model						|
    *    |-----------|-----------|-------------------------------|-----------------|
-   *    | extension	| webview		| onWillConversationsLoad				| IConversation[]	|
    *    | webview		| extension	| onDidInitialize								|									|
+   *    | extension	| webview		| onWillConversationsLoad				| IConversation[]	|
    *    | webview		| extension	| onDidConversationDelete				| IConversation		|
    *    | webview		| extension	| onDidConversationOpen					| IConversation		|
    *

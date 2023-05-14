@@ -63,7 +63,7 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
       content: content,
     }
     vscode.postMessage({
-      command: 'rqstViewCreateDocument',
+      command: 'onDidCreateDocument',
       text: JSON.stringify(codeDocument),
     })
   }

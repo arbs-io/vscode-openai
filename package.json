@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -150,10 +150,10 @@
         },
         "vscode-openai.azureApiVersion": {
           "type": "string",
-          "default": "2023-03-15-preview",
+          "default": "2023-05-15",
           "markdownDescription": "The api version used by Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`. Note: limited to versions that support chat completion.",
           "enum": [
-            "2023-03-15-preview"
+            "2023-05-15"
           ],
           "enumDescriptions": [
             "The initial azure api that support chat completion."

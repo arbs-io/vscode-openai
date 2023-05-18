@@ -20,7 +20,7 @@ export async function azureListDeployments(
 
     const response = await openai.listModels({
       headers: { 'api-key': apiKey },
-      params: { 'api-version': '2023-03-15-preview' },
+      params: { 'api-version': '2023-05-15' },
     })
 
     const models = new Array<string>()

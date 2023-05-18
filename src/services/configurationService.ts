@@ -19,7 +19,7 @@ export default class ConfigurationService {
   private readonly VSCODE_OPENAI_BASEURL =
     'https://api.arbs.io/openai/inference/v1'
   private readonly VSCODE_OPENAI_DEPLOYMENTMODEL = 'gpt-35-turbo'
-  private readonly VSCODE_OPENAI_APIVERSION = '2023-03-15-preview'
+  private readonly VSCODE_OPENAI_APIVERSION = '2023-05-15'
   private readonly VSCODE_OPENAI_CONVERSATION_HISTORY = 4
   private readonly VSCODE_OPENAI_HOST = 'vscode-openai'
   private readonly VSCODE_OPENAI_INFERENCE_URL =

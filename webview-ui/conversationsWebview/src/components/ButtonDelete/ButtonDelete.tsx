@@ -9,11 +9,12 @@ import {
   DialogActions,
   Button,
   mergeClasses,
+  Tooltip,
 } from '@fluentui/react-components'
 import { Delete24Regular } from '@fluentui/react-icons'
 import { useStyles } from './useStyles'
 import { vscode } from '../../utilities/vscode'
-import { IConversation, IDeleteConfirmationProps } from '../../interfaces'
+import { IConversation, IConversationButtonProps } from '../../interfaces'
 
 const handleDeleteConversation = (conversation: IConversation) => {
   vscode.postMessage({
@@ -22,17 +23,19 @@ const handleDeleteConversation = (conversation: IConversation) => {
   })
 }
 
-const DeleteConfirmation: FC<IDeleteConfirmationProps> = ({ conversation }) => {
+const ButtonDelete: FC<IConversationButtonProps> = ({ conversation }) => {
   return (
     <Dialog modalType="alert">
       <DialogTrigger disableButtonEnhancement>
-        <Button
-          size="small"
-          shape="rounded"
-          className={mergeClasses(useStyles().horizontalPadding)}
-          appearance="transparent"
-          icon={<Delete24Regular />}
-        />
+        <Tooltip content="Permanently remove conversation" relationship="label">
+          <Button
+            size="small"
+            shape="rounded"
+            className={mergeClasses(useStyles().horizontalPadding)}
+            appearance="transparent"
+            icon={<Delete24Regular />}
+          />
+        </Tooltip>
       </DialogTrigger>
       <DialogSurface>
         <DialogBody>
@@ -60,4 +63,4 @@ const DeleteConfirmation: FC<IDeleteConfirmationProps> = ({ conversation }) => {
   )
 }
 
-export default DeleteConfirmation
+export default ButtonDelete

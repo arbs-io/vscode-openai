@@ -12,7 +12,8 @@ import { Open24Regular } from '@fluentui/react-icons'
 import { IConversation } from '../../interfaces'
 import { useStyles } from '../ConversationGrid/useStyles'
 import { vscode } from '../../utilities/vscode'
-import { DeleteConfirmation } from '../DeleteConfirmation'
+import { ButtonDelete } from '../ButtonDelete'
+import { ButtonOpen } from '../ButtonOpen'
 
 const handleOpenConversation = (conversation: IConversation) => {
   vscode.postMessage({
@@ -65,22 +66,8 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
               description={conversation.summary}
               style={{ paddingRight: '1rem' }}
             />
-            <Tooltip content="View conversation" relationship="label">
-              <Button
-                size="small"
-                shape="rounded"
-                className={mergeClasses(useStyles().horizontalPadding)}
-                appearance="transparent"
-                icon={<Open24Regular />}
-                onClick={() => handleOpenConversation(conversation)}
-              />
-            </Tooltip>
-            <Tooltip
-              content="Permanently remove conversation"
-              relationship="label"
-            >
-              <DeleteConfirmation conversation={conversation} />
-            </Tooltip>
+            <ButtonOpen conversation={conversation} />
+            <ButtonDelete conversation={conversation} />
           </TableCell>
         )
       },

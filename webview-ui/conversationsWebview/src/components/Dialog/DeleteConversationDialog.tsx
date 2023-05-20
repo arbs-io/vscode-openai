@@ -1,5 +1,7 @@
 import { FC } from 'react'
 import {
+  Button,
+  mergeClasses,
   Dialog,
   DialogTrigger,
   DialogSurface,
@@ -7,13 +9,10 @@ import {
   DialogContent,
   DialogBody,
   DialogActions,
-  Button,
-  mergeClasses,
 } from '@fluentui/react-components'
-import { Delete24Regular } from '@fluentui/react-icons'
 import { useStyles } from './useStyles'
+import { IConversation, IDialogProps } from '../../interfaces'
 import { vscode } from '../../utilities/vscode'
-import { IConversation, IDeleteConfirmationProps } from '../../interfaces'
 
 const handleDeleteConversation = (conversation: IConversation) => {
   vscode.postMessage({
@@ -22,18 +21,13 @@ const handleDeleteConversation = (conversation: IConversation) => {
   })
 }
 
-const DeleteConfirmation: FC<IDeleteConfirmationProps> = ({ conversation }) => {
+const DeleteConversationDialog: FC<IDialogProps> = ({
+  showDialog,
+  setShowDialog,
+  conversation,
+}) => {
   return (
-    <Dialog modalType="alert">
-      <DialogTrigger disableButtonEnhancement>
-        <Button
-          size="small"
-          shape="rounded"
-          className={mergeClasses(useStyles().horizontalPadding)}
-          appearance="transparent"
-          icon={<Delete24Regular />}
-        />
-      </DialogTrigger>
+    <Dialog modalType="alert" open={showDialog}>
       <DialogSurface>
         <DialogBody>
           <DialogTitle>Delete Conversation</DialogTitle>
@@ -43,7 +37,12 @@ const DeleteConfirmation: FC<IDeleteConfirmationProps> = ({ conversation }) => {
           </DialogContent>
           <DialogActions>
             <DialogTrigger disableButtonEnhancement>
-              <Button appearance="secondary">Cancel</Button>
+              <Button
+                appearance="secondary"
+                onClick={() => setShowDialog(false)}
+              >
+                Cancel
+              </Button>
             </DialogTrigger>
             <DialogTrigger disableButtonEnhancement>
               <Button
@@ -59,5 +58,4 @@ const DeleteConfirmation: FC<IDeleteConfirmationProps> = ({ conversation }) => {
     </Dialog>
   )
 }
-
-export default DeleteConfirmation
+export default DeleteConversationDialog

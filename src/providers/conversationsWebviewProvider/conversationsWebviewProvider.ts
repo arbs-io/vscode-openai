@@ -9,6 +9,8 @@ import {
   WebviewViewResolveContext,
   CancellationToken,
   ColorTheme,
+  workspace,
+  ViewColumn,
 } from 'vscode'
 import { IConversation } from '@app/interfaces'
 import { getNonce, getUri } from '@app/utilities/vscode'
@@ -96,9 +98,9 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
    *    |-----------|-----------|-------------------------------|-----------------|
    *    | webview		| extension	| onDidInitialize								|									|
    *    | extension	| webview		| onWillConversationsLoad				| IConversation[]	|
-   *    | webview		| extension	| onDidConversationDelete				| IConversation		|
    *    | webview		| extension	| onDidConversationOpen					| IConversation		|
-   *
+   *    | webview		| extension	| onDidConversationDownload			| IConversation		|
+   *    | webview		| extension	| onDidConversationDelete				| IConversation		|
    *
    */
   private _onWillConversationsLoad() {
@@ -113,20 +115,25 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
         case 'onDidInitialize': {
-          this._onWillConversationsLoad()
+          this._onDidInitialize()
           return
         }
+
         case 'onDidConversationOpen': {
-          const onDidConversationOpen: IConversation = JSON.parse(message.text)
-          ConversationService.instance.show(
-            onDidConversationOpen.conversationId
-          )
+          const conversation: IConversation = JSON.parse(message.text)
+          this._onDidConversationOpen(conversation)
+          return
+        }
+
+        case 'onDidConversationDownload': {
+          const conversation: IConversation = JSON.parse(message.text)
+          this._onDidConversationDownload(conversation)
           return
         }
 
         case 'onDidConversationDelete': {
-          const deleteConversation: IConversation = JSON.parse(message.text)
-          ConversationService.instance.delete(deleteConversation.conversationId)
+          const conversation: IConversation = JSON.parse(message.text)
+          this._onDidConversationDelete(conversation)
           return
         }
 
@@ -135,5 +142,32 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
           return
       }
     }, null)
+  }
+
+  private _onDidInitialize() {
+    this._onWillConversationsLoad()
+  }
+
+  private _onDidConversationOpen(conversation: IConversation) {
+    ConversationService.instance.show(conversation.conversationId)
+  }
+
+  private _onDidConversationDownload(conversation: IConversation) {
+    workspace
+      .openTextDocument({
+        content: JSON.stringify(conversation.chatMessages, undefined, 4),
+        language: 'json',
+      })
+      .then((doc) =>
+        window.showTextDocument(doc, {
+          preserveFocus: true,
+          preview: false,
+          viewColumn: ViewColumn.One,
+        })
+      )
+  }
+
+  private _onDidConversationDelete(conversation: IConversation) {
+    ConversationService.instance.delete(conversation.conversationId)
   }
 }

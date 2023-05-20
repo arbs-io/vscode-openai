@@ -9,14 +9,11 @@ import {
   ColorTheme,
   EventEmitter,
   Event,
-  workspace,
-  env,
 } from 'vscode'
-import { getUri, getNonce, showMessageWithTimeout } from '@app/utilities/vscode'
+import { getUri, getNonce } from '@app/utilities/vscode'
 import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
 import { ResponseFormat, createChatCompletion } from '@app/utilities/openai'
-import { ConversationService } from '@app/services'
-import { onDidCreateClipboard } from '.'
+import { onDidCreateClipboard, onDidCreateDocument, onDidSaveMessages } from '.'
 
 export class MessageViewerPanel {
   public static currentPanel: MessageViewerPanel | undefined
@@ -202,7 +199,9 @@ export class MessageViewerPanel {
 
           case 'onDidSaveMessages': {
             const chatMessages: IChatCompletion[] = JSON.parse(message.text)
-            this._onDidSaveMessages(chatMessages)
+
+            if (!this._conversation) return
+            onDidSaveMessages(this._conversation, chatMessages)
             // If the last item was from user
             if (chatMessages[chatMessages.length - 1].mine === true) {
               this._askQuestion()
@@ -212,7 +211,7 @@ export class MessageViewerPanel {
 
           case 'onDidCreateDocument': {
             const codeDocument: ICodeDocument = JSON.parse(message.text)
-            this._onDidCreateDocument(codeDocument)
+            onDidCreateDocument(codeDocument)
             return
           }
 
@@ -231,72 +230,6 @@ export class MessageViewerPanel {
       null,
       this._disposables
     )
-  }
-
-  private _onDidCreateClipboard(codeDocument: ICodeDocument) {
-    env.clipboard.writeText(codeDocument.content)
-    showMessageWithTimeout(
-      `Successfully copied ${codeDocument.language} code to clipboard`,
-      2000
-    )
-  }
-
-  private _onDidCreateDocument(codeDocument: ICodeDocument) {
-    workspace
-      .openTextDocument({
-        content: codeDocument.content,
-        language: codeDocument.language,
-      })
-      .then((doc) =>
-        window.showTextDocument(doc, {
-          preserveFocus: true,
-          preview: false,
-          viewColumn: ViewColumn.Beside,
-        })
-      )
-  }
-
-  private _onDidSaveMessages(chatMessages: IChatCompletion[]) {
-    try {
-      if (!this._conversation) return
-
-      this._conversation.chatMessages = chatMessages
-      ConversationService.instance.update(this._conversation)
-
-      this._addSummary()
-    } catch (error) {
-      window.showErrorMessage(error as string)
-    }
-  }
-
-  private _addSummary() {
-    if (!this._conversation) return
-
-    //Add summary to conversation
-    if (
-      this._conversation.chatMessages.length > 5 &&
-      this._conversation.summary === '<New Conversation>'
-    ) {
-      //Deep clone for summary
-      const summary = JSON.parse(
-        JSON.stringify(this._conversation)
-      ) as IConversation
-      const chatCompletion: IChatCompletion = {
-        content:
-          'Summarise the conversation in one sentence. Be as concise as possible and only provide the facts. Start the sentence with the key points. Using no more than 150 characters',
-        author: 'summary',
-        timestamp: new Date().toLocaleString(),
-        mine: false,
-        completionTokens: 0,
-        promptTokens: 0,
-        totalTokens: 0,
-      }
-      summary.chatMessages.push(chatCompletion)
-      createChatCompletion(summary, ResponseFormat.Markdown).then((result) => {
-        if (!this._conversation) return
-        if (result?.content) this._conversation.summary = result?.content
-      })
-    }
   }
 
   private _askQuestion() {

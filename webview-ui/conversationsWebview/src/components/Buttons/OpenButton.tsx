@@ -12,7 +12,7 @@ const handleOpenConversation = (conversation: IConversation) => {
   })
 }
 
-const ButtonOpen: FC<IConversationButtonProps> = ({ conversation }) => {
+const OpenButton: FC<IConversationButtonProps> = ({ conversation }) => {
   return (
     <Tooltip content="View conversation" relationship="label">
       <Button
@@ -27,4 +27,4 @@ const ButtonOpen: FC<IConversationButtonProps> = ({ conversation }) => {
   )
 }
 
-export default ButtonOpen
+export default OpenButton

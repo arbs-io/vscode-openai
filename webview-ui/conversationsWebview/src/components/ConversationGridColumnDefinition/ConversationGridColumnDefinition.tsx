@@ -3,24 +3,10 @@ import {
   TableColumnDefinition,
   createTableColumn,
   TableCell,
-  Button,
-  Tooltip,
-  mergeClasses,
   Avatar,
 } from '@fluentui/react-components'
-import { Open24Regular } from '@fluentui/react-icons'
 import { IConversation } from '../../interfaces'
-import { useStyles } from '../ConversationGrid/useStyles'
-import { vscode } from '../../utilities/vscode'
-import { ButtonDelete } from '../ButtonDelete'
-import { ButtonOpen } from '../ButtonOpen'
-
-const handleOpenConversation = (conversation: IConversation) => {
-  vscode.postMessage({
-    command: 'onDidConversationOpen',
-    text: JSON.stringify(conversation),
-  })
-}
+import { DeleteButton, OpenButton, DownloadButton } from '../Buttons'
 
 const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
   [
@@ -66,8 +52,9 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
               description={conversation.summary}
               style={{ paddingRight: '1rem' }}
             />
-            <ButtonOpen conversation={conversation} />
-            <ButtonDelete conversation={conversation} />
+            <OpenButton conversation={conversation} />
+            <DownloadButton conversation={conversation} />
+            <DeleteButton conversation={conversation} />
           </TableCell>
         )
       },

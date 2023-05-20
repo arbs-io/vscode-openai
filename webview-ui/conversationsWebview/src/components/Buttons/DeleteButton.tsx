@@ -23,7 +23,7 @@ const handleDeleteConversation = (conversation: IConversation) => {
   })
 }
 
-const ButtonDelete: FC<IConversationButtonProps> = ({ conversation }) => {
+const DeleteButton: FC<IConversationButtonProps> = ({ conversation }) => {
   return (
     <Dialog modalType="alert">
       <DialogTrigger disableButtonEnhancement>
@@ -63,4 +63,4 @@ const ButtonDelete: FC<IConversationButtonProps> = ({ conversation }) => {
   )
 }
 
-export default ButtonDelete
+export default DeleteButton

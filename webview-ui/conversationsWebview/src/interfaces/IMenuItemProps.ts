@@ -1,6 +1,6 @@
 import { IConversation } from '.'
 
-export interface IConversationButtonProps {
+export interface IMenuItemProps {
   conversation: IConversation
   onClick?: React.MouseEventHandler<HTMLDivElement> | undefined
 }

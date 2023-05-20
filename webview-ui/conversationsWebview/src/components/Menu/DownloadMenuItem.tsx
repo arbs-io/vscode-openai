@@ -6,7 +6,7 @@ import {
   ArrowDownload24Regular,
 } from '@fluentui/react-icons'
 import { vscode } from '../../utilities/vscode'
-import { IConversation, IConversationButtonProps } from '../../interfaces'
+import { IConversation, IMenuItemProps } from '../../interfaces'
 
 const handleDownloadConversation = (conversation: IConversation) => {
   vscode.postMessage({
@@ -20,7 +20,7 @@ const ArrowDownloadIcon = bundleIcon(
   ArrowDownload24Regular
 )
 
-const DownloadMenuItem: FC<IConversationButtonProps> = ({ conversation }) => {
+const DownloadMenuItem: FC<IMenuItemProps> = ({ conversation }) => {
   return (
     <MenuItem
       icon={<ArrowDownloadIcon />}

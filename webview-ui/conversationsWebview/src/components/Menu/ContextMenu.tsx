@@ -16,9 +16,10 @@ import {
 } from '@fluentui/react-components'
 import { MoreHorizontal24Regular } from '@fluentui/react-icons'
 import { useStyles } from './useStyles'
-import { IConversation, IConversationButtonProps } from '../../interfaces'
+import { IConversation, IMenuItemProps } from '../../interfaces'
 import { DownloadMenuItem, OpenMenuItem, DeleteMenuItem } from '.'
 import { vscode } from '../../utilities/vscode'
+import { DeleteConversationDialog } from '../Dialog'
 
 const handleDeleteConversation = (conversation: IConversation) => {
   vscode.postMessage({
@@ -27,7 +28,7 @@ const handleDeleteConversation = (conversation: IConversation) => {
   })
 }
 
-const ContextMenu: FC<IConversationButtonProps> = ({ conversation }) => {
+const ContextMenu: FC<IMenuItemProps> = ({ conversation }) => {
   const [showDelete, setShowDelete] = useState(false)
   return (
     <>
@@ -52,34 +53,11 @@ const ContextMenu: FC<IConversationButtonProps> = ({ conversation }) => {
           </MenuList>
         </MenuPopover>
       </Menu>
-      <Dialog
-        modalType="alert"
-        open={showDelete}
-        onOpenChange={(event, data) => setShowDelete(data.open)}
-      >
-        <DialogSurface>
-          <DialogBody>
-            <DialogTitle>Delete Conversation</DialogTitle>
-            <DialogContent>
-              Are you sure you want to delete this conversation? Please note
-              that this action cannot be undone.
-            </DialogContent>
-            <DialogActions>
-              <DialogTrigger disableButtonEnhancement>
-                <Button appearance="secondary">Cancel</Button>
-              </DialogTrigger>
-              <DialogTrigger disableButtonEnhancement>
-                <Button
-                  className={mergeClasses(useStyles().dangerButton)}
-                  onClick={() => handleDeleteConversation(conversation)}
-                >
-                  Delete
-                </Button>
-              </DialogTrigger>
-            </DialogActions>
-          </DialogBody>
-        </DialogSurface>
-      </Dialog>
+      <DeleteConversationDialog
+        showDialog={showDelete}
+        setShowDialog={setShowDelete}
+        conversation={conversation}
+      />
     </>
   )
 }

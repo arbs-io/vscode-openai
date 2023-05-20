@@ -5,11 +5,11 @@ import {
   Delete24Filled,
   Delete24Regular,
 } from '@fluentui/react-icons'
-import { IConversationButtonProps } from '../../interfaces'
+import { IMenuItemProps } from '../../interfaces'
 
 const DeleteIcon = bundleIcon(Delete24Filled, Delete24Regular)
 
-const DeleteMenuItem: FC<IConversationButtonProps> = ({ onClick }) => {
+const DeleteMenuItem: FC<IMenuItemProps> = ({ onClick }) => {
   return (
     <MenuItem icon={<DeleteIcon />} onClick={onClick}>
       Delete

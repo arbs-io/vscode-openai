@@ -6,7 +6,7 @@ import {
   Avatar,
 } from '@fluentui/react-components'
 import { IConversation } from '../../interfaces'
-import { ContextMenuButton } from '../Buttons'
+import { ContextMenu } from '../Menu'
 
 const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
   [
@@ -52,7 +52,7 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
               description={conversation.summary}
               style={{ paddingRight: '1rem' }}
             />
-            <ContextMenuButton conversation={conversation} />
+            <ContextMenu conversation={conversation} />
           </TableCell>
         )
       },

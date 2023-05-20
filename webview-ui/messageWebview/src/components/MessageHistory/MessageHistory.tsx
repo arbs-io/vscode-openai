@@ -1,4 +1,5 @@
 import {
+  Button,
   makeStyles,
   tokens,
   Toolbar,
@@ -10,10 +11,16 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
-import { Clipboard24Regular, Open24Regular } from '@fluentui/react-icons'
+import {
+  Clipboard24Regular,
+  Open24Regular,
+  CalendarMonthRegular,
+} from '@fluentui/react-icons'
 import { vscode } from '../../utilities/vscode'
 import { TokenInfo } from '../TokenInfo'
 import { IMessageHistoryProps, ICodeDocument } from '../../interfaces'
+import { CopyToClipboardButton } from '../Buttons'
+import OpenSourceFileButton from '../Buttons/OpenSourceFileButton'
 
 const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   if (!message) {
@@ -49,24 +56,10 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
 
   const useStyles = makeStyles({
     toolbar: {
-      justifyContent: 'right',
+      display: 'flex',
+      justifyContent: 'flex-end',
     },
   })
-
-  const handleCopyToClipboard = (code: string) => {
-    navigator.clipboard.writeText(code)
-  }
-
-  const handleCreateCodeDocument = (language: string, content: string) => {
-    const codeDocument: ICodeDocument = {
-      language: language,
-      content: content,
-    }
-    vscode.postMessage({
-      command: 'onDidCreateDocument',
-      text: JSON.stringify(codeDocument),
-    })
-  }
 
   return (
     <div style={styleMessageHistory}>
@@ -89,50 +82,16 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
             const match = /language-(\w+)/.exec(className || '')
             return !inline && match ? (
               <div style={styleCode}>
-                <Toolbar
-                  aria-label="Small"
-                  size="small"
-                  {...props}
-                  className={useStyles().toolbar}
-                >
-                  <Tooltip
-                    withArrow
-                    content="Copy to clipboard"
-                    relationship="label"
-                  >
-                    <ToolbarButton
-                      aria-label="Copy to clipboard"
-                      appearance="subtle"
-                      icon={<Clipboard24Regular />}
-                      onClick={() =>
-                        handleCopyToClipboard(
-                          String(children).replace(/\n$/, '')
-                        )
-                      }
-                    >
-                      Copy
-                    </ToolbarButton>
-                  </Tooltip>
-                  <Tooltip
-                    withArrow
-                    content="Create source code file"
-                    relationship="label"
-                  >
-                    <ToolbarButton
-                      aria-label="Open in virtual document"
-                      appearance="subtle"
-                      icon={<Open24Regular />}
-                      onClick={() =>
-                        handleCreateCodeDocument(
-                          match[1],
-                          String(children).replace(/\n$/, '')
-                        )
-                      }
-                    >
-                      New
-                    </ToolbarButton>
-                  </Tooltip>
-                </Toolbar>
+                <div className={useStyles().toolbar}>
+                  <CopyToClipboardButton
+                    language={match[1]}
+                    content={String(children).replace(/\n$/, '')}
+                  />
+                  <OpenSourceFileButton
+                    language={match[1]}
+                    content={String(children).replace(/\n$/, '')}
+                  />
+                </div>
                 <SyntaxHighlighter
                   children={String(children).replace(/\n$/, '')}
                   language={match[1]}

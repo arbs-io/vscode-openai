@@ -9,7 +9,7 @@ import { IMenuItemProps } from '../../interfaces'
 
 const DeleteIcon = bundleIcon(Delete24Filled, Delete24Regular)
 
-const DeleteMenuItem: FC<IMenuItemProps> = ({ onClick }) => {
+const MenuItemDelete: FC<IMenuItemProps> = ({ onClick }) => {
   return (
     <MenuItem icon={<DeleteIcon />} onClick={onClick}>
       Delete
@@ -17,4 +17,4 @@ const DeleteMenuItem: FC<IMenuItemProps> = ({ onClick }) => {
   )
 }
 
-export default DeleteMenuItem
+export default MenuItemDelete

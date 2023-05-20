@@ -1,4 +1,5 @@
 export { onDidInitialize } from './onDidInitialize'
-export { onDidConversationOpen } from './onDidConversationOpen'
-export { onDidConversationDownload } from './onDidConversationDownload'
+export { onDidOpenConversation } from './onDidOpenConversation'
+export { onDidOpenJson } from './onDidOpenJson'
+export { onDidOpenMarkdown } from './onDidOpenMarkdown'
 export { onDidConversationDelete } from './onDidConversationDelete'

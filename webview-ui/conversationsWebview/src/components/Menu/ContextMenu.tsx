@@ -6,27 +6,17 @@ import {
   MenuList,
   MenuPopover,
   mergeClasses,
-  Dialog,
-  DialogTrigger,
-  DialogSurface,
-  DialogTitle,
-  DialogContent,
-  DialogBody,
-  DialogActions,
 } from '@fluentui/react-components'
 import { MoreHorizontal24Regular } from '@fluentui/react-icons'
 import { useStyles } from './useStyles'
 import { IConversation, IMenuItemProps } from '../../interfaces'
-import { DownloadMenuItem, OpenMenuItem, DeleteMenuItem } from '.'
-import { vscode } from '../../utilities/vscode'
+import {
+  MenuItemOpenConversation,
+  MenuItemOpenMarkdown,
+  MenuItemOpenJson,
+  MenuItemDelete,
+} from '.'
 import { DeleteConversationDialog } from '../Dialog'
-
-const handleDeleteConversation = (conversation: IConversation) => {
-  vscode.postMessage({
-    command: 'onDidConversationDelete',
-    text: JSON.stringify(conversation),
-  })
-}
 
 const ContextMenu: FC<IMenuItemProps> = ({ conversation }) => {
   const [showDelete, setShowDelete] = useState(false)
@@ -44,9 +34,10 @@ const ContextMenu: FC<IMenuItemProps> = ({ conversation }) => {
         </MenuTrigger>
         <MenuPopover>
           <MenuList>
-            <OpenMenuItem conversation={conversation} />
-            <DownloadMenuItem conversation={conversation} />
-            <DeleteMenuItem
+            <MenuItemOpenConversation conversation={conversation} />
+            <MenuItemOpenMarkdown conversation={conversation} />
+            <MenuItemOpenJson conversation={conversation} />
+            <MenuItemDelete
               onClick={() => setShowDelete(true)}
               conversation={conversation}
             />

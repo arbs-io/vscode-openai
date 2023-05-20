@@ -14,10 +14,11 @@ import { IConversation } from '@app/interfaces'
 import { getNonce, getUri } from '@app/utilities/vscode'
 import { ConversationService } from '@app/services'
 import {
-  onDidConversationOpen,
-  onDidConversationDownload,
-  onDidConversationDelete,
   onDidInitialize,
+  onDidOpenConversation,
+  onDidOpenJson,
+  onDidOpenMarkdown,
+  onDidConversationDelete,
 } from './onDidFunctions'
 
 export class ConversationsWebviewProvider implements WebviewViewProvider {
@@ -98,13 +99,14 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
   /**
    *
    * Event Model:
-   *    | source		| target		| command												| model						|
-   *    |-----------|-----------|-------------------------------|-----------------|
-   *    | webview		| extension	| onDidInitialize								|									|
-   *    | extension	| webview		| onWillConversationsLoad				| IConversation[]	|
-   *    | webview		| extension	| onDidConversationOpen					| IConversation		|
-   *    | webview		| extension	| onDidConversationDownload			| IConversation		|
-   *    | webview		| extension	| onDidConversationDelete				| IConversation		|
+   *    | source		| target		| command															| model						|
+   *    |-----------|-----------|-------------------------------------|-----------------|
+   *    | webview		| extension	| onDidInitialize											|									|
+   *    | extension	| webview		| onWillConversationsLoad							| IConversation[]	|
+   *    | webview		| extension	| onDidOpenConversation								| IConversation		|
+   *    | webview		| extension	| onDidOpenJson												| IConversation		|
+   *    | webview		| extension	| onDidOpenMarkdown										| IConversation		|
+   *    | webview		| extension	| onDidConversationDelete							| IConversation		|
    *
    */
 
@@ -116,15 +118,21 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
           return
         }
 
-        case 'onDidConversationOpen': {
+        case 'onDidOpenConversation': {
           const conversation: IConversation = JSON.parse(message.text)
-          onDidConversationOpen(conversation)
+          onDidOpenConversation(conversation)
           return
         }
 
-        case 'onDidConversationDownload': {
+        case 'onDidOpenJson': {
           const conversation: IConversation = JSON.parse(message.text)
-          onDidConversationDownload(conversation)
+          onDidOpenJson(conversation)
+          return
+        }
+
+        case 'onDidOpenMarkdown': {
+          const conversation: IConversation = JSON.parse(message.text)
+          onDidOpenMarkdown(conversation)
           return
         }
 

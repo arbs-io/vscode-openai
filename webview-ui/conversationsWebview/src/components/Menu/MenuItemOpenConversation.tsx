@@ -6,22 +6,22 @@ import { IConversation, IMenuItemProps } from '../../interfaces'
 
 const handleOpenConversation = (conversation: IConversation) => {
   vscode.postMessage({
-    command: 'onDidConversationOpen',
+    command: 'onDidOpenConversation',
     text: JSON.stringify(conversation),
   })
 }
 
 const OpenIcon = bundleIcon(Open24Filled, Open24Regular)
 
-const OpenMenuItem: FC<IMenuItemProps> = ({ conversation }) => {
+const MenuItemOpenConversation: FC<IMenuItemProps> = ({ conversation }) => {
   return (
     <MenuItem
       icon={<OpenIcon />}
       onClick={() => handleOpenConversation(conversation)}
     >
-      Open
+      Open Conversation
     </MenuItem>
   )
 }
 
-export default OpenMenuItem
+export default MenuItemOpenConversation

@@ -11,9 +11,8 @@ import {
   ColorTheme,
 } from 'vscode'
 import { getNonce, getUri } from '@app/utilities/vscode'
-import { IConversation, IPersonaOpenAI } from '@app/interfaces'
-import { getSystemPersonas } from '@app/models'
-import { ConversationService } from '@app/services'
+import { IPersonaOpenAI } from '@app/interfaces'
+import { onDidConversationCreate, onDidInitialize } from './onDidFunctions'
 
 export class PersonaWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -94,32 +93,24 @@ export class PersonaWebviewProvider implements WebviewViewProvider {
    *    | webview		| extension	| onDidConversationCreate	| IPersonaOpenAI			|
    *
    */
-  private _onWillPersonasLoad() {
-    this._view?.webview.postMessage({
-      command: 'onWillPersonasLoad',
-      text: JSON.stringify(getSystemPersonas()),
-    })
-  }
 
   private _onDidMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
         case 'onDidInitialize': {
-          this._onWillPersonasLoad()
+          onDidInitialize(this._view!)
           return
         }
         case 'onDidConversationCreate': {
           const persona: IPersonaOpenAI = JSON.parse(message.text)
-          const conversation: IConversation =
-            ConversationService.instance.create(persona)
-          ConversationService.instance.update(conversation)
-          ConversationService.instance.show(conversation.conversationId)
+          onDidConversationCreate(persona)
           return
         }
 
-        default:
+        default: {
           window.showErrorMessage(message.command)
           return
+        }
       }
     }, null)
   }

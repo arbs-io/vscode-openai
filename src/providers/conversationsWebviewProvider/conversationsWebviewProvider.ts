@@ -15,9 +15,9 @@ import { getNonce, getUri } from '@app/utilities/vscode'
 import { ConversationService } from '@app/services'
 import {
   onDidInitialize,
-  onDidOpenConversation,
-  onDidOpenJson,
-  onDidOpenMarkdown,
+  onDidOpenConversationWebview,
+  onDidOpenConversationJson,
+  onDidOpenConversationMarkdown,
   onDidConversationDelete,
 } from './onDidFunctions'
 
@@ -103,9 +103,9 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
    *    |-----------|-----------|-------------------------------------|-----------------|
    *    | webview		| extension	| onDidInitialize											|									|
    *    | extension	| webview		| onWillConversationsLoad							| IConversation[]	|
-   *    | webview		| extension	| onDidOpenConversation								| IConversation		|
-   *    | webview		| extension	| onDidOpenJson												| IConversation		|
-   *    | webview		| extension	| onDidOpenMarkdown										| IConversation		|
+   *    | webview		| extension	| onDidOpenConversationWebview				| IConversation		|
+   *    | webview		| extension	| onDidOpenConversationJson						| IConversation		|
+   *    | webview		| extension	| onDidOpenConversationMarkdown				| IConversation		|
    *    | webview		| extension	| onDidConversationDelete							| IConversation		|
    *
    */
@@ -118,21 +118,21 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
           return
         }
 
-        case 'onDidOpenConversation': {
+        case 'onDidOpenConversationWebview': {
           const conversation: IConversation = JSON.parse(message.text)
-          onDidOpenConversation(conversation)
+          onDidOpenConversationWebview(conversation)
           return
         }
 
-        case 'onDidOpenJson': {
+        case 'onDidOpenConversationJson': {
           const conversation: IConversation = JSON.parse(message.text)
-          onDidOpenJson(conversation)
+          onDidOpenConversationJson(conversation)
           return
         }
 
-        case 'onDidOpenMarkdown': {
+        case 'onDidOpenConversationMarkdown': {
           const conversation: IConversation = JSON.parse(message.text)
-          onDidOpenMarkdown(conversation)
+          onDidOpenConversationMarkdown(conversation)
           return
         }
 

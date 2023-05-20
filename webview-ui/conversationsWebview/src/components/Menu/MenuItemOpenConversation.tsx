@@ -6,7 +6,7 @@ import { IConversation, IMenuItemProps } from '../../interfaces'
 
 const handleOpenConversation = (conversation: IConversation) => {
   vscode.postMessage({
-    command: 'onDidOpenConversation',
+    command: 'onDidOpenConversationWebview',
     text: JSON.stringify(conversation),
   })
 }

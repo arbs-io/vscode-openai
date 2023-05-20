@@ -1,7 +1,9 @@
 import { IConversation } from '@app/interfaces'
 import { ViewColumn, window, workspace } from 'vscode'
 
-export const onDidOpenJson = (conversation: IConversation): void => {
+export const onDidOpenConversationJson = (
+  conversation: IConversation
+): void => {
   workspace
     .openTextDocument({
       content: JSON.stringify(conversation.chatMessages, undefined, 4),

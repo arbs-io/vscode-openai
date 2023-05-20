@@ -1,7 +1,9 @@
 import { IConversation } from '@app/interfaces'
 import { ViewColumn, window, workspace } from 'vscode'
 
-export const onDidOpenMarkdown = (conversation: IConversation): void => {
+export const onDidOpenConversationMarkdown = (
+  conversation: IConversation
+): void => {
   let content = `# ${conversation.persona.roleName}\n`
 
   content = content + `## Summary\n`

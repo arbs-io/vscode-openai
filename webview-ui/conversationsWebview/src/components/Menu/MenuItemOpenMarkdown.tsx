@@ -8,9 +8,9 @@ import {
 import { vscode } from '../../utilities/vscode'
 import { IConversation, IMenuItemProps } from '../../interfaces'
 
-const handleDownloadConversation = (conversation: IConversation) => {
+const handleOpenConversation = (conversation: IConversation) => {
   vscode.postMessage({
-    command: 'onDidOpenMarkdown',
+    command: 'onDidOpenConversationMarkdown',
     text: JSON.stringify(conversation),
   })
 }
@@ -24,7 +24,7 @@ const MenuItemOpenMarkdown: FC<IMenuItemProps> = ({ conversation }) => {
   return (
     <MenuItem
       icon={<ClipboardTextIcon />}
-      onClick={() => handleDownloadConversation(conversation)}
+      onClick={() => handleOpenConversation(conversation)}
     >
       Open Markdown
     </MenuItem>

@@ -13,7 +13,11 @@ import {
 import { getUri, getNonce } from '@app/utilities/vscode'
 import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
 import { ResponseFormat, createChatCompletion } from '@app/utilities/openai'
-import { onDidCreateClipboard, onDidCreateDocument, onDidSaveMessages } from '.'
+import {
+  onDidCreateClipboard,
+  onDidCreateDocument,
+  onDidSaveMessages,
+} from './onDidFunctions'
 
 export class MessageViewerPanel {
   public static currentPanel: MessageViewerPanel | undefined

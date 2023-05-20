@@ -9,12 +9,16 @@ import {
   WebviewViewResolveContext,
   CancellationToken,
   ColorTheme,
-  workspace,
-  ViewColumn,
 } from 'vscode'
 import { IConversation } from '@app/interfaces'
 import { getNonce, getUri } from '@app/utilities/vscode'
 import { ConversationService } from '@app/services'
+import {
+  onDidConversationOpen,
+  onDidConversationDownload,
+  onDidConversationDelete,
+  onDidInitialize,
+} from './onDidFunctions'
 
 export class ConversationsWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -27,7 +31,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
 
     ConversationService.onDidChange((e) => {
       if (this._view?.visible) {
-        this._onWillConversationsLoad()
+        onDidInitialize(this._view!)
       }
     }, null)
   }
@@ -103,71 +107,38 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
    *    | webview		| extension	| onDidConversationDelete				| IConversation		|
    *
    */
-  private _onWillConversationsLoad() {
-    const conversations = ConversationService.instance.getAll()
-    this._view?.webview.postMessage({
-      command: 'onWillConversationsLoad',
-      text: JSON.stringify(conversations),
-    })
-  }
 
   private _onDidMessageListener(webview: Webview, extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
         case 'onDidInitialize': {
-          this._onDidInitialize()
+          onDidInitialize(this._view!)
           return
         }
 
         case 'onDidConversationOpen': {
           const conversation: IConversation = JSON.parse(message.text)
-          this._onDidConversationOpen(conversation)
+          onDidConversationOpen(conversation)
           return
         }
 
         case 'onDidConversationDownload': {
           const conversation: IConversation = JSON.parse(message.text)
-          this._onDidConversationDownload(conversation)
+          onDidConversationDownload(conversation)
           return
         }
 
         case 'onDidConversationDelete': {
           const conversation: IConversation = JSON.parse(message.text)
-          this._onDidConversationDelete(conversation)
+          onDidConversationDelete(conversation)
           return
         }
 
-        default:
+        default: {
           window.showErrorMessage(message.command)
           return
+        }
       }
     }, null)
-  }
-
-  private _onDidInitialize() {
-    this._onWillConversationsLoad()
-  }
-
-  private _onDidConversationOpen(conversation: IConversation) {
-    ConversationService.instance.show(conversation.conversationId)
-  }
-
-  private _onDidConversationDownload(conversation: IConversation) {
-    workspace
-      .openTextDocument({
-        content: JSON.stringify(conversation.chatMessages, undefined, 4),
-        language: 'json',
-      })
-      .then((doc) =>
-        window.showTextDocument(doc, {
-          preserveFocus: true,
-          preview: false,
-          viewColumn: ViewColumn.One,
-        })
-      )
-  }
-
-  private _onDidConversationDelete(conversation: IConversation) {
-    ConversationService.instance.delete(conversation.conversationId)
   }
 }

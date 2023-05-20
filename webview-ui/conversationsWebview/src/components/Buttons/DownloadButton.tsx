@@ -14,7 +14,7 @@ const handleOpenConversation = (conversation: IConversation) => {
 
 const DownloadButton: FC<IConversationButtonProps> = ({ conversation }) => {
   return (
-    <Tooltip content="View conversation" relationship="label">
+    <Tooltip content="Download conversation (json)" relationship="label">
       <Button
         size="small"
         shape="rounded"

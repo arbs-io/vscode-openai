@@ -6,7 +6,7 @@ import {
   Avatar,
 } from '@fluentui/react-components'
 import { IConversation } from '../../interfaces'
-import { DeleteButton, OpenButton, DownloadButton } from '../Buttons'
+import { ContextMenuButton } from '../Buttons'
 
 const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
   [
@@ -52,9 +52,7 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
               description={conversation.summary}
               style={{ paddingRight: '1rem' }}
             />
-            <OpenButton conversation={conversation} />
-            <DownloadButton conversation={conversation} />
-            <DeleteButton conversation={conversation} />
+            <ContextMenuButton conversation={conversation} />
           </TableCell>
         )
       },

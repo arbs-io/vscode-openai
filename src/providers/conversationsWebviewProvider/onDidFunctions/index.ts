@@ -1,5 +1,5 @@
 export { onDidInitialize } from './onDidInitialize'
-export { onDidOpenConversation } from './onDidOpenConversation'
-export { onDidOpenJson } from './onDidOpenJson'
-export { onDidOpenMarkdown } from './onDidOpenMarkdown'
+export { onDidOpenConversationWebview } from './onDidOpenConversationWebview'
+export { onDidOpenConversationJson } from './onDidOpenConversationJson'
+export { onDidOpenConversationMarkdown } from './onDidOpenConversationMarkdown'
 export { onDidConversationDelete } from './onDidConversationDelete'

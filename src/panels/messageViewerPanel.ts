@@ -10,11 +10,13 @@ import {
   EventEmitter,
   Event,
   workspace,
+  env,
 } from 'vscode'
-import { getUri, getNonce } from '@app/utilities/vscode'
-import { IChatCompletion, IConversation } from '@app/interfaces'
+import { getUri, getNonce, showMessageWithTimeout } from '@app/utilities/vscode'
+import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
 import { ResponseFormat, createChatCompletion } from '@app/utilities/openai'
 import { ConversationService } from '@app/services'
+import { onDidCreateClipboard } from '.'
 
 export class MessageViewerPanel {
   public static currentPanel: MessageViewerPanel | undefined
@@ -182,7 +184,8 @@ export class MessageViewerPanel {
    *    | extension	| webview		| onWillRenderMessages		| IConversation			|
    *    | extension	| webview		| onWillAnswerMessage			| IChatCompletion		|
    *    | webview		| extension	| onDidSaveMessages				| IChatCompletion[]	|
-   *    | webview		| extension	| onDidCreateDocument			| string						|
+   *    | webview		| extension	| onDidCreateDocument			| ICodeDocument			|
+   *    | webview		| extension	| onDidCreateClipboard		| ICodeDocument			|
    *
    */
   private _setWebviewMessageListener(webview: Webview) {
@@ -196,6 +199,7 @@ export class MessageViewerPanel {
             })
             return
           }
+
           case 'onDidSaveMessages': {
             const chatMessages: IChatCompletion[] = JSON.parse(message.text)
             this._onDidSaveMessages(chatMessages)
@@ -205,31 +209,51 @@ export class MessageViewerPanel {
             }
             return
           }
+
           case 'onDidCreateDocument': {
             const codeDocument: ICodeDocument = JSON.parse(message.text)
-            workspace
-              .openTextDocument({
-                content: codeDocument.content,
-                language: codeDocument.language,
-              })
-              .then((doc) =>
-                window.showTextDocument(doc, {
-                  preserveFocus: true,
-                  preview: false,
-                  viewColumn: ViewColumn.Beside,
-                })
-              )
+            this._onDidCreateDocument(codeDocument)
             return
           }
 
-          default:
+          case 'onDidCreateClipboard': {
+            const codeDocument: ICodeDocument = JSON.parse(message.text)
+            onDidCreateClipboard(codeDocument)
+            return
+          }
+
+          default: {
             window.showErrorMessage(message.command)
             return
+          }
         }
       },
       null,
       this._disposables
     )
+  }
+
+  private _onDidCreateClipboard(codeDocument: ICodeDocument) {
+    env.clipboard.writeText(codeDocument.content)
+    showMessageWithTimeout(
+      `Successfully copied ${codeDocument.language} code to clipboard`,
+      2000
+    )
+  }
+
+  private _onDidCreateDocument(codeDocument: ICodeDocument) {
+    workspace
+      .openTextDocument({
+        content: codeDocument.content,
+        language: codeDocument.language,
+      })
+      .then((doc) =>
+        window.showTextDocument(doc, {
+          preserveFocus: true,
+          preview: false,
+          viewColumn: ViewColumn.Beside,
+        })
+      )
   }
 
   private _onDidSaveMessages(chatMessages: IChatCompletion[]) {
@@ -300,9 +324,4 @@ export class MessageViewerPanel {
       }
     )
   }
-}
-
-interface ICodeDocument {
-  language: string
-  content: string
 }

@@ -3,5 +3,5 @@ export { IConversation } from './IConversation'
 export { IPersonaOpenAI } from './IPersonaOpenAI'
 export { IConfigurationProperties } from './IConfigurationProperties'
 export { IMessage } from './IMessage'
-
 export { ICommandOpenai } from './ICommandOpenai'
+export { ICodeDocument } from './ICodeDocument'

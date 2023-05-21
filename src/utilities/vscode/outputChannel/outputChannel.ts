@@ -43,7 +43,7 @@ export function logInfo(
   const isString = typeof value === 'string' && value !== null
   if (logLevel === 'Info' || logLevel === 'Debug') {
     const logMessage = `${getTimeAndms()} [info]\t\t${eventName} - ${
-      isString ? value : `telemetry object received\n${util.inspect(value)}`
+      isString ? value : `event properties\n${util.inspect(value)}`
     }`
     OutputChannelFactory.getLogChannel().appendLine(logMessage)
   }

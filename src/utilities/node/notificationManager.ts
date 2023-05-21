@@ -31,11 +31,17 @@ export function createWarningNotification(value: string) {
   logWarning(value)
 }
 
-export function createInfoNotification(value: string) {
-  logInfo(value)
-  TelemetryService.instance.sendTelemetryEvent(value)
+export function createInfoNotification(
+  value: string | { [key: string]: string },
+  eventName = 'event'
+) {
+  logInfo(value, eventName)
+  TelemetryService.instance.sendTelemetryEvent(value, eventName)
 }
 
-export function createDebugNotification(value: string) {
-  logDebug(value)
+export function createDebugNotification(
+  value: string | { [key: string]: string },
+  eventName = 'event'
+) {
+  logDebug(value, eventName)
 }

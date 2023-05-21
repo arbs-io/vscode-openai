@@ -1,5 +1,7 @@
 import { ExtensionContext } from 'vscode'
-import TelemetryReporter from '@vscode/extension-telemetry'
+import TelemetryReporter, {
+  TelemetryEventProperties,
+} from '@vscode/extension-telemetry'
 import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
 
 export default class TelemetryService {
@@ -19,10 +21,18 @@ export default class TelemetryService {
     return TelemetryService._instance
   }
 
-  async sendTelemetryEvent(message: string): Promise<void> {
-    this.telemetryReporter.sendTelemetryEvent('Event', {
-      message: message,
-    })
+  async sendTelemetryEvent(
+    value: string | { [key: string]: string },
+    eventName: string
+  ): Promise<void> {
+    const isString = typeof value === 'string' && value !== null
+    if (isString) {
+      this.telemetryReporter.sendTelemetryEvent(eventName, {
+        message: value,
+      })
+    } else {
+      this.telemetryReporter.sendTelemetryEvent(eventName, value)
+    }
   }
 
   async sendTelemetryErrorEvent(error: Error): Promise<void> {

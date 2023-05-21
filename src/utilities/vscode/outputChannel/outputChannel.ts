@@ -1,5 +1,5 @@
-import { ExtensionContext, OutputChannel, window, workspace } from 'vscode'
-import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
+import { OutputChannel, window, workspace } from 'vscode'
+import * as util from 'util'
 
 class OutputChannelFactory {
   private static outLogChannel: OutputChannel
@@ -15,24 +15,36 @@ class OutputChannelFactory {
   }
 }
 
-export function logDebug(message: string): void {
+export function logDebug(
+  value: string | { [key: string]: string },
+  eventName: string
+): void {
   const logLevel = workspace
     .getConfiguration('vscode-openai')
     .get('logLevel') as string
 
+  const isString = typeof value === 'string' && value !== null
   if (logLevel === 'Debug') {
-    const logMessage = `${getTimeAndms()} [debug]\t\t${message}`
+    const logMessage = `${getTimeAndms()} [debug]\t\t${eventName} - ${
+      isString ? value : `Logging Object\n${util.inspect(value)}`
+    }`
     OutputChannelFactory.getLogChannel().appendLine(logMessage)
   }
 }
 
-export function logInfo(message: string): void {
+export function logInfo(
+  value: string | { [key: string]: string },
+  eventName: string
+): void {
   const logLevel = workspace
     .getConfiguration('vscode-openai')
     .get('logLevel') as string
 
+  const isString = typeof value === 'string' && value !== null
   if (logLevel === 'Info' || logLevel === 'Debug') {
-    const logMessage = `${getTimeAndms()} [info]\t\t${message}`
+    const logMessage = `${getTimeAndms()} [info]\t\t${eventName} - ${
+      isString ? value : `event properties\n${util.inspect(value)}`
+    }`
     OutputChannelFactory.getLogChannel().appendLine(logMessage)
   }
 }

@@ -8,6 +8,7 @@ import {
   HttpRequest,
   createDebugNotification,
   createErrorNotification,
+  createInfoNotification,
 } from '@app/utilities/node'
 
 export default class ConfigurationService {
@@ -232,33 +233,30 @@ export default class ConfigurationService {
     return (await SecretStorageService.instance.getAuthApiKey()) as string
   }
 
-  static LogConfigurationService(): void {
+  public static LogConfigurationService(): void {
     try {
       const extension = extensions.getExtension(
         'AndrewButson.vscode-openai'
       )?.packageJSON
       const instance = ConfigurationService._instance
 
-      createDebugNotification(`vscode-configuration`)
-      createDebugNotification(`- vscode-version: ${version}`)
-      createDebugNotification(`- extension-version: ${extension.version}`)
-      createDebugNotification(`openai-configuration`)
-      createDebugNotification(`- serviceProvider: ${instance.serviceProvider}`)
-      createDebugNotification(`- host: ${instance.host}`)
-      //Hide config for vscode-openai sponsored instance
-      if (instance.host !== 'vscode-openai') {
-        createDebugNotification(`- baseUrl: ${instance.baseUrl}`)
-        createDebugNotification(`- defaultModel: ${instance.defaultModel}`)
-        createDebugNotification(
-          `- azureDeployment: ${instance.azureDeployment}`
-        )
-        createDebugNotification(
-          `- azureApiVersion: ${instance.azureApiVersion}`
-        )
-        createDebugNotification(
-          `- conversationHistory: ${instance.conversationHistory}`
-        )
-      }
+      const extConfiguration = new Map<string, string>()
+      extConfiguration.set('vscode_version', version)
+      extConfiguration.set('extension_version', extension.version)
+      extConfiguration.set('openai_service_provider', instance.serviceProvider)
+      extConfiguration.set('openai_host', instance.host)
+      extConfiguration.set('openai_base_url', instance.baseUrl)
+      extConfiguration.set('openai_default_model', instance.defaultModel)
+      extConfiguration.set('openai_azure_deployment', instance.azureDeployment)
+      extConfiguration.set('openai_azure_api_version', instance.azureApiVersion)
+      extConfiguration.set(
+        'openai_conversation_history',
+        instance.conversationHistory.toString()
+      )
+      createInfoNotification(
+        Object.fromEntries(extConfiguration),
+        'configuration'
+      )
     } catch (error) {
       createErrorNotification(error)
     }

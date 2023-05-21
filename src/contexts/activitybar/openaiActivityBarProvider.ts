@@ -1,6 +1,7 @@
 import { ExtensionContext, window } from 'vscode'
 import {
   ConversationsWebviewProvider,
+  FileEmbeddingTreeDataProvider,
   PersonaWebviewProvider,
 } from '@app/providers'
 import { VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
@@ -33,5 +34,9 @@ export class OpenaiActivityBarProvider {
       sidebarProvider
     )
     context.subscriptions.push(view)
+  }
+
+  public registerFileEmbeddingTreeDataProvider(context: ExtensionContext) {
+    new FileEmbeddingTreeDataProvider(context)
   }
 }

@@ -92,6 +92,13 @@
           "icon": "./assets/openai-sidebar.svg",
           "contextualTitle": "vscode-openai conversations",
           "when": "vscode-openai.extension.enabled"
+        },
+        {
+          "id": "vscode-openai.sidebar.fileEmbeddingTreeDataProvider",
+          "name": "File Embedding",
+          "icon": "./assets/openai-sidebar.svg",
+          "contextualTitle": "vscode-openai conversations",
+          "when": "vscode-openai.extension.enabled"
         }
       ]
     },

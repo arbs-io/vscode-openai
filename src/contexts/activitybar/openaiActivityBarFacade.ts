@@ -26,5 +26,6 @@ export class OpenaiActivityBarFacade {
   public registerAllViews(context: ExtensionContext) {
     this.sidebarInstance.registerPersonaWebviewView(context)
     this.sidebarInstance.registerConversationsWebviewView(context)
+    this.sidebarInstance.registerFileEmbeddingTreeDataProvider(context)
   }
 }

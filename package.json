@@ -231,6 +231,12 @@
       }
     },
     "menus": {
+      "view/item/context": [
+        {
+          "command": "vscode-openai.fileEmbeddingTreeItem.delete",
+          "group": "inline"
+        }
+      ],
       "scm/title": [
         {
           "command": "vscode-openai.scm.comment",
@@ -294,6 +300,15 @@
       }
     ],
     "commands": [
+      {
+        "command": "vscode-openai.fileEmbeddingTreeItem.delete",
+        "title": "Edit Prompts...",
+        "category": "vscode-openai.fileEmbeddingTreeItem",
+        "icon": {
+          "light": "./assets/openai-light.png",
+          "dark": "./assets/openai-dark.png"
+        }
+      },
       {
         "command": "vscode-openai.settings.prompt-editor",
         "title": "Edit Prompts...",

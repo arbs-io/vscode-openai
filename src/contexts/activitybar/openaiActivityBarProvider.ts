@@ -1,10 +1,11 @@
-import { ExtensionContext, window } from 'vscode'
+import { ExtensionContext, commands, window } from 'vscode'
 import {
   ConversationsWebviewProvider,
   FileEmbeddingTreeDataProvider,
   PersonaWebviewProvider,
 } from '@app/providers'
 import { VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
+import { VscodeOpenaiTreeItem } from '@app/providers/fileEmbeddingTreeDataProvider/fileEmbeddingTreeDataProvider'
 
 export class OpenaiActivityBarProvider {
   private static instance: OpenaiActivityBarProvider
@@ -38,5 +39,12 @@ export class OpenaiActivityBarProvider {
 
   public registerFileEmbeddingTreeDataProvider(context: ExtensionContext) {
     new FileEmbeddingTreeDataProvider(context)
+    commands.registerCommand(
+      'vscode-openai.fileEmbeddingTreeItem.delete',
+      (node: VscodeOpenaiTreeItem) =>
+        window.showInformationMessage(
+          `Successfully called edit entry on ${node.label}.`
+        )
+    )
   }
 }

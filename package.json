@@ -233,7 +233,11 @@
     "menus": {
       "view/item/context": [
         {
-          "command": "vscode-openai.fileEmbeddingTreeItem.delete",
+          "command": "vscode-openai.embedding.conversation",
+          "group": "inline"
+        },
+        {
+          "command": "vscode-openai.embedding.delete",
           "group": "inline"
         }
       ],
@@ -301,13 +305,19 @@
     ],
     "commands": [
       {
-        "command": "vscode-openai.fileEmbeddingTreeItem.delete",
+        "command": "vscode-openai.embedding.conversation",
         "title": "Edit Prompts...",
-        "category": "vscode-openai.fileEmbeddingTreeItem",
+        "category": "vscode-openai.embedding",
         "icon": {
           "light": "./assets/openai-light.png",
           "dark": "./assets/openai-dark.png"
         }
+      },
+      {
+        "command": "vscode-openai.embedding.delete",
+        "title": "Edit Prompts...",
+        "category": "vscode-openai.embedding",
+        "icon": "$(notebook-delete-cell)"
       },
       {
         "command": "vscode-openai.settings.prompt-editor",

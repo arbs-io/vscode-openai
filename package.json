@@ -245,7 +245,7 @@
       ],
       "view/title": [
         {
-          "command": "vscode-openai.conversation.new-default",
+          "command": "vscode-openai.conversation.new-standard",
           "when": "view == vscode-openai.sidebar.conversationsWebview",
           "group": "navigation"
         },
@@ -319,8 +319,8 @@
     ],
     "commands": [
       {
-        "command": "vscode-openai.conversation.new-default",
-        "title": "New default conversation...",
+        "command": "vscode-openai.conversation.new-standard",
+        "title": "New conversation...",
         "category": "vscode-openai.conversation",
         "icon": "$(comment)"
       },
@@ -328,7 +328,7 @@
         "command": "vscode-openai.conversation.new-persona",
         "title": "New persona conversation...",
         "category": "vscode-openai.conversation",
-        "icon": "$(comment-discussion)"
+        "icon": "$(feedback)"
       },
       {
         "command": "vscode-openai.embedding.conversation",

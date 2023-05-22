@@ -1,6 +1,9 @@
 import { commands, ExtensionContext, window } from 'vscode'
 import { VSCODE_OPENAI_CONVERSATION } from '@app/contexts'
 import { createErrorNotification } from '@app/utilities/node'
+import { IConversation } from '@app/interfaces'
+import { ConversationService } from '@app/services'
+import { getSystemPersonas } from '@app/models'
 
 export function registerConversationCommand(context: ExtensionContext) {
   try {
@@ -15,11 +18,15 @@ function _registerConversationNewDefaultCommand(context: ExtensionContext) {
   try {
     context.subscriptions.push(
       commands.registerCommand(
-        VSCODE_OPENAI_CONVERSATION.NEW_DEFAULT_COMMAND_ID,
+        VSCODE_OPENAI_CONVERSATION.NEW_STANDARD_COMMAND_ID,
         () => {
-          window.showInformationMessage(
-            `_registerConversationNewDefaultCommand.`
-          )
+          const persona = getSystemPersonas().find(
+            (a) => a.roleName === 'General Chat'
+          )!
+          const conversation: IConversation =
+            ConversationService.instance.create(persona)
+          ConversationService.instance.update(conversation)
+          ConversationService.instance.show(conversation.conversationId)
         }
       )
     )

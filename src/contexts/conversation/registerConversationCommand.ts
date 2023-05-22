@@ -4,6 +4,7 @@ import { createErrorNotification } from '@app/utilities/node'
 import { IConversation } from '@app/interfaces'
 import { ConversationService } from '@app/services'
 import { getSystemPersonas } from '@app/models'
+import { quickPickCreateConversation } from '@app/quickPick'
 
 export function registerConversationCommand(context: ExtensionContext) {
   try {
@@ -41,9 +42,7 @@ function _registerConversationNewPersonaCommand(context: ExtensionContext) {
       commands.registerCommand(
         VSCODE_OPENAI_CONVERSATION.NEW_PERSONA_COMMAND_ID,
         () => {
-          window.showInformationMessage(
-            `_registerConversationNewPersonaCommand.`
-          )
+          quickPickCreateConversation(context)
         }
       )
     )

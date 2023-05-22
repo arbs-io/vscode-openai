@@ -234,11 +234,25 @@
       "view/item/context": [
         {
           "command": "vscode-openai.embedding.conversation",
+          "when": "view == vscode-openai.sidebar.fileEmbeddingTreeDataProvider",
           "group": "inline"
         },
         {
           "command": "vscode-openai.embedding.delete",
+          "when": "view == vscode-openai.sidebar.fileEmbeddingTreeDataProvider",
           "group": "inline"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "vscode-openai.conversation.new-default",
+          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "group": "navigation"
+        },
+        {
+          "command": "vscode-openai.conversation.new-persona",
+          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "group": "navigation"
         }
       ],
       "scm/title": [
@@ -304,6 +318,18 @@
       }
     ],
     "commands": [
+      {
+        "command": "vscode-openai.conversation.new-default",
+        "title": "New default conversation...",
+        "category": "vscode-openai.conversation",
+        "icon": "$(comment)"
+      },
+      {
+        "command": "vscode-openai.conversation.new-persona",
+        "title": "New persona conversation...",
+        "category": "vscode-openai.conversation",
+        "icon": "$(comment-discussion)"
+      },
       {
         "command": "vscode-openai.embedding.conversation",
         "title": "Edit Prompts...",

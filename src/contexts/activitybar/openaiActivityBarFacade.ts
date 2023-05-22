@@ -24,7 +24,6 @@ export class OpenaiActivityBarFacade {
    * @param {ExtensionContext} context - The extension context to register the views with.
    */
   public registerAllViews(context: ExtensionContext) {
-    this.sidebarInstance.registerPersonaWebviewView(context)
     this.sidebarInstance.registerConversationsWebviewView(context)
     this.sidebarInstance.registerEmbeddingConversationTreeDataCommand(context)
     this.sidebarInstance.registerEmbeddingDeleteTreeDataCommand(context)

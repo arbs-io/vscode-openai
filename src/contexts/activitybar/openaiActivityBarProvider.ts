@@ -2,7 +2,6 @@ import { ExtensionContext, commands, window } from 'vscode'
 import {
   ConversationsWebviewProvider,
   FileEmbeddingTreeDataProvider,
-  PersonaWebviewProvider,
 } from '@app/providers'
 import { VSCODE_OPENAI_EMBEDDING, VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
 import { VscodeOpenaiTreeItem } from '@app/providers/fileEmbeddingTreeDataProvider/fileEmbeddingTreeDataProvider'
@@ -15,15 +14,6 @@ export class OpenaiActivityBarProvider {
       OpenaiActivityBarProvider.instance = new OpenaiActivityBarProvider()
     }
     return OpenaiActivityBarProvider.instance
-  }
-
-  public registerPersonaWebviewView(context: ExtensionContext) {
-    const sidebarProvider = new PersonaWebviewProvider(context.extensionUri)
-    const view = window.registerWebviewViewProvider(
-      VSCODE_OPENAI_SIDEBAR.PERSONA_COMMAND_ID,
-      sidebarProvider
-    )
-    context.subscriptions.push(view)
   }
 
   public registerConversationsWebviewView(context: ExtensionContext) {

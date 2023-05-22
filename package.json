@@ -79,14 +79,6 @@
       "vscode-openai-sidebar-view": [
         {
           "type": "webview",
-          "id": "vscode-openai.sidebar.personaWebview",
-          "name": "Persona",
-          "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "vscode-openai personas",
-          "when": "vscode-openai.extension.enabled"
-        },
-        {
-          "type": "webview",
           "id": "vscode-openai.sidebar.conversationsWebview",
           "name": "Conversations",
           "icon": "./assets/openai-sidebar.svg",
@@ -399,11 +391,9 @@
   "scripts": {
     "install:all": "npm install && npm-run-all --parallel install:all:*",
     "install:all:messageWebview": "npm --prefix ./webview-ui/messageWebview install",
-    "install:all:personaWebview": "npm --prefix ./webview-ui/personaWebview install",
     "install:all:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview install",
     "build:webview": "npm-run-all --parallel build:webview:*",
     "build:webview:messageWebview": "npm --prefix ./webview-ui/messageWebview run build",
-    "build:webview:personaWebview": "npm --prefix ./webview-ui/personaWebview run build",
     "build:webview:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview run build",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",

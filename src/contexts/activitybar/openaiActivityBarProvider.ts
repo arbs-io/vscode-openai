@@ -1,10 +1,10 @@
 import { ExtensionContext, commands, window } from 'vscode'
 import {
   ConversationsWebviewProvider,
-  FileEmbeddingTreeDataProvider,
+  EmbeddingTreeDataProvider,
 } from '@app/providers'
 import { VSCODE_OPENAI_EMBEDDING, VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
-import { VscodeOpenaiTreeItem } from '@app/providers/fileEmbeddingTreeDataProvider/fileEmbeddingTreeDataProvider'
+import { VscodeOpenaiTreeItem } from '@app/providers/embeddingTreeDataProvider/embeddingTreeDataProvider'
 
 export class OpenaiActivityBarProvider {
   private static instance: OpenaiActivityBarProvider
@@ -30,7 +30,7 @@ export class OpenaiActivityBarProvider {
   public registerEmbeddingConversationTreeDataCommand(
     context: ExtensionContext
   ) {
-    new FileEmbeddingTreeDataProvider(context)
+    new EmbeddingTreeDataProvider(context)
     commands.registerCommand(
       VSCODE_OPENAI_EMBEDDING.CONVERSATION_COMMAND_ID,
       (node: VscodeOpenaiTreeItem) =>
@@ -41,7 +41,7 @@ export class OpenaiActivityBarProvider {
   }
 
   public registerEmbeddingDeleteTreeDataCommand(context: ExtensionContext) {
-    new FileEmbeddingTreeDataProvider(context)
+    new EmbeddingTreeDataProvider(context)
     commands.registerCommand(
       VSCODE_OPENAI_EMBEDDING.DELETE_COMMAND_ID,
       (node: VscodeOpenaiTreeItem) => {

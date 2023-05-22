@@ -55,6 +55,6 @@ export const VSCODE_OPENAI_PROMPT = {
 // Input: None
 // Output: An object containing strings representing various command IDs for opening webviews in the sidebar of VS Code.
 export const VSCODE_OPENAI_SIDEBAR = {
-  PERSONA_COMMAND_ID: 'vscode-openai.sidebar.personaWebview',
   CONVERSATIONS_COMMAND_ID: 'vscode-openai.sidebar.conversationsWebview',
+  EMBEDDING_COMMAND_ID: 'vscode-openai.sidebar.embedding',
 }

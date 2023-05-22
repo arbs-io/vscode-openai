@@ -1,2 +1,2 @@
 export { ConversationsWebviewProvider } from './conversationsWebviewProvider/conversationsWebviewProvider'
-export { FileEmbeddingTreeDataProvider } from './fileEmbeddingTreeDataProvider/fileEmbeddingTreeDataProvider'
+export { EmbeddingTreeDataProvider } from './embeddingTreeDataProvider/embeddingTreeDataProvider'

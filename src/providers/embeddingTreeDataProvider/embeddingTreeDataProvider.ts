@@ -18,8 +18,9 @@ import {
   Uri,
   ThemeIcon,
 } from 'vscode'
+import { VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
 
-export class FileEmbeddingTreeDataProvider
+export class EmbeddingTreeDataProvider
   implements
     TreeDataProvider<VscodeOpenaiTreeItem>,
     TreeDragAndDropController<VscodeOpenaiTreeItem>
@@ -36,7 +37,7 @@ export class FileEmbeddingTreeDataProvider
 
   constructor(context: ExtensionContext) {
     const view = window.createTreeView(
-      'vscode-openai.sidebar.fileEmbeddingTreeDataProvider',
+      VSCODE_OPENAI_SIDEBAR.EMBEDDING_COMMAND_ID,
       {
         treeDataProvider: this,
         showCollapseAll: true,

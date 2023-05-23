@@ -47,7 +47,7 @@ export class OpenaiActivityBarProvider {
       (node: VscodeOpenaiTreeItem) => {
         window
           .showInformationMessage(
-            'Are you sure you want to delete this item?',
+            'Are you sure you want to delete this embedding?',
             'Yes',
             'No'
           )

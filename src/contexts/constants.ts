@@ -38,6 +38,7 @@ export const VSCODE_OPENAI_EMBEDDING = {
 export const VSCODE_OPENAI_CONVERSATION = {
   NEW_STANDARD_COMMAND_ID: 'vscode-openai.conversation.new-standard',
   NEW_PERSONA_COMMAND_ID: 'vscode-openai.conversation.new-persona',
+  REFRESH_COMMAND_ID: 'vscode-openai.conversation.refresh',
 }
 
 // VSCODE_OPENAI_PROMPT: Contains various command IDs for prompting OpenAI to complete tasks.

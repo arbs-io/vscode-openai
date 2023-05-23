@@ -10,6 +10,7 @@ export function registerConversationCommand(context: ExtensionContext) {
   try {
     _registerConversationNewDefaultCommand(context)
     _registerConversationNewPersonaCommand(context)
+    _registerConversationRefresh(context)
   } catch (error) {
     createErrorNotification(error)
   }
@@ -43,6 +44,21 @@ function _registerConversationNewPersonaCommand(context: ExtensionContext) {
         VSCODE_OPENAI_CONVERSATION.NEW_PERSONA_COMMAND_ID,
         () => {
           quickPickCreateConversation(context)
+        }
+      )
+    )
+  } catch (error) {
+    createErrorNotification(error)
+  }
+}
+
+function _registerConversationRefresh(context: ExtensionContext) {
+  try {
+    context.subscriptions.push(
+      commands.registerCommand(
+        VSCODE_OPENAI_CONVERSATION.REFRESH_COMMAND_ID,
+        () => {
+          /* ... */
         }
       )
     )

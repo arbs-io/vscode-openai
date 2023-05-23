@@ -14,6 +14,7 @@ import {
   registerOpenaiSCMCommand,
   registerOpenSettings,
   VSCODE_OPENAI_EXTENSION,
+  registerConversationCommand,
 } from '@app/contexts'
 import { ConfigurationService, ConversationService } from '@app/services'
 import {
@@ -56,6 +57,7 @@ export function activate(context: ExtensionContext) {
     registerOpenaiServiceCommand(context)
     registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
+    registerConversationCommand(context)
 
     createDebugNotification('starting conversation service')
     ConversationService.init(context)

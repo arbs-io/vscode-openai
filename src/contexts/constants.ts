@@ -24,6 +24,22 @@ export const VSCODE_OPENAI_SCM = {
   COMMENT_COMMAND_ID: 'vscode-openai.scm.comment',
 }
 
+// VSCODE_OPENAI_EMBEDDING: Contains the command ID for deleting embedding results.
+// Input: None
+// Output: A string representing the command ID for commenting on a change in source control management.
+export const VSCODE_OPENAI_EMBEDDING = {
+  CONVERSATION_COMMAND_ID: 'vscode-openai.embedding.conversation',
+  DELETE_COMMAND_ID: 'vscode-openai.embedding.delete',
+}
+
+// VSCODE_OPENAI_EMBEDDING: Contains the command ID for deleting embedding results.
+// Input: None
+// Output: A string representing the command ID for commenting on a change in source control management.
+export const VSCODE_OPENAI_CONVERSATION = {
+  NEW_STANDARD_COMMAND_ID: 'vscode-openai.conversation.new-standard',
+  NEW_PERSONA_COMMAND_ID: 'vscode-openai.conversation.new-persona',
+}
+
 // VSCODE_OPENAI_PROMPT: Contains various command IDs for prompting OpenAI to complete tasks.
 // Input: None
 // Output: An object containing strings representing various command IDs for prompting OpenAI to complete tasks.
@@ -39,6 +55,6 @@ export const VSCODE_OPENAI_PROMPT = {
 // Input: None
 // Output: An object containing strings representing various command IDs for opening webviews in the sidebar of VS Code.
 export const VSCODE_OPENAI_SIDEBAR = {
-  PERSONA_COMMAND_ID: 'vscode-openai.sidebar.personaWebview',
   CONVERSATIONS_COMMAND_ID: 'vscode-openai.sidebar.conversationsWebview',
+  EMBEDDING_COMMAND_ID: 'vscode-openai.sidebar.embedding',
 }

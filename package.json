@@ -79,16 +79,15 @@
       "vscode-openai-sidebar-view": [
         {
           "type": "webview",
-          "id": "vscode-openai.sidebar.personaWebview",
-          "name": "Persona",
+          "id": "vscode-openai.sidebar.conversationsWebview",
+          "name": "Conversations",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "vscode-openai personas",
+          "contextualTitle": "vscode-openai conversations",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "type": "webview",
-          "id": "vscode-openai.sidebar.conversationsWebview",
-          "name": "Conversations",
+          "id": "vscode-openai.sidebar.embedding",
+          "name": "File Embedding",
           "icon": "./assets/openai-sidebar.svg",
           "contextualTitle": "vscode-openai conversations",
           "when": "vscode-openai.extension.enabled"
@@ -224,6 +223,30 @@
       }
     },
     "menus": {
+      "view/item/context": [
+        {
+          "command": "vscode-openai.embedding.conversation",
+          "when": "view == vscode-openai.sidebar.embedding",
+          "group": "inline"
+        },
+        {
+          "command": "vscode-openai.embedding.delete",
+          "when": "view == vscode-openai.sidebar.embedding",
+          "group": "inline"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "vscode-openai.conversation.new-standard",
+          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "group": "navigation"
+        },
+        {
+          "command": "vscode-openai.conversation.new-persona",
+          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "group": "navigation"
+        }
+      ],
       "scm/title": [
         {
           "command": "vscode-openai.scm.comment",
@@ -288,6 +311,33 @@
     ],
     "commands": [
       {
+        "command": "vscode-openai.conversation.new-standard",
+        "title": "New conversation...",
+        "category": "vscode-openai.conversation",
+        "icon": "$(comment)"
+      },
+      {
+        "command": "vscode-openai.conversation.new-persona",
+        "title": "New persona conversation...",
+        "category": "vscode-openai.conversation",
+        "icon": "$(feedback)"
+      },
+      {
+        "command": "vscode-openai.embedding.conversation",
+        "title": "Edit Prompts...",
+        "category": "vscode-openai.embedding",
+        "icon": {
+          "light": "./assets/openai-light.png",
+          "dark": "./assets/openai-dark.png"
+        }
+      },
+      {
+        "command": "vscode-openai.embedding.delete",
+        "title": "Edit Prompts...",
+        "category": "vscode-openai.embedding",
+        "icon": "$(notebook-delete-cell)"
+      },
+      {
         "command": "vscode-openai.settings.prompt-editor",
         "title": "Edit Prompts...",
         "category": "vscode-openai.settings"
@@ -341,11 +391,9 @@
   "scripts": {
     "install:all": "npm install && npm-run-all --parallel install:all:*",
     "install:all:messageWebview": "npm --prefix ./webview-ui/messageWebview install",
-    "install:all:personaWebview": "npm --prefix ./webview-ui/personaWebview install",
     "install:all:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview install",
     "build:webview": "npm-run-all --parallel build:webview:*",
     "build:webview:messageWebview": "npm --prefix ./webview-ui/messageWebview run build",
-    "build:webview:personaWebview": "npm --prefix ./webview-ui/personaWebview run build",
     "build:webview:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview run build",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",

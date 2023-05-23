@@ -1,9 +1,10 @@
-import { ExtensionContext, window } from 'vscode'
+import { ExtensionContext, commands, window } from 'vscode'
 import {
   ConversationsWebviewProvider,
-  PersonaWebviewProvider,
+  EmbeddingTreeDataProvider,
 } from '@app/providers'
-import { VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
+import { VSCODE_OPENAI_EMBEDDING, VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
+import { VscodeOpenaiTreeItem } from '@app/providers/embeddingTreeDataProvider/embeddingTreeDataProvider'
 
 export class OpenaiActivityBarProvider {
   private static instance: OpenaiActivityBarProvider
@@ -15,15 +16,6 @@ export class OpenaiActivityBarProvider {
     return OpenaiActivityBarProvider.instance
   }
 
-  public registerPersonaWebviewView(context: ExtensionContext) {
-    const sidebarProvider = new PersonaWebviewProvider(context.extensionUri)
-    const view = window.registerWebviewViewProvider(
-      VSCODE_OPENAI_SIDEBAR.PERSONA_COMMAND_ID,
-      sidebarProvider
-    )
-    context.subscriptions.push(view)
-  }
-
   public registerConversationsWebviewView(context: ExtensionContext) {
     const sidebarProvider = new ConversationsWebviewProvider(
       context.extensionUri
@@ -33,5 +25,40 @@ export class OpenaiActivityBarProvider {
       sidebarProvider
     )
     context.subscriptions.push(view)
+  }
+
+  public registerEmbeddingConversationTreeDataCommand(
+    context: ExtensionContext
+  ) {
+    new EmbeddingTreeDataProvider(context)
+    commands.registerCommand(
+      VSCODE_OPENAI_EMBEDDING.CONVERSATION_COMMAND_ID,
+      (node: VscodeOpenaiTreeItem) =>
+        window.showInformationMessage(
+          `ConversationTreeDataCommand: ${node.label}.`
+        )
+    )
+  }
+
+  public registerEmbeddingDeleteTreeDataCommand(context: ExtensionContext) {
+    new EmbeddingTreeDataProvider(context)
+    commands.registerCommand(
+      VSCODE_OPENAI_EMBEDDING.DELETE_COMMAND_ID,
+      (node: VscodeOpenaiTreeItem) => {
+        window
+          .showInformationMessage(
+            'Are you sure you want to delete this embedding?',
+            'Yes',
+            'No'
+          )
+          .then((answer) => {
+            if (answer === 'Yes') {
+              window.showInformationMessage(
+                `DeleteTreeDataCommand: ${node.label}.`
+              )
+            }
+          })
+      }
+    )
   }
 }

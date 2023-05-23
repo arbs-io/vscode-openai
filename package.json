@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.1.11",
+  "version": "1.2.0",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -239,12 +239,17 @@
         {
           "command": "vscode-openai.conversation.new-standard",
           "when": "view == vscode-openai.sidebar.conversationsWebview",
-          "group": "navigation"
+          "group": "navigation@0"
         },
         {
           "command": "vscode-openai.conversation.new-persona",
           "when": "view == vscode-openai.sidebar.conversationsWebview",
-          "group": "navigation"
+          "group": "navigation@1"
+        },
+        {
+          "command": "vscode-openai.conversation.refresh",
+          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "group": "navigation@2"
         }
       ],
       "scm/title": [
@@ -268,32 +273,32 @@
       "vscode-openai.menu.toolbox": [
         {
           "command": "vscode-openai.prompt-editor.comment",
-          "group": "navigation.openai_1",
+          "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
           "command": "vscode-openai.prompt-editor.explain",
-          "group": "navigation.openai_1",
+          "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
           "command": "vscode-openai.prompt-editor.bounty",
-          "group": "navigation.openai_1",
+          "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
           "command": "vscode-openai.prompt-editor.optimize",
-          "group": "navigation.openai_1",
+          "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
           "command": "vscode-openai.prompt-editor.patterns",
-          "group": "navigation.openai_1",
+          "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
           "command": "vscode-openai.settings.prompt-editor",
-          "group": "navigation.openai_2",
+          "group": "prompt-editor.settings@2",
           "when": "vscode-openai.extension.enabled"
         }
       ]
@@ -312,7 +317,7 @@
     "commands": [
       {
         "command": "vscode-openai.conversation.new-standard",
-        "title": "New conversation...",
+        "title": "New conversation",
         "category": "vscode-openai.conversation",
         "icon": "$(comment)"
       },
@@ -321,6 +326,12 @@
         "title": "New persona conversation...",
         "category": "vscode-openai.conversation",
         "icon": "$(feedback)"
+      },
+      {
+        "command": "vscode-openai.conversation.refresh",
+        "title": "Force refresh",
+        "category": "vscode-openai.conversation",
+        "icon": "$(refresh)"
       },
       {
         "command": "vscode-openai.embedding.conversation",

@@ -1,11 +1,14 @@
+import * as crypto from 'crypto'
 import { TreeItem, TreeItemCollapsibleState, Uri, ThemeIcon } from 'vscode'
+import { IEmbedding } from '@app/interfaces'
 
-export class OpenaiTreeItem extends TreeItem {
-  treeItemUri: Uri | undefined
+export class OpenaiTreeItem extends TreeItem implements IEmbedding {
+  public timestamp: number
+  public embeddingId: string
   children: TreeItem[] | undefined
 
-  constructor(treeItemUri: Uri, children?: TreeItem[]) {
-    const path = treeItemUri.path
+  constructor(public uri: Uri, public content: string, children?: TreeItem[]) {
+    const path = uri.path
     const label = path.substring(path.lastIndexOf('/') + 1)
     super(
       label,
@@ -13,9 +16,12 @@ export class OpenaiTreeItem extends TreeItem {
         ? TreeItemCollapsibleState.None
         : TreeItemCollapsibleState.Expanded
     )
+
+    this.timestamp = new Date().getTime()
+    this.embeddingId = crypto.randomUUID()
+
     this.iconPath = children === undefined ? ThemeIcon.File : ThemeIcon.Folder
-    this.resourceUri = treeItemUri
-    this.tooltip = 'file has been openai-embedded'
+    this.tooltip = 'embedded-resource'
     this.children = children
   }
 }

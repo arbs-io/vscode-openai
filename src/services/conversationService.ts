@@ -4,6 +4,7 @@ import { GlobalStorageService } from '@app/utilities/vscode'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { MessageViewerPanel } from '@app/panels'
 import { createErrorNotification } from '@app/utilities/node'
+import { VSCODE_OPENAI_CONVERSATION } from '@app/contexts'
 
 export default class ConversationService {
   private static _emitterDidChange = new EventEmitter<void>()
@@ -32,7 +33,7 @@ export default class ConversationService {
     const conversations: Array<IConversation> = []
     const keys = GlobalStorageService.instance.keys()
     keys.forEach((key) => {
-      if (key.startsWith('conversation-')) {
+      if (key.startsWith(`${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`)) {
         const conversation =
           GlobalStorageService.instance.getValue<IConversation>(key)
         if (conversation !== undefined) {
@@ -48,7 +49,7 @@ export default class ConversationService {
   }
 
   public getAll(): Array<IConversation> {
-    return this._conversations.sort((n1, n2) => n1.timestamp - n2.timestamp)
+    return this._conversations.sort((n1, n2) => n2.timestamp - n1.timestamp)
   }
 
   public show(key: string) {
@@ -68,7 +69,9 @@ export default class ConversationService {
     this._conversations.forEach((item, index) => {
       if (item.conversationId === key) this._conversations.splice(index, 1)
     })
-    GlobalStorageService.instance.deleteKey(`conversation-${key}`)
+    GlobalStorageService.instance.deleteKey(
+      `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${key}`
+    )
   }
 
   public update(conversation: IConversation) {
@@ -79,7 +82,7 @@ export default class ConversationService {
   private _update(conversation: IConversation) {
     this._delete(conversation.conversationId)
     GlobalStorageService.instance.setValue<IConversation>(
-      `conversation-${conversation.conversationId}`,
+      `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conversation.conversationId}`,
       conversation as IConversation
     )
     this._conversations.push(conversation)

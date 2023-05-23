@@ -1,8 +1,10 @@
-import * as crypto from 'crypto'
 import { EventEmitter, Event, ExtensionContext, Uri } from 'vscode'
 import { GlobalStorageService } from '@app/utilities/vscode'
 import { IEmbedding } from '@app/interfaces'
 import { createErrorNotification } from '@app/utilities/node'
+import { VSCODE_OPENAI_EMBEDDING } from '@app/contexts'
+
+const fdsfds = 'embedding.v1'
 
 export default class EmbeddingService {
   private static _emitterDidChange = new EventEmitter<void>()
@@ -25,7 +27,7 @@ export default class EmbeddingService {
     const embeddings: Array<IEmbedding> = []
     const keys = GlobalStorageService.instance.keys()
     keys.forEach((key) => {
-      if (key.startsWith('embedding.v1-')) {
+      if (key.startsWith(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-`)) {
         const conversation =
           GlobalStorageService.instance.getValue<IEmbedding>(key)
         if (conversation !== undefined) {
@@ -41,7 +43,7 @@ export default class EmbeddingService {
   }
 
   public getAll(): Array<IEmbedding> {
-    return this._embeddings.sort((n1, n2) => n1.timestamp - n2.timestamp)
+    return this._embeddings.sort((n1, n2) => n2.timestamp - n1.timestamp)
   }
 
   public delete(key: string) {
@@ -53,7 +55,9 @@ export default class EmbeddingService {
     this._embeddings.forEach((item, index) => {
       if (item.embeddingId === key) this._embeddings.splice(index, 1)
     })
-    GlobalStorageService.instance.deleteKey(`conversation-${key}`)
+    GlobalStorageService.instance.deleteKey(
+      `${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-${key}`
+    )
   }
 
   public update(conversation: IEmbedding) {
@@ -64,21 +68,9 @@ export default class EmbeddingService {
   private _update(conversation: IEmbedding) {
     this._delete(conversation.embeddingId)
     GlobalStorageService.instance.setValue<IEmbedding>(
-      `conversation-${conversation.embeddingId}`,
+      `${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-${conversation.embeddingId}`,
       conversation as IEmbedding
     )
     this._embeddings.push(conversation)
-  }
-
-  public create(uri: Uri, content: string): IEmbedding {
-    const uuid4 = crypto.randomUUID()
-
-    const conversation: IEmbedding = {
-      timestamp: new Date().getTime(),
-      embeddingId: uuid4,
-      uri: uri,
-      content: content,
-    }
-    return conversation
   }
 }

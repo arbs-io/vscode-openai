@@ -20,7 +20,6 @@ export class EmbeddingTreeDragAndDropController
 {
   dropMimeTypes: string[] = ['text/uri-list']
   dragMimeTypes: string[] = this.dropMimeTypes
-  // data: Array<OpenaiTreeItem>
 
   private _onDidChangeTreeData: EventEmitter<
     (OpenaiTreeItem | undefined)[] | undefined
@@ -48,13 +47,10 @@ export class EmbeddingTreeDragAndDropController
       })
 
       const uri = Uri.file(transferItem.value)
-      const embedding = EmbeddingService.instance.create(uri, fileContent)
-      EmbeddingService.instance.update(embedding)
 
-      // const treeItem = new VscodeOpenaiTreeItem(embeddingItem.uri)
-      // this.data.push(treeItem)
-
-      this._onDidChangeTreeData.fire(undefined)
+      const openaiTreeItem = new OpenaiTreeItem(uri, fileContent)
+      EmbeddingService.instance.update(openaiTreeItem)
+      this._onDidChangeTreeData.fire([openaiTreeItem])
     } catch (error) {
       createErrorNotification(error)
     }

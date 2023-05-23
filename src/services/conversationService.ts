@@ -12,8 +12,8 @@ export default class ConversationService {
   private static _instance: ConversationService
 
   constructor(
-    private vscodeContext: ExtensionContext,
-    private conversations: Array<IConversation>
+    private _context: ExtensionContext,
+    private _conversations: Array<IConversation>
   ) {}
 
   static init(context: ExtensionContext): void {
@@ -29,18 +29,18 @@ export default class ConversationService {
   }
 
   private static loadConversations(): Array<IConversation> {
-    const convs: Array<IConversation> = []
+    const conversations: Array<IConversation> = []
     const keys = GlobalStorageService.instance.keys()
     keys.forEach((key) => {
       if (key.startsWith('conversation-')) {
         const conversation =
           GlobalStorageService.instance.getValue<IConversation>(key)
         if (conversation !== undefined) {
-          convs.push(conversation)
+          conversations.push(conversation)
         }
       }
     })
-    return convs
+    return conversations
   }
 
   static get instance(): ConversationService {
@@ -48,13 +48,13 @@ export default class ConversationService {
   }
 
   public getAll(): Array<IConversation> {
-    return this.conversations.sort((n1, n2) => n1.timestamp - n2.timestamp)
+    return this._conversations.sort((n1, n2) => n1.timestamp - n2.timestamp)
   }
 
   public show(key: string) {
-    this.conversations.forEach((conversation) => {
+    this._conversations.forEach((conversation) => {
       if (key === conversation.conversationId) {
-        MessageViewerPanel.render(this.vscodeContext.extensionUri, conversation)
+        MessageViewerPanel.render(this._context.extensionUri, conversation)
       }
     })
   }
@@ -65,8 +65,8 @@ export default class ConversationService {
   }
 
   private _delete(key: string) {
-    this.conversations.forEach((item, index) => {
-      if (item.conversationId === key) this.conversations.splice(index, 1)
+    this._conversations.forEach((item, index) => {
+      if (item.conversationId === key) this._conversations.splice(index, 1)
     })
     GlobalStorageService.instance.deleteKey(`conversation-${key}`)
   }
@@ -82,14 +82,14 @@ export default class ConversationService {
       `conversation-${conversation.conversationId}`,
       conversation as IConversation
     )
-    this.conversations.push(conversation)
+    this._conversations.push(conversation)
   }
 
   public create(persona: IPersonaOpenAI): IConversation {
     const uuid4 = crypto.randomUUID()
 
-    const chatThreads: IChatCompletion[] = []
-    chatThreads.push({
+    const chatCompletion: IChatCompletion[] = []
+    chatCompletion.push({
       content: `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`,
       author: `${persona.roleName} (${persona.configuration.service})`,
       timestamp: new Date().toLocaleString(),
@@ -104,7 +104,7 @@ export default class ConversationService {
       conversationId: uuid4,
       persona: persona,
       summary: '<New Conversation>',
-      chatMessages: chatThreads,
+      chatMessages: chatCompletion,
     }
     return conversation
   }

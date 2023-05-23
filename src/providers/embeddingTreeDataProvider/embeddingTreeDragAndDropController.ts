@@ -21,11 +21,11 @@ export class EmbeddingTreeDragAndDropController
   dropMimeTypes: string[] = ['text/uri-list']
   dragMimeTypes: string[] = this.dropMimeTypes
 
-  private _onDidChangeTreeData: EventEmitter<
+  private _onDidDragDropTreeData: EventEmitter<
     (OpenaiTreeItem | undefined)[] | undefined
   > = new EventEmitter<OpenaiTreeItem[] | undefined>()
 
-  public onDidChangeTreeData: Event<any> = this._onDidChangeTreeData.event
+  public onDidDragDropTreeData: Event<any> = this._onDidDragDropTreeData.event
 
   public async handleDrop(
     target: OpenaiTreeItem | undefined,
@@ -47,10 +47,9 @@ export class EmbeddingTreeDragAndDropController
       })
 
       const uri = Uri.file(transferItem.value)
-
       const openaiTreeItem = new OpenaiTreeItem(uri, fileContent)
       EmbeddingService.instance.update(openaiTreeItem)
-      this._onDidChangeTreeData.fire([openaiTreeItem])
+      this._onDidDragDropTreeData.fire([openaiTreeItem])
     } catch (error) {
       createErrorNotification(error)
     }

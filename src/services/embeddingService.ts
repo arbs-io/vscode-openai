@@ -1,10 +1,8 @@
-import { EventEmitter, Event, ExtensionContext, Uri } from 'vscode'
+import { EventEmitter, Event } from 'vscode'
 import { GlobalStorageService } from '@app/utilities/vscode'
 import { IEmbedding } from '@app/interfaces'
 import { createErrorNotification } from '@app/utilities/node'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/contexts'
-
-const fdsfds = 'embedding.v1'
 
 export default class EmbeddingService {
   private static _emitterDidChange = new EventEmitter<void>()
@@ -28,6 +26,9 @@ export default class EmbeddingService {
     const keys = GlobalStorageService.instance.keys()
     keys.forEach((key) => {
       if (key.startsWith(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-`)) {
+        //remove add keys...
+        //GlobalStorageService.instance.deleteKey(key)
+
         const conversation =
           GlobalStorageService.instance.getValue<IEmbedding>(key)
         if (conversation !== undefined) {
@@ -52,6 +53,12 @@ export default class EmbeddingService {
   }
 
   private _delete(key: string) {
+    this._embeddings.forEach((item, index) => {
+      GlobalStorageService.instance.deleteKey(
+        `${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-${item.embeddingId}`
+      )
+    })
+
     this._embeddings.forEach((item, index) => {
       if (item.embeddingId === key) this._embeddings.splice(index, 1)
     })

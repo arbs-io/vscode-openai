@@ -29,6 +29,7 @@ export const VSCODE_OPENAI_SCM = {
 // Output: A string representing the command ID for commenting on a change in source control management.
 export const VSCODE_OPENAI_EMBEDDING = {
   STORAGE_V1_ID: 'embedding.v1',
+  REFRESH_COMMAND_ID: 'vscode-openai.embedding.refresh',
   CONVERSATION_COMMAND_ID: 'vscode-openai.embedding.conversation',
   DELETE_COMMAND_ID: 'vscode-openai.embedding.delete',
 }

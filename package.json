@@ -250,6 +250,11 @@
           "command": "vscode-openai.conversation.refresh",
           "when": "view == vscode-openai.sidebar.conversationsWebview",
           "group": "navigation@2"
+        },
+        {
+          "command": "vscode-openai.embedding.refresh",
+          "when": "view == vscode-openai.sidebar.embedding",
+          "group": "navigation@0"
         }
       ],
       "scm/title": [
@@ -329,8 +334,14 @@
       },
       {
         "command": "vscode-openai.conversation.refresh",
-        "title": "Force refresh",
+        "title": "Refresh",
         "category": "vscode-openai.conversation",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "vscode-openai.embedding.refresh",
+        "title": "Refresh",
+        "category": "vscode-openai.embedding",
         "icon": "$(refresh)"
       },
       {

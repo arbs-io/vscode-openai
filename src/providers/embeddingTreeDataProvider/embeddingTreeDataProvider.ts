@@ -1,19 +1,9 @@
-import * as fs from 'fs'
-import {
-  createDebugNotification,
-  createErrorNotification,
-} from '@app/utilities/node'
 import {
   EventEmitter,
   TreeDataProvider,
-  TreeDragAndDropController,
   Event,
   ExtensionContext,
   window,
-  DataTransfer,
-  CancellationToken,
-  DataTransferItem,
-  Uri,
 } from 'vscode'
 import { VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
 import { EmbeddingService } from '@app/services'
@@ -22,13 +12,20 @@ import { EmbeddingTreeDragAndDropController, OpenaiTreeItem } from '.'
 export class EmbeddingTreeDataProvider
   implements TreeDataProvider<OpenaiTreeItem>
 {
-  data: Array<OpenaiTreeItem>
+  private _onDidChangeTreeData: EventEmitter<
+    (OpenaiTreeItem | undefined)[] | undefined
+  > = new EventEmitter<OpenaiTreeItem[] | undefined>()
 
-  constructor(
-    context: ExtensionContext,
-    private _dragAndDropController: EmbeddingTreeDragAndDropController
-  ) {
+  public onDidChangeTreeData: Event<any> = this._onDidChangeTreeData.event
+
+  private _dragAndDropController: EmbeddingTreeDragAndDropController
+
+  constructor(context: ExtensionContext) {
     this._dragAndDropController = new EmbeddingTreeDragAndDropController()
+    this._dragAndDropController.onDidDragDropTreeData((openaiTreeItem) => {
+      this.refresh()
+    })
+
     const view = window.createTreeView(
       VSCODE_OPENAI_SIDEBAR.EMBEDDING_COMMAND_ID,
       {
@@ -39,19 +36,23 @@ export class EmbeddingTreeDataProvider
       }
     )
     context.subscriptions.push(view)
+  }
 
-    this.data = [
-      // new OpenaiTreeItem(Uri.file('file:///c%3A/abc/README.md'), ''),
-      // new OpenaiTreeItem(Uri.file('file:///c%3A/abc/CHANGELOG.md'), ''),
-      // new OpenaiTreeItem(Uri.file('file:///c%3A/abc/todo.txt'), ''),
-    ]
+  public refresh(): void {
+    this._onDidChangeTreeData.fire(undefined)
   }
 
   public getChildren(element: OpenaiTreeItem): OpenaiTreeItem[] {
-    if (element === undefined) {
-      return this.data
-    }
-    return this.data
+    const openaiTreeItems: Array<OpenaiTreeItem> = []
+    EmbeddingService.instance.getAll().forEach((embedding) => {
+      openaiTreeItems.push(new OpenaiTreeItem(embedding.uri, embedding.content))
+    })
+    return openaiTreeItems
+
+    // if (element === undefined) {
+    //   return this.data
+    // }
+    // return this.data
   }
 
   public getTreeItem(element: OpenaiTreeItem): OpenaiTreeItem {

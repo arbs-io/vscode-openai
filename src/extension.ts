@@ -16,7 +16,11 @@ import {
   VSCODE_OPENAI_EXTENSION,
   registerConversationCommand,
 } from '@app/contexts'
-import { ConfigurationService, ConversationService } from '@app/services'
+import {
+  ConfigurationService,
+  ConversationService,
+  EmbeddingService,
+} from '@app/services'
 import {
   createDebugNotification,
   createErrorNotification,
@@ -61,6 +65,7 @@ export function activate(context: ExtensionContext) {
 
     createDebugNotification('starting conversation service')
     ConversationService.init(context)
+    EmbeddingService.init()
 
     createDebugNotification('verifying authentication openai service')
     validateApiKey() //On activation check if the api key is valid

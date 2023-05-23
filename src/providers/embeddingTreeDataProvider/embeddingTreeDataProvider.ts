@@ -10,121 +10,91 @@ import {
   Event,
   ExtensionContext,
   window,
-  TreeItem,
   DataTransfer,
   CancellationToken,
   DataTransferItem,
-  TreeItemCollapsibleState,
   Uri,
-  ThemeIcon,
 } from 'vscode'
 import { VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
+import { EmbeddingService } from '@app/services'
+import { EmbeddingTreeDragAndDropController, OpenaiTreeItem } from '.'
 
 export class EmbeddingTreeDataProvider
-  implements
-    TreeDataProvider<VscodeOpenaiTreeItem>,
-    TreeDragAndDropController<VscodeOpenaiTreeItem>
+  implements TreeDataProvider<OpenaiTreeItem>
 {
-  dropMimeTypes: string[] = ['text/uri-list']
-  dragMimeTypes: string[] = this.dropMimeTypes
-  data: Array<VscodeOpenaiTreeItem>
+  data: Array<OpenaiTreeItem>
 
   private _onDidChangeTreeData: EventEmitter<
-    (VscodeOpenaiTreeItem | undefined)[] | undefined
-  > = new EventEmitter<VscodeOpenaiTreeItem[] | undefined>()
+    (OpenaiTreeItem | undefined)[] | undefined
+  > = new EventEmitter<OpenaiTreeItem[] | undefined>()
 
   public onDidChangeTreeData: Event<any> = this._onDidChangeTreeData.event
 
-  constructor(context: ExtensionContext) {
+  constructor(
+    context: ExtensionContext,
+    private _dragAndDropController: EmbeddingTreeDragAndDropController
+  ) {
+    _dragAndDropController = new EmbeddingTreeDragAndDropController()
     const view = window.createTreeView(
       VSCODE_OPENAI_SIDEBAR.EMBEDDING_COMMAND_ID,
       {
         treeDataProvider: this,
         showCollapseAll: true,
         canSelectMany: false,
-        dragAndDropController: this,
+        dragAndDropController: _dragAndDropController,
       }
     )
     context.subscriptions.push(view)
 
     this.data = [
-      new VscodeOpenaiTreeItem(Uri.file('file:///c%3A/abc/README.md')),
-      new VscodeOpenaiTreeItem(Uri.file('file:///c%3A/abc/CHANGELOG.md')),
-      new VscodeOpenaiTreeItem(Uri.file('file:///c%3A/abc/todo.txt')),
+      new OpenaiTreeItem(Uri.file('file:///c%3A/abc/README.md')),
+      new OpenaiTreeItem(Uri.file('file:///c%3A/abc/CHANGELOG.md')),
+      new OpenaiTreeItem(Uri.file('file:///c%3A/abc/todo.txt')),
     ]
   }
 
   // Tree data provider
 
-  public getChildren(element: VscodeOpenaiTreeItem): VscodeOpenaiTreeItem[] {
+  public getChildren(element: OpenaiTreeItem): OpenaiTreeItem[] {
     if (element === undefined) {
       return this.data
     }
     return this.data
   }
 
-  public getTreeItem(element: VscodeOpenaiTreeItem): VscodeOpenaiTreeItem {
+  public getTreeItem(element: OpenaiTreeItem): OpenaiTreeItem {
     return element
   }
 
   public async handleDrop(
-    target: VscodeOpenaiTreeItem | undefined,
+    target: OpenaiTreeItem | undefined,
     sources: DataTransfer,
     token: CancellationToken
   ): Promise<void> {
     const transferItem = sources.get('text/uri-list')
     if (!transferItem) {
-      createDebugNotification(`drop failed ${transferItem}`)
+      createDebugNotification(`embedding drop failed`)
       return
     }
     createDebugNotification(`drop success ${transferItem}`)
 
-    // const transferFile = transferItem.value
     const transferFile = new URL(transferItem.value)
-
     try {
       const fileContent = fs.readFileSync(transferFile, {
         encoding: 'utf8',
         flag: 'r',
       })
-      // createDebugNotification(`data: ${data}`)
 
-      const treeItem = new VscodeOpenaiTreeItem(Uri.file(transferItem.value))
-      this.data.push(treeItem)
+      const uri = Uri.file(transferItem.value)
+      const embedding = EmbeddingService.instance.create(uri, fileContent)
+      EmbeddingService.instance.update(embedding)
+
+      // const treeItem = new OpenaiTreeItem(embeddingItem.uri)
+      // this.data.push(treeItem)
+
       this._onDidChangeTreeData.fire(undefined)
     } catch (error) {
       createErrorNotification(error)
     }
-  }
-
-  public async handleDrag(
-    source: VscodeOpenaiTreeItem[],
-    treeDataTransfer: DataTransfer,
-    token: CancellationToken
-  ): Promise<void> {
-    treeDataTransfer.set(
-      'application/vnd.vscode-openai.void',
-      new DataTransferItem(source)
-    )
-  }
-}
-
-export class VscodeOpenaiTreeItem extends TreeItem {
-  treeItemUri: Uri | undefined
-  children: TreeItem[] | undefined
-
-  constructor(treeItemUri: Uri, children?: TreeItem[]) {
-    const path = treeItemUri.path
-    const label = path.substring(path.lastIndexOf('/') + 1)
-    super(
-      label,
-      children === undefined
-        ? TreeItemCollapsibleState.None
-        : TreeItemCollapsibleState.Expanded
-    )
-    this.iconPath = children === undefined ? ThemeIcon.File : ThemeIcon.Folder
-    this.resourceUri = treeItemUri
-    this.tooltip = 'file has been openai-embedded'
-    this.children = children
   }
 }

@@ -4,7 +4,7 @@ import { createErrorNotification } from '@app/utilities/node'
 import { IConversation } from '@app/interfaces'
 import { ConversationService } from '@app/services'
 import { getSystemPersonas } from '@app/models'
-import { quickPickCreateConversation } from '@app/quickPick'
+import { quickPickCreateConversation } from '@app/quickPicks'
 
 export function registerConversationCommand(context: ExtensionContext) {
   try {

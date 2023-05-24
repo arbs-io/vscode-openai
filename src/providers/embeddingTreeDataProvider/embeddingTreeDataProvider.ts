@@ -8,6 +8,7 @@ import {
 import { VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
 import { EmbeddingService } from '@app/services'
 import { EmbeddingTreeDragAndDropController, OpenaiTreeItem } from '.'
+import { IEmbedding } from '@app/interfaces'
 
 export class EmbeddingTreeDataProvider
   implements TreeDataProvider<OpenaiTreeItem>
@@ -20,9 +21,41 @@ export class EmbeddingTreeDataProvider
 
   private _dragAndDropController: EmbeddingTreeDragAndDropController
 
+  private ConvertTreeItemToIEmbedding(
+    openaiTreeItem: OpenaiTreeItem
+  ): IEmbedding {
+    const embedding: IEmbedding = {
+      timestamp: openaiTreeItem.timestamp,
+      embeddingId: openaiTreeItem.embeddingId,
+      uri: openaiTreeItem.uri,
+      content: openaiTreeItem.content,
+    }
+    return embedding
+  }
+  private ConvertIEmbeddingToTreeItem(embedding: IEmbedding): OpenaiTreeItem {
+    const openaiTreeItem = new OpenaiTreeItem(
+      embedding.timestamp,
+      embedding.embeddingId,
+      embedding.uri,
+      embedding.content
+    )
+    return openaiTreeItem
+  }
+
   constructor(context: ExtensionContext) {
     this._dragAndDropController = new EmbeddingTreeDragAndDropController()
-    this._dragAndDropController.onDidDragDropTreeData((openaiTreeItem) => {
+    this._dragAndDropController.onDidDragDropTreeData(
+      (openaiTreeItems: OpenaiTreeItem[]) => {
+        openaiTreeItems.forEach((openaiTreeItem) => {
+          if (openaiTreeItem) {
+            const embedding = this.ConvertTreeItemToIEmbedding(openaiTreeItem)
+            EmbeddingService.instance.update(embedding)
+          }
+        })
+      }
+    )
+
+    EmbeddingService.onDidChange(() => {
       this.refresh()
     })
 
@@ -44,15 +77,13 @@ export class EmbeddingTreeDataProvider
 
   public getChildren(element: OpenaiTreeItem): OpenaiTreeItem[] {
     const openaiTreeItems: Array<OpenaiTreeItem> = []
-    EmbeddingService.instance.getAll().forEach((embedding) => {
-      openaiTreeItems.push(new OpenaiTreeItem(embedding.uri, embedding.content))
+
+    const embeddings = EmbeddingService.instance.getAll()
+    embeddings.forEach((embedding) => {
+      const openaiTreeItem = this.ConvertIEmbeddingToTreeItem(embedding)
+      openaiTreeItems.push(openaiTreeItem)
     })
     return openaiTreeItems
-
-    // if (element === undefined) {
-    //   return this.data
-    // }
-    // return this.data
   }
 
   public getTreeItem(element: OpenaiTreeItem): OpenaiTreeItem {

@@ -1,3 +1,4 @@
+import * as crypto from 'crypto'
 import * as fs from 'fs'
 import {
   createDebugNotification,
@@ -21,11 +22,11 @@ export class EmbeddingTreeDragAndDropController
   dropMimeTypes: string[] = ['text/uri-list']
   dragMimeTypes: string[] = this.dropMimeTypes
 
-  private _onDidDragDropTreeData: EventEmitter<
-    (OpenaiTreeItem | undefined)[] | undefined
-  > = new EventEmitter<OpenaiTreeItem[] | undefined>()
+  private _onDidDragDropTreeData: EventEmitter<OpenaiTreeItem[]> =
+    new EventEmitter<OpenaiTreeItem[]>()
 
-  public onDidDragDropTreeData: Event<any> = this._onDidDragDropTreeData.event
+  public onDidDragDropTreeData: Event<OpenaiTreeItem[]> =
+    this._onDidDragDropTreeData.event
 
   public async handleDrop(
     target: OpenaiTreeItem | undefined,
@@ -47,8 +48,15 @@ export class EmbeddingTreeDragAndDropController
       })
 
       const uri = Uri.file(transferItem.value)
-      const openaiTreeItem = new OpenaiTreeItem(uri, fileContent)
-      EmbeddingService.instance.update(openaiTreeItem)
+      const timestamp = new Date().getTime()
+      const embeddingId: string = crypto.randomUUID()
+      const openaiTreeItem = new OpenaiTreeItem(
+        timestamp,
+        embeddingId,
+        uri,
+        fileContent
+      )
+
       this._onDidDragDropTreeData.fire([openaiTreeItem])
     } catch (error) {
       createErrorNotification(error)

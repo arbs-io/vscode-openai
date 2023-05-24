@@ -22,13 +22,17 @@ export default class EmbeddingService {
   }
 
   private static loadConversations(): Array<IEmbedding> {
+    //For development (remove all keys...)
+    GlobalStorageService.instance.keys().forEach((key) => {
+      if (key.startsWith(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-`)) {
+        GlobalStorageService.instance.deleteKey(key)
+      }
+    })
+
     const embeddings: Array<IEmbedding> = []
     const keys = GlobalStorageService.instance.keys()
     keys.forEach((key) => {
       if (key.startsWith(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-`)) {
-        //remove add keys...
-        //GlobalStorageService.instance.deleteKey(key)
-
         const conversation =
           GlobalStorageService.instance.getValue<IEmbedding>(key)
         if (conversation !== undefined) {

@@ -8,8 +8,8 @@ export class OpenaiTreeItem extends TreeItem implements IEmbedding {
   children: TreeItem[] | undefined
 
   constructor(public uri: Uri, public content: string, children?: TreeItem[]) {
-    const path = uri.path
-    const label = path.substring(path.lastIndexOf('/') + 1)
+    const decodeURI = decodeURIComponent(uri.path)
+    const label = decodeURI.substring(decodeURI.lastIndexOf('/') + 1)
     super(
       label,
       children === undefined

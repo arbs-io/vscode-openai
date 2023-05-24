@@ -18,7 +18,7 @@ export class OpenaiTreeItem extends TreeItem {
         ? TreeItemCollapsibleState.None
         : TreeItemCollapsibleState.Expanded
     )
-
+    this.resourceUri = uri
     this.iconPath = children === undefined ? ThemeIcon.File : ThemeIcon.Folder
     this.tooltip = 'embedded-resource'
     this.children = children

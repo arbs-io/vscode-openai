@@ -22,12 +22,12 @@ export default class EmbeddingService {
   }
 
   private static loadEmbeddings(): Array<IEmbedding> {
-    //For development (remove all keys...)
-    GlobalStorageService.instance.keys().forEach((key) => {
-      if (key.startsWith(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-`)) {
-        GlobalStorageService.instance.deleteKey(key)
-      }
-    })
+    // //For development (remove all keys...)
+    // GlobalStorageService.instance.keys().forEach((key) => {
+    //   if (key.startsWith(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-`)) {
+    //     GlobalStorageService.instance.deleteKey(key)
+    //   }
+    // })
 
     const embeddings: Array<IEmbedding> = []
     const keys = GlobalStorageService.instance.keys()

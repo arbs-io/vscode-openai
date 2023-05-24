@@ -21,27 +21,6 @@ export class EmbeddingTreeDataProvider
 
   private _dragAndDropController: EmbeddingTreeDragAndDropController
 
-  private ConvertTreeItemToIEmbedding(
-    openaiTreeItem: OpenaiTreeItem
-  ): IEmbedding {
-    const embedding: IEmbedding = {
-      timestamp: openaiTreeItem.timestamp,
-      embeddingId: openaiTreeItem.embeddingId,
-      uri: openaiTreeItem.uri,
-      content: openaiTreeItem.content,
-    }
-    return embedding
-  }
-  private ConvertIEmbeddingToTreeItem(embedding: IEmbedding): OpenaiTreeItem {
-    const openaiTreeItem = new OpenaiTreeItem(
-      embedding.timestamp,
-      embedding.embeddingId,
-      embedding.uri,
-      embedding.content
-    )
-    return openaiTreeItem
-  }
-
   constructor(context: ExtensionContext) {
     this._dragAndDropController = new EmbeddingTreeDragAndDropController()
     this._dragAndDropController.onDidDragDropTreeData(
@@ -88,5 +67,26 @@ export class EmbeddingTreeDataProvider
 
   public getTreeItem(element: OpenaiTreeItem): OpenaiTreeItem {
     return element
+  }
+
+  private ConvertTreeItemToIEmbedding(
+    openaiTreeItem: OpenaiTreeItem
+  ): IEmbedding {
+    const embedding: IEmbedding = {
+      timestamp: openaiTreeItem.timestamp,
+      embeddingId: openaiTreeItem.embeddingId,
+      uri: openaiTreeItem.uri,
+      content: openaiTreeItem.content,
+    }
+    return embedding
+  }
+  private ConvertIEmbeddingToTreeItem(embedding: IEmbedding): OpenaiTreeItem {
+    const openaiTreeItem = new OpenaiTreeItem(
+      embedding.timestamp,
+      embedding.embeddingId,
+      embedding.uri,
+      embedding.content
+    )
+    return openaiTreeItem
   }
 }

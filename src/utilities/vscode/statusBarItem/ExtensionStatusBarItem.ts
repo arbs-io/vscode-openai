@@ -6,7 +6,7 @@ import {
   window,
   workspace,
 } from 'vscode'
-import { VSCODE_OPENAI_REGISTER } from '@app/contexts/constants'
+import { VSCODE_OPENAI_REGISTER } from '@app/constants'
 import { ConfigurationService } from '@app/services'
 import { createErrorNotification } from '@app/utilities/node'
 

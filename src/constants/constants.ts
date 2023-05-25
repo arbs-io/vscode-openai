@@ -28,6 +28,9 @@ export const VSCODE_OPENAI_SCM = {
 // Input: None
 // Output: A string representing the command ID for commenting on a change in source control management.
 export const VSCODE_OPENAI_EMBEDDING = {
+  ENABLED_COMMAND_ID: 'vscode-openai.embedding.enabled',
+  STORAGE_V1_ID: 'embedding.v1',
+  REFRESH_COMMAND_ID: 'vscode-openai.embedding.refresh',
   CONVERSATION_COMMAND_ID: 'vscode-openai.embedding.conversation',
   DELETE_COMMAND_ID: 'vscode-openai.embedding.delete',
 }
@@ -36,8 +39,10 @@ export const VSCODE_OPENAI_EMBEDDING = {
 // Input: None
 // Output: A string representing the command ID for commenting on a change in source control management.
 export const VSCODE_OPENAI_CONVERSATION = {
+  STORAGE_V1_ID: 'conversation',
   NEW_STANDARD_COMMAND_ID: 'vscode-openai.conversation.new-standard',
   NEW_PERSONA_COMMAND_ID: 'vscode-openai.conversation.new-persona',
+  REFRESH_COMMAND_ID: 'vscode-openai.conversation.refresh',
 }
 
 // VSCODE_OPENAI_PROMPT: Contains various command IDs for prompting OpenAI to complete tasks.

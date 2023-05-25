@@ -1,5 +1,5 @@
 import { commands, ExtensionContext } from 'vscode'
-import { VSCODE_OPENAI_SCM } from '@app/contexts'
+import { VSCODE_OPENAI_SCM } from '@app/constants'
 import GitService from '@app/utilities/git/gitService'
 import { IChatCompletion, IConversation } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
@@ -10,6 +10,7 @@ import {
   createInfoNotification,
   createWarningNotification,
 } from '@app/utilities/node'
+import { setFeatureFlag } from '@app/utilities/vscode'
 
 // This function registers the Openai SCM command with VS Code.
 // It takes an ExtensionContext object as input and does not return anything.
@@ -27,11 +28,7 @@ function _registerOpenaiSCMCommand(context: ExtensionContext) {
   const gitService = new GitService()
 
   if (gitService.isAvailable()) {
-    commands.executeCommand(
-      'setContext',
-      VSCODE_OPENAI_SCM.ENABLED_COMMAND_ID,
-      true
-    )
+    setFeatureFlag(VSCODE_OPENAI_SCM.ENABLED_COMMAND_ID, true)
     createInfoNotification('scm vscode.git ready')
   } else {
     createWarningNotification('scm feature disabled vscode.git not found')

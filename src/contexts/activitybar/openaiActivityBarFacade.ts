@@ -16,7 +16,8 @@ export class OpenaiActivityBarFacade {
    * @constructor
    */
   constructor() {
-    this.sidebarInstance = OpenaiActivityBarProvider.getInstance()
+    this.sidebarInstance =
+      OpenaiActivityBarProvider.getOpenaiActivityBarProviderInstance()
   }
 
   /**
@@ -25,6 +26,7 @@ export class OpenaiActivityBarFacade {
    */
   public registerAllViews(context: ExtensionContext) {
     this.sidebarInstance.registerConversationsWebviewView(context)
+    this.sidebarInstance.registerEmbeddingRefreshTreeDataCommand(context)
     this.sidebarInstance.registerEmbeddingConversationTreeDataCommand(context)
     this.sidebarInstance.registerEmbeddingDeleteTreeDataCommand(context)
   }

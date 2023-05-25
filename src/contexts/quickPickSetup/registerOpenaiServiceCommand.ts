@@ -1,5 +1,5 @@
 import { commands, ExtensionContext } from 'vscode'
-import { VSCODE_OPENAI_REGISTER } from '@app/contexts'
+import { VSCODE_OPENAI_REGISTER } from '@app/constants'
 import { OpenaiQuickPickCommand } from './openaiQuickPickCommand'
 import { createErrorNotification } from '@app/utilities/node'
 

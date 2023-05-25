@@ -13,7 +13,7 @@ import {
   ResponseFormat,
 } from '@app/utilities/openai'
 import { compareFileToClipboard } from '@app/utilities/vscode'
-import { VSCODE_OPENAI_PROMPT } from '@app/contexts'
+import { VSCODE_OPENAI_PROMPT } from '@app/constants'
 import { ConversationService } from '@app/services'
 import { createErrorNotification } from '@app/utilities/node'
 

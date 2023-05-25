@@ -1,10 +1,13 @@
 import { commands } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
 import { ConfigurationService } from '@app/services'
-import { ExtensionStatusBarItem } from '@app/utilities/vscode'
+import { ExtensionStatusBarItem, setFeatureFlag } from '@app/utilities/vscode'
 import { errorHandler } from './errorHandler'
-import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
-import { createErrorNotification, createInfoNotification } from '@app/utilities/node'
+import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
+import {
+  createErrorNotification,
+  createInfoNotification,
+} from '@app/utilities/node'
 
 export async function validateApiKey() {
   try {
@@ -29,11 +32,7 @@ export async function verifyApiKey(): Promise<boolean> {
       await ConfigurationService.instance.getRequestConfig()
     )
     if (response.status === 200) {
-      commands.executeCommand(
-        'setContext',
-        VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
-        true
-      )
+      setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, true)
       createInfoNotification('verifyApiKey success')
       ExtensionStatusBarItem.instance.showStatusBarInformation(
         'vscode-openai',
@@ -43,6 +42,7 @@ export async function verifyApiKey(): Promise<boolean> {
     }
   } catch (error: any) {
     errorHandler(error)
+    setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, false)
   }
   return false
 }

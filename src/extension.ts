@@ -5,6 +5,7 @@ import {
   GlobalStorageService,
   TelemetryService,
   SecretStorageService,
+  setFeatureFlag,
 } from '@app/utilities/vscode'
 import {
   registerChangeConfiguration,
@@ -13,10 +14,18 @@ import {
   registerOpenaiActivityBarProvider,
   registerOpenaiSCMCommand,
   registerOpenSettings,
-  VSCODE_OPENAI_EXTENSION,
   registerConversationCommand,
 } from '@app/contexts'
-import { ConfigurationService, ConversationService } from '@app/services'
+import {
+  VSCODE_OPENAI_EXTENSION,
+  VSCODE_OPENAI_SCM,
+  VSCODE_OPENAI_EMBEDDING,
+} from '@app/constants'
+import {
+  ConfigurationService,
+  ConversationService,
+  EmbeddingService,
+} from '@app/services'
 import {
   createDebugNotification,
   createErrorNotification,
@@ -26,11 +35,9 @@ import {
 export function activate(context: ExtensionContext) {
   try {
     // Disable functionality until we validate auth
-    commands.executeCommand(
-      'setContext',
-      VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
-      false
-    )
+    setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, false)
+    setFeatureFlag(VSCODE_OPENAI_SCM.ENABLED_COMMAND_ID, false)
+    setFeatureFlag(VSCODE_OPENAI_EMBEDDING.ENABLED_COMMAND_ID, false)
 
     // Enable logging and telemetry
     TelemetryService.init(context)
@@ -61,6 +68,7 @@ export function activate(context: ExtensionContext) {
 
     createDebugNotification('starting conversation service')
     ConversationService.init(context)
+    EmbeddingService.init()
 
     createDebugNotification('verifying authentication openai service')
     validateApiKey() //On activation check if the api key is valid

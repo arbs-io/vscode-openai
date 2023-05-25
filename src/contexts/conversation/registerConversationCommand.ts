@@ -1,15 +1,16 @@
 import { commands, ExtensionContext, window } from 'vscode'
-import { VSCODE_OPENAI_CONVERSATION } from '@app/contexts'
+import { VSCODE_OPENAI_CONVERSATION } from '@app/constants'
 import { createErrorNotification } from '@app/utilities/node'
 import { IConversation } from '@app/interfaces'
 import { ConversationService } from '@app/services'
 import { getSystemPersonas } from '@app/models'
-import { quickPickCreateConversation } from '@app/quickPick'
+import { quickPickCreateConversation } from '@app/quickPicks'
 
 export function registerConversationCommand(context: ExtensionContext) {
   try {
     _registerConversationNewDefaultCommand(context)
     _registerConversationNewPersonaCommand(context)
+    _registerConversationRefresh(context)
   } catch (error) {
     createErrorNotification(error)
   }
@@ -43,6 +44,21 @@ function _registerConversationNewPersonaCommand(context: ExtensionContext) {
         VSCODE_OPENAI_CONVERSATION.NEW_PERSONA_COMMAND_ID,
         () => {
           quickPickCreateConversation(context)
+        }
+      )
+    )
+  } catch (error) {
+    createErrorNotification(error)
+  }
+}
+
+function _registerConversationRefresh(context: ExtensionContext) {
+  try {
+    context.subscriptions.push(
+      commands.registerCommand(
+        VSCODE_OPENAI_CONVERSATION.REFRESH_COMMAND_ID,
+        () => {
+          /* ... */
         }
       )
     )

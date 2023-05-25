@@ -3,7 +3,7 @@ import {
   quickPickSetupAzureOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
-} from '@app/quickPick'
+} from '@app/quickPicks'
 import { ICommandOpenai } from '@app/interfaces'
 
 export class OpenaiQuickPickCommand implements ICommandOpenai {

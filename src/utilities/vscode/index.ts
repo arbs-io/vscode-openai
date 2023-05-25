@@ -20,3 +20,5 @@ export { getGitAccessToken } from './authentication/getGitAccessToken'
 
 export * from './outputChannel/outputChannel'
 export { default as TelemetryService } from './outputChannel/telemetryService'
+
+export { setFeatureFlag } from './featureFlag/setFeatureFlag'

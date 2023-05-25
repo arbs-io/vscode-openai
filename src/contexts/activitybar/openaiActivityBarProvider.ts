@@ -3,7 +3,7 @@ import {
   ConversationsWebviewProvider,
   EmbeddingTreeDataProvider,
 } from '@app/providers'
-import { VSCODE_OPENAI_EMBEDDING, VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
+import { VSCODE_OPENAI_EMBEDDING, VSCODE_OPENAI_SIDEBAR } from '@app/constants'
 import { OpenaiTreeItem } from '@app/providers/embeddingTreeDataProvider'
 import { EmbeddingService } from '@app/services'
 

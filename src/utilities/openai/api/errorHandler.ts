@@ -1,6 +1,6 @@
 import { commands } from 'vscode'
-import { ExtensionStatusBarItem } from '@app/utilities/vscode'
-import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
+import { ExtensionStatusBarItem, setFeatureFlag } from '@app/utilities/vscode'
+import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
 import {
   createErrorNotification,
   createWarningNotification,
@@ -24,11 +24,7 @@ export function errorHandler(error: any) {
       error.hostname
     )
     // disable extension when exception occurs
-    commands.executeCommand(
-      'setContext',
-      VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID,
-      false
-    )
+    setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, false)
     createErrorNotification(error)
     return
   }

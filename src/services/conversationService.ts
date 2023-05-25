@@ -4,7 +4,7 @@ import { GlobalStorageService } from '@app/utilities/vscode'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { MessageViewerPanel } from '@app/panels'
 import { createErrorNotification } from '@app/utilities/node'
-import { VSCODE_OPENAI_CONVERSATION } from '@app/contexts'
+import { VSCODE_OPENAI_CONVERSATION } from '@app/constants'
 
 export default class ConversationService {
   private static _emitterDidChange = new EventEmitter<void>()

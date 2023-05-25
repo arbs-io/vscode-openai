@@ -1,5 +1,5 @@
 import { ExtensionContext, commands } from 'vscode'
-import { VSCODE_OPENAI_EXTENSION } from '@app/contexts'
+import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
 import { createErrorNotification } from '@app/utilities/node'
 
 export function registerOpenSettings(context: ExtensionContext): void {

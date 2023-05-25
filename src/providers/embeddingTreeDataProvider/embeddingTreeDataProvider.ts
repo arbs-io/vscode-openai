@@ -5,7 +5,7 @@ import {
   ExtensionContext,
   window,
 } from 'vscode'
-import { VSCODE_OPENAI_SIDEBAR } from '@app/contexts'
+import { VSCODE_OPENAI_SIDEBAR } from '@app/constants'
 import { EmbeddingService } from '@app/services'
 import { EmbeddingTreeDragAndDropController, OpenaiTreeItem } from '.'
 import { IEmbedding } from '@app/interfaces'

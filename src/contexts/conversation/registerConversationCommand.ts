@@ -1,5 +1,5 @@
 import { commands, ExtensionContext, window } from 'vscode'
-import { VSCODE_OPENAI_CONVERSATION } from '@app/contexts'
+import { VSCODE_OPENAI_CONVERSATION } from '@app/constants'
 import { createErrorNotification } from '@app/utilities/node'
 import { IConversation } from '@app/interfaces'
 import { ConversationService } from '@app/services'

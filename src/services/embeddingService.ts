@@ -2,7 +2,7 @@ import { EventEmitter, Event } from 'vscode'
 import { GlobalStorageService } from '@app/utilities/vscode'
 import { IEmbedding } from '@app/interfaces'
 import { createErrorNotification } from '@app/utilities/node'
-import { VSCODE_OPENAI_EMBEDDING } from '@app/contexts'
+import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
 export default class EmbeddingService {
   private static _emitterDidChange = new EventEmitter<void>()

@@ -90,7 +90,7 @@
           "name": "File Embedding",
           "icon": "./assets/openai-sidebar.svg",
           "contextualTitle": "vscode-openai conversations",
-          "when": "vscode-openai.extension.enabled"
+          "when": "vscode-openai.embedding.enabled"
         }
       ]
     },
@@ -328,7 +328,7 @@
       },
       {
         "command": "vscode-openai.conversation.new-persona",
-        "title": "New persona conversation...",
+        "title": "New persona conversation",
         "category": "vscode-openai.conversation",
         "icon": "$(feedback)"
       },
@@ -346,7 +346,7 @@
       },
       {
         "command": "vscode-openai.embedding.conversation",
-        "title": "Edit Prompts...",
+        "title": "New scoped conversation",
         "category": "vscode-openai.embedding",
         "icon": {
           "light": "./assets/openai-light.png",
@@ -355,13 +355,13 @@
       },
       {
         "command": "vscode-openai.embedding.delete",
-        "title": "Edit Prompts...",
+        "title": "Delete Embedding",
         "category": "vscode-openai.embedding",
         "icon": "$(notebook-delete-cell)"
       },
       {
         "command": "vscode-openai.settings.prompt-editor",
-        "title": "Edit Prompts...",
+        "title": "Edit Prompts",
         "category": "vscode-openai.settings"
       },
       {

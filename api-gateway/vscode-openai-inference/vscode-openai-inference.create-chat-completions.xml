@@ -1,0 +1,57 @@
+<policies>
+    <inbound>
+        <base />
+        <set-variable name="showUpgradeNotice" value="@{
+            string[] vscodeOpenaiVersion = new string[] { "{{vscode-openai-version-001}}", "{{vscode-openai-version-002}}", "{{vscode-openai-version-003}}" };
+            var header = context.Request.Headers.GetValueOrDefault("vscode-openai","missing");
+            var match = vscodeOpenaiVersion.FirstOrDefault(x => x.Contains(header));
+            if(match != null && match.Length > 0)
+            {
+                return false;
+            }
+            return true;
+        }" />
+        <choose>
+            <when condition="@(context.Variables.GetValueOrDefault<bool>("showUpgradeNotice") == true)">
+                <return-response>
+                    <set-status code="200" reason="OK" />
+                    <set-header name="Content-Type" exists-action="override">
+                        <value>application/json</value>
+                    </set-header>
+                    <set-body template="liquid">
+{
+    "id": "chatcmpl-7KmVlIGNhVMxArWnhv79LPAcLRGfT",
+    "object": "chat.completion",
+    "created": 1685199393,
+    "model": "gpt-3.5-turbo-0301",
+    "usage": {
+        "prompt_tokens": 10,
+        "completion_tokens": 10,
+        "total_tokens": 20
+    },
+    "choices": [
+        {
+            "message": {
+                "role": "assistant",
+                "content": "Thank you for choosing the vscode-openai extension! We appreciate your support and are committed to providing you with the best possible experience.\n\nTo ensure that you can take full advantage of our sponsored service, we kindly request that you upgrade to the latest version of the extension. This will enable you to access all the features and improvements we have implemented.\n\nTo upgrade, please follow these simple steps:\n\n1. Open Visual Studio Code.\n2. Click on the Extensions icon in the Activity Bar on the side of the window.\n3. Locate the vscode-openai extension in your installed extensions list.\n4. Click on the Update button next to it (if available).\n\nOnce again, thank you for using our extension, and we hope that it continues to be a valuable tool for your development needs. If you have any questions or concerns, please don't hesitate to reach out.\n\nBest regards,\nThe vscode-openai Team"
+            },
+            "finish_reason": "stop",
+            "index": 0
+        }
+    ]
+}
+</set-body>
+                </return-response>
+            </when>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

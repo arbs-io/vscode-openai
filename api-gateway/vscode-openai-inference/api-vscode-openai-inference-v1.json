@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "vscode-openai-inference-v1",
-    "description": "Azure OpenAI APIs for completions and search",
+    "description": "vscode-openai completions and search",
     "version": "1.0"
   },
   "servers": [

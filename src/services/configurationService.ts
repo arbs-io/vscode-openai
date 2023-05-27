@@ -192,7 +192,7 @@ export default class ConfigurationService {
     if (this.serviceProvider === 'VSCode-OpenAI') {
       const hash = crypto
         .createHash('sha512')
-        .update('vscode-openai::1.1.4')
+        .update('vscode-openai::1.2.1')
         .digest('hex')
       return {
         headers: { 'vscode-openai': hash },

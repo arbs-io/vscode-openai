@@ -11,10 +11,11 @@ import {
   registerChangeConfiguration,
   registerOpenaiEditor,
   registerOpenaiServiceCommand,
-  registerOpenaiActivityBarProvider,
   registerOpenaiSCMCommand,
   registerOpenSettings,
   registerConversationCommand,
+  registerEmbeddingRefreshTreeDataCommand,
+  registerConversationsWebviewView,
 } from '@app/contexts'
 import {
   VSCODE_OPENAI_EXTENSION,
@@ -59,12 +60,14 @@ export function activate(context: ExtensionContext) {
     //registerCommands
     createDebugNotification('register commands')
     registerOpenaiEditor(context)
-    registerOpenaiActivityBarProvider(context)
     registerChangeConfiguration(context)
     registerOpenaiServiceCommand(context)
     registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
     registerConversationCommand(context)
+    //views
+    registerEmbeddingRefreshTreeDataCommand(context)
+    registerConversationsWebviewView(context)
 
     createDebugNotification('starting conversation service')
     ConversationService.init(context)

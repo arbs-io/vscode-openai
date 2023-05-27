@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.2.2023052601",
+  "version": "1.2.1",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,

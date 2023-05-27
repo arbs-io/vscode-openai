@@ -190,8 +190,12 @@ export default class ConfigurationService {
    */
   public async getRequestConfig(): Promise<any> {
     if (this.serviceProvider === 'VSCode-OpenAI') {
+      const hash = crypto
+        .createHash('sha512')
+        .update('vscode-openai::1.2.1')
+        .digest('hex')
       return {
-        headers: { 'vscode-openai': '57cfdf11-06e3-4d52-a788-8fa81c4332f3' },
+        headers: { 'vscode-openai': hash },
       }
     } else if (this.serviceProvider === 'Azure-OpenAI') {
       return {

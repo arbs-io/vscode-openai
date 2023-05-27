@@ -20,7 +20,7 @@ import {
 const ContextMenu: FC<IMenuItemProps> = ({ conversation }) => {
   return (
     <>
-      <Menu openOnHover={true}>
+      <Menu>
         <MenuTrigger disableButtonEnhancement>
           <Button
             size="small"

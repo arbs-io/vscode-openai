@@ -189,10 +189,11 @@ export default class ConfigurationService {
    *@returns Request configuration object with headers and parameters based on current configuration settings.
    */
   public async getRequestConfig(): Promise<any> {
+    const extensionVersion = ConfigurationService.instance.extensionVersion
     if (this.serviceProvider === 'VSCode-OpenAI') {
       const hash = crypto
         .createHash('sha512')
-        .update('vscode-openai::1.2.1')
+        .update(`vscode-openai::${extensionVersion}`)
         .digest('hex')
       return {
         headers: { 'vscode-openai': hash },
@@ -233,16 +234,20 @@ export default class ConfigurationService {
     return (await SecretStorageService.instance.getAuthApiKey()) as string
   }
 
+  public get extensionVersion(): string {
+    const extension = extensions.getExtension(
+      'AndrewButson.vscode-openai'
+    )?.packageJSON
+    return extension.version ? extension.version.toString() : 'beta'
+  }
+
   public static LogConfigurationService(): void {
     try {
-      const extension = extensions.getExtension(
-        'AndrewButson.vscode-openai'
-      )?.packageJSON
-      const instance = ConfigurationService._instance
-
+      const instance = ConfigurationService.instance
       const extConfiguration = new Map<string, string>()
+
       extConfiguration.set('vscode_version', version)
-      extConfiguration.set('extension_version', extension.version)
+      extConfiguration.set('extension_version', instance.extensionVersion)
       extConfiguration.set('openai_service_provider', instance.serviceProvider)
       extConfiguration.set('openai_host', instance.host)
       extConfiguration.set('openai_base_url', instance.baseUrl)

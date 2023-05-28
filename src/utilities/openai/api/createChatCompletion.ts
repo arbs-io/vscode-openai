@@ -8,7 +8,10 @@ import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
-import { createInfoNotification } from '@app/utilities/node'
+import {
+  createErrorNotification,
+  createInfoNotification,
+} from '@app/utilities/node'
 
 export enum ResponseFormat {
   Markdown = '- vscode-openai response should be in markdown and always displays code as markdown in markdown fenced code block, with the language tag. For example "```xml", "```cpp" and "```go"',
@@ -94,10 +97,8 @@ export async function createChatCompletion(
     }
 
     sessionToken = sessionToken + message.totalTokens
-    createInfoNotification(
-      `chatCompletions (prompt:${message.promptTokens} completion:${message.completionTokens} total:${message.totalTokens}) [session:${sessionToken}]`
-    )
 
+    LogChatCompletion(message)
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'vscode-openai',
       ''
@@ -105,5 +106,22 @@ export async function createChatCompletion(
     return message
   } catch (error: any) {
     errorHandler(error)
+  }
+}
+
+const LogChatCompletion = (message: IMessage) => {
+  try {
+    const infoMap = new Map<string, string>()
+    const instance = ConfigurationService.instance
+    infoMap.set('service_provider', instance.serviceProvider)
+    infoMap.set('default_model', instance.defaultModel)
+    infoMap.set('tokens_prompt', message.promptTokens.toString())
+    infoMap.set('tokens_completion', message.completionTokens.toString())
+    infoMap.set('tokens_total', message.totalTokens.toString())
+    infoMap.set('tokens_session', sessionToken.toString())
+
+    createInfoNotification(Object.fromEntries(infoMap), 'chat-completion')
+  } catch (error) {
+    createErrorNotification(error)
   }
 }

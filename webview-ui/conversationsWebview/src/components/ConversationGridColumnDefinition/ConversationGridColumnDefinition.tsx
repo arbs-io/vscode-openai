@@ -7,6 +7,14 @@ import {
 } from '@fluentui/react-components'
 import { IConversation } from '../../interfaces'
 import { ContextMenu } from '../Menu'
+import { vscode } from '../../utilities/vscode'
+
+const handleOpenConversation = (conversation: IConversation) => {
+  vscode.postMessage({
+    command: 'onDidOpenConversationWebview',
+    text: JSON.stringify(conversation),
+  })
+}
 
 const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
   [
@@ -50,7 +58,8 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
           <TableCell tabIndex={0} role="gridcell">
             <TableCellLayout
               description={conversation.summary}
-              style={{ paddingRight: '1rem' }}
+              onClick={() => handleOpenConversation(conversation)}
+              style={{ paddingRight: '1rem', cursor: 'pointer' }}
             />
             <ContextMenu conversation={conversation} />
           </TableCell>

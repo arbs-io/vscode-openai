@@ -38,7 +38,8 @@
     "test-compile": "tsc -p ./",
     "deploy": "vsce publish --yarn",
     "version": "node ./scripts/version.js && git add CHANGELOG.md",
-    "clean": "node ./scripts/clean.js"
+    "clean": "node ./scripts/clean.js",
+    "echo": "echo $npm_package_version"
   },
   "devDependencies": {
     "@types/node": "^20.3.0",

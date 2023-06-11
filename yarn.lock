@@ -67,10 +67,10 @@
     "@opentelemetry/instrumentation" "^0.35.0"
     tslib "^2.2.0"
 
-"@esbuild/win32-x64@0.17.19":
-  version "0.17.19"
-  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.17.19.tgz"
-  integrity sha512-lAhycmKnVOuRYNtRtatQR1LPQf2oYCkRGkSFnseDAKPl8lu5SOsK/e1sXe5a0Pc5kHIHe6P2I/ilntNv2xf3cA==
+"@esbuild/win32-x64@0.18.0":
+  version "0.18.0"
+  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.18.0.tgz"
+  integrity sha512-WJxImv0Pehpbo+pgg7Xrn88/b6ZzSweNHTw/2LW95JjeQUIS6ToJeQmjAdud9H3yiHJmhLOmEAOvUdNLhptD0w==
 
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
@@ -309,20 +309,20 @@
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.12.tgz"
   integrity sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==
 
-"@types/node@^20.2.5":
-  version "20.2.5"
-  resolved "https://registry.npmjs.org/@types/node/-/node-20.2.5.tgz"
-  integrity sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==
+"@types/node@^20.3.0":
+  version "20.3.0"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.3.0.tgz"
+  integrity sha512-cumHmIAf6On83X7yP+LrsEyUOf/YlociZelmpRYaGFydoaPdxdt80MAbu6vWerQT2COCp2nPvHdsbD7tHn/YlQ==
 
 "@types/semver@^7.3.12":
   version "7.5.0"
   resolved "https://registry.npmjs.org/@types/semver/-/semver-7.5.0.tgz"
   integrity sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==
 
-"@types/vscode@^1.78.1":
-  version "1.78.1"
-  resolved "https://registry.npmjs.org/@types/vscode/-/vscode-1.78.1.tgz"
-  integrity sha512-wEA+54axejHu7DhcUfnFBan1IqFD1gBDxAFz8LoX06NbNDMRJv/T6OGthOs52yZccasKfN588EyffHWABkR0fg==
+"@types/vscode@^1.79.0":
+  version "1.79.0"
+  resolved "https://registry.npmjs.org/@types/vscode/-/vscode-1.79.0.tgz"
+  integrity sha512-Tfowu2rSW8hVGbqzQLSPlOEiIOYYryTkgJ+chMecpYiJcnw9n0essvSiclnK+Qh/TcSVJHgaK4EMrQDZjZJ/Sw==
 
 "@typescript-eslint/eslint-plugin@^5.59.9":
   version "5.59.9"
@@ -962,33 +962,33 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-esbuild@^0.17.19:
-  version "0.17.19"
-  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.17.19.tgz"
-  integrity sha512-XQ0jAPFkK/u3LcVRcvVHQcTIqD6E2H1fvZMA5dQPSOWb3suUbWbfbRf94pjc0bNzRYLfIrDRQXr7X+LHIm5oHw==
+esbuild@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.18.0.tgz"
+  integrity sha512-/2sQaWHNX2jkglLu85EjmEAR2ANpKOa1kp2rAE3wjKcuYjEHFlB+D60tn6W9BRgHiAQEKYtl4hEygKWothfDEA==
   optionalDependencies:
-    "@esbuild/android-arm" "0.17.19"
-    "@esbuild/android-arm64" "0.17.19"
-    "@esbuild/android-x64" "0.17.19"
-    "@esbuild/darwin-arm64" "0.17.19"
-    "@esbuild/darwin-x64" "0.17.19"
-    "@esbuild/freebsd-arm64" "0.17.19"
-    "@esbuild/freebsd-x64" "0.17.19"
-    "@esbuild/linux-arm" "0.17.19"
-    "@esbuild/linux-arm64" "0.17.19"
-    "@esbuild/linux-ia32" "0.17.19"
-    "@esbuild/linux-loong64" "0.17.19"
-    "@esbuild/linux-mips64el" "0.17.19"
-    "@esbuild/linux-ppc64" "0.17.19"
-    "@esbuild/linux-riscv64" "0.17.19"
-    "@esbuild/linux-s390x" "0.17.19"
-    "@esbuild/linux-x64" "0.17.19"
-    "@esbuild/netbsd-x64" "0.17.19"
-    "@esbuild/openbsd-x64" "0.17.19"
-    "@esbuild/sunos-x64" "0.17.19"
-    "@esbuild/win32-arm64" "0.17.19"
-    "@esbuild/win32-ia32" "0.17.19"
-    "@esbuild/win32-x64" "0.17.19"
+    "@esbuild/android-arm" "0.18.0"
+    "@esbuild/android-arm64" "0.18.0"
+    "@esbuild/android-x64" "0.18.0"
+    "@esbuild/darwin-arm64" "0.18.0"
+    "@esbuild/darwin-x64" "0.18.0"
+    "@esbuild/freebsd-arm64" "0.18.0"
+    "@esbuild/freebsd-x64" "0.18.0"
+    "@esbuild/linux-arm" "0.18.0"
+    "@esbuild/linux-arm64" "0.18.0"
+    "@esbuild/linux-ia32" "0.18.0"
+    "@esbuild/linux-loong64" "0.18.0"
+    "@esbuild/linux-mips64el" "0.18.0"
+    "@esbuild/linux-ppc64" "0.18.0"
+    "@esbuild/linux-riscv64" "0.18.0"
+    "@esbuild/linux-s390x" "0.18.0"
+    "@esbuild/linux-x64" "0.18.0"
+    "@esbuild/netbsd-x64" "0.18.0"
+    "@esbuild/openbsd-x64" "0.18.0"
+    "@esbuild/sunos-x64" "0.18.0"
+    "@esbuild/win32-arm64" "0.18.0"
+    "@esbuild/win32-ia32" "0.18.0"
+    "@esbuild/win32-x64" "0.18.0"
 
 escape-string-regexp@^1.0.5:
   version "1.0.5"

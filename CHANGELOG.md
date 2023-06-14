@@ -7,6 +7,8 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 ## [1.2.3]
 
 - Features/20230614 Support All openai gpt models
+- Features/20230612 fixing workflow dependancies
+- Features/20230611 Utility scripts added automate testing
 
 ## [1.2.2]
 

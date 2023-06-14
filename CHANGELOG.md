@@ -4,6 +4,10 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.2.3]
+
+- Features/20230614 Support All openai gpt models
+
 ## [1.2.2]
 
 - Features/20230606 open conversation on click by @arbs-io in #93

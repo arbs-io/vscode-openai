@@ -28,6 +28,7 @@
     "install:all": "npm install && npm-run-all --parallel install:all:*",
     "install:all:messageWebview": "npm --prefix ./webview-ui/messageWebview install",
     "install:all:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview install",
+    "install:all:patch": "node ./utilities/scripts/patchPdfParse.js",
     "build:webview": "npm-run-all --parallel build:webview:*",
     "build:webview:messageWebview": "npm --prefix ./webview-ui/messageWebview run build",
     "build:webview:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview run build",

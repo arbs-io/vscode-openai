@@ -13,8 +13,10 @@ import {
   DataTransferItem,
   Uri,
 } from 'vscode'
-import { EmbeddingService } from '@app/services'
 import { OpenaiTreeItem } from '.'
+import { extractTextFromBuffer } from '@app/utilities/extract-text-content'
+import { showMessageWithTimeout } from '@app/utilities/vscode'
+import { URL } from 'url'
 
 export class EmbeddingTreeDragAndDropController
   implements TreeDragAndDropController<OpenaiTreeItem>
@@ -42,10 +44,18 @@ export class EmbeddingTreeDragAndDropController
 
     const transferFile = new URL(transferItem.value)
     try {
-      const fileContent = fs.readFileSync(transferFile, {
-        encoding: 'utf8',
-        flag: 'r',
+      const bufferArray = await loadUriData(transferFile)
+      const mimeType = await getMimeType(transferFile)
+
+      const fileContent = await extractTextFromBuffer({
+        bufferArray: bufferArray,
+        filetype: mimeType,
       })
+
+      showMessageWithTimeout(
+        `${fileContent.mimeType}: ${fileContent.content.length} - ${transferFile}`,
+        5000
+      )
 
       const uri = Uri.file(transferItem.value)
       const timestamp = new Date().getTime()
@@ -54,7 +64,7 @@ export class EmbeddingTreeDragAndDropController
         timestamp,
         embeddingId,
         uri,
-        fileContent
+        fileContent.content
       )
 
       this._onDidDragDropTreeData.fire([openaiTreeItem])
@@ -73,4 +83,42 @@ export class EmbeddingTreeDragAndDropController
       new DataTransferItem(source)
     )
   }
+}
+async function loadUriData(transferFile: URL): Promise<Uint8Array> {
+  return await new Promise((resolve, reject) => {
+    const fileStream = fs.createReadStream(transferFile)
+    const chunks: any[] = []
+    fileStream.on('data', (chunk) => {
+      chunks.push(chunk)
+    })
+    fileStream.on('error', (error) => {
+      reject(error)
+    })
+    fileStream.on('end', () => {
+      const uint8Array = new Uint8Array(Buffer.concat(chunks))
+      resolve(uint8Array)
+    })
+  })
+}
+
+async function getMimeType(transferFile: URL): Promise<string | undefined> {
+  const fileExtension = transferFile.pathname.substring(
+    transferFile.pathname.lastIndexOf('.') + 1
+  )
+
+  switch (fileExtension) {
+    case 'htm':
+    case 'html':
+      return 'text/html'
+    case 'csv':
+      return 'text/csv'
+    case 'md':
+      return 'text/markdown'
+    case 'txt':
+      return 'text/plain'
+    default:
+      return undefined
+  }
+
+  return ''
 }

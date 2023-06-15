@@ -4,7 +4,7 @@
 node_modules
 releases
 tools
-sample
+utilities/**
 api-gateway
 out/test/**
 out/**/*.map

@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const folders = ['../dist', '../out', '../node_modules']
+const folders = ['../../dist', '../../out', '../../node_modules']
 
 folders.forEach((folder) => {
   const dir = path.join(__dirname, folder)

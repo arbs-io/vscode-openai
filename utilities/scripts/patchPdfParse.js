@@ -18,7 +18,7 @@ function copyFolderSync(source, target) {
 
   // Create target directory if it does not exist
   if (!fs.existsSync(target)) {
-    fs.mkdirSync(target)
+    fs.mkdirSync(target, { recursive: true })
   }
 
   // Get the list of items in the source directory

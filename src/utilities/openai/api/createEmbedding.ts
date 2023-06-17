@@ -2,10 +2,6 @@ import { Configuration, OpenAIApi } from 'openai'
 import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { errorHandler } from './errorHandler'
-import {
-  createErrorNotification,
-  createDebugNotification,
-} from '@app/utilities/node'
 
 type EmbeddingOptions = {
   input: string | string[]
@@ -32,13 +28,17 @@ export async function createEmbedding({
 
     const requestConfig = await ConfigurationService.instance.getRequestConfig()
 
-    createDebugNotification(`${input[0].substring(0, 20)}...`, 'embedding')
     const result = await openai.createEmbedding(
       {
         model,
         input,
       },
       requestConfig
+    )
+
+    ExtensionStatusBarItem.instance.showStatusBarInformation(
+      'vscode-openai',
+      ''
     )
 
     if (!result.data.data[0].embedding) {

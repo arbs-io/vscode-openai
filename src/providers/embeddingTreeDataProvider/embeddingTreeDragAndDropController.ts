@@ -17,7 +17,6 @@ import {
   extractTextFromBuffer,
   getEmbeddingsForText,
 } from '@app/utilities/embedding'
-import { showMessageWithTimeout } from '@app/utilities/vscode'
 import { URL } from 'url'
 import { getValidMimeType, urlReadBuffer } from './utilities'
 
@@ -43,27 +42,30 @@ export class EmbeddingTreeDragAndDropController
       createDebugNotification(`embedding drop failed`)
       return
     }
-    createDebugNotification(`drop success ${transferItem}`)
+    createDebugNotification(`embedding-controller: ${transferItem.value}`)
 
     const transferFile = new URL(transferItem.value)
     try {
       const bufferArray = await urlReadBuffer(transferFile)
+      createDebugNotification(`embedding-controller memory-buffer`)
+
       const mimeType = await getValidMimeType(transferFile)
+      createDebugNotification(`embedding-controller reading buffer type`)
 
       const fileContent = await extractTextFromBuffer({
         bufferArray: bufferArray,
         filetype: mimeType,
       })
-
-      showMessageWithTimeout(
-        `${fileContent.mimeType}: ${fileContent.content.length} - ${transferFile}`,
-        5000
+      createDebugNotification(
+        `embedding-controller extract ${fileContent.mimeType} ${fileContent.content.length} (bytes)`
       )
 
       const splitEmbeddings = await getEmbeddingsForText({
         text: fileContent.content,
       })
-      showMessageWithTimeout(`${splitEmbeddings}`, 5000)
+      createDebugNotification(
+        `embedding-controller embedding ${splitEmbeddings.length} (chunks)`
+      )
 
       const uri = Uri.file(transferItem.value)
       const timestamp = new Date().getTime()

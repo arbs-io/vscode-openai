@@ -12,30 +12,29 @@ import {
   DataTransferItem,
   Uri,
 } from 'vscode'
-import { OpenaiTreeItem } from '.'
-import { extractTextFromBuffer } from '@app/utilities/extract-text-content'
+import { EmbeddingTreeItem } from '.'
+import {
+  extractTextFromBuffer,
+  getEmbeddingsForText,
+} from '@app/utilities/embedding'
 import { showMessageWithTimeout } from '@app/utilities/vscode'
 import { URL } from 'url'
-import {
-  getEmbeddingsForText,
-  getValidMimeType,
-  urlReadBuffer,
-} from './utilities'
+import { getValidMimeType, urlReadBuffer } from './utilities'
 
 export class EmbeddingTreeDragAndDropController
-  implements TreeDragAndDropController<OpenaiTreeItem>
+  implements TreeDragAndDropController<EmbeddingTreeItem>
 {
   dropMimeTypes: string[] = ['text/uri-list']
   dragMimeTypes: string[] = this.dropMimeTypes
 
-  private _onDidDragDropTreeData: EventEmitter<OpenaiTreeItem[]> =
-    new EventEmitter<OpenaiTreeItem[]>()
+  private _onDidDragDropTreeData: EventEmitter<EmbeddingTreeItem[]> =
+    new EventEmitter<EmbeddingTreeItem[]>()
 
-  public onDidDragDropTreeData: Event<OpenaiTreeItem[]> =
+  public onDidDragDropTreeData: Event<EmbeddingTreeItem[]> =
     this._onDidDragDropTreeData.event
 
   public async handleDrop(
-    target: OpenaiTreeItem | undefined,
+    target: EmbeddingTreeItem | undefined,
     sources: DataTransfer,
     token: CancellationToken
   ): Promise<void> {
@@ -69,7 +68,7 @@ export class EmbeddingTreeDragAndDropController
       const uri = Uri.file(transferItem.value)
       const timestamp = new Date().getTime()
       const embeddingId: string = crypto.randomUUID()
-      const openaiTreeItem = new OpenaiTreeItem(
+      const openaiTreeItem = new EmbeddingTreeItem(
         timestamp,
         embeddingId,
         uri,
@@ -83,7 +82,7 @@ export class EmbeddingTreeDragAndDropController
   }
 
   public async handleDrag(
-    source: OpenaiTreeItem[],
+    source: EmbeddingTreeItem[],
     treeDataTransfer: DataTransfer,
     token: CancellationToken
   ): Promise<void> {

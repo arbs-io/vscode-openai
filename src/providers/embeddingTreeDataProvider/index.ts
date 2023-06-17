@@ -1,2 +1,2 @@
-export { OpenaiTreeItem } from './openaiTreeItem'
+export { EmbeddingTreeItem } from './embeddingTreeItem'
 export { EmbeddingTreeDragAndDropController } from './embeddingTreeDragAndDropController'

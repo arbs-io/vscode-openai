@@ -1,6 +1,6 @@
 import { TreeItem, TreeItemCollapsibleState, Uri, ThemeIcon } from 'vscode'
 
-export class OpenaiTreeItem extends TreeItem {
+export class EmbeddingTreeItem extends TreeItem {
   children: TreeItem[] | undefined
 
   constructor(

@@ -2,6 +2,10 @@ import { Configuration, OpenAIApi } from 'openai'
 import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { errorHandler } from './errorHandler'
+import {
+  createErrorNotification,
+  createDebugNotification,
+} from '@app/utilities/node'
 
 type EmbeddingOptions = {
   input: string | string[]
@@ -11,7 +15,7 @@ type EmbeddingOptions = {
 export async function createEmbedding({
   input,
   model = 'text-embedding-ada-002',
-}: EmbeddingOptions): Promise<number[][]> {
+}: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
@@ -28,6 +32,7 @@ export async function createEmbedding({
 
     const requestConfig = await ConfigurationService.instance.getRequestConfig()
 
+    createDebugNotification(`${input[0].substring(0, 20)}...`, 'embedding')
     const result = await openai.createEmbedding(
       {
         model,

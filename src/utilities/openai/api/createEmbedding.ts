@@ -11,7 +11,7 @@ type EmbeddingOptions = {
 export async function createEmbedding({
   input,
   model = 'text-embedding-ada-002',
-}: EmbeddingOptions): Promise<number[][]> {
+}: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
@@ -34,6 +34,11 @@ export async function createEmbedding({
         input,
       },
       requestConfig
+    )
+
+    ExtensionStatusBarItem.instance.showStatusBarInformation(
+      'vscode-openai',
+      ''
     )
 
     if (!result.data.data[0].embedding) {

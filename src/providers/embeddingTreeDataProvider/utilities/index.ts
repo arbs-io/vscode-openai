@@ -1,5 +1,3 @@
 export { urlReadBuffer } from './urlReadBuffer'
 export { getValidMimeType } from './getValidMimeType'
-export { ITextEmbedding } from './ITextEmbedding'
-export { chunkText } from './chunkText'
-export { getEmbeddingsForText } from './getEmbeddingsForText'
+

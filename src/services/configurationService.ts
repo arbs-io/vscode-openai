@@ -230,7 +230,6 @@ export default class ConfigurationService {
       this._vscodeopenaiAccessToken = resp.token as string
       return this._vscodeopenaiAccessToken
     }
-    createDebugNotification(`retrieve api-key`)
     return (await SecretStorageService.instance.getAuthApiKey()) as string
   }
 

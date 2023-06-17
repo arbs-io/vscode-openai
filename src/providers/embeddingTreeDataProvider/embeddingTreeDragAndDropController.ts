@@ -12,30 +12,28 @@ import {
   DataTransferItem,
   Uri,
 } from 'vscode'
-import { OpenaiTreeItem } from '.'
-import { extractTextFromBuffer } from '@app/utilities/extract-text-content'
-import { showMessageWithTimeout } from '@app/utilities/vscode'
-import { URL } from 'url'
+import { EmbeddingTreeItem } from '.'
 import {
+  extractTextFromBuffer,
   getEmbeddingsForText,
-  getValidMimeType,
-  urlReadBuffer,
-} from './utilities'
+} from '@app/utilities/embedding'
+import { URL } from 'url'
+import { getValidMimeType, urlReadBuffer } from './utilities'
 
 export class EmbeddingTreeDragAndDropController
-  implements TreeDragAndDropController<OpenaiTreeItem>
+  implements TreeDragAndDropController<EmbeddingTreeItem>
 {
   dropMimeTypes: string[] = ['text/uri-list']
   dragMimeTypes: string[] = this.dropMimeTypes
 
-  private _onDidDragDropTreeData: EventEmitter<OpenaiTreeItem[]> =
-    new EventEmitter<OpenaiTreeItem[]>()
+  private _onDidDragDropTreeData: EventEmitter<EmbeddingTreeItem[]> =
+    new EventEmitter<EmbeddingTreeItem[]>()
 
-  public onDidDragDropTreeData: Event<OpenaiTreeItem[]> =
+  public onDidDragDropTreeData: Event<EmbeddingTreeItem[]> =
     this._onDidDragDropTreeData.event
 
   public async handleDrop(
-    target: OpenaiTreeItem | undefined,
+    target: EmbeddingTreeItem | undefined,
     sources: DataTransfer,
     token: CancellationToken
   ): Promise<void> {
@@ -44,32 +42,35 @@ export class EmbeddingTreeDragAndDropController
       createDebugNotification(`embedding drop failed`)
       return
     }
-    createDebugNotification(`drop success ${transferItem}`)
+    createDebugNotification(`embedding-controller: ${transferItem.value}`)
 
     const transferFile = new URL(transferItem.value)
     try {
       const bufferArray = await urlReadBuffer(transferFile)
+      createDebugNotification(`embedding-controller memory-buffer`)
+
       const mimeType = await getValidMimeType(transferFile)
+      createDebugNotification(`embedding-controller reading buffer type`)
 
       const fileContent = await extractTextFromBuffer({
         bufferArray: bufferArray,
         filetype: mimeType,
       })
-
-      showMessageWithTimeout(
-        `${fileContent.mimeType}: ${fileContent.content.length} - ${transferFile}`,
-        5000
+      createDebugNotification(
+        `embedding-controller extract ${fileContent.mimeType} ${fileContent.content.length} (bytes)`
       )
 
       const splitEmbeddings = await getEmbeddingsForText({
         text: fileContent.content,
       })
-      showMessageWithTimeout(`${splitEmbeddings}`, 5000)
+      createDebugNotification(
+        `embedding-controller embedding ${splitEmbeddings.length} (chunks)`
+      )
 
       const uri = Uri.file(transferItem.value)
       const timestamp = new Date().getTime()
       const embeddingId: string = crypto.randomUUID()
-      const openaiTreeItem = new OpenaiTreeItem(
+      const openaiTreeItem = new EmbeddingTreeItem(
         timestamp,
         embeddingId,
         uri,
@@ -83,7 +84,7 @@ export class EmbeddingTreeDragAndDropController
   }
 
   public async handleDrag(
-    source: OpenaiTreeItem[],
+    source: EmbeddingTreeItem[],
     treeDataTransfer: DataTransfer,
     token: CancellationToken
   ): Promise<void> {

@@ -2,7 +2,9 @@ import { ExtensionContext, commands, window } from 'vscode'
 import { EmbeddingTreeDataProvider } from '@app/providers'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 import { EmbeddingTreeItem } from '@app/providers/embeddingTreeDataProvider'
-import { EmbeddingService } from '@app/services'
+import { ConversationService, EmbeddingService } from '@app/services'
+import { IConversation } from '@app/interfaces'
+import { QueryResourcePersona } from '@app/models'
 
 export function registerEmbeddingRefreshTreeDataCommand(
   context: ExtensionContext
@@ -24,10 +26,18 @@ const _registerCommandConversation = (
 ): void => {
   commands.registerCommand(
     VSCODE_OPENAI_EMBEDDING.CONVERSATION_COMMAND_ID,
-    (node: EmbeddingTreeItem) =>
+    (node: EmbeddingTreeItem) => {
       window.showInformationMessage(
-        `ConversationTreeDataCommand: ${node.label}.`
+        `ConversationTreeDataCommand: ${node.embeddingId} - ${node.label}.`
       )
+      const persona = QueryResourcePersona
+      const conversation: IConversation = ConversationService.instance.create(
+        persona,
+        [node.embeddingId]
+      )
+      ConversationService.instance.update(conversation)
+      ConversationService.instance.show(conversation.conversationId)
+    }
   )
 }
 

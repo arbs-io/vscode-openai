@@ -57,7 +57,7 @@ export function activate(context: ExtensionContext) {
     createDebugNotification('initialise components')
     ExtensionStatusBarItem.init(context)
 
-    //registerCommands
+    // registerCommands
     createDebugNotification('register commands')
     registerOpenaiEditor(context)
     registerChangeConfiguration(context)
@@ -65,7 +65,7 @@ export function activate(context: ExtensionContext) {
     registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
     registerConversationCommand(context)
-    //views
+    // views
     registerEmbeddingRefreshTreeDataCommand(context)
     registerConversationsWebviewView(context)
 

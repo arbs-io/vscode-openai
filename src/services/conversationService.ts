@@ -88,7 +88,10 @@ export default class ConversationService {
     this._conversations.push(conversation)
   }
 
-  public create(persona: IPersonaOpenAI): IConversation {
+  public create(
+    persona: IPersonaOpenAI,
+    embeddingId?: Array<string>
+  ): IConversation {
     const uuid4 = crypto.randomUUID()
 
     const chatCompletion: IChatCompletion[] = []
@@ -106,6 +109,7 @@ export default class ConversationService {
       timestamp: new Date().getTime(),
       conversationId: uuid4,
       persona: persona,
+      embeddingId: embeddingId,
       summary: '<New Conversation>',
       chatMessages: chatCompletion,
     }

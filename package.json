@@ -122,7 +122,7 @@
         },
         {
           "id": "vscode-openai.sidebar.embedding",
-          "name": "File Embedding",
+          "name": "Query Resources",
           "icon": "./assets/openai-sidebar.svg",
           "contextualTitle": "vscode-openai conversations",
           "when": "vscode-openai.embedding.enabled"

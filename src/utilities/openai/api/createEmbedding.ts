@@ -15,7 +15,7 @@ export async function createEmbedding({
   try {
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
-      '- waiting'
+      '- embedding'
     )
     const apiKey = await ConfigurationService.instance.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')

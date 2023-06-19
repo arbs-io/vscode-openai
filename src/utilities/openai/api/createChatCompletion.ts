@@ -56,7 +56,7 @@ export async function createChatCompletion(
   try {
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'sync~spin',
-      '- waiting'
+      '- completion'
     )
     const apiKey = await ConfigurationService.instance.getApiKey()
     if (!apiKey) return undefined

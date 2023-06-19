@@ -1,6 +1,7 @@
 // import { embedding } from './openai'
 import { IEmbeddingFileChunk, IEmbeddingFileLite } from '@app/interfaces'
 import { createDebugNotification } from '@app/utilities/node'
+import { createEmbedding } from '@app/utilities/openai'
 
 // This is the minimum cosine similarity score that a file must have with the search query to be considered relevant
 // This is an arbitrary value, and you should vary/ remove this depending on the diversity of your dataset
@@ -18,18 +19,18 @@ export async function searchFileChunks({
 }): Promise<IEmbeddingFileChunk[]> {
   createDebugNotification(`embedding-controller: searchQuery: ${searchQuery}`)
   // Get the search query embedding
-  const searchQueryEmbeddingResponse = await embedding({
+  const searchQueryEmbeddingResponse = await createEmbedding({
     input: searchQuery,
   })
 
-  console.log(
-    `     searchQuery: ${searchQuery.length} embeddings: ${searchQueryEmbeddingResponse.length}`
-  )
+  // console.log(
+  //   `     searchQuery: ${searchQuery.length} embeddings: ${searchQueryEmbeddingResponse[0].length}`
+  // )
 
   // Get the first element in the embedding array
   const searchQueryEmbedding =
-    searchQueryEmbeddingResponse.length > 0
-      ? searchQueryEmbeddingResponse[0]
+    searchQueryEmbeddingResponse!.length > 0
+      ? searchQueryEmbeddingResponse![0]
       : []
 
   // Rank the chunks by their cosine similarity to the search query (using dot product since the embeddings are normalized) and return this

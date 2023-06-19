@@ -1,6 +1,6 @@
 import { Uri } from 'vscode'
 
-export interface IEmbedding {
+export interface IEmbeddingResourceStorage {
   timestamp: number
   embeddingId: string
   uri: Uri

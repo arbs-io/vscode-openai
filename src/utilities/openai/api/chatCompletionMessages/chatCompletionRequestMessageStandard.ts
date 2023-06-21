@@ -3,10 +3,10 @@ import {
   ChatCompletionRequestMessageRoleEnum,
 } from 'openai'
 import { ConfigurationService } from '@app/services'
-import { IConversation, IMessage } from '@app/interfaces'
+import { IConversation } from '@app/interfaces'
 import { ResponseFormat } from '.'
 
-export async function GenerateChatCompletionMessages(
+export async function ChatCompletionRequestMessageStandard(
   conversation: IConversation,
   responseFormat: ResponseFormat
 ): Promise<ChatCompletionRequestMessage[]> {

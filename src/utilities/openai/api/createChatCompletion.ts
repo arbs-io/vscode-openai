@@ -9,7 +9,8 @@ import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 import {
-  GenerateChatCompletionMessages,
+  ChatCompletionRequestMessageEmbedding,
+  ChatCompletionRequestMessageStandard,
   LogChatCompletion,
   ResponseFormat,
 } from './chatCompletionMessages'
@@ -32,10 +33,9 @@ export async function createChatCompletion(
     })
     const openai = new OpenAIApi(configuration)
 
-    const chatCompletionMessages = await GenerateChatCompletionMessages(
-      conversation,
-      responseFormat
-    )
+    const chatCompletionMessages = conversation.embeddingId
+      ? await ChatCompletionRequestMessageEmbedding(conversation)
+      : await ChatCompletionRequestMessageStandard(conversation, responseFormat)
 
     const requestConfig = await ConfigurationService.instance.getRequestConfig()
     const completion = await openai.createChatCompletion(

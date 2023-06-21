@@ -32,8 +32,8 @@ const _registerCommandConversation = (
       )
       const persona = QueryResourcePersona
       const conversation: IConversation = ConversationService.instance.create(
-        persona
-        // [node.label] //TODO ARB
+        persona,
+        [node.embeddingFileLite.embeddingId]
       )
       ConversationService.instance.update(conversation)
       ConversationService.instance.show(conversation.conversationId)

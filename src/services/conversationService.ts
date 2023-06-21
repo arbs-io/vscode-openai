@@ -95,20 +95,11 @@ export default class ConversationService {
   ): IConversation {
     const uuid4 = crypto.randomUUID()
 
-    let content = `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`
-
-    if (embeddingIds) {
-      content =
-        'Welcome to resource query. This conversation will be scoped to the following resources'
-      embeddingIds.forEach((embeddingId) => {
-        const embeddingResource = EmbeddingService.instance.get(embeddingId)
-        content = content + `\n- ${embeddingResource?.name}`
-      })
-    }
+    const welcomeMessage = this.getWelcomeMessage(embeddingIds)
 
     const chatCompletion: IChatCompletion[] = []
     chatCompletion.push({
-      content: content,
+      content: welcomeMessage,
       author: `${persona.roleName} (${persona.configuration.service})`,
       timestamp: new Date().toLocaleString(),
       mine: false,
@@ -126,5 +117,18 @@ export default class ConversationService {
       chatMessages: chatCompletion,
     }
     return conversation
+  }
+
+  private getWelcomeMessage(embeddingIds?: Array<string>): string {
+    let content = `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`
+    if (embeddingIds) {
+      content =
+        'Welcome to resource query. This conversation will be scoped to the following resources'
+      embeddingIds.forEach((embeddingId) => {
+        const embeddingResource = EmbeddingService.instance.get(embeddingId)
+        content = content + `\n- ${embeddingResource?.name}`
+      })
+    }
+    return content
   }
 }

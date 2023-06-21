@@ -53,12 +53,6 @@ export default class EmbeddingService {
 
   public get(key: string): IEmbeddingFileLite | undefined {
     return this._embeddings.find((item) => item.embeddingId === key)
-    // this._embeddings.forEach((embedding) => {
-    //   if (key === embedding.embeddingId) {
-    //     return embedding
-    //   }
-    // })
-    // return undefined
   }
 
   public delete(key: string) {

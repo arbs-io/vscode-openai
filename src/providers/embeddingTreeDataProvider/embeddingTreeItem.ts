@@ -10,14 +10,14 @@ export class EmbeddingTreeItem extends TreeItem {
   ) {
     // const decodeURI = decodeURIComponent(url.path)
     // const label = decodeURI.substring(decodeURI.lastIndexOf('/') + 1)
-    const label = embeddingFileLite.embeddingId
+    const label = embeddingFileLite.name
     super(
       label,
       children === undefined
         ? TreeItemCollapsibleState.None
         : TreeItemCollapsibleState.Expanded
     )
-    // this.resourceUri = url
+    this.resourceUri = Uri.parse(embeddingFileLite.url!)
     this.iconPath = children === undefined ? ThemeIcon.File : ThemeIcon.Folder
     this.tooltip = 'embedded-resource'
     this.children = children

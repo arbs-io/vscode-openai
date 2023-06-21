@@ -12,7 +12,7 @@ import {
 } from 'vscode'
 import { IConversation } from '@app/interfaces'
 import { getNonce, getUri } from '@app/utilities/vscode'
-import { ConversationService } from '@app/services'
+import { ConversationStorageService } from '@app/services'
 import {
   onDidInitialize,
   onDidOpenConversationWebview,
@@ -30,7 +30,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
       this._refreshWebview()
     })
 
-    ConversationService.onDidChange((e) => {
+    ConversationStorageService.onDidChange((e) => {
       if (this._view?.visible) {
         onDidInitialize(this._view!)
       }

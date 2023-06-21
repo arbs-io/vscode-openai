@@ -1,8 +1,8 @@
 import { IConversation } from '@app/interfaces'
-import { ConversationService } from '@app/services'
+import { ConversationStorageService } from '@app/services'
 
 export const onDidOpenConversationWebview = (
   conversation: IConversation
 ): void => {
-  ConversationService.instance.show(conversation.conversationId)
+  ConversationStorageService.instance.show(conversation.conversationId)
 }

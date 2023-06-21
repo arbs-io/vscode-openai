@@ -3,7 +3,7 @@ import { VSCODE_OPENAI_SCM } from '@app/constants'
 import GitService from '@app/utilities/git/gitService'
 import { IChatCompletion, IConversation } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
-import { ConversationService } from '@app/services'
+import { ConversationStorageService } from '@app/services'
 import { createChatCompletion, ResponseFormat } from '@app/utilities/openai'
 import {
   createErrorNotification,
@@ -53,7 +53,7 @@ const getComments = async (diff: string): Promise<string> => {
   )
   if (persona) {
     const conversation: IConversation =
-      ConversationService.instance.create(persona)
+      ConversationStorageService.instance.create(persona)
 
     const prompt = [
       'Each line should be less than 72 characters.',

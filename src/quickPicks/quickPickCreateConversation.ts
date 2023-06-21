@@ -7,7 +7,7 @@
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
 import { MultiStepInput, getGitAccessToken } from '@app/utilities/vscode'
-import { ConfigurationService, ConversationService } from '@app/services'
+import { ConfigurationService, ConversationStorageService } from '@app/services'
 import { createInfoNotification } from '@app/utilities/node'
 import { getSystemPersonas } from '@app/models'
 import { IConversation } from '@app/interfaces'
@@ -158,7 +158,7 @@ export async function quickPickCreateConversation(
     (a) => a.roleName === state.personaQuickPickItem.label
   )!
   const conversation: IConversation =
-    ConversationService.instance.create(persona)
-  ConversationService.instance.update(conversation)
-  ConversationService.instance.show(conversation.conversationId)
+    ConversationStorageService.instance.create(persona)
+  ConversationStorageService.instance.update(conversation)
+  ConversationStorageService.instance.show(conversation.conversationId)
 }

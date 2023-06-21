@@ -2,7 +2,7 @@ import { commands, ExtensionContext, window } from 'vscode'
 import { VSCODE_OPENAI_CONVERSATION } from '@app/constants'
 import { createErrorNotification } from '@app/utilities/node'
 import { IConversation } from '@app/interfaces'
-import { ConversationService } from '@app/services'
+import { ConversationStorageService } from '@app/services'
 import { getSystemPersonas } from '@app/models'
 import { quickPickCreateConversation } from '@app/quickPicks'
 
@@ -26,9 +26,9 @@ function _registerConversationNewDefaultCommand(context: ExtensionContext) {
             (a) => a.roleName === 'General Chat'
           )!
           const conversation: IConversation =
-            ConversationService.instance.create(persona)
-          ConversationService.instance.update(conversation)
-          ConversationService.instance.show(conversation.conversationId)
+            ConversationStorageService.instance.create(persona)
+          ConversationStorageService.instance.update(conversation)
+          ConversationStorageService.instance.show(conversation.conversationId)
         }
       )
     )

@@ -1,6 +1,6 @@
 import { window } from 'vscode'
 import { IConversation } from '@app/interfaces'
-import { ConversationService } from '@app/services'
+import { ConversationStorageService } from '@app/services'
 
 export const onDidConversationDelete = (conversation: IConversation): void => {
   window
@@ -11,7 +11,7 @@ export const onDidConversationDelete = (conversation: IConversation): void => {
     )
     .then((answer) => {
       if (answer === 'Yes') {
-        ConversationService.instance.delete(conversation.conversationId)
+        ConversationStorageService.instance.delete(conversation.conversationId)
       }
     })
 }

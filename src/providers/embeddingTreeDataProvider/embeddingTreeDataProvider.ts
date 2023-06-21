@@ -6,7 +6,7 @@ import {
   window,
 } from 'vscode'
 import { VSCODE_OPENAI_SIDEBAR } from '@app/constants'
-import { EmbeddingService } from '@app/services'
+import { EmbeddingStorageService } from '@app/services'
 import { EmbeddingTreeDragAndDropController, EmbeddingTreeItem } from '.'
 import { IEmbeddingFileLite } from '@app/interfaces'
 
@@ -27,13 +27,13 @@ export class EmbeddingTreeDataProvider
       (openaiTreeItems: IEmbeddingFileLite[]) => {
         openaiTreeItems.forEach((openaiTreeItem) => {
           if (openaiTreeItem) {
-            EmbeddingService.instance.update(openaiTreeItem)
+            EmbeddingStorageService.instance.update(openaiTreeItem)
           }
         })
       }
     )
 
-    EmbeddingService.onDidChange(() => {
+    EmbeddingStorageService.onDidChange(() => {
       this.refresh()
     })
 
@@ -56,7 +56,7 @@ export class EmbeddingTreeDataProvider
   public getChildren(element: EmbeddingTreeItem): EmbeddingTreeItem[] {
     const openaiTreeItems: Array<EmbeddingTreeItem> = []
 
-    const embeddings = EmbeddingService.instance.getAll()
+    const embeddings = EmbeddingStorageService.instance.getAll()
     embeddings.forEach((embedding) => {
       const openaiTreeItem = this.ConvertIEmbeddingToTreeItem(embedding)
       openaiTreeItems.push(openaiTreeItem)

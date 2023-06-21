@@ -9,10 +9,8 @@ export { PatternPromptFactory } from './prompt/patternPrompt'
 export { validateApiKey, verifyApiKey } from './api/apiKey'
 export { listModels } from './api/listModels'
 
-export {
-  createChatCompletion,
-  ResponseFormat,
-} from './api/createChatCompletion'
+export { createChatCompletion } from './api/createChatCompletion'
+export { ResponseFormat } from './api/chatCompletionMessages'
 
 export { createEmbedding } from './api/createEmbedding'
 

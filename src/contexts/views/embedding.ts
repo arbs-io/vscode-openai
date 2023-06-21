@@ -2,7 +2,10 @@ import { ExtensionContext, commands, window } from 'vscode'
 import { EmbeddingTreeDataProvider } from '@app/providers'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 import { EmbeddingTreeItem } from '@app/providers/embeddingTreeDataProvider'
-import { ConversationService, EmbeddingService } from '@app/services'
+import {
+  ConversationStorageService,
+  EmbeddingStorageService,
+} from '@app/services'
 import { IConversation } from '@app/interfaces'
 import { QueryResourcePersona } from '@app/models'
 
@@ -31,12 +34,12 @@ const _registerCommandConversation = (
         `ConversationTreeDataCommand: $${node.label}.`
       )
       const persona = QueryResourcePersona
-      const conversation: IConversation = ConversationService.instance.create(
-        persona,
-        [node.embeddingFileLite.embeddingId]
-      )
-      ConversationService.instance.update(conversation)
-      ConversationService.instance.show(conversation.conversationId)
+      const conversation: IConversation =
+        ConversationStorageService.instance.create(persona, [
+          node.embeddingFileLite.embeddingId,
+        ])
+      ConversationStorageService.instance.update(conversation)
+      ConversationStorageService.instance.show(conversation.conversationId)
     }
   )
 }
@@ -53,7 +56,9 @@ const _registerCommandDelete = (instance: EmbeddingTreeDataProvider): void => {
         )
         .then((answer) => {
           if (answer === 'Yes') {
-            EmbeddingService.instance.delete(node.embeddingFileLite.embeddingId)
+            EmbeddingStorageService.instance.delete(
+              node.embeddingFileLite.embeddingId
+            )
             instance.refresh()
           }
         })

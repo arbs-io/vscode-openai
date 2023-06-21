@@ -5,13 +5,13 @@ import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { MessageViewerPanel } from '@app/panels'
 import { createErrorNotification } from '@app/utilities/node'
 import { VSCODE_OPENAI_CONVERSATION } from '@app/constants'
-import { EmbeddingService } from '.'
+import { EmbeddingStorageService } from '.'
 
-export default class ConversationService {
+export default class ConversationStorageService {
   private static _emitterDidChange = new EventEmitter<void>()
   static readonly onDidChange: Event<void> = this._emitterDidChange.event
 
-  private static _instance: ConversationService
+  private static _instance: ConversationStorageService
 
   constructor(
     private _context: ExtensionContext,
@@ -20,8 +20,8 @@ export default class ConversationService {
 
   static init(context: ExtensionContext): void {
     try {
-      const conversations = ConversationService.loadConversations()
-      ConversationService._instance = new ConversationService(
+      const conversations = ConversationStorageService.loadConversations()
+      ConversationStorageService._instance = new ConversationStorageService(
         context,
         conversations
       )
@@ -45,8 +45,8 @@ export default class ConversationService {
     return conversations
   }
 
-  static get instance(): ConversationService {
-    return ConversationService._instance
+  static get instance(): ConversationStorageService {
+    return ConversationStorageService._instance
   }
 
   public getAll(): Array<IConversation> {
@@ -63,7 +63,7 @@ export default class ConversationService {
 
   public delete(key: string) {
     this._delete(key)
-    ConversationService._emitterDidChange.fire()
+    ConversationStorageService._emitterDidChange.fire()
   }
 
   private _delete(key: string) {
@@ -77,7 +77,7 @@ export default class ConversationService {
 
   public update(conversation: IConversation) {
     this._update(conversation)
-    ConversationService._emitterDidChange.fire()
+    ConversationStorageService._emitterDidChange.fire()
   }
 
   private _update(conversation: IConversation) {
@@ -125,7 +125,8 @@ export default class ConversationService {
       content =
         'Welcome to resource query. This conversation will be scoped to the following resources'
       embeddingIds.forEach((embeddingId) => {
-        const embeddingResource = EmbeddingService.instance.get(embeddingId)
+        const embeddingResource =
+          EmbeddingStorageService.instance.get(embeddingId)
         content = content + `\n- ${embeddingResource?.name}`
       })
     }

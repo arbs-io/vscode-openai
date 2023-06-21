@@ -24,8 +24,8 @@ import {
 } from '@app/constants'
 import {
   ConfigurationService,
-  ConversationService,
-  EmbeddingService,
+  ConversationStorageService,
+  EmbeddingStorageService,
 } from '@app/services'
 import {
   createDebugNotification,
@@ -70,8 +70,8 @@ export function activate(context: ExtensionContext) {
     registerConversationsWebviewView(context)
 
     createDebugNotification('starting conversation service')
-    ConversationService.init(context)
-    EmbeddingService.init()
+    ConversationStorageService.init(context)
+    EmbeddingStorageService.init()
 
     createDebugNotification('verifying authentication openai service')
     validateApiKey() //On activation check if the api key is valid

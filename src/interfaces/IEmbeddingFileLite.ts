@@ -1,6 +1,8 @@
 import { IEmbeddingText } from '.'
 
 export interface IEmbeddingFileLite {
+  timestamp: number
+  embeddingId: string
   expanded?: boolean
   name: string
   url?: string

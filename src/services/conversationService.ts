@@ -5,6 +5,7 @@ import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { MessageViewerPanel } from '@app/panels'
 import { createErrorNotification } from '@app/utilities/node'
 import { VSCODE_OPENAI_CONVERSATION } from '@app/constants'
+import { EmbeddingService } from '.'
 
 export default class ConversationService {
   private static _emitterDidChange = new EventEmitter<void>()
@@ -90,13 +91,24 @@ export default class ConversationService {
 
   public create(
     persona: IPersonaOpenAI,
-    embeddingId?: Array<string>
+    embeddingIds?: Array<string>
   ): IConversation {
     const uuid4 = crypto.randomUUID()
 
+    let content = `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`
+
+    if (embeddingIds) {
+      content =
+        'Welcome to resource query. This conversation will be scoped to the following resources'
+      embeddingIds.forEach((embeddingId) => {
+        const embeddingResource = EmbeddingService.instance.get(embeddingId)
+        content = content + `\n- ${embeddingResource?.name}`
+      })
+    }
+
     const chatCompletion: IChatCompletion[] = []
     chatCompletion.push({
-      content: `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`,
+      content: content,
       author: `${persona.roleName} (${persona.configuration.service})`,
       timestamp: new Date().toLocaleString(),
       mine: false,
@@ -109,7 +121,7 @@ export default class ConversationService {
       timestamp: new Date().getTime(),
       conversationId: uuid4,
       persona: persona,
-      embeddingId: embeddingId,
+      embeddingId: embeddingIds,
       summary: '<New Conversation>',
       chatMessages: chatCompletion,
     }

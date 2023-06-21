@@ -1,5 +1,6 @@
 import { createEmbedding } from '@app/utilities/openai'
-import { ITextEmbedding, chunkText } from '../'
+import { chunkText } from '../'
+import { IEmbeddingText } from '@app/interfaces'
 
 // There isn't a good JS tokenizer at the moment, so we are using this approximation of 4 characters per token instead. This might break for some languages.
 const MAX_CHAR_LENGTH = 250 * 4
@@ -15,7 +16,7 @@ export async function getEmbeddingsForText({
   text: string
   maxCharLength?: number
   batchSize?: number
-}): Promise<ITextEmbedding[]> {
+}): Promise<IEmbeddingText[]> {
   const textChunks = chunkText({ text, maxCharLength })
 
   const batches = []
@@ -30,7 +31,7 @@ export async function getEmbeddingsForText({
   const embeddings = (await Promise.all(batchPromises)).flat()
 
   const textEmbeddings = embeddings.map((embedding, index) => {
-    return <ITextEmbedding>{
+    return <IEmbeddingText>{
       embedding: embedding,
       text: textChunks[index],
     }

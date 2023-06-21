@@ -19,6 +19,7 @@ import {
 } from '@app/utilities/embedding'
 import { URL } from 'url'
 import { getValidMimeType, urlReadBuffer } from './utilities'
+import { IEmbeddingFileLite } from '@app/interfaces'
 
 export class EmbeddingTreeDragAndDropController
   implements TreeDragAndDropController<EmbeddingTreeItem>
@@ -26,10 +27,10 @@ export class EmbeddingTreeDragAndDropController
   dropMimeTypes: string[] = ['text/uri-list']
   dragMimeTypes: string[] = this.dropMimeTypes
 
-  private _onDidDragDropTreeData: EventEmitter<EmbeddingTreeItem[]> =
-    new EventEmitter<EmbeddingTreeItem[]>()
+  private _onDidDragDropTreeData: EventEmitter<IEmbeddingFileLite[]> =
+    new EventEmitter<IEmbeddingFileLite[]>()
 
-  public onDidDragDropTreeData: Event<EmbeddingTreeItem[]> =
+  public onDidDragDropTreeData: Event<IEmbeddingFileLite[]> =
     this._onDidDragDropTreeData.event
 
   public async handleDrop(
@@ -60,24 +61,30 @@ export class EmbeddingTreeDragAndDropController
         `embedding-controller extract ${fileContent.mimeType} ${fileContent.content.length} (bytes)`
       )
 
-      const splitEmbeddings = await getEmbeddingsForText({
+      const embeddingText = await getEmbeddingsForText({
         text: fileContent.content,
       })
       createDebugNotification(
-        `embedding-controller embedding ${splitEmbeddings.length} (chunks)`
+        `embedding-controller embedding ${embeddingText.length} (chunks)`
       )
 
       const uri = Uri.file(transferItem.value)
-      const timestamp = new Date().getTime()
-      const embeddingId: string = crypto.randomUUID()
-      const openaiTreeItem = new EmbeddingTreeItem(
-        timestamp,
-        embeddingId,
-        uri,
-        fileContent.content
-      )
+      const fileObject: IEmbeddingFileLite = {
+        timestamp: new Date().getTime(),
+        embeddingId: crypto.randomUUID(),
+        name: decodeURIComponent(uri.path).substring(
+          decodeURIComponent(uri.path).lastIndexOf('/') + 1
+        ),
+        url: decodeURIComponent(uri.path),
+        type: mimeType,
+        size: fileContent.content.length,
+        expanded: false,
+        // embedding: embeddingText,
+        chunks: embeddingText,
+        extractedText: fileContent.content,
+      }
 
-      this._onDidDragDropTreeData.fire([openaiTreeItem])
+      this._onDidDragDropTreeData.fire([fileObject])
     } catch (error) {
       createErrorNotification(error)
     }

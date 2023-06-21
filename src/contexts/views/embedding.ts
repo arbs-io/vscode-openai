@@ -28,12 +28,12 @@ const _registerCommandConversation = (
     VSCODE_OPENAI_EMBEDDING.CONVERSATION_COMMAND_ID,
     (node: EmbeddingTreeItem) => {
       window.showInformationMessage(
-        `ConversationTreeDataCommand: ${node.embeddingId} - ${node.label}.`
+        `ConversationTreeDataCommand: $${node.label}.`
       )
       const persona = QueryResourcePersona
       const conversation: IConversation = ConversationService.instance.create(
-        persona,
-        [node.embeddingId]
+        persona
+        // [node.label] //TODO ARB
       )
       ConversationService.instance.update(conversation)
       ConversationService.instance.show(conversation.conversationId)
@@ -53,7 +53,7 @@ const _registerCommandDelete = (instance: EmbeddingTreeDataProvider): void => {
         )
         .then((answer) => {
           if (answer === 'Yes') {
-            EmbeddingService.instance.delete(node.embeddingId)
+            EmbeddingService.instance.delete(node.embeddingFileLite.embeddingId)
             instance.refresh()
           }
         })

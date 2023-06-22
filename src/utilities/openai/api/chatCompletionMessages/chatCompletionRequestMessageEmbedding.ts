@@ -6,6 +6,9 @@ import { ConfigurationService, EmbeddingStorageService } from '@app/services'
 import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { searchFileChunks } from '@app/utilities/embedding'
 
+const MAX_FILES_LENGTH = 2000 * 3
+const MAX_RESULTS = 25
+
 export async function ChatCompletionRequestMessageEmbedding(
   conversation: IConversation
 ): Promise<ChatCompletionRequestMessage[]> {
@@ -25,22 +28,25 @@ export async function ChatCompletionRequestMessageEmbedding(
     if (embeddingFileLite) embeddingFileLites = [...[embeddingFileLite]]
   })
 
-  const abc = await searchFileChunks({
+  const searchFiles = await searchFileChunks({
     searchQuery: searchQuery,
     files: embeddingFileLites,
-    maxResults: 10,
+    maxResults: MAX_RESULTS,
   })
 
+  const filesString = searchFiles
+    .map((searchFiles) => `###\n"${searchFiles.filename}"\n${searchFiles.text}`)
+    .join('\n')
+    .slice(0, MAX_FILES_LENGTH)
+
+  const content =
+    `Question: ${searchQuery}\n\n` + `Files:\n${filesString}\n\n` + `Answer:`
+
   const conversationHistory = ConfigurationService.instance.conversationHistory
-  conversation.chatMessages
-    .splice(conversationHistory * -1)
-    .forEach((chatMessage) => {
-      chatCompletion.push({
-        role: chatMessage.mine
-          ? ChatCompletionRequestMessageRoleEnum.User
-          : ChatCompletionRequestMessageRoleEnum.Assistant,
-        content: chatMessage.content,
-      })
-    })
+  chatCompletion.push({
+    role: ChatCompletionRequestMessageRoleEnum.Assistant,
+    content: content,
+  })
+
   return chatCompletion
 }

@@ -1,9 +1,5 @@
-import {
-  ChatCompletionRequestMessage,
-  ChatCompletionRequestMessageRoleEnum,
-  Configuration,
-  OpenAIApi,
-} from 'openai'
+import { Configuration, OpenAIApi } from 'openai'
+import { backOff } from 'exponential-backoff'
 import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
@@ -38,15 +34,18 @@ export async function createChatCompletion(
       : await ChatCompletionRequestMessageStandard(conversation, responseFormat)
 
     const requestConfig = await ConfigurationService.instance.getRequestConfig()
-    const completion = await openai.createChatCompletion(
-      {
-        model: ConfigurationService.instance.defaultModel,
-        messages: chatCompletionMessages,
-        temperature: 0.2,
-        frequency_penalty: 0.5,
-        presence_penalty: 0.5,
-      },
-      requestConfig
+
+    const completion = await backOff(() =>
+      openai.createChatCompletion(
+        {
+          model: ConfigurationService.instance.defaultModel,
+          messages: chatCompletionMessages,
+          temperature: 0.2,
+          frequency_penalty: 0.5,
+          presence_penalty: 0.5,
+        },
+        requestConfig
+      )
     )
 
     const content = completion.data.choices[0].message?.content

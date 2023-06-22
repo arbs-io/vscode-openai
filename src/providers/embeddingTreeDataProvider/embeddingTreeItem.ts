@@ -8,8 +8,6 @@ export class EmbeddingTreeItem extends TreeItem {
     public embeddingFileLite: IEmbeddingFileLite,
     children?: TreeItem[]
   ) {
-    // const decodeURI = decodeURIComponent(url.path)
-    // const label = decodeURI.substring(decodeURI.lastIndexOf('/') + 1)
     const label = embeddingFileLite.name
     super(
       label,
@@ -19,7 +17,7 @@ export class EmbeddingTreeItem extends TreeItem {
     )
     this.resourceUri = Uri.parse(embeddingFileLite.url!)
     this.iconPath = children === undefined ? ThemeIcon.File : ThemeIcon.Folder
-    this.tooltip = 'embedded-resource'
+    this.tooltip = `name: ${embeddingFileLite.name}\nchuncks: ${embeddingFileLite.chunks?.length}\nsize: ${embeddingFileLite.size}`
     this.children = children
   }
 }

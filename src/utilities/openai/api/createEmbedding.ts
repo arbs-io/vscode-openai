@@ -1,4 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai'
+import { backOff } from 'exponential-backoff'
 import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { errorHandler } from './errorHandler'
@@ -13,10 +14,6 @@ export async function createEmbedding({
   model = 'text-embedding-ada-002',
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
-    ExtensionStatusBarItem.instance.showStatusBarInformation(
-      'sync~spin',
-      '- embedding'
-    )
     const apiKey = await ConfigurationService.instance.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')
 
@@ -28,17 +25,14 @@ export async function createEmbedding({
 
     const requestConfig = await ConfigurationService.instance.getRequestConfig()
 
-    const result = await openai.createEmbedding(
-      {
-        model,
-        input,
-      },
-      requestConfig
-    )
-
-    ExtensionStatusBarItem.instance.showStatusBarInformation(
-      'vscode-openai',
-      ''
+    const result = await backOff(() =>
+      openai.createEmbedding(
+        {
+          model,
+          input,
+        },
+        requestConfig
+      )
     )
 
     if (!result.data.data[0].embedding) {

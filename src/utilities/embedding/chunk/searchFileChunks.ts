@@ -1,4 +1,4 @@
-// import { embedding } from './openai'
+import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { IEmbeddingFileChunk, IEmbeddingFileLite } from '@app/interfaces'
 import { createDebugNotification } from '@app/utilities/node'
 import { createEmbedding } from '@app/utilities/openai'
@@ -17,15 +17,16 @@ export async function searchFileChunks({
   files: IEmbeddingFileLite[]
   maxResults: number
 }): Promise<IEmbeddingFileChunk[]> {
+  ExtensionStatusBarItem.instance.showStatusBarInformation(
+    'sync~spin',
+    '- embedding'
+  )
+
   createDebugNotification(`embedding-controller: searchQuery: ${searchQuery}`)
-  // Get the search query embedding
+
   const searchQueryEmbeddingResponse = await createEmbedding({
     input: searchQuery,
   })
-
-  // console.log(
-  //   `     searchQuery: ${searchQuery.length} embeddings: ${searchQueryEmbeddingResponse[0].length}`
-  // )
 
   // Get the first element in the embedding array
   const searchQueryEmbedding =
@@ -56,5 +57,6 @@ export async function searchFileChunks({
     // Take the first maxResults chunks
     .slice(0, maxResults)
 
+  ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
   return rankedChunks
 }

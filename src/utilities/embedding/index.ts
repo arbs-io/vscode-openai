@@ -7,5 +7,5 @@ export {
 export { fileTypeInfo, GuessedFile } from './magicBytes'
 
 export { chunkText } from './chunk/chunkText'
-export { ITextEmbedding } from './chunk/ITextEmbedding'
 export { getEmbeddingsForText } from './chunk/getEmbeddingsForText'
+export { searchFileChunks } from './chunk/searchFileChunks'

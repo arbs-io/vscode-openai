@@ -1,6 +1,6 @@
 import { window } from 'vscode'
 import { IChatCompletion, IConversation } from '@app/interfaces'
-import { ConversationService } from '@app/services'
+import { ConversationStorageService } from '@app/services'
 import { ResponseFormat, createChatCompletion } from '@app/utilities/openai'
 
 export const onDidSaveMessages = (
@@ -11,7 +11,7 @@ export const onDidSaveMessages = (
     if (!conversation) return
 
     conversation.chatMessages = chatMessages
-    ConversationService.instance.update(conversation)
+    ConversationStorageService.instance.update(conversation)
 
     //Add summary to conversation
     if (

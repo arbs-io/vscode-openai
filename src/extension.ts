@@ -24,8 +24,8 @@ import {
 } from '@app/constants'
 import {
   ConfigurationService,
-  ConversationService,
-  EmbeddingService,
+  ConversationStorageService,
+  EmbeddingStorageService,
 } from '@app/services'
 import {
   createDebugNotification,
@@ -57,7 +57,7 @@ export function activate(context: ExtensionContext) {
     createDebugNotification('initialise components')
     ExtensionStatusBarItem.init(context)
 
-    //registerCommands
+    // registerCommands
     createDebugNotification('register commands')
     registerOpenaiEditor(context)
     registerChangeConfiguration(context)
@@ -65,13 +65,13 @@ export function activate(context: ExtensionContext) {
     registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
     registerConversationCommand(context)
-    //views
+    // views
     registerEmbeddingRefreshTreeDataCommand(context)
     registerConversationsWebviewView(context)
 
     createDebugNotification('starting conversation service')
-    ConversationService.init(context)
-    EmbeddingService.init()
+    ConversationStorageService.init(context)
+    EmbeddingStorageService.init()
 
     createDebugNotification('verifying authentication openai service')
     validateApiKey() //On activation check if the api key is valid

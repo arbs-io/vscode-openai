@@ -5,12 +5,13 @@ import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { MessageViewerPanel } from '@app/panels'
 import { createErrorNotification } from '@app/utilities/node'
 import { VSCODE_OPENAI_CONVERSATION } from '@app/constants'
+import { EmbeddingStorageService } from '.'
 
-export default class ConversationService {
+export default class ConversationStorageService {
   private static _emitterDidChange = new EventEmitter<void>()
   static readonly onDidChange: Event<void> = this._emitterDidChange.event
 
-  private static _instance: ConversationService
+  private static _instance: ConversationStorageService
 
   constructor(
     private _context: ExtensionContext,
@@ -19,8 +20,8 @@ export default class ConversationService {
 
   static init(context: ExtensionContext): void {
     try {
-      const conversations = ConversationService.loadConversations()
-      ConversationService._instance = new ConversationService(
+      const conversations = ConversationStorageService.loadConversations()
+      ConversationStorageService._instance = new ConversationStorageService(
         context,
         conversations
       )
@@ -44,8 +45,8 @@ export default class ConversationService {
     return conversations
   }
 
-  static get instance(): ConversationService {
-    return ConversationService._instance
+  static get instance(): ConversationStorageService {
+    return ConversationStorageService._instance
   }
 
   public getAll(): Array<IConversation> {
@@ -62,7 +63,7 @@ export default class ConversationService {
 
   public delete(key: string) {
     this._delete(key)
-    ConversationService._emitterDidChange.fire()
+    ConversationStorageService._emitterDidChange.fire()
   }
 
   private _delete(key: string) {
@@ -76,7 +77,7 @@ export default class ConversationService {
 
   public update(conversation: IConversation) {
     this._update(conversation)
-    ConversationService._emitterDidChange.fire()
+    ConversationStorageService._emitterDidChange.fire()
   }
 
   private _update(conversation: IConversation) {
@@ -88,12 +89,17 @@ export default class ConversationService {
     this._conversations.push(conversation)
   }
 
-  public create(persona: IPersonaOpenAI): IConversation {
+  public create(
+    persona: IPersonaOpenAI,
+    embeddingIds?: Array<string>
+  ): IConversation {
     const uuid4 = crypto.randomUUID()
+
+    const welcomeMessage = this.getWelcomeMessage(embeddingIds)
 
     const chatCompletion: IChatCompletion[] = []
     chatCompletion.push({
-      content: `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`,
+      content: welcomeMessage,
       author: `${persona.roleName} (${persona.configuration.service})`,
       timestamp: new Date().toLocaleString(),
       mine: false,
@@ -106,9 +112,24 @@ export default class ConversationService {
       timestamp: new Date().getTime(),
       conversationId: uuid4,
       persona: persona,
+      embeddingId: embeddingIds,
       summary: '<New Conversation>',
       chatMessages: chatCompletion,
     }
     return conversation
+  }
+
+  private getWelcomeMessage(embeddingIds?: Array<string>): string {
+    let content = `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`
+    if (embeddingIds) {
+      content =
+        'Welcome to resource query. This conversation will be scoped to the following resources'
+      embeddingIds.forEach((embeddingId) => {
+        const embeddingResource =
+          EmbeddingStorageService.instance.get(embeddingId)
+        content = content + `\n- ${embeddingResource?.name}`
+      })
+    }
+    return content
   }
 }

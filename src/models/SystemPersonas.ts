@@ -204,5 +204,4 @@ function getSystemPersonas(): IPersonaOpenAI[] {
   ]
   return SystemPersonas
 }
-
 export default getSystemPersonas

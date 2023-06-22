@@ -1,40 +1,35 @@
 import { EventEmitter, Event } from 'vscode'
 import { GlobalStorageService } from '@app/utilities/vscode'
-import { IEmbedding } from '@app/interfaces'
+import { IEmbeddingFileLite } from '@app/interfaces'
 import { createErrorNotification } from '@app/utilities/node'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
-export default class EmbeddingService {
+export default class EmbeddingStorageService {
   private static _emitterDidChange = new EventEmitter<void>()
   static readonly onDidChange: Event<void> = this._emitterDidChange.event
 
-  private static _instance: EmbeddingService
+  private static _instance: EmbeddingStorageService
 
-  constructor(private _embeddings: Array<IEmbedding>) {}
+  constructor(private _embeddings: Array<IEmbeddingFileLite>) {}
 
   static init(): void {
     try {
-      const embeddings = EmbeddingService.loadEmbeddings()
-      EmbeddingService._instance = new EmbeddingService(embeddings)
+      const embeddings = EmbeddingStorageService.loadEmbeddings()
+      EmbeddingStorageService._instance = new EmbeddingStorageService(
+        embeddings
+      )
     } catch (error) {
       createErrorNotification(error)
     }
   }
 
-  private static loadEmbeddings(): Array<IEmbedding> {
-    // //For development (remove all keys...)
-    // GlobalStorageService.instance.keys().forEach((key) => {
-    //   if (key.startsWith(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-`)) {
-    //     GlobalStorageService.instance.deleteKey(key)
-    //   }
-    // })
-
-    const embeddings: Array<IEmbedding> = []
+  private static loadEmbeddings(): Array<IEmbeddingFileLite> {
+    const embeddings: Array<IEmbeddingFileLite> = []
     const keys = GlobalStorageService.instance.keys()
     keys.forEach((key) => {
       if (key.startsWith(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-`)) {
         const embedding =
-          GlobalStorageService.instance.getValue<IEmbedding>(key)
+          GlobalStorageService.instance.getValue<IEmbeddingFileLite>(key)
         if (embedding !== undefined) {
           embeddings.push(embedding)
         }
@@ -43,17 +38,21 @@ export default class EmbeddingService {
     return embeddings
   }
 
-  static get instance(): EmbeddingService {
-    return EmbeddingService._instance
+  static get instance(): EmbeddingStorageService {
+    return EmbeddingStorageService._instance
   }
 
-  public getAll(): Array<IEmbedding> {
+  public getAll(): Array<IEmbeddingFileLite> {
     return this._embeddings.sort((n1, n2) => n2.timestamp - n1.timestamp)
+  }
+
+  public get(key: string): IEmbeddingFileLite | undefined {
+    return this._embeddings.find((item) => item.embeddingId === key)
   }
 
   public delete(key: string) {
     this._delete(key)
-    EmbeddingService._emitterDidChange.fire()
+    EmbeddingStorageService._emitterDidChange.fire()
   }
 
   private _delete(key: string) {
@@ -65,14 +64,14 @@ export default class EmbeddingService {
     )
   }
 
-  public update(embedding: IEmbedding) {
+  public update(embedding: IEmbeddingFileLite) {
     this._update(embedding)
-    EmbeddingService._emitterDidChange.fire()
+    EmbeddingStorageService._emitterDidChange.fire()
   }
 
-  private _update(embedding: IEmbedding) {
+  private _update(embedding: IEmbeddingFileLite) {
     this._delete(embedding.embeddingId)
-    GlobalStorageService.instance.setValue<IEmbedding>(
+    GlobalStorageService.instance.setValue<IEmbeddingFileLite>(
       `${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-${embedding.embeddingId}`,
       embedding
     )

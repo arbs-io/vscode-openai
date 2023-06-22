@@ -14,7 +14,7 @@ import {
 } from '@app/utilities/openai'
 import { compareFileToClipboard } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_PROMPT } from '@app/constants'
-import { ConversationService } from '@app/services'
+import { ConversationStorageService } from '@app/services'
 import { createErrorNotification } from '@app/utilities/node'
 
 // Define a command registry that uses the factory pattern
@@ -55,7 +55,7 @@ class CommandRegistry {
           )
           if (persona) {
             const conversation: IConversation =
-              ConversationService.instance.create(persona)
+              ConversationStorageService.instance.create(persona)
             const prompt = await factory.createPrompt()()
 
             const chatCompletion: IChatCompletion = {

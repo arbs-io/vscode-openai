@@ -6,9 +6,9 @@ import {
   window,
 } from 'vscode'
 import { VSCODE_OPENAI_SIDEBAR } from '@app/constants'
-import { EmbeddingService } from '@app/services'
+import { EmbeddingStorageService } from '@app/services'
 import { EmbeddingTreeDragAndDropController, EmbeddingTreeItem } from '.'
-import { IEmbedding } from '@app/interfaces'
+import { IEmbeddingFileLite } from '@app/interfaces'
 
 export class EmbeddingTreeDataProvider
   implements TreeDataProvider<EmbeddingTreeItem>
@@ -24,17 +24,16 @@ export class EmbeddingTreeDataProvider
   constructor(context: ExtensionContext) {
     this._dragAndDropController = new EmbeddingTreeDragAndDropController()
     this._dragAndDropController.onDidDragDropTreeData(
-      (openaiTreeItems: EmbeddingTreeItem[]) => {
+      (openaiTreeItems: IEmbeddingFileLite[]) => {
         openaiTreeItems.forEach((openaiTreeItem) => {
           if (openaiTreeItem) {
-            const embedding = this.ConvertTreeItemToIEmbedding(openaiTreeItem)
-            EmbeddingService.instance.update(embedding)
+            EmbeddingStorageService.instance.update(openaiTreeItem)
           }
         })
       }
     )
 
-    EmbeddingService.onDidChange(() => {
+    EmbeddingStorageService.onDidChange(() => {
       this.refresh()
     })
 
@@ -57,7 +56,7 @@ export class EmbeddingTreeDataProvider
   public getChildren(element: EmbeddingTreeItem): EmbeddingTreeItem[] {
     const openaiTreeItems: Array<EmbeddingTreeItem> = []
 
-    const embeddings = EmbeddingService.instance.getAll()
+    const embeddings = EmbeddingStorageService.instance.getAll()
     embeddings.forEach((embedding) => {
       const openaiTreeItem = this.ConvertIEmbeddingToTreeItem(embedding)
       openaiTreeItems.push(openaiTreeItem)
@@ -69,26 +68,10 @@ export class EmbeddingTreeDataProvider
     return element
   }
 
-  private ConvertTreeItemToIEmbedding(
-    openaiTreeItem: EmbeddingTreeItem
-  ): IEmbedding {
-    const embedding: IEmbedding = {
-      timestamp: openaiTreeItem.timestamp,
-      embeddingId: openaiTreeItem.embeddingId,
-      uri: openaiTreeItem.uri,
-      content: openaiTreeItem.content,
-    }
-    return embedding
-  }
   private ConvertIEmbeddingToTreeItem(
-    embedding: IEmbedding
+    embedding: IEmbeddingFileLite
   ): EmbeddingTreeItem {
-    const openaiTreeItem = new EmbeddingTreeItem(
-      embedding.timestamp,
-      embedding.embeddingId,
-      embedding.uri,
-      embedding.content
-    )
+    const openaiTreeItem = new EmbeddingTreeItem(embedding)
     return openaiTreeItem
   }
 }

@@ -14,5 +14,8 @@ export { ResponseFormat } from './api/chatCompletionMessages'
 
 export { createEmbedding } from './api/createEmbedding'
 
-export { azureListDeployments } from './api/azureListDeployments'
+export {
+  azureListDeployments,
+  DeploymentCapabiliy,
+} from './api/azureListDeployments'
 export { openaiListModels } from './api/openaiListModels'

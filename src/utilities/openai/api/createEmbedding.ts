@@ -6,20 +6,19 @@ import { errorHandler } from './errorHandler'
 
 type EmbeddingOptions = {
   input: string | string[]
-  model?: string
 }
 
 export async function createEmbedding({
   input,
-  model = 'text-embedding-ada-002',
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
+    const model = await ConfigurationService.instance.defaultEmbeddingModel
     const apiKey = await ConfigurationService.instance.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')
 
     const configuration = new Configuration({
       apiKey: apiKey,
-      basePath: ConfigurationService.instance.inferenceUrl,
+      basePath: ConfigurationService.instance.embeddingUrl,
     })
     const openai = new OpenAIApi(configuration)
 

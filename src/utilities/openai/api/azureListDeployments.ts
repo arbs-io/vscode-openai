@@ -7,9 +7,15 @@ export interface IDeploymentModel {
   model: string
 }
 
+export enum DeploymentCapabiliy {
+  ChatCompletion,
+  Embedding,
+}
+
 export async function azureListDeployments(
   apiKey: string,
-  baseUrl: string
+  baseUrl: string,
+  modelCapabiliy: DeploymentCapabiliy
 ): Promise<Array<IDeploymentModel> | undefined> {
   try {
     const configuration = new Configuration({
@@ -25,7 +31,15 @@ export async function azureListDeployments(
 
     const models = new Array<string>()
     response.data.data.forEach((model: any) => {
-      if (model.capabilities.chat_completion) {
+      if (
+        modelCapabiliy == DeploymentCapabiliy.ChatCompletion &&
+        model.capabilities.chat_completion
+      ) {
+        models.push(model.id)
+      } else if (
+        modelCapabiliy == DeploymentCapabiliy.Embedding &&
+        model.capabilities.embeddings
+      ) {
         models.push(model.id)
       }
     })

@@ -7,7 +7,6 @@ export { OptimizePromptFactory } from './prompt/optimizePrompt'
 export { PatternPromptFactory } from './prompt/patternPrompt'
 
 export { validateApiKey, verifyApiKey } from './api/apiKey'
-export { listModels } from './api/listModels'
 
 export { createChatCompletion } from './api/createChatCompletion'
 export { ResponseFormat } from './api/chatCompletionMessages'

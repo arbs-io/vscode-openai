@@ -7,17 +7,10 @@
  * 		Store and activate configuration
  */
 
-import {
-  QuickPickItem,
-  window,
-  CancellationToken,
-  ExtensionContext,
-  Uri,
-} from 'vscode'
+import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationService } from '@app/services'
-import { openaiListModels } from '@app/utilities/openai'
+import { ModelCapabiliy, listModelsOpenAI } from '@app/utilities/openai'
 import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
-import { createInfoNotification } from '@app/utilities/node'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -33,7 +26,8 @@ export async function quickPickSetupOpenai(
     totalSteps: number
     openaiBaseUrl: string
     openaiApiKey: string
-    openaiModel: QuickPickItem
+    quickPickInferenceModel: QuickPickItem
+    quickPickEmbeddingModel: QuickPickItem
   }
 
   async function collectInputs() {
@@ -57,7 +51,7 @@ export async function quickPickSetupOpenai(
     state.openaiBaseUrl = await input.showInputBox({
       title,
       step: 1,
-      totalSteps: 3,
+      totalSteps: 4,
       ignoreFocusOut: true,
       value:
         typeof state.openaiBaseUrl === 'string'
@@ -83,11 +77,11 @@ export async function quickPickSetupOpenai(
   async function inputOpenaiApiKey(
     input: MultiStepInput,
     state: Partial<State>
-  ): Promise<(input: MultiStepInput) => Promise<void>> {
+  ) {
     state.openaiApiKey = await input.showInputBox({
       title,
       step: 2,
-      totalSteps: 3,
+      totalSteps: 4,
       ignoreFocusOut: true,
       value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
       prompt: 'Enter you openai.com Api-Key',
@@ -95,7 +89,7 @@ export async function quickPickSetupOpenai(
       validate: validateOpenaiApiKey,
       shouldResume: shouldResume,
     })
-    return (input: MultiStepInput) => selectOpenaiModel(input, state)
+    return (input: MultiStepInput) => selectChatCompletionModel(input, state)
   }
 
   /**
@@ -103,25 +97,59 @@ export async function quickPickSetupOpenai(
    * @param input - The multi-step input object.
    * @param state - The current state of the application.
    */
-  async function selectOpenaiModel(
+  async function selectChatCompletionModel(
     input: MultiStepInput,
     state: Partial<State>
-  ): Promise<void> {
+  ) {
     const models = await getAvailableModels(
-      state.openaiBaseUrl!,
       state.openaiApiKey!,
+      state.openaiBaseUrl!,
+      ModelCapabiliy.ChatCompletion,
       undefined /* TODO: token */
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
-    state.openaiModel = await input.showQuickPick({
+    state.quickPickInferenceModel = await input.showQuickPick({
       title,
       step: 3,
-      totalSteps: 3,
+      totalSteps: 4,
       ignoreFocusOut: true,
-      placeholder: 'Selected OpenAI Model',
+      placeholder:
+        'Selected Chat Completion DeploymentModel (if empty, no valid chat completion models found)',
       items: models,
-      activeItem: state.openaiModel,
+      activeItem: state.quickPickInferenceModel,
+      shouldResume: shouldResume,
+    })
+
+    return (input: MultiStepInput) => selectEmbeddingModel(input, state)
+  }
+
+  /**
+   * This function displays a quick pick menu for selecting an OpenAI model and updates the application's state accordingly.
+   * @param input - The multi-step input object.
+   * @param state - The current state of the application.
+   */
+  async function selectEmbeddingModel(
+    input: MultiStepInput,
+    state: Partial<State>
+  ): Promise<void> {
+    const models = await getAvailableModels(
+      state.openaiApiKey!,
+      state.openaiBaseUrl!,
+      ModelCapabiliy.Embedding,
+      undefined /* TODO: token */
+    )
+    // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
+    // Return void since this is not used elsewhere in the code.
+    state.quickPickEmbeddingModel = await input.showQuickPick({
+      title,
+      step: 4,
+      totalSteps: 4,
+      ignoreFocusOut: true,
+      placeholder:
+        'Selected Embedding Model (if empty, no valid chat completion models found)',
+      items: models,
+      activeItem: state.quickPickEmbeddingModel,
       shouldResume: shouldResume,
     })
   }
@@ -161,11 +189,16 @@ export async function quickPickSetupOpenai(
    * @returns A list of QuickPickItems representing each available model returned by the API call to Open AI.
    */
   async function getAvailableModels(
-    baseUrl: string,
     apiKey: string,
+    baseUrl: string,
+    modelCapabiliy: ModelCapabiliy,
     token?: CancellationToken
   ): Promise<QuickPickItem[]> {
-    const chatCompletionModels = await openaiListModels(baseUrl, apiKey)
+    const chatCompletionModels = await listModelsOpenAI(
+      apiKey,
+      baseUrl,
+      modelCapabiliy
+    )
 
     // Map each returned label into a QuickPickItem object with label property set as label value returned by API call.
     return chatCompletionModels.map((label) => ({ label }))
@@ -180,11 +213,13 @@ export async function quickPickSetupOpenai(
 
   //Start openai.com configuration processes
   const state = await collectInputs()
+
+  const inferenceModel = state.quickPickInferenceModel.label
+  const embeddingModel = state.quickPickEmbeddingModel.label
+
   ConfigurationService.instance.serviceProvider = 'OpenAI'
   ConfigurationService.instance.baseUrl = state.openaiBaseUrl
-  ConfigurationService.instance.defaultModel = state.openaiModel.label
+  ConfigurationService.instance.defaultModel = inferenceModel
+  ConfigurationService.instance.embeddingModel = embeddingModel
   SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-  createInfoNotification(
-    `ServiceProvider (OpenAI): ${state.openaiBaseUrl} ${state.openaiModel.label}`
-  )
 }

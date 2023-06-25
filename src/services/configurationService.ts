@@ -10,12 +10,15 @@ import {
 
 const CONFIG_CONSTANTS = {
   BASE_URL: 'https://api.arbs.io/openai/inference/v1',
-  DEPLOYMENT_MODEL: 'gpt-35-turbo',
+  DEPLOYMENT_MODEL_INFERENCE: 'gpt-35-turbo',
+  DEPLOYMENT_MODEL_EMBEDDING: 'text-embedding-ada-002',
   API_VERSION: '2023-05-15',
   CONVERSATION_HISTORY: 4,
   HOST: 'vscode-openai',
   INFERENCE_URL:
     'https://api.arbs.io/openai/inference/v1/deployments/gpt-35-turbo',
+  EMBEDDING_URL:
+    'https://api.arbs.io/openai/inference/v1/deployments/text-embedding-ada-002',
   TOKEN_URL: 'https://api.arbs.io/openai/oauth2/token',
 }
 
@@ -37,15 +40,20 @@ export default class ConfigurationService {
   }
 
   private getConfigValue<T>(configName: string): T {
-    return workspace.getConfiguration('vscode-openai').get(configName) as T
+    const ws = workspace.getConfiguration('vscode-openai')
+    return ws.get(configName) as T
   }
 
   private setConfigValue<T>(configName: string, value: T): void {
     const ws = workspace.getConfiguration('vscode-openai')
     const setAsGlobal = ws.inspect(configName)?.workspaceValue == undefined
-    ws.update(configName, value, setAsGlobal).then(() => {
-      createDebugNotification(`setting ${configName} ${value}`)
-    })
+    ws.update(configName, value, setAsGlobal)
+      .then(() => {
+        // createDebugNotification(`setting ${configName} ${value}`)
+      })
+      .then(undefined, (err) => {
+        createErrorNotification(`${err}`)
+      })
   }
 
   public get serviceProvider(): string {
@@ -67,13 +75,24 @@ export default class ConfigurationService {
 
   public get azureDeployment(): string {
     if (this.serviceProvider === 'VSCode-OpenAI')
-      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL
+      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_INFERENCE
 
     return this.getConfigValue<string>('azureDeployment')
   }
 
   public set azureDeployment(value: string) {
     this.setConfigValue<string>('azureDeployment', value)
+  }
+
+  public get embeddingsDeployment(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_EMBEDDING
+
+    return this.getConfigValue<string>('embeddingsDeployment')
+  }
+
+  public set embeddingsDeployment(value: string) {
+    this.setConfigValue<string>('embeddingsDeployment', value)
   }
 
   public get azureApiVersion(): string {
@@ -89,13 +108,24 @@ export default class ConfigurationService {
 
   public get defaultModel(): string {
     if (this.serviceProvider === 'VSCode-OpenAI')
-      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL
+      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_INFERENCE
 
     return this.getConfigValue<string>('defaultModel')
   }
 
   public set defaultModel(value: string) {
     this.setConfigValue<string>('defaultModel', value)
+  }
+
+  public get embeddingModel(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_EMBEDDING
+
+    return this.getConfigValue<string>('embeddingModel')
+  }
+
+  public set embeddingModel(value: string) {
+    this.setConfigValue<string>('embeddingModel', value)
   }
 
   public get conversationHistory(): number {
@@ -118,6 +148,16 @@ export default class ConfigurationService {
   public get inferenceUrl(): string {
     if (this.serviceProvider === 'VSCode-OpenAI')
       return CONFIG_CONSTANTS.INFERENCE_URL
+    else if (this.serviceProvider === 'Azure-OpenAI') {
+      return `${this.baseUrl}/deployments/${this.azureDeployment}`
+    } else {
+      return `${this.baseUrl}`
+    }
+  }
+
+  public get embeddingUrl(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return CONFIG_CONSTANTS.EMBEDDING_URL
     else if (this.serviceProvider === 'Azure-OpenAI') {
       return `${this.baseUrl}/deployments/${this.azureDeployment}`
     } else {
@@ -177,19 +217,16 @@ export default class ConfigurationService {
       const extConfiguration = new Map<string, string>()
       extConfiguration.set('vscode_version', version)
       extConfiguration.set('extension_version', instance.extensionVersion)
-      extConfiguration.set('openai_service_provider', instance.serviceProvider)
-      extConfiguration.set('openai_host', instance.host)
-      extConfiguration.set('openai_base_url', instance.baseUrl)
-      extConfiguration.set('openai_default_model', instance.defaultModel)
-      extConfiguration.set('open_ai_azure_deployment', instance.azureDeployment)
-      extConfiguration.set(
-        'open_ai_azure_api_version',
-        instance.azureApiVersion
-      )
-      extConfiguration.set(
-        'open_ai_conversation_history',
-        instance.conversationHistory.toString()
-      )
+      extConfiguration.set('service_provider', instance.serviceProvider)
+      extConfiguration.set('host', instance.host)
+      extConfiguration.set('base_url', instance.baseUrl)
+      extConfiguration.set('inference_model', instance.defaultModel)
+      extConfiguration.set('inference_deploy', instance.azureDeployment)
+      extConfiguration.set('embeddings_model', instance.embeddingModel)
+      extConfiguration.set('embeddings_deploy', instance.embeddingsDeployment)
+      extConfiguration.set('az_api_version', instance.azureApiVersion)
+      const convHist = instance.conversationHistory.toString()
+      extConfiguration.set('conversation_history', convHist)
       createInfoNotification(
         Object.fromEntries(extConfiguration),
         'configuration'

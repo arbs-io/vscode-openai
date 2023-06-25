@@ -7,12 +7,12 @@ export { OptimizePromptFactory } from './prompt/optimizePrompt'
 export { PatternPromptFactory } from './prompt/patternPrompt'
 
 export { validateApiKey, verifyApiKey } from './api/apiKey'
-export { listModels } from './api/listModels'
 
 export { createChatCompletion } from './api/createChatCompletion'
 export { ResponseFormat } from './api/chatCompletionMessages'
 
 export { createEmbedding } from './api/createEmbedding'
 
-export { azureListDeployments } from './api/azureListDeployments'
-export { openaiListModels } from './api/openaiListModels'
+export { ModelCapabiliy } from './api/modelCapabiliy'
+export { listModelsAzureOpenAI } from './api/listModelsAzureOpenAI'
+export { listModelsOpenAI } from './api/listModelsOpenAI'

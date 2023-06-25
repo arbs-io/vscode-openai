@@ -15,7 +15,7 @@
     "url": "https://github.com/sponsors/arbs-io"
   },
   "engines": {
-    "vscode": "^1.78.0"
+    "vscode": "^1.79.1"
   },
   "categories": [
     "Other",
@@ -41,14 +41,14 @@
     "clean": "node ./utilities/scripts/clean.js"
   },
   "devDependencies": {
-    "@types/node": "^20.3.0",
+    "@types/node": "^20.3.1",
     "@types/pdf-parse": "^1.1.1",
-    "@types/vscode": "^1.78.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.9",
-    "@typescript-eslint/parser": "^5.59.9",
+    "@types/vscode": "^1.79.1",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
     "@vscode/vsce": "^2.19.0",
-    "esbuild": "^0.18.0",
-    "eslint": "^8.42.0",
+    "esbuild": "^0.18.8",
+    "eslint": "^8.43.0",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.1.3"
   },
@@ -57,7 +57,7 @@
     "exponential-backoff": "^3.1.1",
     "mammoth": "^1.6.0",
     "node-html-markdown": "^1.3.0",
-    "openai": "^3.2.1",
+    "openai": "^3.3.0",
     "pdf-parse": "^1.1.1"
   },
   "keywords": [
@@ -178,17 +178,31 @@
         },
         "vscode-openai.defaultModel": {
           "type": "string",
-          "default": "gpt-3.5-turbo",
+          "default": "setup-required",
           "description": "Specifies the default openai model.",
           "order": 4
         },
         "vscode-openai.azureDeployment": {
           "type": "string",
-          "default": "azure-deployment",
+          "default": "setup-required",
           "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
           "format": "url",
           "description": "Specifies the base url for the openai service.",
           "order": 5
+        },
+        "vscode-openai.embeddingModel": {
+          "type": "string",
+          "default": "setup-required",
+          "description": "Specifies the default openai model for embedding resources.",
+          "order": 6
+        },
+        "vscode-openai.embeddingsDeployment": {
+          "type": "string",
+          "default": "setup-required",
+          "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
+          "format": "url",
+          "description": "Specifies the base url for the openai service.",
+          "order": 7
         },
         "vscode-openai.azureApiVersion": {
           "type": "string",
@@ -200,7 +214,7 @@
           "enumDescriptions": [
             "The initial azure api that support chat completion."
           ],
-          "order": 6
+          "order": 8
         },
         "vscode-openai.conversationHistory": {
           "type": "number",
@@ -209,7 +223,7 @@
           "minimum": 0,
           "maximum": 25,
           "description": "Specifies the base url for the openai service.",
-          "order": 7
+          "order": 9
         },
         "vscode-openai.logLevel": {
           "type": "string",
@@ -225,7 +239,7 @@
             "Information messages about the progress of vscode-openai and external services",
             "Error messages for events that could potentially cause issues for vscode-openai"
           ],
-          "order": 8
+          "order": 10
         },
         "vscode-openai.prompt-editor.comment": {
           "type": "string",
@@ -233,35 +247,35 @@
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place inline comments into the `source code`\n- Author: **vscode-openai**",
           "description": "Edit prompt optimize.",
-          "order": 9
+          "order": 11
         },
         "vscode-openai.prompt-editor.explain": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease provide headers comments in the source code for each function providing:\n- description, input and output parameters.\n- input parameters.\n- output parameters.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place header comments for each class or function within the `source code`\n- Author: **Bryon Roscoe**",
-          "order": 10
+          "order": 12
         },
         "vscode-openai.prompt-editor.bounty": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease fix any bugs and include comments for the changed code explaining what was wrong with the original code.\nOnly provide the fixed source code with comments in #{language} explaining the corrected problem.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find and fix bugs within the `source code`\n- Author: **Ed Linden**",
-          "order": 11
+          "order": 13
         },
         "vscode-openai.prompt-editor.optimize": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease optimize the source code by reducing the number of operations performed during execution.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find inefficiencies and resolve them within the `source code`\n- Author: **vscode-openai**",
-          "order": 12
+          "order": 14
         },
         "vscode-openai.prompt-editor.patterns": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease rewrite the code using appropriate design patterns.\nThe design pattern should combine Concurrency, Behavioral, Structural and Creational design patterns.\nThe response should be a single solution using all the valuable patterns identified.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to suggest design patterns to improve readability, maintainability, ... in the `source code`\n- Author: **vscode-openai**",
-          "order": 13
+          "order": 15
         }
       }
     },

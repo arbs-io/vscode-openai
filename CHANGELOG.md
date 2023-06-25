@@ -4,6 +4,11 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.3.0]
+
+- Feature/20230622-Exponential Backoff
+- Feature/20230622-Embedding model selections
+
 ## [1.2.3]
 
 - Features/20230614 Support All openai gpt models

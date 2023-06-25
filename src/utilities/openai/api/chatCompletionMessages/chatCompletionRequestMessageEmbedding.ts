@@ -7,7 +7,7 @@ import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { searchFileChunks } from '@app/utilities/embedding'
 
 const MAX_FILES_LENGTH = 2000 * 3
-const MAX_RESULTS = 25
+const MAX_RESULTS = 15
 
 export async function ChatCompletionRequestMessageEmbedding(
   conversation: IConversation

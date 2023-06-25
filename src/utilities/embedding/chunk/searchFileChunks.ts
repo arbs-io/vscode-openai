@@ -19,7 +19,7 @@ export async function searchFileChunks({
 }): Promise<IEmbeddingFileChunk[]> {
   ExtensionStatusBarItem.instance.showStatusBarInformation(
     'sync~spin',
-    '- embedding'
+    '- search resource'
   )
 
   createDebugNotification(`embedding-controller: searchQuery: ${searchQuery}`)

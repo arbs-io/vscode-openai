@@ -1,9 +1,11 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
+import { ModelCapabiliy } from './modelCapabiliy'
 
-export async function openaiListModels(
+export async function listModelsOpenAI(
+  apiKey: string,
   baseUrl: string,
-  apiKey: string
+  modelCapabiliy: ModelCapabiliy
 ): Promise<Array<string>> {
   const models = new Array<string>()
   try {
@@ -15,7 +17,15 @@ export async function openaiListModels(
     const response = await openai.listModels()
 
     response.data.data.forEach((model) => {
-      if (model.id.startsWith('gpt')) {
+      if (
+        modelCapabiliy == ModelCapabiliy.ChatCompletion &&
+        model.id.startsWith('gpt')
+      ) {
+        models.push(model.id)
+      } else if (
+        modelCapabiliy == ModelCapabiliy.Embedding &&
+        model.id.indexOf('embedding') > 0
+      ) {
         models.push(model.id)
       }
     })

@@ -8,7 +8,6 @@
 import { QuickPickItem, ExtensionContext } from 'vscode'
 import { MultiStepInput, getGitAccessToken } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
-import { createInfoNotification } from '@app/utilities/node'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -85,6 +84,5 @@ export async function quickPickSetupVscodeOpenai(
   const accessToken = await getGitAccessToken()
   if (accessToken) {
     ConfigurationService.instance.serviceProvider = 'VSCode-OpenAI'
-    createInfoNotification(`ServiceProvider (VSCode-OpenAI)`)
   }
 }

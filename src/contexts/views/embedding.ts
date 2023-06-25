@@ -30,9 +30,6 @@ const _registerCommandConversation = (
   commands.registerCommand(
     VSCODE_OPENAI_EMBEDDING.CONVERSATION_COMMAND_ID,
     (node: EmbeddingTreeItem) => {
-      window.showInformationMessage(
-        `ConversationTreeDataCommand: $${node.label}.`
-      )
       const persona = QueryResourcePersona
       const conversation: IConversation =
         ConversationStorageService.instance.create(persona, [

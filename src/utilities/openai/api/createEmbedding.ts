@@ -1,5 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { backOff } from 'exponential-backoff'
+import { backOff, BackoffOptions } from 'exponential-backoff'
 import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { errorHandler } from './errorHandler'
@@ -24,14 +24,22 @@ export async function createEmbedding({
 
     const requestConfig = await ConfigurationService.instance.getRequestConfig()
 
-    const result = await backOff(() =>
-      openai.createEmbedding(
-        {
-          model,
-          input,
-        },
-        requestConfig
-      )
+    const backoffOptions: BackoffOptions = {
+      numOfAttempts: 20,
+      maxDelay: 10,
+      timeMultiple: 3,
+    }
+
+    const result = await backOff(
+      () =>
+        openai.createEmbedding(
+          {
+            model,
+            input,
+          },
+          requestConfig
+        ),
+      backoffOptions
     )
 
     if (!result.data.data[0].embedding) {

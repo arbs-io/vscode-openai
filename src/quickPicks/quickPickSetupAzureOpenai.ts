@@ -10,7 +10,7 @@
 import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationService } from '@app/services'
 import {
-  azureListDeployments,
+  listModelsAzureOpenAI,
   DeploymentCapabiliy,
 } from '@app/utilities/openai'
 import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
@@ -192,7 +192,7 @@ export async function quickPickSetupAzureOpenai(
     deploymentCapabiliy: DeploymentCapabiliy,
     token?: CancellationToken
   ): Promise<QuickPickItem[]> {
-    const chatCompletionModels = await azureListDeployments(
+    const chatCompletionModels = await listModelsAzureOpenAI(
       openapiAPIKey,
       openapiBaseUrl,
       deploymentCapabiliy
@@ -217,13 +217,17 @@ export async function quickPickSetupAzureOpenai(
 
   //Start openai.com configuration processes
   const state = await collectInputs()
+
+  const inferenceModel = state.openaiChatCompletionModel.description as string
+  const inferenceDeployment = state.openaiChatCompletionModel.label
+  const embeddingModel = state.openaiEmbeddingModel.description as string
+  const embeddingDeployment = state.openaiEmbeddingModel.label
+
   ConfigurationService.instance.serviceProvider = 'Azure-OpenAI'
   ConfigurationService.instance.baseUrl = state.openaiBaseUrl
-  ConfigurationService.instance.azureDeployment =
-    state.openaiChatCompletionModel.label
-  ConfigurationService.instance.defaultModel = state.openaiChatCompletionModel
-    .description as string
-  ConfigurationService.instance.azureEmbeddingsDeployment =
-    state.openaiEmbeddingModel.label
+  ConfigurationService.instance.azureDeployment = inferenceDeployment
+  ConfigurationService.instance.defaultModel = inferenceModel
+  ConfigurationService.instance.embeddingsDeployment = embeddingDeployment
+  ConfigurationService.instance.embeddingModel = embeddingModel
   SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
 }

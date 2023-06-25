@@ -7,15 +7,9 @@
  * 		Store and activate configuration
  */
 
-import {
-  QuickPickItem,
-  window,
-  CancellationToken,
-  ExtensionContext,
-  Uri,
-} from 'vscode'
+import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationService } from '@app/services'
-import { openaiListModels } from '@app/utilities/openai'
+import { listModelsOpenAI } from '@app/utilities/openai'
 import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
 
 /**
@@ -164,7 +158,7 @@ export async function quickPickSetupOpenai(
     apiKey: string,
     token?: CancellationToken
   ): Promise<QuickPickItem[]> {
-    const chatCompletionModels = await openaiListModels(baseUrl, apiKey)
+    const chatCompletionModels = await listModelsOpenAI(baseUrl, apiKey)
 
     // Map each returned label into a QuickPickItem object with label property set as label value returned by API call.
     return chatCompletionModels.map((label) => ({ label }))

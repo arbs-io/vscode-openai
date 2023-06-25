@@ -84,15 +84,15 @@ export default class ConfigurationService {
     this.setConfigValue<string>('azureDeployment', value)
   }
 
-  public get azureEmbeddingsDeployment(): string {
+  public get embeddingsDeployment(): string {
     if (this.serviceProvider === 'VSCode-OpenAI')
       return CONFIG_CONSTANTS.EMBEDDING_DEPLOYMENT_MODEL
 
-    return this.getConfigValue<string>('azureEmbeddingsDeployment')
+    return this.getConfigValue<string>('embeddingsDeployment')
   }
 
-  public set azureEmbeddingsDeployment(value: string) {
-    this.setConfigValue<string>('azureEmbeddingsDeployment', value)
+  public set embeddingsDeployment(value: string) {
+    this.setConfigValue<string>('embeddingsDeployment', value)
   }
 
   public get azureApiVersion(): string {
@@ -117,8 +117,15 @@ export default class ConfigurationService {
     this.setConfigValue<string>('defaultModel', value)
   }
 
-  public get defaultEmbeddingModel(): string {
-    return 'text-embedding-ada-002'
+  public get embeddingModel(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI')
+      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL
+
+    return this.getConfigValue<string>('embeddingModel')
+  }
+
+  public set embeddingModel(value: string) {
+    this.setConfigValue<string>('embeddingModel', value)
   }
 
   public get conversationHistory(): number {
@@ -210,28 +217,16 @@ export default class ConfigurationService {
       const extConfiguration = new Map<string, string>()
       extConfiguration.set('vscode_version', version)
       extConfiguration.set('extension_version', instance.extensionVersion)
-      extConfiguration.set('openai_service_provider', instance.serviceProvider)
-      extConfiguration.set('openai_host', instance.host)
-      extConfiguration.set('openai_base_url', instance.baseUrl)
-      extConfiguration.set(
-        'openai_model_chat_completion',
-        instance.defaultModel
-      )
-      extConfiguration.set(
-        'openai_model_embeddings',
-        instance.defaultEmbeddingModel
-      )
-      extConfiguration.set('open_ai_azure_deployment', instance.azureDeployment)
-      extConfiguration.set(
-        'openai_azure_embeddings_deployment',
-        instance.azureEmbeddingsDeployment
-      )
-
-      extConfiguration.set('openai_azure_api_version', instance.azureApiVersion)
-      extConfiguration.set(
-        'openai_conversation_history',
-        instance.conversationHistory.toString()
-      )
+      extConfiguration.set('service_provider', instance.serviceProvider)
+      extConfiguration.set('host', instance.host)
+      extConfiguration.set('base_url', instance.baseUrl)
+      extConfiguration.set('model_chat_completion', instance.defaultModel)
+      extConfiguration.set('model_embeddings', instance.embeddingModel)
+      extConfiguration.set('az_inference', instance.azureDeployment)
+      extConfiguration.set('az_embedding', instance.embeddingsDeployment)
+      extConfiguration.set('az_api_version', instance.azureApiVersion)
+      const convHist = instance.conversationHistory.toString()
+      extConfiguration.set('conversation_history', convHist)
       createInfoNotification(
         Object.fromEntries(extConfiguration),
         'configuration'

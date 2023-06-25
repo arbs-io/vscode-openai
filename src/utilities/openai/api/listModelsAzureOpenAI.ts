@@ -12,7 +12,7 @@ export enum DeploymentCapabiliy {
   Embedding,
 }
 
-export async function azureListDeployments(
+export async function listModelsAzureOpenAI(
   apiKey: string,
   baseUrl: string,
   modelCapabiliy: DeploymentCapabiliy

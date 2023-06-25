@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
 
-export async function openaiListModels(
+export async function listModelsOpenAI(
   baseUrl: string,
   apiKey: string
 ): Promise<Array<string>> {

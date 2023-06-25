@@ -9,10 +9,7 @@
 
 import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationService } from '@app/services'
-import {
-  listModelsAzureOpenAI,
-  DeploymentCapabiliy,
-} from '@app/utilities/openai'
+import { listModelsAzureOpenAI, ModelCapabiliy } from '@app/utilities/openai'
 import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
 
 /**
@@ -29,8 +26,8 @@ export async function quickPickSetupAzureOpenai(
     totalSteps: number
     openaiBaseUrl: string
     openaiApiKey: string
-    openaiChatCompletionModel: QuickPickItem
-    openaiEmbeddingModel: QuickPickItem
+    quickPickInferenceModel: QuickPickItem
+    quickPickEmbeddingModel: QuickPickItem
   }
 
   async function collectInputs() {
@@ -107,12 +104,12 @@ export async function quickPickSetupAzureOpenai(
     const models = await getAvailableModels(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
-      DeploymentCapabiliy.ChatCompletion,
+      ModelCapabiliy.ChatCompletion,
       undefined /* TODO: token */
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
-    state.openaiChatCompletionModel = await input.showQuickPick({
+    state.quickPickInferenceModel = await input.showQuickPick({
       title,
       step: 3,
       totalSteps: 4,
@@ -120,7 +117,7 @@ export async function quickPickSetupAzureOpenai(
       placeholder:
         'Selected Chat Completion DeploymentModel (if empty, no valid chat completion models found)',
       items: models,
-      activeItem: state.openaiChatCompletionModel,
+      activeItem: state.quickPickInferenceModel,
       shouldResume: shouldResume,
     })
 
@@ -139,20 +136,20 @@ export async function quickPickSetupAzureOpenai(
     const models = await getAvailableModels(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
-      DeploymentCapabiliy.Embedding,
+      ModelCapabiliy.Embedding,
       undefined /* TODO: token */
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
-    state.openaiEmbeddingModel = await input.showQuickPick({
+    state.quickPickEmbeddingModel = await input.showQuickPick({
       title,
       step: 4,
       totalSteps: 4,
       ignoreFocusOut: true,
       placeholder:
-        'Selected Embedding  DeploymentModel (if empty, no valid chat completion models found)',
+        'Selected Embedding DeploymentModel (if empty, no valid chat completion models found)',
       items: models,
-      activeItem: state.openaiEmbeddingModel,
+      activeItem: state.quickPickEmbeddingModel,
       shouldResume: shouldResume,
     })
   }
@@ -189,13 +186,13 @@ export async function quickPickSetupAzureOpenai(
   async function getAvailableModels(
     openapiAPIKey: string,
     openapiBaseUrl: string,
-    deploymentCapabiliy: DeploymentCapabiliy,
+    modelCapabiliy: ModelCapabiliy,
     token?: CancellationToken
   ): Promise<QuickPickItem[]> {
     const chatCompletionModels = await listModelsAzureOpenAI(
       openapiAPIKey,
       openapiBaseUrl,
-      deploymentCapabiliy
+      modelCapabiliy
     )
 
     const quickPickItems: QuickPickItem[] = []
@@ -218,10 +215,10 @@ export async function quickPickSetupAzureOpenai(
   //Start openai.com configuration processes
   const state = await collectInputs()
 
-  const inferenceModel = state.openaiChatCompletionModel.description as string
-  const inferenceDeployment = state.openaiChatCompletionModel.label
-  const embeddingModel = state.openaiEmbeddingModel.description as string
-  const embeddingDeployment = state.openaiEmbeddingModel.label
+  const inferenceModel = state.quickPickInferenceModel.description as string
+  const inferenceDeployment = state.quickPickInferenceModel.label
+  const embeddingModel = state.quickPickEmbeddingModel.description as string
+  const embeddingDeployment = state.quickPickEmbeddingModel.label
 
   ConfigurationService.instance.serviceProvider = 'Azure-OpenAI'
   ConfigurationService.instance.baseUrl = state.openaiBaseUrl

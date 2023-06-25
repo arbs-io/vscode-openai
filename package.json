@@ -178,13 +178,13 @@
         },
         "vscode-openai.defaultModel": {
           "type": "string",
-          "default": "gpt-3.5-turbo",
+          "default": "setup-required",
           "description": "Specifies the default openai model.",
           "order": 4
         },
         "vscode-openai.azureDeployment": {
           "type": "string",
-          "default": "azure-deployment",
+          "default": "setup-required",
           "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
           "format": "url",
           "description": "Specifies the base url for the openai service.",
@@ -192,13 +192,13 @@
         },
         "vscode-openai.embeddingModel": {
           "type": "string",
-          "default": "text-embedding-ada-002",
+          "default": "setup-required",
           "description": "Specifies the default openai model for embedding resources.",
           "order": 6
         },
         "vscode-openai.embeddingsDeployment": {
           "type": "string",
-          "default": "azure-deployment",
+          "default": "setup-required",
           "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
           "format": "url",
           "description": "Specifies the base url for the openai service.",

@@ -1,21 +1,17 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
 import { HttpRequest, createErrorNotification } from '@app/utilities/node'
+import { ModelCapabiliy } from './modelCapabiliy'
 
 export interface IDeploymentModel {
   deployment: string
   model: string
 }
 
-export enum DeploymentCapabiliy {
-  ChatCompletion,
-  Embedding,
-}
-
 export async function listModelsAzureOpenAI(
   apiKey: string,
   baseUrl: string,
-  modelCapabiliy: DeploymentCapabiliy
+  modelCapabiliy: ModelCapabiliy
 ): Promise<Array<IDeploymentModel> | undefined> {
   try {
     const configuration = new Configuration({
@@ -32,12 +28,12 @@ export async function listModelsAzureOpenAI(
     const models = new Array<string>()
     response.data.data.forEach((model: any) => {
       if (
-        modelCapabiliy == DeploymentCapabiliy.ChatCompletion &&
+        modelCapabiliy == ModelCapabiliy.ChatCompletion &&
         model.capabilities.chat_completion
       ) {
         models.push(model.id)
       } else if (
-        modelCapabiliy == DeploymentCapabiliy.Embedding &&
+        modelCapabiliy == ModelCapabiliy.Embedding &&
         model.capabilities.embeddings
       ) {
         models.push(model.id)

@@ -10,8 +10,8 @@ import {
 
 const CONFIG_CONSTANTS = {
   BASE_URL: 'https://api.arbs.io/openai/inference/v1',
-  DEPLOYMENT_MODEL: 'gpt-35-turbo',
-  EMBEDDING_DEPLOYMENT_MODEL: 'text-embedding-ada-002',
+  DEPLOYMENT_MODEL_INFERENCE: 'gpt-35-turbo',
+  DEPLOYMENT_MODEL_EMBEDDING: 'text-embedding-ada-002',
   API_VERSION: '2023-05-15',
   CONVERSATION_HISTORY: 4,
   HOST: 'vscode-openai',
@@ -75,7 +75,7 @@ export default class ConfigurationService {
 
   public get azureDeployment(): string {
     if (this.serviceProvider === 'VSCode-OpenAI')
-      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL
+      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_INFERENCE
 
     return this.getConfigValue<string>('azureDeployment')
   }
@@ -86,7 +86,7 @@ export default class ConfigurationService {
 
   public get embeddingsDeployment(): string {
     if (this.serviceProvider === 'VSCode-OpenAI')
-      return CONFIG_CONSTANTS.EMBEDDING_DEPLOYMENT_MODEL
+      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_EMBEDDING
 
     return this.getConfigValue<string>('embeddingsDeployment')
   }
@@ -108,7 +108,7 @@ export default class ConfigurationService {
 
   public get defaultModel(): string {
     if (this.serviceProvider === 'VSCode-OpenAI')
-      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL
+      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_INFERENCE
 
     return this.getConfigValue<string>('defaultModel')
   }
@@ -119,7 +119,7 @@ export default class ConfigurationService {
 
   public get embeddingModel(): string {
     if (this.serviceProvider === 'VSCode-OpenAI')
-      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL
+      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_EMBEDDING
 
     return this.getConfigValue<string>('embeddingModel')
   }
@@ -220,10 +220,10 @@ export default class ConfigurationService {
       extConfiguration.set('service_provider', instance.serviceProvider)
       extConfiguration.set('host', instance.host)
       extConfiguration.set('base_url', instance.baseUrl)
-      extConfiguration.set('model_chat_completion', instance.defaultModel)
-      extConfiguration.set('model_embeddings', instance.embeddingModel)
-      extConfiguration.set('az_inference', instance.azureDeployment)
-      extConfiguration.set('az_embedding', instance.embeddingsDeployment)
+      extConfiguration.set('inference_model', instance.defaultModel)
+      extConfiguration.set('inference_deploy', instance.azureDeployment)
+      extConfiguration.set('embeddings_model', instance.embeddingModel)
+      extConfiguration.set('embeddings_deploy', instance.embeddingsDeployment)
       extConfiguration.set('az_api_version', instance.azureApiVersion)
       const convHist = instance.conversationHistory.toString()
       extConfiguration.set('conversation_history', convHist)

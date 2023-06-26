@@ -1,9 +1,9 @@
 export function chunkText({
   text,
-  maxCharLength = 250 * 4,
+  maxCharLength,
 }: {
   text: string
-  maxCharLength?: number
+  maxCharLength: number
 }): string[] {
   const chunks: string[] = []
   let currentChunk = ''

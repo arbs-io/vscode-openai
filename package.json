@@ -111,13 +111,6 @@
         }
       ]
     },
-    "viewsWelcome": [
-      {
-        "view": "vscode-openai.sidebar.embedding",
-        "contents": "No resources have been detected. To begin embedding a resource, simply drag and drop your file into this area. \n\nvscode-openai currently support the following file formats: txt html, markdown, docx, and pdf.",
-        "when": "!vscode-openai.embedding.enabled"
-      }
-    ],
     "views": {
       "vscode-openai-sidebar-view": [
         {

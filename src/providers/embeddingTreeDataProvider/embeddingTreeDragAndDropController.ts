@@ -20,6 +20,7 @@ import {
 import { URL } from 'url'
 import { getValidMimeType, urlReadBuffer } from './utilities'
 import { IEmbeddingFileLite } from '@app/interfaces'
+import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 
 export class EmbeddingTreeDragAndDropController
   implements TreeDragAndDropController<EmbeddingTreeItem>
@@ -47,6 +48,11 @@ export class EmbeddingTreeDragAndDropController
 
     const transferFile = new URL(transferItem.value)
     try {
+      ExtensionStatusBarItem.instance.showStatusBarInformation(
+        'sync~spin',
+        '- memory-buffer'
+      )
+
       const bufferArray = await urlReadBuffer(transferFile)
       createDebugNotification(`embedding-controller memory-buffer`)
 

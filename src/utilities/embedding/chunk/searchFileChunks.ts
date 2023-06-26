@@ -26,6 +26,8 @@ export async function searchFileChunks({
 
   const searchQueryEmbeddingResponse = await createEmbedding({
     input: searchQuery,
+    itemCount: 1,
+    batchLength: 1,
   })
 
   // Get the first element in the embedding array

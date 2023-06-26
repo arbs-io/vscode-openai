@@ -6,4 +6,4 @@ export { registerOpenSettings } from './settings/registerOpenSettings'
 export { registerConversationCommand } from './conversation/registerConversationCommand'
 
 export { registerConversationsWebviewView } from './views/conversations'
-export { registerEmbeddingRefreshTreeDataCommand } from './views/embedding'
+export { registerEmbeddingView } from './views/embedding'

@@ -3,13 +3,18 @@ import { backOff, BackoffOptions } from 'exponential-backoff'
 import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { errorHandler } from './errorHandler'
+import { createDebugNotification } from '@app/utilities/node'
 
 type EmbeddingOptions = {
   input: string | string[]
+  itemCount: number
+  batchLength: number
 }
 
 export async function createEmbedding({
   input,
+  itemCount,
+  batchLength,
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
     const model = await ConfigurationService.instance.embeddingModel
@@ -26,8 +31,11 @@ export async function createEmbedding({
 
     const backoffOptions: BackoffOptions = {
       numOfAttempts: 20,
-      maxDelay: 10,
-      timeMultiple: 3,
+      retry: async (e: any, attemptNumber: number) => {
+        const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+        await sleep(1000)
+        return true
+      },
     }
 
     const result = await backOff(
@@ -40,6 +48,11 @@ export async function createEmbedding({
           requestConfig
         ),
       backoffOptions
+    )
+
+    ExtensionStatusBarItem.instance.showStatusBarInformation(
+      'sync~spin',
+      `- embedding chunk [${itemCount}/${batchLength}]`
     )
 
     if (!result.data.data[0].embedding) {

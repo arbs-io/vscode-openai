@@ -39,7 +39,7 @@ export function errorHandler(error: any) {
         statusBarItem.message
       )
     } else {
-      createWarningNotification(statusBarItem.message.split('- ').join(''))
+      // createWarningNotification(statusBarItem.message.split('- ').join(''))
       ExtensionStatusBarItem.instance.showStatusBarWarning(
         statusBarItem.icon,
         statusBarItem.message

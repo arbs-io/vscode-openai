@@ -85,9 +85,6 @@ export default class ConfigurationService {
   }
 
   public get embeddingsDeployment(): string {
-    if (this.serviceProvider === 'VSCode-OpenAI')
-      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_EMBEDDING
-
     return this.getConfigValue<string>('embeddingsDeployment')
   }
 
@@ -118,9 +115,6 @@ export default class ConfigurationService {
   }
 
   public get embeddingModel(): string {
-    if (this.serviceProvider === 'VSCode-OpenAI')
-      return CONFIG_CONSTANTS.DEPLOYMENT_MODEL_EMBEDDING
-
     return this.getConfigValue<string>('embeddingModel')
   }
 

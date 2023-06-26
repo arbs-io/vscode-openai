@@ -84,5 +84,7 @@ export async function quickPickSetupVscodeOpenai(
   const accessToken = await getGitAccessToken()
   if (accessToken) {
     ConfigurationService.instance.serviceProvider = 'VSCode-OpenAI'
+    ConfigurationService.instance.embeddingsDeployment = 'setup-required'
+    ConfigurationService.instance.embeddingModel = 'setup-required'
   }
 }

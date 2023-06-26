@@ -19,14 +19,19 @@ export async function getEmbeddingsForText({
 }): Promise<IEmbeddingText[]> {
   ExtensionStatusBarItem.instance.showStatusBarInformation(
     'sync~spin',
-    '- embedding chunks'
+    '- chunk data'
   )
 
   const textChunks = chunkText({ text, maxCharLength })
 
+  let chunkCounter = 1
   const batches = []
   for (let i = 0; i < textChunks.length; i += batchSize) {
     batches.push(textChunks.slice(i, i + batchSize))
+    ExtensionStatusBarItem.instance.showStatusBarInformation(
+      'sync~spin',
+      `- chunk data (${chunkCounter++})`
+    )
   }
 
   let itemCount = batches.length

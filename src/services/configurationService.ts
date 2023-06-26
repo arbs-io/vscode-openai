@@ -159,7 +159,7 @@ export default class ConfigurationService {
     if (this.serviceProvider === 'VSCode-OpenAI')
       return CONFIG_CONSTANTS.EMBEDDING_URL
     else if (this.serviceProvider === 'Azure-OpenAI') {
-      return `${this.baseUrl}/deployments/${this.azureDeployment}`
+      return `${this.baseUrl}/deployments/${this.embeddingsDeployment}`
     } else {
       return `${this.baseUrl}`
     }

@@ -1,6 +1,6 @@
 import { ExtensionContext, workspace } from 'vscode'
-import { ManagedApiKey } from './managedApiKey'
 import { createErrorNotification } from '@app/utilities/node'
+import { ManagedApiKey } from './managedApiKey'
 
 export function registerChangeConfiguration(context: ExtensionContext): void {
   try {

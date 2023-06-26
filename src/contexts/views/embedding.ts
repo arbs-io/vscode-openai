@@ -9,10 +9,11 @@ import {
 import { IConversation } from '@app/interfaces'
 import { QueryResourcePersona } from '@app/models'
 
-export function registerEmbeddingRefreshTreeDataCommand(
-  context: ExtensionContext
-) {
+export function registerEmbeddingView(context: ExtensionContext) {
   const instance = new EmbeddingTreeDataProvider(context)
+
+  // window.registerTreeDataProvider('vscode-openai.sidebar.embedding', instance)
+
   _registerCommandRefresh(instance)
   _registerCommandConversation(instance)
   _registerCommandDelete(instance)

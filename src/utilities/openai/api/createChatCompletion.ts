@@ -39,7 +39,7 @@ export async function createChatCompletion(
       numOfAttempts: 20,
       retry: async (e: any, attemptNumber: number) => {
         const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
-        await sleep(attemptNumber * 1500)
+        await sleep(1000)
         return true
       },
     }

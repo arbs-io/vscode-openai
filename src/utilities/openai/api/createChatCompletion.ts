@@ -1,5 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { backOff } from 'exponential-backoff'
+import { BackoffOptions, backOff } from 'exponential-backoff'
 import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
@@ -35,17 +35,28 @@ export async function createChatCompletion(
 
     const requestConfig = await ConfigurationService.instance.getRequestConfig()
 
-    const completion = await backOff(() =>
-      openai.createChatCompletion(
-        {
-          model: ConfigurationService.instance.defaultModel,
-          messages: chatCompletionMessages,
-          temperature: 0.2,
-          frequency_penalty: 0.5,
-          presence_penalty: 0.5,
-        },
-        requestConfig
-      )
+    const backoffOptions: BackoffOptions = {
+      numOfAttempts: 20,
+      retry: async (e: any, attemptNumber: number) => {
+        const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+        await sleep(attemptNumber * 1500)
+        return true
+      },
+    }
+
+    const completion = await backOff(
+      () =>
+        openai.createChatCompletion(
+          {
+            model: ConfigurationService.instance.defaultModel,
+            messages: chatCompletionMessages,
+            temperature: 0.2,
+            frequency_penalty: 0.5,
+            presence_penalty: 0.5,
+          },
+          requestConfig
+        ),
+      backoffOptions
     )
 
     const content = completion.data.choices[0].message?.content

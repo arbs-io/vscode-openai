@@ -3,8 +3,7 @@ import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { chunkText } from '../'
 import { IEmbeddingText } from '@app/interfaces'
 
-// There isn't a good JS tokenizer at the moment, so we are using this approximation of 4 characters per token instead. This might break for some languages.
-const MAX_CHAR_LENGTH = 250 * 4
+const MAX_CHAR_LENGTH = 300 * 4
 
 // This function takes a text and returns an array of embeddings for each chunk of the text
 // The text is split into chunks of a given maximum charcter length
@@ -20,7 +19,7 @@ export async function getEmbeddingsForText({
 }): Promise<IEmbeddingText[]> {
   ExtensionStatusBarItem.instance.showStatusBarInformation(
     'sync~spin',
-    '- embedding'
+    '- embedding chunks'
   )
 
   const textChunks = chunkText({ text, maxCharLength })
@@ -30,8 +29,14 @@ export async function getEmbeddingsForText({
     batches.push(textChunks.slice(i, i + batchSize))
   }
 
+  let itemCount = batches.length
+
   const batchPromises = batches.map((batch) =>
-    createEmbedding({ input: batch })
+    createEmbedding({
+      input: batch,
+      itemCount: itemCount--,
+      batchLength: batches.length,
+    })
   )
 
   const embeddings = (await Promise.all(batchPromises)).flat()

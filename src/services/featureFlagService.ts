@@ -6,7 +6,8 @@ export default function featureFlagService() {
   if (ConfigurationService.instance.serviceProvider === 'VSCode-OpenAI') {
     setFeatureFlag(VSCODE_OPENAI_EMBEDDING.ENABLED_COMMAND_ID, false)
   } else {
-    setFeatureFlag(VSCODE_OPENAI_EMBEDDING.ENABLED_COMMAND_ID, true)
+    // setFeatureFlag(VSCODE_OPENAI_EMBEDDING.ENABLED_COMMAND_ID, true)
+    setFeatureFlag(VSCODE_OPENAI_EMBEDDING.ENABLED_COMMAND_ID, false)
   }
 
   if (ConfigurationService.instance.embeddingModel === 'setup-required') {

@@ -115,7 +115,7 @@
       {
         "view": "vscode-openai.sidebar.embedding",
         "contents": "To utilize the Query Resources feature, it is necessary to register (or re-register) with the OpenAI service provider. This will enable you to select from a variety of embedding models.\nPlease note that this particular feature is exclusively available with the native and Azure OpenAI services, and unfortunately, it is not provided by the vscode-openai service.\n[Setup OpenAI Provider](command:vscode-openai.register.openaiService)",
-        "when": "!vscode-openai.embedding.enabled"
+        "when": "vscode-openai.embedding.setup-required"
       }
     ],
     "views": {
@@ -132,7 +132,8 @@
           "id": "vscode-openai.sidebar.embedding",
           "name": "Query Resources",
           "icon": "./assets/openai-sidebar.svg",
-          "contextualTitle": "vscode-openai conversations"
+          "contextualTitle": "vscode-openai conversations",
+          "when": "vscode-openai.embedding.enabled"
         }
       ]
     },

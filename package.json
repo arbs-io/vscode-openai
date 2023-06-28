@@ -314,6 +314,11 @@
           "group": "navigation@2"
         },
         {
+          "command": "vscode-openai.conversation.delete-all",
+          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "group": "navigation@3"
+        },
+        {
           "command": "vscode-openai.embedding.refresh",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@0"
@@ -399,6 +404,12 @@
         "title": "Refresh",
         "category": "vscode-openai.conversation",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "vscode-openai.conversation.delete-all",
+        "title": "Delete all conversations",
+        "category": "vscode-openai.conversation",
+        "icon": "$(notebook-delete-cell)"
       },
       {
         "command": "vscode-openai.embedding.refresh",

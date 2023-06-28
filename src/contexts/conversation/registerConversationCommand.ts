@@ -11,6 +11,7 @@ export function registerConversationCommand(context: ExtensionContext) {
     _registerConversationNewDefaultCommand(context)
     _registerConversationNewPersonaCommand(context)
     _registerConversationRefresh(context)
+    _registerConversationDeleteAll(context)
   } catch (error) {
     createErrorNotification(error)
   }
@@ -58,7 +59,31 @@ function _registerConversationRefresh(context: ExtensionContext) {
       commands.registerCommand(
         VSCODE_OPENAI_CONVERSATION.REFRESH_COMMAND_ID,
         () => {
-          /* ... */
+          ConversationStorageService.instance.refresh()
+        }
+      )
+    )
+  } catch (error) {
+    createErrorNotification(error)
+  }
+}
+function _registerConversationDeleteAll(context: ExtensionContext) {
+  try {
+    context.subscriptions.push(
+      commands.registerCommand(
+        VSCODE_OPENAI_CONVERSATION.DELETE_ALL_COMMAND_ID,
+        () => {
+          window
+            .showInformationMessage(
+              'Are you sure you want to delete ALL conversation?',
+              'Yes',
+              'No'
+            )
+            .then((answer) => {
+              if (answer === 'Yes') {
+                ConversationStorageService.instance.deleteAll()
+              }
+            })
         }
       )
     )

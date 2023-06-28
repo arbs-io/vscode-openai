@@ -44,6 +44,7 @@ export const VSCODE_OPENAI_CONVERSATION = {
   NEW_STANDARD_COMMAND_ID: 'vscode-openai.conversation.new-standard',
   NEW_PERSONA_COMMAND_ID: 'vscode-openai.conversation.new-persona',
   REFRESH_COMMAND_ID: 'vscode-openai.conversation.refresh',
+  DELETE_ALL_COMMAND_ID: 'vscode-openai.conversation.delete-all',
 }
 
 // VSCODE_OPENAI_PROMPT: Contains various command IDs for prompting OpenAI to complete tasks.

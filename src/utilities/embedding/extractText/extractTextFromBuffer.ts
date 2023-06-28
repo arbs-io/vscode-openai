@@ -1,6 +1,6 @@
 import mammoth from 'mammoth'
 import { NodeHtmlMarkdown } from 'node-html-markdown'
-import pdfParse from 'pdf-parse'
+import { pdfParse } from '@app/utilities/embedding'
 import { ITextExtract } from '.'
 import { GuessedFile, fileTypeInfo } from '../'
 

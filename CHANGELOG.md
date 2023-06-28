@@ -4,6 +4,14 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.3.2]
+
+- BugFix/20230628-EnabledResourceQueryFeature
+
+## [1.3.1]
+
+- BugFix/20230627-PdfTextExtractFailing
+
 ## [1.3.0]
 
 - Feature/20230622-Exponential Backoff

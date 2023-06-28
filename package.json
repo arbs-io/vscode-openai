@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -113,7 +113,7 @@
     "viewsWelcome": [
       {
         "view": "vscode-openai.sidebar.embedding",
-        "contents": "To utilize the Query Resources feature, it is necessary to register (or re-register) with the OpenAI service provider. This will enable you to select from a variety of embedding models.\nPlease note that this particular feature is exclusively available with the native and Azure OpenAI services, and unfortunately, it is not provided by the vscode-openai service.\n[Setup OpenAI Provider](command:vscode-openai.register.openaiService)",
+        "contents": "To utilize the Query Resources feature, it is necessary to register (or re-register) with the OpenAI service provider. This will enable you to select from a variety of embedding models.\n\nSupported file types (DOCX, HTML, TEXT and MARKDOWN), support for PDF will be added soon.\n\nPlease note that this particular feature is exclusively available with the native and Azure OpenAI services, and unfortunately, it is not provided by the vscode-openai service.\n[Setup OpenAI Provider](command:vscode-openai.register.openaiService)",
         "when": "vscode-openai.embedding.setup-required"
       }
     ],

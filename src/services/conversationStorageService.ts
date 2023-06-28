@@ -3,7 +3,10 @@ import { EventEmitter, Event, ExtensionContext } from 'vscode'
 import { GlobalStorageService } from '@app/utilities/vscode'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { MessageViewerPanel } from '@app/panels'
-import { createErrorNotification } from '@app/utilities/node'
+import {
+  createDebugNotification,
+  createErrorNotification,
+} from '@app/utilities/node'
 import { VSCODE_OPENAI_CONVERSATION } from '@app/constants'
 import { EmbeddingStorageService } from '.'
 
@@ -49,6 +52,10 @@ export default class ConversationStorageService {
     return ConversationStorageService._instance
   }
 
+  public refresh() {
+    ConversationStorageService._emitterDidChange.fire()
+  }
+
   public getAll(): Array<IConversation> {
     return this._conversations.sort((n1, n2) => n2.timestamp - n1.timestamp)
   }
@@ -63,6 +70,16 @@ export default class ConversationStorageService {
 
   public delete(key: string) {
     this._delete(key)
+    ConversationStorageService._emitterDidChange.fire()
+  }
+
+  public deleteAll() {
+    while (this._conversations.length > 0) {
+      this._conversations.map((conv) => {
+        createDebugNotification(conv.conversationId)
+        this._delete(conv.conversationId)
+      })
+    }
     ConversationStorageService._emitterDidChange.fire()
   }
 

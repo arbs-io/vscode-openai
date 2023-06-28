@@ -37,7 +37,7 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
       <Textarea
         ref={chatBottomRef}
         style={{ width: '100%' }}
-        placeholder="Enter+Shift for a newline and ArrowUp restore previous value"
+        placeholder="Enter+Shift for a newline and Enter+ArrowUp restore previous value"
         value={value}
         onChange={(e, d) => {
           setValue(d.value)
@@ -46,7 +46,7 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
           if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault()
             handleSubmit(value)
-          } else if (event.key === 'ArrowUp') {
+          } else if (event.key === 'ArrowUp' && event.shiftKey) {
             event.preventDefault()
             setValue(previousValue)
           }

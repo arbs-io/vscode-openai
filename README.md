@@ -73,35 +73,35 @@ Using vscode-openai can also help you to write more readable, maintainable, and 
 
 Overall, vscode-openai is a valuable tool for developers looking to streamline their workflow and improve their coding skills. Its advanced features make it a must-have extension for anyone looking to write better code faster at an affordable price point.
 
-# Coming Soon...
-
-## Custom Source Integration
+# Custom Source Integration
 
 This new feature for vscode-openai provides a powerful addition allows users to load their own sources to enhance the conversation experience and provide tailored assistance based on the latest standards, library documentation, or specialist subjects.
 
-Key Benefits:
+## Getting Started
+
+To activate this feature, you can register or re-register your OpenAI service provider. This will enable you to choose the suitable model for embedding. However, please note that due to rate limiting, this feature is exclusively available for Azure and Native OpenAI services.
+
+![vscode-openai-embedding-welcome.png](images/vscode-openai-embedding-welcome.png)
+
+## Key Benefits:
 
 - **Personalized Assistance**: By uploading your own resources, you can receive personalized guidance and support based on the specific materials you're working with. This ensures that the information provided is relevant and up-to-date according to your needs.
 - **Enhanced Learning**: With access to specialized content like research papers or industry-specific documentation, you can deepen your understanding of niche topics and stay ahead in your field.
 - **Streamlined Workflow**: Integrating custom sources directly into vscode-openai enables seamless access to relevant information without having to switch between multiple applications or browser tabs.
 
-How It Works:
+## How It Works:
 
 - **Upload Your Sources**: Easily upload documents in various formats (e.g., pdf, docx, ...) through a user-friendly interface within vscode-openai.
 - **Indexing and Processing**: Once uploaded, vscode-openai will index and process the content of your documents, making them available for use during conversations.
 - **Smart Contextual Assistance**: When asking questions or seeking help related to your custom sources, vscode-openai will intelligently search through the uploaded content and provide accurate answers based on the information found in those documents.
 
-Use Cases:
-
-- Developers can upload coding standards or library documentation specific to their projects for quick reference while working on code.
-- Researchers can import research papers or articles related to their field of study for easy access when discussing complex concepts.
-- Educators can integrate course materials or textbooks into vscode-openai for efficient lesson planning and student support.
-
 With Custom Source Integration for vscode-openai, users now have an even more powerful tool at their disposal, enabling them to stay informed and up-to-date with the latest standards, libraries, and specialist subjects. This feature not only enhances the overall user experience but also empowers developers, researchers, and educators alike to excel in their respective fields.
 
-todo
+## Coming Soon
 
-### ![vscode-openai-embedding.png](images/vscode-openai-embedding.png) **Not Found**
+Additional file formats will be added soon. Starting with PDF files.
+
+![vscode-openai-embedding.png](images/vscode-openai-embedding.png)
 
 # Detecting Issues
 

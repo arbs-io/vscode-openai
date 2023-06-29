@@ -6,7 +6,8 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 ## [1.3.3]
 
-- Feature/20230628-RemoveAllConversationFeature
+- Feature/20230628-Remove All Conversation Feature
+- Feature/20230628-Embedding Index Buttons
 
 ## [1.3.2]
 

@@ -17,6 +17,21 @@ export function registerEmbeddingView(context: ExtensionContext) {
   _registerCommandDelete(instance)
 }
 
+commands.registerCommand(VSCODE_OPENAI_EMBEDDING.INDEX_FILE_COMMAND_ID, () => {
+  /* ... */
+})
+
+commands.registerCommand(
+  VSCODE_OPENAI_EMBEDDING.INDEX_FOLDER_COMMAND_ID,
+  () => {
+    /* ... */
+  }
+)
+
+commands.registerCommand(VSCODE_OPENAI_EMBEDDING.INDEX_WEB_COMMAND_ID, () => {
+  /* ... */
+})
+
 const _registerCommandRefresh = (instance: EmbeddingTreeDataProvider): void => {
   commands.registerCommand(VSCODE_OPENAI_EMBEDDING.REFRESH_COMMAND_ID, () => {
     instance.refresh()

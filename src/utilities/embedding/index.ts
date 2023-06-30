@@ -2,6 +2,7 @@ export {
   ITextExtract,
   extractTextFromBuffer,
   extractTextFromFile,
+  embeddingResource,
 } from './extractText'
 
 export { fileTypeInfo, GuessedFile } from './magicBytes'

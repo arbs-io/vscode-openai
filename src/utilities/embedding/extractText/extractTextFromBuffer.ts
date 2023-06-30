@@ -2,6 +2,7 @@ import mammoth from 'mammoth'
 import { NodeHtmlMarkdown } from 'node-html-markdown'
 import { ITextExtract } from '.'
 import { GuessedFile, fileTypeInfo } from '../'
+import { createErrorNotification } from '@app/utilities/node'
 
 export async function extractTextFromBuffer({
   bufferArray,
@@ -9,7 +10,7 @@ export async function extractTextFromBuffer({
 }: {
   bufferArray: Uint8Array
   filetype?: string
-}): Promise<ITextExtract> {
+}): Promise<ITextExtract | undefined> {
   const fileTypeInfos: Array<GuessedFile> = fileTypeInfo(bufferArray)
   let mimeType = ''
 
@@ -55,7 +56,8 @@ export async function extractTextFromBuffer({
     return textExtract
   }
 
-  throw new Error(
-    'Unsupported file type. support types (docx, html, txt and markdown) ~ coming soon (pdf)'
+  createErrorNotification(
+    'Unsupported file type. expected (docx, html, txt and markdown)'
   )
+  return undefined
 }

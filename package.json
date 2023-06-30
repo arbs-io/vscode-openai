@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -41,7 +41,6 @@
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
-    "@types/pdf-parse": "^1.1.1",
     "@types/vscode": "^1.79.1",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
@@ -55,7 +54,6 @@
     "@vscode/extension-telemetry": "^0.8.0",
     "exponential-backoff": "^3.1.1",
     "mammoth": "^1.6.0",
-    "node-ensure": "^0.0.0",
     "node-html-markdown": "^1.3.0",
     "openai": "^3.3.0"
   },
@@ -319,9 +317,19 @@
           "group": "navigation@3"
         },
         {
-          "command": "vscode-openai.embedding.refresh",
+          "command": "vscode-openai.embedding.index-file",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@0"
+        },
+        {
+          "command": "vscode-openai.embedding.index-folder",
+          "when": "view == vscode-openai.sidebar.embedding",
+          "group": "navigation@1"
+        },
+        {
+          "command": "vscode-openai.embedding.refresh",
+          "when": "view == vscode-openai.sidebar.embedding",
+          "group": "navigation@3"
         }
       ],
       "scm/title": [
@@ -410,6 +418,18 @@
         "title": "Delete all conversations",
         "category": "vscode-openai.conversation",
         "icon": "$(notebook-delete-cell)"
+      },
+      {
+        "command": "vscode-openai.embedding.index-file",
+        "title": "Index selected file",
+        "category": "vscode-openai.embedding",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "vscode-openai.embedding.index-folder",
+        "title": "Index selected folder",
+        "category": "vscode-openai.embedding",
+        "icon": "$(new-folder)"
       },
       {
         "command": "vscode-openai.embedding.refresh",

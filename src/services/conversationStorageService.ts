@@ -74,12 +74,13 @@ export default class ConversationStorageService {
   }
 
   public deleteAll() {
-    while (this._conversations.length > 0) {
-      this._conversations.map((conv) => {
-        createDebugNotification(conv.conversationId)
-        this._delete(conv.conversationId)
-      })
-    }
+    this._conversations.map((conv) => {
+      GlobalStorageService.instance.deleteKey(
+        `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conv.conversationId}`
+      )
+      createDebugNotification(`Deleting conversation: ${conv.conversationId}`)
+    })
+    this._conversations = [] //clear local cache
     ConversationStorageService._emitterDidChange.fire()
   }
 

@@ -13,9 +13,10 @@ import {
   ConversationStorageService,
   EmbeddingStorageService,
 } from '@app/services'
-import { IConversation } from '@app/interfaces'
+import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { QueryResourcePersona } from '@app/models'
 import { createDebugNotification } from '@app/utilities/node'
+import { embeddingResource } from '@app/utilities/embedding'
 
 export function registerEmbeddingView(context: ExtensionContext) {
   const instance = new EmbeddingTreeDataProvider(context)
@@ -33,10 +34,13 @@ commands.registerCommand(VSCODE_OPENAI_EMBEDDING.INDEX_FILE_COMMAND_ID, () => {
     canSelectFolders: false,
   }
 
-  window.showOpenDialog(options).then((fileUri) => {
+  window.showOpenDialog(options).then(async (fileUri) => {
     if (fileUri && fileUri[0]) {
-      // console.log('Selected file: ' + fileUri[0].fsPath)
-      createDebugNotification(`file-index: ${fileUri[0].fsPath}`)
+      const uri = fileUri[0]
+      if (!uri) return
+      createDebugNotification(`file-index: ${uri.fsPath}`)
+      const fileObject: IEmbeddingFileLite = await embeddingResource(uri)
+      EmbeddingStorageService.instance.update(fileObject)
     }
   })
 })
@@ -68,7 +72,6 @@ commands.registerCommand(
       prompt: 'Provide the uri to be indexed for resource queries',
       placeHolder: 'https://code.visualstudio.com/api/references/vscode-api',
       validateInput: (text) => {
-        window.showInformationMessage(`Validating: ${text}`)
         const uri = Uri.parse(text)
         const webScheme: string[] = ['http', 'https']
         return webScheme.includes(uri.scheme) && uri.authority.length > 0
@@ -77,7 +80,11 @@ commands.registerCommand(
       },
     })
 
+    const uri = Uri.parse(webIndex!)
+    if (!uri) return
     createDebugNotification(`web-index: ${webIndex}`)
+    const fileObject: IEmbeddingFileLite = await embeddingResource(uri)
+    EmbeddingStorageService.instance.update(fileObject)
   }
 )
 

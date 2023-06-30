@@ -8,17 +8,17 @@ import {
 import { IEmbeddingFileLite } from '@app/interfaces'
 import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 
-export async function embeddingResource(transferFile: Uri) {
+export async function embeddingResource(uri: Uri) {
   ExtensionStatusBarItem.instance.showStatusBarInformation(
     'sync~spin',
     '- memory-buffer'
   )
 
   createDebugNotification(`embedding-controller memory-buffer`)
-  const bufferArray = await workspace.fs.readFile(transferFile)
+  const bufferArray = await workspace.fs.readFile(uri)
 
   createDebugNotification(`embedding-controller reading buffer type`)
-  const mimeType = await getValidMimeType(transferFile)
+  const mimeType = await getValidMimeType(uri)
 
   const fileContent = await extractTextFromBuffer({
     bufferArray: bufferArray,
@@ -38,27 +38,21 @@ export async function embeddingResource(transferFile: Uri) {
   const fileObject: IEmbeddingFileLite = {
     timestamp: new Date().getTime(),
     embeddingId: crypto.randomUUID(),
-    name: decodeURIComponent(transferFile.path).substring(
-      decodeURIComponent(transferFile.path).lastIndexOf('/') + 1
+    name: decodeURIComponent(uri.path).substring(
+      decodeURIComponent(uri.path).lastIndexOf('/') + 1
     ),
-    url: decodeURIComponent(transferFile.path),
+    url: decodeURIComponent(uri.path),
     type: mimeType,
     size: fileContent.content.length,
     expanded: false,
-    // embedding: embeddingText,
     chunks: embeddingText,
     extractedText: fileContent.content,
   }
   return fileObject
 }
 
-async function getValidMimeType(
-  transferFile: Uri
-): Promise<string | undefined> {
-  const fileExtension = transferFile.path.substring(
-    transferFile.path.lastIndexOf('.') + 1
-  )
-
+async function getValidMimeType(uri: Uri): Promise<string | undefined> {
+  const fileExtension = uri.path.substring(uri.path.lastIndexOf('.') + 1)
   switch (fileExtension) {
     case 'htm':
     case 'html':
@@ -72,6 +66,5 @@ async function getValidMimeType(
     default:
       return undefined
   }
-
   return ''
 }

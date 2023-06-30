@@ -13,7 +13,7 @@ import {
 } from 'vscode'
 import { EmbeddingTreeItem } from '.'
 import { IEmbeddingFileLite } from '@app/interfaces'
-import { embeddingResource } from './embeddingResource'
+import { embeddingResource } from '@app/utilities/embedding'
 
 export class EmbeddingTreeDragAndDropController
   implements TreeDragAndDropController<EmbeddingTreeItem>
@@ -39,7 +39,7 @@ export class EmbeddingTreeDragAndDropController
         return
       }
 
-      createDebugNotification(`embedding-controller: ${transferItem.value}`)
+      createDebugNotification(`drag-and-drop-controller: ${transferItem.value}`)
       const uri = Uri.parse(transferItem.value)
       const fileObject: IEmbeddingFileLite = await embeddingResource(uri)
 

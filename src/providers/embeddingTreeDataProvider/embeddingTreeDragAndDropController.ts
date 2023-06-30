@@ -41,7 +41,8 @@ export class EmbeddingTreeDragAndDropController
 
       createDebugNotification(`drag-and-drop-controller: ${transferItem.value}`)
       const uri = Uri.parse(transferItem.value)
-      const fileObject: IEmbeddingFileLite = await embeddingResource(uri)
+      const fileObject = await embeddingResource(uri)
+      if (!fileObject) return
 
       this._onDidDragDropTreeData.fire([fileObject])
     } catch (error) {

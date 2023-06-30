@@ -39,7 +39,8 @@ commands.registerCommand(VSCODE_OPENAI_EMBEDDING.INDEX_FILE_COMMAND_ID, () => {
       const uri = fileUri[0]
       if (!uri) return
       createDebugNotification(`file-index: ${uri.fsPath}`)
-      const fileObject: IEmbeddingFileLite = await embeddingResource(uri)
+      const fileObject = await embeddingResource(uri)
+      if (!fileObject) return
       EmbeddingStorageService.instance.update(fileObject)
     }
   })
@@ -57,7 +58,19 @@ commands.registerCommand(
 
     window.showOpenDialog(options).then((folders) => {
       if (folders != null && folders.length > 0) {
+        const uriFolders = folders[0]
+        if (!uriFolders) return
+
         createDebugNotification(`folder-index: ${folders[0].fsPath}`)
+        workspace.fs.readDirectory(uriFolders).then((files) => {
+          files.forEach(async (file) => {
+            const uriFile = Uri.joinPath(uriFolders, file[0])
+            createDebugNotification(`file-index: ${uriFile.fsPath}`)
+            const fileObject = await embeddingResource(uriFile)
+            if (!fileObject) return
+            EmbeddingStorageService.instance.update(fileObject)
+          })
+        })
       }
     })
   }
@@ -83,7 +96,8 @@ commands.registerCommand(
     const uri = Uri.parse(webIndex!)
     if (!uri) return
     createDebugNotification(`web-index: ${webIndex}`)
-    const fileObject: IEmbeddingFileLite = await embeddingResource(uri)
+    const fileObject = await embeddingResource(uri)
+    if (!fileObject) return
     EmbeddingStorageService.instance.update(fileObject)
   }
 )

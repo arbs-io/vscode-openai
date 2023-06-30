@@ -24,6 +24,9 @@ export async function embeddingResource(uri: Uri) {
     bufferArray: bufferArray,
     filetype: mimeType,
   })
+
+  if (!fileContent) return //if mimetype not supported
+
   createDebugNotification(
     `embedding-controller extract ${fileContent.mimeType} ${fileContent.content.length} (bytes)`
   )

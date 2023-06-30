@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -327,11 +327,6 @@
           "group": "navigation@1"
         },
         {
-          "command": "vscode-openai.embedding.index-web",
-          "when": "view == vscode-openai.sidebar.embedding",
-          "group": "navigation@2"
-        },
-        {
           "command": "vscode-openai.embedding.refresh",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@3"
@@ -435,12 +430,6 @@
         "title": "Index selected folder",
         "category": "vscode-openai.embedding",
         "icon": "$(new-folder)"
-      },
-      {
-        "command": "vscode-openai.embedding.index-web",
-        "title": "Index Webpage",
-        "category": "vscode-openai.embedding",
-        "icon": "$(cloud-download)"
       },
       {
         "command": "vscode-openai.embedding.refresh",

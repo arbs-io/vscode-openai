@@ -79,6 +79,7 @@ commands.registerCommand(
 commands.registerCommand(
   VSCODE_OPENAI_EMBEDDING.INDEX_WEB_COMMAND_ID,
   async () => {
+    /*
     const webIndex = await window.showInputBox({
       title: 'vscode-openai index web uri',
       ignoreFocusOut: true,
@@ -99,6 +100,7 @@ commands.registerCommand(
     const fileObject = await embeddingResource(uri)
     if (!fileObject) return
     EmbeddingStorageService.instance.update(fileObject)
+    */
   }
 )
 

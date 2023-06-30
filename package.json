@@ -426,13 +426,13 @@
       },
       {
         "command": "vscode-openai.embedding.index-file",
-        "title": "Refresh",
+        "title": "Index selected file",
         "category": "vscode-openai.embedding",
         "icon": "$(new-file)"
       },
       {
         "command": "vscode-openai.embedding.index-folder",
-        "title": "Refresh",
+        "title": "Index selected folder",
         "category": "vscode-openai.embedding",
         "icon": "$(new-folder)"
       },

@@ -1,8 +1,7 @@
 import { extensions, workspace, version } from 'vscode'
 import * as crypto from 'crypto'
-import { SecretStorageService, getGitAccessToken } from '@app/utilities/vscode'
+import { SecretStorageService } from '@app/utilities/vscode'
 import {
-  HttpRequest,
   createDebugNotification,
   createErrorNotification,
   createInfoNotification,
@@ -11,8 +10,6 @@ import { IConfigurationService } from './IConfigurationService'
 
 export default class ConfigurationService implements IConfigurationService {
   private static _instance: ConfigurationService
-  private _githubAccessToken: string | undefined
-  private _vscodeopenaiAccessToken: string | undefined
 
   static init(): void {
     try {
@@ -105,35 +102,10 @@ export default class ConfigurationService implements IConfigurationService {
   public get conversationHistory(): number {
     return this.getConfigValue<number>('conversationHistory')
   }
-  // public set conversationHistory(value: number) {
-  //   this.setConfigValue<number>('conversationHistory', value)
-  // }
 
-  /*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  CALCULATED PROPERTY
-
-
-
-
-  */
-
+  // host is used for vscode status bar display only
   public get host(): string {
+    if (this.serviceProvider === 'VSCode-OpenAI') return 'vscode-openai'
     return new URL(this.baseUrl).host
   }
 
@@ -160,30 +132,17 @@ export default class ConfigurationService implements IConfigurationService {
       return { headers: { 'vscode-openai': hash } }
     } else if (this.serviceProvider === 'Azure-OpenAI') {
       return {
-        headers: { 'api-key': await this.getApiKey() },
+        headers: {
+          'api-key':
+            (await SecretStorageService.instance.getAuthApiKey()) as string,
+        },
         params: { 'api-version': this.azureApiVersion },
       }
     } else {
       return {}
     }
   }
-
   public async getApiKey(): Promise<string> {
-    if (this.serviceProvider === 'VSCode-OpenAI') {
-      // Only auth once
-      if (this._vscodeopenaiAccessToken) return this._vscodeopenaiAccessToken
-      createDebugNotification(`request github.com access_token`)
-      this._githubAccessToken = await getGitAccessToken()
-      const request = new HttpRequest(
-        'GET',
-        `Bearer ${this._githubAccessToken}`,
-        'https://api.arbs.io/openai/oauth2/token'
-      )
-      createDebugNotification(`request vscode-openai access_token`)
-      const resp = await request.send()
-      this._vscodeopenaiAccessToken = resp.token as string
-      return this._vscodeopenaiAccessToken
-    }
     return (await SecretStorageService.instance.getAuthApiKey()) as string
   }
 

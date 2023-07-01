@@ -1,4 +1,3 @@
-import { commands } from 'vscode'
 import { Configuration, OpenAIApi } from 'openai'
 import { ConfigurationService } from '@app/services'
 import { ExtensionStatusBarItem, setFeatureFlag } from '@app/utilities/vscode'

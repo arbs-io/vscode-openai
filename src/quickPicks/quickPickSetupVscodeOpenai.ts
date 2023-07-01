@@ -6,8 +6,9 @@
  */
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
-import { MultiStepInput, getGitAccessToken } from '@app/utilities/vscode'
+import { MultiStepInput, SecretStorageService, getGitAccessToken } from '@app/utilities/vscode'
 import { ConfigurationService, IConfigurationService } from '@app/services'
+import { HttpRequest, createErrorNotification } from '@app/utilities/node'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -79,11 +80,25 @@ export async function quickPickSetupVscodeOpenai(
     })
   }
 
-  //Start openai.com configuration processes
+  async function getApiKey(): Promise<string | undefined> {
+    try {
+      const accessToken = await getGitAccessToken()
+      const request = new HttpRequest(
+        'GET',
+        `Bearer ${accessToken}`,
+        'https://api.arbs.io/openai/oauth2/token'
+      )
+      const resp = await request.send()
+      return resp.token as string
+    } catch (error) {
+      createErrorNotification(error)
+      return undefined
+    }
+  }
+
   await collectInputs()
-  const accessToken = await getGitAccessToken()
+  const accessToken = await getApiKey()
   if (accessToken) {
-    //TODO Grab auth token and add to secure storage
     const config: IConfigurationService = {
       serviceProvider: 'VSCode-OpenAI',
       baseUrl: `https://api.arbs.io/openai/inference/v1`,
@@ -93,6 +108,7 @@ export async function quickPickSetupVscodeOpenai(
       embeddingsDeployment: 'text-embedding-ada-002',
       azureApiVersion: '2023-05-15',
     }
+    SecretStorageService.instance.setAuthApiKey(accessToken)
     ConfigurationService.loadConfigurationService(config)
   }
 }

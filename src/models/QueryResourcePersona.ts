@@ -7,8 +7,8 @@ export const QueryResourcePersona: IPersonaOpenAI = {
   configuration: {
     // service: ConfigurationService.instance.host,
     // model: ConfigurationService.instance.defaultModel,
-    service: 'ConfigurationService.instance.host',
-    model: 'ConfigurationService.instance.defaultModel',
+    service: 'Query Resources',
+    model: 'query-resources-model',
   },
   prompt: {
     system:

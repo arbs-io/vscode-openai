@@ -7,7 +7,7 @@
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
 import { MultiStepInput, getGitAccessToken } from '@app/utilities/vscode'
-import { ConfigurationService } from '@app/services'
+import { ConfigurationService, IConfigurationService } from '@app/services'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -83,8 +83,16 @@ export async function quickPickSetupVscodeOpenai(
   await collectInputs()
   const accessToken = await getGitAccessToken()
   if (accessToken) {
-    ConfigurationService.instance.serviceProvider = 'VSCode-OpenAI'
-    ConfigurationService.instance.embeddingsDeployment = 'setup-required'
-    ConfigurationService.instance.embeddingModel = 'setup-required'
+    //TODO Grab auth token and add to secure storage
+    const config: IConfigurationService = {
+      serviceProvider: 'VSCode-OpenAI',
+      baseUrl: `https://api.arbs.io/openai/inference/v1`,
+      defaultModel: 'gpt-35-turbo',
+      embeddingModel: 'text-embedding-ada-002',
+      azureDeployment: 'gpt-35-turbo',
+      embeddingsDeployment: 'text-embedding-ada-002',
+      azureApiVersion: '2023-05-15',
+    }
+    ConfigurationService.loadConfigurationService(config)
   }
 }

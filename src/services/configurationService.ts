@@ -6,7 +6,7 @@ import {
   createErrorNotification,
   createInfoNotification,
 } from '@app/utilities/node'
-import { IConfigurationService } from './IConfigurationService'
+import { IConfigurationService } from '../interfaces/IConfigurationService'
 
 export default class ConfigurationService implements IConfigurationService {
   private static _instance: ConfigurationService

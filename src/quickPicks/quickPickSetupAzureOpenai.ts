@@ -8,9 +8,10 @@
  */
 
 import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
-import { ConfigurationService, IConfigurationService } from '@app/services'
+import { ConfigurationService } from '@app/services'
 import { listModelsAzureOpenAI, ModelCapabiliy } from '@app/utilities/openai'
 import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
+import { IConfigurationService } from '@app/interfaces'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.

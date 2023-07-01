@@ -7,8 +7,9 @@
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
 import { MultiStepInput, SecretStorageService, getGitAccessToken } from '@app/utilities/vscode'
-import { ConfigurationService, IConfigurationService } from '@app/services'
+import { ConfigurationService } from '@app/services'
 import { HttpRequest, createErrorNotification } from '@app/utilities/node'
+import { IConfigurationService } from '@app/interfaces'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.

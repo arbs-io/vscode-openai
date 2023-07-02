@@ -5,6 +5,7 @@ import {
   createDebugNotification,
   createErrorNotification,
   createInfoNotification,
+  waitFor,
 } from '@app/utilities/node'
 import { IConfigurationService } from '../interfaces/IConfigurationService'
 
@@ -23,7 +24,7 @@ export default class ConfigurationService implements IConfigurationService {
     return this._instance
   }
 
-  static loadConfigurationService(config: IConfigurationService) {
+  static async loadConfigurationService(config: IConfigurationService) {
     this._instance.serviceProvider = config.serviceProvider
     this._instance.baseUrl = config.baseUrl
     this._instance.defaultModel = config.defaultModel
@@ -31,6 +32,8 @@ export default class ConfigurationService implements IConfigurationService {
     this._instance.azureDeployment = config.azureDeployment
     this._instance.embeddingsDeployment = config.embeddingsDeployment
     this._instance.azureApiVersion = config.azureApiVersion
+    //Force wait as we need the config to be written
+    await waitFor(500, () => false)
   }
 
   private getConfigValue<T>(configName: string): T {

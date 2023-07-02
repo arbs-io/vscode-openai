@@ -9,8 +9,16 @@
 
 import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationService } from '@app/services'
-import { listModelsAzureOpenAI, ModelCapabiliy } from '@app/utilities/openai'
-import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
+import {
+  listModelsAzureOpenAI,
+  ModelCapabiliy,
+  verifyApiKey,
+} from '@app/utilities/openai'
+import {
+  SecretStorageService,
+  MultiStepInput,
+  ExtensionStatusBarItem,
+} from '@app/utilities/vscode'
 import { IConfigurationService } from '@app/interfaces'
 
 /**
@@ -62,7 +70,7 @@ export async function quickPickSetupAzureOpenai(
         typeof state.openaiBaseUrl === 'string' ? undefined : [8, 16],
       prompt:
         'Enter you instance name. Provide the base url for example "https://instance.openai.azure.com/openai"',
-      placeholder: 'chatbot',
+      placeholder: 'https://instance.openai.azure.com/openai',
       validate: validateOpenaiBaseUrl,
       shouldResume: shouldResume,
     })
@@ -221,7 +229,6 @@ export async function quickPickSetupAzureOpenai(
 
   //Start openai.com configuration processes
   const state = await collectInputs()
-
   const inferenceModel = state.quickPickInferenceModel.description as string
   const inferenceDeployment = state.quickPickInferenceModel.label
   const embeddingModel = state.quickPickEmbeddingModel.description as string
@@ -236,6 +243,8 @@ export async function quickPickSetupAzureOpenai(
     embeddingsDeployment: embeddingDeployment,
     azureApiVersion: '2023-05-15',
   }
-  SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-  ConfigurationService.loadConfigurationService(config)
+  await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
+  await ConfigurationService.loadConfigurationService(config)
+  await verifyApiKey()
+  ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
 }

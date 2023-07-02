@@ -1,5 +1,4 @@
 import { IPersonaOpenAI } from '@app/interfaces/IPersonaOpenAI'
-import { ConfigurationService } from '@app/services'
 
 export const QueryResourcePersona: IPersonaOpenAI = {
   roleId: 'f84b3895-255a-495a-ba84-c296bf3609ab',
@@ -7,8 +6,8 @@ export const QueryResourcePersona: IPersonaOpenAI = {
   configuration: {
     // service: ConfigurationService.instance.host,
     // model: ConfigurationService.instance.defaultModel,
-    service: 'ConfigurationService.instance.host',
-    model: 'ConfigurationService.instance.defaultModel',
+    service: 'Query Resources',
+    model: 'query-resources-model',
   },
   prompt: {
     system:

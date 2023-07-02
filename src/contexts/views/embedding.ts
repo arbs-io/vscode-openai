@@ -13,7 +13,7 @@ import {
   ConversationStorageService,
   EmbeddingStorageService,
 } from '@app/services'
-import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
+import { IConversation } from '@app/interfaces'
 import { QueryResourcePersona } from '@app/models'
 import { createDebugNotification } from '@app/utilities/node'
 import { embeddingResource } from '@app/utilities/embedding'
@@ -111,7 +111,7 @@ const _registerCommandRefresh = (instance: EmbeddingTreeDataProvider): void => {
 }
 
 const _registerCommandConversation = (
-  instance: EmbeddingTreeDataProvider
+  _instance: EmbeddingTreeDataProvider
 ): void => {
   commands.registerCommand(
     VSCODE_OPENAI_EMBEDDING.CONVERSATION_COMMAND_ID,

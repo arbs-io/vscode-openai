@@ -1,6 +1,7 @@
 import { ExtensionContext, QuickPickItem, window } from 'vscode'
 import {
   quickPickSetupAzureOpenai,
+  quickPickSetupCredalOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
 } from '@app/quickPicks'
@@ -36,6 +37,10 @@ export class OpenaiQuickPickCommand implements ICommandOpenai {
 
       case 'openai.azure.com':
         quickPickSetupAzureOpenai(this.context)
+        break
+
+      case 'credal.ai':
+        quickPickSetupCredalOpenai(this.context)
         break
 
       default:
@@ -74,6 +79,10 @@ function BuildOpenAiServiceTypes(): QuickPickItem[] {
       label: 'openai.azure.com',
       description:
         '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
+    },
+    {
+      label: 'credal.ai',
+      description: '(BYOK) Use your own Credal instance (credal.ai)',
     },
   ]
 

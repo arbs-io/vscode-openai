@@ -6,8 +6,16 @@
  */
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
-import { MultiStepInput, getGitAccessToken } from '@app/utilities/vscode'
+import {
+  ExtensionStatusBarItem,
+  MultiStepInput,
+  SecretStorageService,
+  getGitAccessToken,
+} from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
+import { HttpRequest, createErrorNotification } from '@app/utilities/node'
+import { IConfigurationService } from '@app/interfaces'
+import { verifyApiKey } from '@app/utilities/openai'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -15,7 +23,7 @@ import { ConfigurationService } from '@app/services'
  * @returns void
  */
 export async function quickPickSetupVscodeOpenai(
-  context: ExtensionContext
+  _context: ExtensionContext
 ): Promise<void> {
   interface State {
     title: string
@@ -74,17 +82,45 @@ export async function quickPickSetupVscodeOpenai(
 
   function shouldResume() {
     // Could show a notification with the option to resume.
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<boolean>((_resolve, _reject) => {
       // noop
     })
   }
 
-  //Start openai.com configuration processes
+  async function getApiKey(): Promise<string | undefined> {
+    try {
+      const accessToken = await getGitAccessToken()
+      const request = new HttpRequest(
+        'GET',
+        `Bearer ${accessToken}`,
+        'https://api.arbs.io/openai/oauth2/token'
+      )
+      const resp = await request.send()
+      return resp.token as string
+    } catch (error) {
+      createErrorNotification(error)
+      return undefined
+    }
+  }
+
   await collectInputs()
-  const accessToken = await getGitAccessToken()
+  const accessToken = await getApiKey()
   if (accessToken) {
-    ConfigurationService.instance.serviceProvider = 'VSCode-OpenAI'
-    ConfigurationService.instance.embeddingsDeployment = 'setup-required'
-    ConfigurationService.instance.embeddingModel = 'setup-required'
+    const config: IConfigurationService = {
+      serviceProvider: 'VSCode-OpenAI',
+      baseUrl: `https://api.arbs.io/openai/inference/v1`,
+      defaultModel: 'gpt-35-turbo',
+      embeddingModel: 'text-embedding-ada-002',
+      azureDeployment: 'gpt-35-turbo',
+      embeddingsDeployment: 'text-embedding-ada-002',
+      azureApiVersion: '2023-05-15',
+    }
+    await SecretStorageService.instance.setAuthApiKey(accessToken)
+    await ConfigurationService.loadConfigurationService(config)
+    await verifyApiKey()
+    ExtensionStatusBarItem.instance.showStatusBarInformation(
+      'vscode-openai',
+      ''
+    )
   }
 }

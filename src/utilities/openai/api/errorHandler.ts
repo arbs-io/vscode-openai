@@ -1,10 +1,6 @@
-import { commands } from 'vscode'
 import { ExtensionStatusBarItem, setFeatureFlag } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
-import {
-  createErrorNotification,
-  createWarningNotification,
-} from '@app/utilities/node'
+import { createErrorNotification } from '@app/utilities/node'
 
 interface IStatusBarItem {
   icon: string

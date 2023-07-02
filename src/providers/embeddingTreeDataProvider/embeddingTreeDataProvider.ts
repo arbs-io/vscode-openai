@@ -53,7 +53,7 @@ export class EmbeddingTreeDataProvider
     this._onDidChangeTreeData.fire(undefined)
   }
 
-  public getChildren(element: EmbeddingTreeItem): EmbeddingTreeItem[] {
+  public getChildren(_element: EmbeddingTreeItem): EmbeddingTreeItem[] {
     const openaiTreeItems: Array<EmbeddingTreeItem> = []
 
     const embeddings = EmbeddingStorageService.instance.getAll()

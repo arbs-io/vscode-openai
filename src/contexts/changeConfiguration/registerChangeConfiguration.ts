@@ -2,7 +2,7 @@ import { ExtensionContext, workspace } from 'vscode'
 import { createErrorNotification } from '@app/utilities/node'
 import { ManagedApiKey } from './managedApiKey'
 
-export function registerChangeConfiguration(context: ExtensionContext): void {
+export function registerChangeConfiguration(_context: ExtensionContext): void {
   try {
     const managedApiKeyInstance = ManagedApiKey.getInstance()
     const eventAffectsConfigurations = [

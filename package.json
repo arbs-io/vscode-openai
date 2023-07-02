@@ -144,7 +144,8 @@
           "enum": [
             "VSCode-OpenAI",
             "OpenAI",
-            "Azure-OpenAI"
+            "Azure-OpenAI",
+            "CredalAI"
           ],
           "enumDescriptions": [
             "Use VSCode-OpenAI Sponsored service",

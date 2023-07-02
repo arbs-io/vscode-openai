@@ -9,8 +9,17 @@
 
 import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationService } from '@app/services'
-import { listModelsAzureOpenAI, ModelCapabiliy } from '@app/utilities/openai'
-import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
+import {
+  listModelsAzureOpenAI,
+  ModelCapabiliy,
+  verifyApiKey,
+} from '@app/utilities/openai'
+import {
+  SecretStorageService,
+  MultiStepInput,
+  ExtensionStatusBarItem,
+} from '@app/utilities/vscode'
+import { IConfigurationService } from '@app/interfaces'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -18,7 +27,7 @@ import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
  * @returns void
  */
 export async function quickPickSetupAzureOpenai(
-  context: ExtensionContext
+  _context: ExtensionContext
 ): Promise<void> {
   interface State {
     title: string
@@ -61,7 +70,7 @@ export async function quickPickSetupAzureOpenai(
         typeof state.openaiBaseUrl === 'string' ? undefined : [8, 16],
       prompt:
         'Enter you instance name. Provide the base url for example "https://instance.openai.azure.com/openai"',
-      placeholder: 'chatbot',
+      placeholder: 'https://instance.openai.azure.com/openai',
       validate: validateOpenaiBaseUrl,
       shouldResume: shouldResume,
     })
@@ -193,7 +202,7 @@ export async function quickPickSetupAzureOpenai(
     openapiAPIKey: string,
     openapiBaseUrl: string,
     modelCapabiliy: ModelCapabiliy,
-    token?: CancellationToken
+    _token?: CancellationToken
   ): Promise<QuickPickItem[]> {
     const chatCompletionModels = await listModelsAzureOpenAI(
       openapiAPIKey,
@@ -213,24 +222,29 @@ export async function quickPickSetupAzureOpenai(
 
   function shouldResume() {
     // Could show a notification with the option to resume.
-    return new Promise<boolean>((resolve, reject) => {
-      // noop
+    return new Promise<boolean>((_resolve, _reject) => {
+      /* noop */
     })
   }
 
   //Start openai.com configuration processes
   const state = await collectInputs()
-
   const inferenceModel = state.quickPickInferenceModel.description as string
   const inferenceDeployment = state.quickPickInferenceModel.label
   const embeddingModel = state.quickPickEmbeddingModel.description as string
   const embeddingDeployment = state.quickPickEmbeddingModel.label
 
-  ConfigurationService.instance.serviceProvider = 'Azure-OpenAI'
-  ConfigurationService.instance.baseUrl = state.openaiBaseUrl
-  ConfigurationService.instance.azureDeployment = inferenceDeployment
-  ConfigurationService.instance.defaultModel = inferenceModel
-  ConfigurationService.instance.embeddingsDeployment = embeddingDeployment
-  ConfigurationService.instance.embeddingModel = embeddingModel
-  SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
+  const config: IConfigurationService = {
+    serviceProvider: 'Azure-OpenAI',
+    baseUrl: state.openaiBaseUrl,
+    defaultModel: inferenceModel,
+    embeddingModel: embeddingModel,
+    azureDeployment: inferenceDeployment,
+    embeddingsDeployment: embeddingDeployment,
+    azureApiVersion: '2023-05-15',
+  }
+  await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
+  await ConfigurationService.loadConfigurationService(config)
+  await verifyApiKey()
+  ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
 }

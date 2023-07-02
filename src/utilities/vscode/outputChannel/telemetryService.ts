@@ -1,7 +1,5 @@
 import { ExtensionContext } from 'vscode'
-import TelemetryReporter, {
-  TelemetryEventProperties,
-} from '@vscode/extension-telemetry'
+import TelemetryReporter from '@vscode/extension-telemetry'
 import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
 
 export default class TelemetryService {

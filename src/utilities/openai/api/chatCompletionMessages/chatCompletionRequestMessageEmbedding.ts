@@ -2,7 +2,7 @@ import {
   ChatCompletionRequestMessage,
   ChatCompletionRequestMessageRoleEnum,
 } from 'openai'
-import { ConfigurationService, EmbeddingStorageService } from '@app/services'
+import { EmbeddingStorageService } from '@app/services'
 import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { searchFileChunks } from '@app/utilities/embedding'
 
@@ -42,7 +42,6 @@ export async function ChatCompletionRequestMessageEmbedding(
   const content =
     `Question: ${searchQuery}\n\n` + `Files:\n${filesString}\n\n` + `Answer:`
 
-  const conversationHistory = ConfigurationService.instance.conversationHistory
   chatCompletion.push({
     role: ChatCompletionRequestMessageRoleEnum.Assistant,
     content: content,

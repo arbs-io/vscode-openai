@@ -28,9 +28,9 @@ export class EmbeddingTreeDragAndDropController
     this._onDidDragDropTreeData.event
 
   public async handleDrop(
-    target: EmbeddingTreeItem | undefined,
+    _target: EmbeddingTreeItem | undefined,
     sources: DataTransfer,
-    token: CancellationToken
+    _token: CancellationToken
   ): Promise<void> {
     try {
       const transferItem = sources.get('text/uri-list')
@@ -53,7 +53,7 @@ export class EmbeddingTreeDragAndDropController
   public async handleDrag(
     source: EmbeddingTreeItem[],
     treeDataTransfer: DataTransfer,
-    token: CancellationToken
+    _token: CancellationToken
   ): Promise<void> {
     treeDataTransfer.set(
       'application/vnd.vscode-openai.void',

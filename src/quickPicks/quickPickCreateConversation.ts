@@ -6,9 +6,8 @@
  */
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
-import { MultiStepInput, getGitAccessToken } from '@app/utilities/vscode'
-import { ConfigurationService, ConversationStorageService } from '@app/services'
-import { createInfoNotification } from '@app/utilities/node'
+import { MultiStepInput } from '@app/utilities/vscode'
+import { ConversationStorageService } from '@app/services'
 import { getSystemPersonas } from '@app/models'
 import { IConversation } from '@app/interfaces'
 
@@ -18,7 +17,7 @@ import { IConversation } from '@app/interfaces'
  * @returns void
  */
 export async function quickPickCreateConversation(
-  context: ExtensionContext
+  _context: ExtensionContext
 ): Promise<void> {
   interface State {
     title: string
@@ -147,8 +146,8 @@ export async function quickPickCreateConversation(
 
   function shouldResume() {
     // Could show a notification with the option to resume.
-    return new Promise<boolean>((resolve, reject) => {
-      // noop
+    return new Promise<boolean>((_resolve, _reject) => {
+      /* noop */
     })
   }
 

@@ -19,7 +19,7 @@ import { IConfigurationService } from '@app/interfaces'
  * @returns void
  */
 export async function quickPickSetupAzureOpenai(
-  context: ExtensionContext
+  _context: ExtensionContext
 ): Promise<void> {
   interface State {
     title: string
@@ -194,7 +194,7 @@ export async function quickPickSetupAzureOpenai(
     openapiAPIKey: string,
     openapiBaseUrl: string,
     modelCapabiliy: ModelCapabiliy,
-    token?: CancellationToken
+    _token?: CancellationToken
   ): Promise<QuickPickItem[]> {
     const chatCompletionModels = await listModelsAzureOpenAI(
       openapiAPIKey,
@@ -214,8 +214,8 @@ export async function quickPickSetupAzureOpenai(
 
   function shouldResume() {
     // Could show a notification with the option to resume.
-    return new Promise<boolean>((resolve, reject) => {
-      // noop
+    return new Promise<boolean>((_resolve, _reject) => {
+      /* noop */
     })
   }
 

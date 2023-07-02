@@ -37,7 +37,7 @@ export async function createChatCompletion(
 
     const backoffOptions: BackoffOptions = {
       numOfAttempts: 20,
-      retry: async (e: any, attemptNumber: number) => {
+      retry: async (_e: any, _attemptNumber: number) => {
         const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
         await sleep(1000)
         return true

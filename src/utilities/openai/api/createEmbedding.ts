@@ -3,7 +3,6 @@ import { backOff, BackoffOptions } from 'exponential-backoff'
 import { ExtensionStatusBarItem } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { errorHandler } from './errorHandler'
-import { createDebugNotification } from '@app/utilities/node'
 
 type EmbeddingOptions = {
   input: string | string[]
@@ -31,7 +30,7 @@ export async function createEmbedding({
 
     const backoffOptions: BackoffOptions = {
       numOfAttempts: 20,
-      retry: async (e: any, attemptNumber: number) => {
+      retry: async (_e: any, _attemptNumber: number) => {
         const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
         await sleep(1000)
         return true

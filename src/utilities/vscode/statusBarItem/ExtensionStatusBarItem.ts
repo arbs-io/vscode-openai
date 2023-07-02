@@ -4,7 +4,6 @@ import {
   StatusBarItem,
   ThemeColor,
   window,
-  workspace,
 } from 'vscode'
 import { VSCODE_OPENAI_REGISTER } from '@app/constants'
 import { ConfigurationService } from '@app/services'

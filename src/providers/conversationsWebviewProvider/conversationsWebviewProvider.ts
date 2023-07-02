@@ -26,11 +26,11 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
   _doc?: TextDocument
 
   constructor(private readonly _extensionUri: Uri) {
-    window.onDidChangeActiveColorTheme((theme: ColorTheme) => {
+    window.onDidChangeActiveColorTheme((_theme: ColorTheme) => {
       this._refreshWebview()
     })
 
-    ConversationStorageService.onDidChange((e) => {
+    ConversationStorageService.onDidChange((_e) => {
       if (this._view?.visible) {
         onDidInitialize(this._view!)
       }
@@ -39,7 +39,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
 
   public resolveWebviewView(
     webviewView: WebviewView,
-    context: WebviewViewResolveContext,
+    _context: WebviewViewResolveContext,
     _token: CancellationToken
   ) {
     this._view = webviewView
@@ -110,7 +110,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
    *
    */
 
-  private _onDidMessageListener(webview: Webview, extensionUri: Uri) {
+  private _onDidMessageListener(webview: Webview, _extensionUri: Uri) {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
         case 'onDidInitialize': {

@@ -49,7 +49,7 @@ export class MessageViewerPanel {
     this._setWebviewMessageListener(this._panel.webview)
 
     //Check if vscode theme has changed
-    window.onDidChangeActiveColorTheme((theme: ColorTheme) => {
+    window.onDidChangeActiveColorTheme((_theme: ColorTheme) => {
       this._render()
     })
   }

@@ -15,11 +15,11 @@ import { IConfigurationService } from '@app/interfaces'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
- * @param context - The extension context.
+ * @param _context - The extension context.
  * @returns void
  */
 export async function quickPickSetupOpenai(
-  context: ExtensionContext
+  _context: ExtensionContext
 ): Promise<void> {
   interface State {
     title: string
@@ -189,14 +189,14 @@ export async function quickPickSetupOpenai(
   /**
    * This function retrieves available models from Open AI using an API key. It returns a list of QuickPickItems representing each available model.
    * @param openapiAPIKey - The API key used to authenticate with Open AI.
-   * @param token - A cancellation token that can be used to cancel this operation. Not currently implemented in this codebase so defaults to undefined.
+   * @param _token - A cancellation token that can be used to cancel this operation. Not currently implemented in this codebase so defaults to undefined.
    * @returns A list of QuickPickItems representing each available model returned by the API call to Open AI.
    */
   async function getAvailableModels(
     apiKey: string,
     baseUrl: string,
     modelCapabiliy: ModelCapabiliy,
-    token?: CancellationToken
+    _token?: CancellationToken
   ): Promise<QuickPickItem[]> {
     const chatCompletionModels = await listModelsOpenAI(
       apiKey,
@@ -210,8 +210,8 @@ export async function quickPickSetupOpenai(
 
   function shouldResume() {
     // Could show a notification with the option to resume.
-    return new Promise<boolean>((resolve, reject) => {
-      // noop
+    return new Promise<boolean>((_resolve, _reject) => {
+      /* noop */
     })
   }
 

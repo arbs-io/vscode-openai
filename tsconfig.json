@@ -10,6 +10,8 @@
     "strict": true,
     "useUnknownInCatchVariables": true,
     "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "baseUrl": ".",
     "paths": {
       "@app/*": ["./src/*"]

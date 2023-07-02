@@ -48,7 +48,7 @@ class CommandRegistry {
 
   registerCommands(context: ExtensionContext) {
     for (const [commandId, factory] of this.factories.entries()) {
-      const commandHandler = async (uri: Uri) => {
+      const commandHandler = async (_uri: Uri) => {
         try {
           const persona = getSystemPersonas().find(
             (a) => a.roleName === 'Developer/Programmer'

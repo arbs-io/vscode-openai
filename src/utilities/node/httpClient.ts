@@ -61,14 +61,14 @@ export class HttpRequest {
       /***
        * handles the timeout error
        */
-      req.on('timeout', (err: any) => {
+      req.on('timeout', (_err: any) => {
         req.abort()
       })
 
       /***
        * unhandle errors on the request
        */
-      req.on('uncaughtException', (err) => {
+      req.on('uncaughtException', () => {
         req.abort()
       })
 

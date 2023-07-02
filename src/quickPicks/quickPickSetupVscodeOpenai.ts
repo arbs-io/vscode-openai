@@ -6,7 +6,11 @@
  */
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
-import { MultiStepInput, SecretStorageService, getGitAccessToken } from '@app/utilities/vscode'
+import {
+  MultiStepInput,
+  SecretStorageService,
+  getGitAccessToken,
+} from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { HttpRequest, createErrorNotification } from '@app/utilities/node'
 import { IConfigurationService } from '@app/interfaces'
@@ -17,7 +21,7 @@ import { IConfigurationService } from '@app/interfaces'
  * @returns void
  */
 export async function quickPickSetupVscodeOpenai(
-  context: ExtensionContext
+  _context: ExtensionContext
 ): Promise<void> {
   interface State {
     title: string
@@ -76,7 +80,7 @@ export async function quickPickSetupVscodeOpenai(
 
   function shouldResume() {
     // Could show a notification with the option to resume.
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<boolean>((_resolve, _reject) => {
       // noop
     })
   }

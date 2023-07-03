@@ -1,5 +1,6 @@
 import { waitFor } from '@app/utilities/node'
-import { ConfigurationService, featureFlagService } from '@app/services'
+import { ConfigurationService, enableServiceFeature } from '@app/services'
+import { verifyApiKey } from '@app/utilities/openai'
 
 export class ManagedApiKey {
   private static instance: ManagedApiKey
@@ -17,8 +18,8 @@ export class ManagedApiKey {
 
     this._isQueued = true
     await waitFor(500, () => false)
-    //await verifyApiKey()
-    featureFlagService()
+    await verifyApiKey()
+    enableServiceFeature()
     ConfigurationService.LogConfigurationService()
     this._isQueued = false
   }

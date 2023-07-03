@@ -1,5 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { ConfigurationService } from '@app/services'
+import { ConfigurationService, featureVerifyApiKey } from '@app/services'
 import { ExtensionStatusBarItem, setFeatureFlag } from '@app/utilities/vscode'
 import { errorHandler } from './errorHandler'
 import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
@@ -18,6 +18,8 @@ export async function validateApiKey() {
 
 export async function verifyApiKey(): Promise<boolean> {
   try {
+    if (!featureVerifyApiKey()) return true
+
     ExtensionStatusBarItem.instance.showStatusBarInformation(
       'loading~spin',
       '- verify authentication'

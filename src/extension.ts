@@ -26,7 +26,7 @@ import {
   ConfigurationService,
   ConversationStorageService,
   EmbeddingStorageService,
-  featureFlagService,
+  enableServiceFeature,
 } from '@app/services'
 import {
   createDebugNotification,
@@ -57,6 +57,10 @@ export function activate(context: ExtensionContext) {
 
     createDebugNotification('initialise components')
     ExtensionStatusBarItem.init(context)
+    ExtensionStatusBarItem.instance.showStatusBarInformation(
+      'vscode-openai',
+      'setup-required'
+    )
 
     // registerCommands
     createDebugNotification('register commands')
@@ -78,7 +82,7 @@ export function activate(context: ExtensionContext) {
     validateApiKey() //On activation check if the api key is valid
 
     createDebugNotification('verifying enabled features')
-    featureFlagService()
+    enableServiceFeature()
 
     createInfoNotification('vscode-openai ready')
   } catch (error: unknown) {

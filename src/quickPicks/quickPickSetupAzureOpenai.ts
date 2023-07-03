@@ -245,6 +245,5 @@ export async function quickPickSetupAzureOpenai(
   }
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
   await ConfigurationService.loadConfigurationService(config)
-  await verifyApiKey()
   ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
 }

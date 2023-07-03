@@ -4,6 +4,11 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.3.4]
+
+- Feature/20230701-Add support for credal.ai
+- Feature/20230703-Enable Credai Setup
+
 ## [1.3.3]
 
 - Feature/20230628-Remove All Conversation Feature

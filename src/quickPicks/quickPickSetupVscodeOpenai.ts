@@ -7,7 +7,6 @@
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
 import {
-  ExtensionStatusBarItem,
   MultiStepInput,
   SecretStorageService,
   getGitAccessToken,
@@ -15,7 +14,6 @@ import {
 import { ConfigurationService } from '@app/services'
 import { HttpRequest, createErrorNotification } from '@app/utilities/node'
 import { IConfigurationService } from '@app/interfaces'
-import { verifyApiKey } from '@app/utilities/openai'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -105,22 +103,16 @@ export async function quickPickSetupVscodeOpenai(
 
   await collectInputs()
   const accessToken = await getApiKey()
-  if (accessToken) {
-    const config: IConfigurationService = {
-      serviceProvider: 'VSCode-OpenAI',
-      baseUrl: `https://api.arbs.io/openai/inference/v1`,
-      defaultModel: 'gpt-35-turbo',
-      embeddingModel: 'text-embedding-ada-002',
-      azureDeployment: 'gpt-35-turbo',
-      embeddingsDeployment: 'text-embedding-ada-002',
-      azureApiVersion: '2023-05-15',
-    }
-    await SecretStorageService.instance.setAuthApiKey(accessToken)
-    await ConfigurationService.loadConfigurationService(config)
-    await verifyApiKey()
-    ExtensionStatusBarItem.instance.showStatusBarInformation(
-      'vscode-openai',
-      ''
-    )
+  if (!accessToken) return
+  const config: IConfigurationService = {
+    serviceProvider: 'VSCode-OpenAI',
+    baseUrl: `https://api.arbs.io/openai/inference/v1`,
+    defaultModel: 'gpt-35-turbo',
+    embeddingModel: 'text-embedding-ada-002',
+    azureDeployment: 'gpt-35-turbo',
+    embeddingsDeployment: 'text-embedding-ada-002',
+    azureApiVersion: '2023-05-15',
   }
+  await SecretStorageService.instance.setAuthApiKey(accessToken)
+  await ConfigurationService.loadConfigurationService(config)
 }

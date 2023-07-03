@@ -9,8 +9,8 @@ import { VSCODE_OPENAI_REGISTER } from '@app/constants'
 import { ConfigurationService } from '@app/services'
 import { createErrorNotification } from '@app/utilities/node'
 
-export default class ExtensionStatusBarItem {
-  private static _instance: ExtensionStatusBarItem
+export default class StatusBarHelper {
+  private static _instance: StatusBarHelper
   constructor(private statusBarItem: StatusBarItem) {}
 
   static init(context: ExtensionContext) {
@@ -22,16 +22,14 @@ export default class ExtensionStatusBarItem {
         'statusBarItem.errorBackground'
       )
       context.subscriptions.push(statusBarItem)
-      ExtensionStatusBarItem._instance = new ExtensionStatusBarItem(
-        statusBarItem
-      )
+      StatusBarHelper._instance = new StatusBarHelper(statusBarItem)
     } catch (error) {
       createErrorNotification(error)
     }
   }
 
-  static get instance(): ExtensionStatusBarItem {
-    return ExtensionStatusBarItem._instance
+  static get instance(): StatusBarHelper {
+    return StatusBarHelper._instance
   }
 
   public async showStatusBarInformation(icon: string, text: string) {

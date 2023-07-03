@@ -1,7 +1,7 @@
 import { ExtensionContext } from 'vscode'
 import { validateApiKey } from '@app/utilities/openai'
 import {
-  ExtensionStatusBarItem,
+  StatusBarHelper,
   GlobalStorageService,
   TelemetryService,
   SecretStorageService,
@@ -26,7 +26,7 @@ import {
   ConfigurationService,
   ConversationStorageService,
   EmbeddingStorageService,
-  featureFlagService,
+  enableServiceFeature,
 } from '@app/services'
 import {
   createDebugNotification,
@@ -56,7 +56,8 @@ export function activate(context: ExtensionContext) {
     ConfigurationService.LogConfigurationService()
 
     createDebugNotification('initialise components')
-    ExtensionStatusBarItem.init(context)
+    StatusBarHelper.init(context)
+    StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
 
     // registerCommands
     createDebugNotification('register commands')
@@ -78,7 +79,7 @@ export function activate(context: ExtensionContext) {
     validateApiKey() //On activation check if the api key is valid
 
     createDebugNotification('verifying enabled features')
-    featureFlagService()
+    enableServiceFeature()
 
     createInfoNotification('vscode-openai ready')
   } catch (error: unknown) {

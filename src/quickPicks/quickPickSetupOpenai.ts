@@ -9,16 +9,8 @@
 
 import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationService } from '@app/services'
-import {
-  ModelCapabiliy,
-  listModelsOpenAI,
-  verifyApiKey,
-} from '@app/utilities/openai'
-import {
-  SecretStorageService,
-  MultiStepInput,
-  ExtensionStatusBarItem,
-} from '@app/utilities/vscode'
+import { ModelCapabiliy, listModelsOpenAI } from '@app/utilities/openai'
+import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
 import { IConfigurationService } from '@app/interfaces'
 
 /**
@@ -239,6 +231,4 @@ export async function quickPickSetupOpenai(
   }
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
   await ConfigurationService.loadConfigurationService(config)
-  await verifyApiKey()
-  ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
 }

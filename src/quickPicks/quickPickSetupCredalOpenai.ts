@@ -9,11 +9,7 @@
 
 import { QuickPickItem, CancellationToken, ExtensionContext } from 'vscode'
 import { ConfigurationService } from '@app/services'
-import {
-  SecretStorageService,
-  MultiStepInput,
-  ExtensionStatusBarItem,
-} from '@app/utilities/vscode'
+import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
 import { IConfigurationService } from '@app/interfaces'
 
 /**
@@ -118,7 +114,7 @@ export async function quickPickSetupCredalOpenai(
   async function getAvailableModels(
     _token?: CancellationToken
   ): Promise<QuickPickItem[]> {
-    const chatCompletionModels = ['gpt-3.5-turbo']
+    const chatCompletionModels = ['gpt-3.5-turbo', 'gpt-4']
 
     // Map each returned label into a QuickPickItem object with label property set as label value returned by API call.
     return chatCompletionModels.map((label) => ({ label }))
@@ -145,6 +141,4 @@ export async function quickPickSetupCredalOpenai(
   }
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
   await ConfigurationService.loadConfigurationService(config)
-  //await verifyApiKey()
-  ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
 }

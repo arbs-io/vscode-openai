@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { backOff, BackoffOptions } from 'exponential-backoff'
-import { ExtensionStatusBarItem } from '@app/utilities/vscode'
+import { StatusBarHelper } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { errorHandler } from './errorHandler'
 
@@ -49,7 +49,7 @@ export async function createEmbedding({
       backoffOptions
     )
 
-    ExtensionStatusBarItem.instance.showStatusBarInformation(
+    StatusBarHelper.instance.showStatusBarInformation(
       'sync~spin',
       `- embedding chunk [${itemCount}/${batchLength}]`
     )

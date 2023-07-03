@@ -1,5 +1,5 @@
 import { createEmbedding } from '@app/utilities/openai'
-import { ExtensionStatusBarItem } from '@app/utilities/vscode'
+import { StatusBarHelper } from '@app/utilities/vscode'
 import { chunkText } from '../'
 import { IEmbeddingText } from '@app/interfaces'
 
@@ -17,10 +17,7 @@ export async function getEmbeddingsForText({
   maxCharLength?: number
   batchSize?: number
 }): Promise<IEmbeddingText[]> {
-  ExtensionStatusBarItem.instance.showStatusBarInformation(
-    'sync~spin',
-    '- chunk data'
-  )
+  StatusBarHelper.instance.showStatusBarInformation('sync~spin', '- chunk data')
 
   const textChunks = chunkText({ text, maxCharLength })
 
@@ -28,7 +25,7 @@ export async function getEmbeddingsForText({
   const batches = []
   for (let i = 0; i < textChunks.length; i += batchSize) {
     batches.push(textChunks.slice(i, i + batchSize))
-    ExtensionStatusBarItem.instance.showStatusBarInformation(
+    StatusBarHelper.instance.showStatusBarInformation(
       'sync~spin',
       `- chunk data (${chunkCounter++})`
     )
@@ -52,6 +49,6 @@ export async function getEmbeddingsForText({
       text: textChunks[index],
     }
   })
-  ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
+  StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
   return textEmbeddings
 }

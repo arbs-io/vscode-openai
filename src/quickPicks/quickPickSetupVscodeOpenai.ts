@@ -7,7 +7,6 @@
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
 import {
-  ExtensionStatusBarItem,
   MultiStepInput,
   SecretStorageService,
   getGitAccessToken,
@@ -15,7 +14,6 @@ import {
 import { ConfigurationService } from '@app/services'
 import { HttpRequest, createErrorNotification } from '@app/utilities/node'
 import { IConfigurationService } from '@app/interfaces'
-import { verifyApiKey } from '@app/utilities/openai'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -117,5 +115,4 @@ export async function quickPickSetupVscodeOpenai(
   }
   await SecretStorageService.instance.setAuthApiKey(accessToken)
   await ConfigurationService.loadConfigurationService(config)
-  ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
 }

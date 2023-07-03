@@ -1,4 +1,4 @@
-import { ExtensionStatusBarItem, setFeatureFlag } from '@app/utilities/vscode'
+import { StatusBarHelper, setFeatureFlag } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
 import { createErrorNotification } from '@app/utilities/node'
 
@@ -14,7 +14,7 @@ export function errorHandler(error: any) {
     error.syscall === 'getaddrinfo' &&
     error.errno === -3008
   ) {
-    ExtensionStatusBarItem.instance.showStatusBarError(
+    StatusBarHelper.instance.showStatusBarError(
       'server-environment',
       `- unknown host`,
       error.hostname
@@ -30,13 +30,13 @@ export function errorHandler(error: any) {
     if (statusBarItem.isError) {
       createErrorNotification(error)
 
-      ExtensionStatusBarItem.instance.showStatusBarError(
+      StatusBarHelper.instance.showStatusBarError(
         statusBarItem.icon,
         statusBarItem.message
       )
     } else {
       // createWarningNotification(statusBarItem.message.split('- ').join(''))
-      ExtensionStatusBarItem.instance.showStatusBarWarning(
+      StatusBarHelper.instance.showStatusBarWarning(
         statusBarItem.icon,
         statusBarItem.message
       )

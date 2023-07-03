@@ -1,6 +1,6 @@
 import { extensions, workspace, version } from 'vscode'
 import * as crypto from 'crypto'
-import { SecretStorageService } from '@app/utilities/vscode'
+import { SecretStorageService, StatusBarHelper } from '@app/utilities/vscode'
 import {
   createDebugNotification,
   createErrorNotification,
@@ -25,6 +25,10 @@ export default class ConfigurationService implements IConfigurationService {
   }
 
   static async loadConfigurationService(config: IConfigurationService) {
+    StatusBarHelper.instance.showStatusBarInformation(
+      'vscode-openai',
+      'update-cfg'
+    )
     this._instance.serviceProvider = config.serviceProvider
     this._instance.baseUrl = config.baseUrl
     this._instance.defaultModel = config.defaultModel
@@ -34,6 +38,7 @@ export default class ConfigurationService implements IConfigurationService {
     this._instance.azureApiVersion = config.azureApiVersion
     //Force wait as we need the config to be written
     await waitFor(500, () => false)
+    StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
   }
 
   private getConfigValue<T>(configName: string): T {

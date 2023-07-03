@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { BackoffOptions, backOff } from 'exponential-backoff'
-import { ExtensionStatusBarItem } from '@app/utilities/vscode'
+import { StatusBarHelper } from '@app/utilities/vscode'
 import { ConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
@@ -16,7 +16,7 @@ export async function createChatCompletion(
   responseFormat: ResponseFormat
 ): Promise<IMessage | undefined> {
   try {
-    ExtensionStatusBarItem.instance.showStatusBarInformation(
+    StatusBarHelper.instance.showStatusBarInformation(
       'sync~spin',
       '- completion'
     )
@@ -75,10 +75,7 @@ export async function createChatCompletion(
     }
 
     LogChatCompletion(message)
-    ExtensionStatusBarItem.instance.showStatusBarInformation(
-      'vscode-openai',
-      ''
-    )
+    StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
     return message
   } catch (error: any) {
     errorHandler(error)

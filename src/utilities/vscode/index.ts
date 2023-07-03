@@ -9,7 +9,7 @@ export { getUri } from './webviewServices/getUri'
 export { default as GlobalStorageService } from './storageServices/globalStateService'
 export { default as SecretStorageService } from './storageServices/secretStorageService'
 
-export { default as ExtensionStatusBarItem } from './statusBarItem/ExtensionStatusBarItem'
+export { default as StatusBarHelper } from './statusBarItem/StatusBarHelper'
 
 export { showMessageWithTimeout } from './showMessage/showMessageWithTimeout'
 

@@ -9,11 +9,7 @@
 
 import { QuickPickItem, CancellationToken, ExtensionContext } from 'vscode'
 import { ConfigurationService } from '@app/services'
-import {
-  SecretStorageService,
-  MultiStepInput,
-  ExtensionStatusBarItem,
-} from '@app/utilities/vscode'
+import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
 import { IConfigurationService } from '@app/interfaces'
 
 /**
@@ -145,5 +141,4 @@ export async function quickPickSetupCredalOpenai(
   }
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
   await ConfigurationService.loadConfigurationService(config)
-  ExtensionStatusBarItem.instance.showStatusBarInformation('vscode-openai', '')
 }

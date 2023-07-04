@@ -3,7 +3,7 @@ import { StatusBarHelper } from '@app/utilities/vscode'
 import { chunkText } from '../'
 import { IEmbeddingText } from '@app/interfaces'
 
-const MAX_CHAR_LENGTH = 300 * 4
+const MAX_CHAR_LENGTH = 500 * 4
 
 // This function takes a text and returns an array of embeddings for each chunk of the text
 // The text is split into chunks of a given maximum charcter length

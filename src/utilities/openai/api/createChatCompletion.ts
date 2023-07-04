@@ -18,7 +18,7 @@ export async function createChatCompletion(
   try {
     StatusBarHelper.instance.showStatusBarInformation(
       'sync~spin',
-      '- completion'
+      '- build-conversation'
     )
     const apiKey = await ConfigurationService.instance.getApiKey()
     if (!apiKey) return undefined
@@ -34,6 +34,11 @@ export async function createChatCompletion(
       : await ChatCompletionRequestMessageStandard(conversation, responseFormat)
 
     const requestConfig = await ConfigurationService.instance.getRequestConfig()
+
+    StatusBarHelper.instance.showStatusBarInformation(
+      'sync~spin',
+      '- completion'
+    )
 
     const backoffOptions: BackoffOptions = {
       numOfAttempts: 20,

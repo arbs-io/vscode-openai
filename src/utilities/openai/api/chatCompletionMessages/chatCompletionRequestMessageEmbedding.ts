@@ -7,8 +7,7 @@ import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { searchFileChunks } from '@app/utilities/embedding'
 import { StatusBarHelper } from '@app/utilities/vscode'
 
-const MAX_FILES_LENGTH = 2000 * 3
-const MAX_RESULTS = 35
+const MAX_RESULTS = 15
 
 export async function ChatCompletionRequestMessageEmbedding(
   conversation: IConversation
@@ -48,7 +47,7 @@ export async function ChatCompletionRequestMessageEmbedding(
   const filesString = searchFiles
     .map((searchFiles) => `###\n"${searchFiles.filename}"\n${searchFiles.text}`)
     .join('\n')
-    .slice(0, MAX_FILES_LENGTH)
+    .slice(0)
 
   const content =
     `Question: ${searchQuery}\n\n` + `Files:\n${filesString}\n\n` + `Answer:`

@@ -14,6 +14,7 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
   }, [value])
 
   const handleSubmit = (text: string) => {
+    if (text.length < 5) return
     onSubmit({
       timestamp: new Date().toLocaleString(),
       mine: true,

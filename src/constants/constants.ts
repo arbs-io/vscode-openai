@@ -31,6 +31,8 @@ export const VSCODE_OPENAI_EMBEDDING = {
   ENABLED_COMMAND_ID: 'vscode-openai.embedding.enabled',
   SETUP_REQUIRED_COMMAND_ID: 'vscode-openai.embedding.setup-required',
   STORAGE_V1_ID: 'embedding.v1',
+
+  CONVERSATION_ALL_COMMAND_ID: 'vscode-openai.embedding.conversation-all',
   INDEX_FILE_COMMAND_ID: 'vscode-openai.embedding.index-file',
   INDEX_FOLDER_COMMAND_ID: 'vscode-openai.embedding.index-folder',
   INDEX_WEB_COMMAND_ID: 'vscode-openai.embedding.index-web',

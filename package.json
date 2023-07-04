@@ -318,14 +318,19 @@
           "group": "navigation@3"
         },
         {
-          "command": "vscode-openai.embedding.index-file",
+          "command": "vscode-openai.embedding.conversation-all",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@0"
         },
         {
-          "command": "vscode-openai.embedding.index-folder",
+          "command": "vscode-openai.embedding.index-file",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@1"
+        },
+        {
+          "command": "vscode-openai.embedding.index-folder",
+          "when": "view == vscode-openai.sidebar.embedding",
+          "group": "navigation@2"
         },
         {
           "command": "vscode-openai.embedding.refresh",
@@ -419,6 +424,15 @@
         "title": "Delete all conversations",
         "category": "vscode-openai.conversation",
         "icon": "$(notebook-delete-cell)"
+      },
+      {
+        "command": "vscode-openai.embedding.conversation-all",
+        "title": "New conversation over all resources",
+        "category": "vscode-openai.embedding",
+        "icon": {
+          "light": "./assets/openai-light.png",
+          "dark": "./assets/openai-dark.png"
+        }
       },
       {
         "command": "vscode-openai.embedding.index-file",

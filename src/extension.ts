@@ -16,6 +16,7 @@ import {
   registerConversationCommand,
   registerEmbeddingView,
   registerConversationsWebviewView,
+  registerEmbeddingCommand,
 } from '@app/contexts'
 import {
   VSCODE_OPENAI_EXTENSION,
@@ -66,6 +67,7 @@ export function activate(context: ExtensionContext) {
     registerOpenaiServiceCommand(context)
     registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
+    registerEmbeddingCommand(context)
     registerConversationCommand(context)
     // views
     registerEmbeddingView(context)

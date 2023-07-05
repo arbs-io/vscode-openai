@@ -40,14 +40,22 @@ export async function searchFileChunks({
     // Map each file to an array of chunks with the file name and score
     .flatMap((file) =>
       file.chunks
-        ? file.chunks.map((chunk) => {
+        ? file.chunks.map((chunk, index, array) => {
             // Calculate the dot product between the chunk embedding and the search query embedding
             const dotProduct = chunk.embedding.reduce(
               (sum, val, i) => sum + val * searchQueryEmbedding[i],
               0
             )
+            // Set context by padding text with previous and next segment so that
+            // any hit has more context to answer the question correctly
+            const previousChunkText =
+              index - 1 in array ? array[index - 1]?.text : ''
+            const nextChunkText =
+              index + 1 in array ? array[index + 1]?.text : ''
+            const cloneChunk = { ...chunk }
+            cloneChunk.text = `${previousChunkText}\n${chunk.text}\n${nextChunkText}`
             // Assign the dot product as the score for the chunk
-            return { ...chunk, filename: file.name, score: dotProduct }
+            return { ...cloneChunk, filename: file.name, score: dotProduct }
           })
         : []
     )

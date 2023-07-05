@@ -7,11 +7,11 @@ import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { searchFileChunks } from '@app/utilities/embedding'
 import { StatusBarHelper } from '@app/utilities/vscode'
 
-const MAX_RESULTS = 15
-
 export async function ChatCompletionRequestMessageEmbedding(
   conversation: IConversation
 ): Promise<ChatCompletionRequestMessage[]> {
+  const MAX_RESULTS = 10
+
   StatusBarHelper.instance.showStatusBarInformation(
     'sync~spin',
     `- search file chunks (${MAX_RESULTS})`
@@ -27,10 +27,10 @@ export async function ChatCompletionRequestMessageEmbedding(
   const searchQuery =
     conversation.chatMessages[conversation.chatMessages.length - 1].content
 
-  let embeddingFileLites: IEmbeddingFileLite[] = []
+  const embeddingFileLites: Array<IEmbeddingFileLite> = []
   conversation.embeddingId!.forEach((embeddingId) => {
     const embeddingFileLite = EmbeddingStorageService.instance.get(embeddingId)
-    if (embeddingFileLite) embeddingFileLites = [...[embeddingFileLite]]
+    if (embeddingFileLite) embeddingFileLites.push(embeddingFileLite)
   })
 
   const searchFiles = await searchFileChunks({

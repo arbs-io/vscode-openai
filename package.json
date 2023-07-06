@@ -336,6 +336,11 @@
           "command": "vscode-openai.embedding.refresh",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@3"
+        },
+        {
+          "command": "vscode-openai.settings.embedding",
+          "when": "view == vscode-openai.sidebar.embedding",
+          "group": "navigation@4"
         }
       ],
       "scm/title": [
@@ -466,6 +471,12 @@
         "title": "Delete Embedding",
         "category": "vscode-openai.embedding",
         "icon": "$(notebook-delete-cell)"
+      },
+      {
+        "command": "vscode-openai.settings.embedding",
+        "title": "Edit Prompts",
+        "category": "vscode-openai.settings",
+        "icon": "$(tools)"
       },
       {
         "command": "vscode-openai.settings.prompt-editor",

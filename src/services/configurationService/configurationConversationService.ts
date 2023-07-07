@@ -22,7 +22,7 @@ export default class ConfigurationConversationService
   }
 
   public get conversationHistory(): number {
-    return this.getConfigValue<number>('conversation.history')
+    return this.getConfigValue<number>('conversation-configuration.history')
   }
 
   public static LogConfigurationService(): void {

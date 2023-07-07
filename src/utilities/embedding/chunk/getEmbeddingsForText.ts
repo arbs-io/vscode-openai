@@ -13,9 +13,9 @@ export async function getEmbeddingsForText(
   StatusBarHelper.instance.showStatusBarInformation('sync~spin', '- chunk data')
 
   const batchSize = 1
-  const maxCharLength =
+  const MAX_CHAR_LENGTH =
     ConfigurationEmbeddingService.instance.maxCharacterLength
-  const textChunks = chunkText({ content, maxCharLength })
+  const textChunks = chunkText({ content, maxCharLength: MAX_CHAR_LENGTH })
 
   let chunkCounter = 1
   const batches = []

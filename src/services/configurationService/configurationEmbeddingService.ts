@@ -27,11 +27,23 @@ export default class ConfigurationEmbeddingService
     )
   }
 
+  public get cosineSimilarityThreshold(): number {
+    return this.getConfigValue<number>(
+      'embedding-configuration.cosine-similarity-threshold'
+    )
+  }
+
   public static LogConfigurationService(): void {
     try {
       const cfgMap = new Map<string, string>()
-      const convHist = this.instance.maxCharacterLength.toString()
-      cfgMap.set('max_character_length', convHist)
+      cfgMap.set(
+        'max_character_length',
+        this.instance.maxCharacterLength.toString()
+      )
+      cfgMap.set(
+        'cosine-similarity-threshold',
+        this.instance.cosineSimilarityThreshold.toString()
+      )
 
       createInfoNotification(
         Object.fromEntries(cfgMap),

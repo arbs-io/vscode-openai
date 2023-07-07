@@ -2,10 +2,7 @@ import { StatusBarHelper } from '@app/utilities/vscode'
 import { IEmbeddingFileChunk, IEmbeddingFileLite } from '@app/interfaces'
 import { createDebugNotification } from '@app/utilities/node'
 import { createEmbedding } from '@app/utilities/openai'
-
-// This is the minimum cosine similarity score that a file must have with the search query to be considered relevant
-// This is an arbitrary value, and you should vary/ remove this depending on the diversity of your dataset
-const COSINE_SIM_THRESHOLD = 0.72
+import { ConfigurationEmbeddingService } from '@app/services'
 
 // This function takes a search query and a list of files, and returns the chunks of text that are most semantically similar to the query
 export async function searchFileChunks({
@@ -18,6 +15,11 @@ export async function searchFileChunks({
   maxResults: number
 }): Promise<IEmbeddingFileChunk[]> {
   createDebugNotification(`embedding-controller: searchQuery: ${searchQuery}`)
+
+  // This is the minimum cosine similarity score that a file must have with the search query to be considered relevant
+  // This is an arbitrary value, and you should vary/ remove this depending on the diversity of your dataset
+  const COSINE_SIM_THRESHOLD =
+    ConfigurationEmbeddingService.instance.cosineSimilarityThreshold
 
   const searchQueryEmbeddingResponse = await createEmbedding({
     input: searchQuery,

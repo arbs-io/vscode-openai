@@ -6,18 +6,18 @@ import {
   createInfoNotification,
   waitFor,
 } from '@app/utilities/node'
-import { ISettingConfiguration } from '../../interfaces/ISettingConfiguration'
 import ConfigurationService from './configurationService'
+import { IConfigurationSetting } from '@app/interfaces'
 
-export default class SettingConfigurationService
+export default class ConfigurationSettingService
   extends ConfigurationService
-  implements ISettingConfiguration
+  implements IConfigurationSetting
 {
-  private static _instance: SettingConfigurationService
-  static get instance(): SettingConfigurationService {
+  private static _instance: ConfigurationSettingService
+  static get instance(): ConfigurationSettingService {
     if (!this._instance) {
       try {
-        this._instance = new SettingConfigurationService()
+        this._instance = new ConfigurationSettingService()
       } catch (error) {
         createErrorNotification(error)
       }
@@ -107,10 +107,6 @@ export default class SettingConfigurationService
     this.setConfigValue<string>('azureApiVersion', value)
   }
 
-  public get conversationHistory(): number {
-    return this.getConfigValue<number>('conversationHistory')
-  }
-
   // host is used for vscode status bar display only
   public get host(): string {
     if (this.serviceProvider === 'VSCode-OpenAI') return 'vscode-openai'
@@ -179,10 +175,11 @@ export default class SettingConfigurationService
       cfgMap.set('embeddings_model', this.instance.embeddingModel)
       cfgMap.set('embeddings_deploy', this.instance.embeddingsDeployment)
       cfgMap.set('az_api_version', this.instance.azureApiVersion)
-      const convHist = this.instance.conversationHistory.toString()
-      cfgMap.set('conversation_history', convHist)
 
-      createInfoNotification(Object.fromEntries(cfgMap), 'configuration')
+      createInfoNotification(
+        Object.fromEntries(cfgMap),
+        'setting_configuration'
+      )
     } catch (error) {
       createErrorNotification(error)
     }

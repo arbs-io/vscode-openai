@@ -2,7 +2,7 @@ import {
   ChatCompletionRequestMessage,
   ChatCompletionRequestMessageRoleEnum,
 } from 'openai'
-import { SettingConfigurationService } from '@app/services'
+import { ConfigurationConversationService } from '@app/services'
 import { IConversation } from '@app/interfaces'
 import { ResponseFormat } from '.'
 
@@ -23,7 +23,7 @@ export async function ChatCompletionRequestMessageStandard(
   })
 
   const conversationHistory =
-    SettingConfigurationService.instance.conversationHistory
+  ConfigurationConversationService.instance.conversationHistory
   conversation.chatMessages
     .splice(conversationHistory * -1)
     .forEach((chatMessage) => {

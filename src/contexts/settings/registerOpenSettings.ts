@@ -33,7 +33,7 @@ function _registerOpenSettingsEmbedding(context: ExtensionContext): void {
         async () => {
           commands.executeCommand(
             'workbench.action.openSettings',
-            'vscode-openai.prompt-editor'
+            'vscode-openai.embedding-configuration'
           )
         }
       )

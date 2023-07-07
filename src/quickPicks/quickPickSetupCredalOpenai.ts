@@ -8,7 +8,7 @@
  */
 
 import { QuickPickItem, CancellationToken, ExtensionContext } from 'vscode'
-import { SettingConfigurationService } from '@app/services'
+import { ConfigurationSettingService } from '@app/services'
 import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
 
 /**
@@ -131,7 +131,7 @@ export async function quickPickSetupCredalOpenai(
   const inferenceModel = state.quickPickInferenceModel.label
 
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-  await SettingConfigurationService.loadConfigurationService({
+  await ConfigurationSettingService.loadConfigurationService({
     serviceProvider: 'CredalAI',
     baseUrl: 'https://app.credal.ai/api/openai',
     defaultModel: inferenceModel,

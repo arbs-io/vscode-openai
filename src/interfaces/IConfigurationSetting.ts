@@ -1,4 +1,4 @@
-export interface ISettingConfiguration {
+export interface IConfigurationSetting {
   serviceProvider: string
   baseUrl: string
   defaultModel: string
@@ -7,7 +7,6 @@ export interface ISettingConfiguration {
   embeddingsDeployment: string
   azureApiVersion: string
 
-  conversationHistory: number
   host: string
   inferenceUrl: string
   embeddingUrl: string

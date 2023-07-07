@@ -41,7 +41,7 @@ export class EmbeddingTreeDataProvider
       VSCODE_OPENAI_SIDEBAR.EMBEDDING_COMMAND_ID,
       {
         treeDataProvider: this,
-        showCollapseAll: true,
+        showCollapseAll: false,
         canSelectMany: false,
         dragAndDropController: this._dragAndDropController,
       }

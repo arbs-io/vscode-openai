@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { backOff, BackoffOptions } from 'exponential-backoff'
 import { StatusBarHelper } from '@app/utilities/vscode'
-import { SettingConfigurationService } from '@app/services'
+import { ConfigurationSettingService } from '@app/services'
 import { errorHandler } from './errorHandler'
 
 type EmbeddingOptions = {
@@ -16,18 +16,18 @@ export async function createEmbedding({
   batchLength,
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
-    const model = await SettingConfigurationService.instance.embeddingModel
-    const apiKey = await SettingConfigurationService.instance.getApiKey()
+    const model = await ConfigurationSettingService.instance.embeddingModel
+    const apiKey = await ConfigurationSettingService.instance.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')
 
     const configuration = new Configuration({
       apiKey: apiKey,
-      basePath: SettingConfigurationService.instance.embeddingUrl,
+      basePath: ConfigurationSettingService.instance.embeddingUrl,
     })
     const openai = new OpenAIApi(configuration)
 
     const requestConfig =
-      await SettingConfigurationService.instance.getRequestConfig()
+      await ConfigurationSettingService.instance.getRequestConfig()
 
     const backoffOptions: BackoffOptions = {
       numOfAttempts: 20,

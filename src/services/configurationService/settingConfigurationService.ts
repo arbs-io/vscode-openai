@@ -1,61 +1,62 @@
-import { extensions, workspace, version } from 'vscode'
+import { extensions, version } from 'vscode'
 import * as crypto from 'crypto'
 import { SecretStorageService, StatusBarHelper } from '@app/utilities/vscode'
 import {
-  createDebugNotification,
   createErrorNotification,
   createInfoNotification,
   waitFor,
 } from '@app/utilities/node'
-import { IConfigurationService } from '../interfaces/IConfigurationService'
+import { ISettingConfiguration } from '../../interfaces/ISettingConfiguration'
+import ConfigurationService from './configurationService'
 
-export default class ConfigurationService implements IConfigurationService {
-  private static _instance: ConfigurationService
+export default class SettingConfigurationService
+  extends ConfigurationService
+  implements ISettingConfiguration
+{
+  private static _instance: SettingConfigurationService
 
   static init(): void {
     try {
-      this._instance = new ConfigurationService()
+      this._instance = new SettingConfigurationService()
     } catch (error) {
       createErrorNotification(error)
     }
   }
-
-  static get instance(): ConfigurationService {
+  static get instance(): SettingConfigurationService {
     return this._instance
   }
 
-  static async loadConfigurationService(config: IConfigurationService) {
+  static async loadConfigurationService({
+    serviceProvider,
+    baseUrl,
+    defaultModel,
+    embeddingModel,
+    azureDeployment,
+    embeddingsDeployment,
+    azureApiVersion,
+  }: {
+    serviceProvider: string
+    baseUrl: string
+    defaultModel: string
+    embeddingModel: string
+    azureDeployment: string
+    embeddingsDeployment: string
+    azureApiVersion: string
+  }) {
     StatusBarHelper.instance.showStatusBarInformation(
       'vscode-openai',
-      'update-cfg'
+      'update-setting-configuration'
     )
-    this._instance.serviceProvider = config.serviceProvider
-    this._instance.baseUrl = config.baseUrl
-    this._instance.defaultModel = config.defaultModel
-    this._instance.embeddingModel = config.embeddingModel
-    this._instance.azureDeployment = config.azureDeployment
-    this._instance.embeddingsDeployment = config.embeddingsDeployment
-    this._instance.azureApiVersion = config.azureApiVersion
+    this.instance.serviceProvider = serviceProvider
+    this.instance.baseUrl = baseUrl
+    this.instance.defaultModel = defaultModel
+    this.instance.embeddingModel = embeddingModel
+    this.instance.azureDeployment = azureDeployment
+    this.instance.embeddingsDeployment = embeddingsDeployment
+    this.instance.azureApiVersion = azureApiVersion
     //Force wait as we need the config to be written
     await waitFor(500, () => false)
     StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
-  }
-
-  private getConfigValue<T>(configName: string): T {
-    const ws = workspace.getConfiguration('vscode-openai')
-    return ws.get(configName) as T
-  }
-
-  private setConfigValue<T>(configName: string, value: T): void {
-    const ws = workspace.getConfiguration('vscode-openai')
-    const setAsGlobal = ws.inspect(configName)?.workspaceValue == undefined
-    ws.update(configName, value, setAsGlobal)
-      .then(() => {
-        createDebugNotification(`setting ${configName} ${value}`)
-      })
-      .then(undefined, (err) => {
-        createErrorNotification(`${err}`)
-      })
   }
 
   public get serviceProvider(): string {
@@ -70,6 +71,20 @@ export default class ConfigurationService implements IConfigurationService {
   }
   public set baseUrl(value: string) {
     this.setConfigValue<string>('baseUrl', value)
+  }
+
+  public get defaultModel(): string {
+    return this.getConfigValue<string>('defaultModel')
+  }
+  public set defaultModel(value: string) {
+    this.setConfigValue<string>('defaultModel', value)
+  }
+
+  public get embeddingModel(): string {
+    return this.getConfigValue<string>('embeddingModel')
+  }
+  public set embeddingModel(value: string) {
+    this.setConfigValue<string>('embeddingModel', value)
   }
 
   public get azureDeployment(): string {
@@ -91,20 +106,6 @@ export default class ConfigurationService implements IConfigurationService {
   }
   public set azureApiVersion(value: string) {
     this.setConfigValue<string>('azureApiVersion', value)
-  }
-
-  public get defaultModel(): string {
-    return this.getConfigValue<string>('defaultModel')
-  }
-  public set defaultModel(value: string) {
-    this.setConfigValue<string>('defaultModel', value)
-  }
-
-  public get embeddingModel(): string {
-    return this.getConfigValue<string>('embeddingModel')
-  }
-  public set embeddingModel(value: string) {
-    this.setConfigValue<string>('embeddingModel', value)
   }
 
   public get conversationHistory(): number {

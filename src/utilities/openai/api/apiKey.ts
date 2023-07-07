@@ -1,5 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { ConfigurationService, featureVerifyApiKey } from '@app/services'
+import { SettingConfigurationService, featureVerifyApiKey } from '@app/services'
 import { StatusBarHelper, setFeatureFlag } from '@app/utilities/vscode'
 import { errorHandler } from './errorHandler'
 import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
@@ -25,12 +25,12 @@ export async function verifyApiKey(): Promise<boolean> {
       '- verify authentication'
     )
     const configuration = new Configuration({
-      apiKey: await ConfigurationService.instance.getApiKey(),
-      basePath: ConfigurationService.instance.baseUrl,
+      apiKey: await SettingConfigurationService.instance.getApiKey(),
+      basePath: SettingConfigurationService.instance.baseUrl,
     })
     const openai = new OpenAIApi(configuration)
     const response = await openai.listModels(
-      await ConfigurationService.instance.getRequestConfig()
+      await SettingConfigurationService.instance.getRequestConfig()
     )
     if (response.status === 200) {
       setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, true)

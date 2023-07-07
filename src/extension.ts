@@ -24,7 +24,7 @@ import {
   VSCODE_OPENAI_EMBEDDING,
 } from '@app/constants'
 import {
-  ConfigurationService,
+  SettingConfigurationService,
   ConversationStorageService,
   EmbeddingStorageService,
   enableServiceFeature,
@@ -53,8 +53,8 @@ export function activate(context: ExtensionContext) {
 
     //load configuration
     createDebugNotification('initialise configuration service')
-    ConfigurationService.init()
-    ConfigurationService.LogConfigurationService()
+    SettingConfigurationService.init()
+    SettingConfigurationService.LogConfigurationService()
 
     createDebugNotification('initialise components')
     StatusBarHelper.init(context)

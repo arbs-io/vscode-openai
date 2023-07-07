@@ -6,7 +6,7 @@ import {
   window,
 } from 'vscode'
 import { VSCODE_OPENAI_REGISTER } from '@app/constants'
-import { ConfigurationService } from '@app/services'
+import { SettingConfigurationService } from '@app/services'
 import { createErrorNotification } from '@app/utilities/node'
 
 export default class StatusBarHelper {
@@ -33,7 +33,7 @@ export default class StatusBarHelper {
   }
 
   public async showStatusBarInformation(icon: string, text: string) {
-    this.statusBarItem.text = `$(${icon}) ${ConfigurationService.instance.host} ${text}`
+    this.statusBarItem.text = `$(${icon}) ${SettingConfigurationService.instance.host} ${text}`
     this.statusBarItem.backgroundColor = undefined
     this.statusBarItem.show()
   }
@@ -43,7 +43,8 @@ export default class StatusBarHelper {
     text: string,
     hostname?: string
   ) {
-    if (hostname === undefined) hostname = ConfigurationService.instance.host
+    if (hostname === undefined)
+      hostname = SettingConfigurationService.instance.host
 
     this.statusBarItem.text = `$(${icon}) ${hostname} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(
@@ -57,7 +58,8 @@ export default class StatusBarHelper {
     text: string,
     hostname?: string
   ) {
-    if (hostname === undefined) hostname = ConfigurationService.instance.host
+    if (hostname === undefined)
+      hostname = SettingConfigurationService.instance.host
 
     this.statusBarItem.text = `$(${icon}) ${hostname} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(

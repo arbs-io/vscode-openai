@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { BackoffOptions, backOff } from 'exponential-backoff'
 import { StatusBarHelper } from '@app/utilities/vscode'
-import { ConfigurationService } from '@app/services'
+import { SettingConfigurationService } from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 import {
@@ -20,12 +20,12 @@ export async function createChatCompletion(
       'sync~spin',
       '- build-conversation'
     )
-    const apiKey = await ConfigurationService.instance.getApiKey()
+    const apiKey = await SettingConfigurationService.instance.getApiKey()
     if (!apiKey) return undefined
 
     const configuration = new Configuration({
       apiKey: apiKey,
-      basePath: ConfigurationService.instance.inferenceUrl,
+      basePath: SettingConfigurationService.instance.inferenceUrl,
     })
     const openai = new OpenAIApi(configuration)
 
@@ -33,7 +33,8 @@ export async function createChatCompletion(
       ? await ChatCompletionRequestMessageEmbedding(conversation)
       : await ChatCompletionRequestMessageStandard(conversation, responseFormat)
 
-    const requestConfig = await ConfigurationService.instance.getRequestConfig()
+    const requestConfig =
+      await SettingConfigurationService.instance.getRequestConfig()
 
     StatusBarHelper.instance.showStatusBarInformation(
       'sync~spin',
@@ -53,7 +54,7 @@ export async function createChatCompletion(
       () =>
         openai.createChatCompletion(
           {
-            model: ConfigurationService.instance.defaultModel,
+            model: SettingConfigurationService.instance.defaultModel,
             messages: chatCompletionMessages,
             temperature: 0.2,
             frequency_penalty: 0.5,

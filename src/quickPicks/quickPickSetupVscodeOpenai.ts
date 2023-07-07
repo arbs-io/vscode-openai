@@ -11,9 +11,8 @@ import {
   SecretStorageService,
   getGitAccessToken,
 } from '@app/utilities/vscode'
-import { ConfigurationService } from '@app/services'
+import { SettingConfigurationService } from '@app/services'
 import { HttpRequest, createErrorNotification } from '@app/utilities/node'
-import { IConfigurationService } from '@app/interfaces'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -104,7 +103,9 @@ export async function quickPickSetupVscodeOpenai(
   await collectInputs()
   const accessToken = await getApiKey()
   if (!accessToken) return
-  const config: IConfigurationService = {
+
+  await SecretStorageService.instance.setAuthApiKey(accessToken)
+  await SettingConfigurationService.loadConfigurationService({
     serviceProvider: 'VSCode-OpenAI',
     baseUrl: `https://api.arbs.io/openai/inference/v1`,
     defaultModel: 'gpt-35-turbo',
@@ -112,7 +113,5 @@ export async function quickPickSetupVscodeOpenai(
     azureDeployment: 'gpt-35-turbo',
     embeddingsDeployment: 'text-embedding-ada-002',
     azureApiVersion: '2023-05-15',
-  }
-  await SecretStorageService.instance.setAuthApiKey(accessToken)
-  await ConfigurationService.loadConfigurationService(config)
+  })
 }

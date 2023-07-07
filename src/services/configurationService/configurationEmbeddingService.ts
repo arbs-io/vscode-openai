@@ -41,7 +41,7 @@ export default class ConfigurationEmbeddingService
         this.instance.maxCharacterLength.toString()
       )
       cfgMap.set(
-        'cosine-similarity-threshold',
+        'cosine_similarity_threshold',
         this.instance.cosineSimilarityThreshold.toString()
       )
 

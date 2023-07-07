@@ -1,7 +1,10 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { BackoffOptions, backOff } from 'exponential-backoff'
 import { StatusBarHelper } from '@app/utilities/vscode'
-import { ConfigurationSettingService } from '@app/services'
+import {
+  ConfigurationConversationService,
+  ConfigurationSettingService,
+} from '@app/services'
 import { IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 import {
@@ -42,7 +45,7 @@ export async function createChatCompletion(
     )
 
     const backoffOptions: BackoffOptions = {
-      numOfAttempts: 20,
+      numOfAttempts: ConfigurationConversationService.instance.numOfAttempts,
       retry: async (_e: any, _attemptNumber: number) => {
         const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
         await sleep(1000)
@@ -56,9 +59,11 @@ export async function createChatCompletion(
           {
             model: ConfigurationSettingService.instance.defaultModel,
             messages: chatCompletionMessages,
-            temperature: 0.2,
-            frequency_penalty: 0.5,
-            presence_penalty: 0.5,
+            temperature: ConfigurationConversationService.instance.temperature,
+            frequency_penalty:
+              ConfigurationConversationService.instance.frequencyPenalty,
+            presence_penalty:
+              ConfigurationConversationService.instance.presencePenalty,
           },
           requestConfig
         ),

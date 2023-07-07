@@ -1,7 +1,10 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { backOff, BackoffOptions } from 'exponential-backoff'
 import { StatusBarHelper } from '@app/utilities/vscode'
-import { ConfigurationSettingService } from '@app/services'
+import {
+  ConfigurationConversationService,
+  ConfigurationSettingService,
+} from '@app/services'
 import { errorHandler } from './errorHandler'
 
 type EmbeddingOptions = {
@@ -30,7 +33,7 @@ export async function createEmbedding({
       await ConfigurationSettingService.instance.getRequestConfig()
 
     const backoffOptions: BackoffOptions = {
-      numOfAttempts: 20,
+      numOfAttempts: ConfigurationConversationService.instance.numOfAttempts,
       retry: async (_e: any, _attemptNumber: number) => {
         const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
         await sleep(1000)

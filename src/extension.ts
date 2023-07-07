@@ -53,7 +53,6 @@ export function activate(context: ExtensionContext) {
 
     //load configuration
     createDebugNotification('initialise configuration service')
-    SettingConfigurationService.init()
     SettingConfigurationService.LogConfigurationService()
 
     createDebugNotification('initialise components')

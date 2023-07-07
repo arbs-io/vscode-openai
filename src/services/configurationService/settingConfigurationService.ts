@@ -14,15 +14,14 @@ export default class SettingConfigurationService
   implements ISettingConfiguration
 {
   private static _instance: SettingConfigurationService
-
-  static init(): void {
-    try {
-      this._instance = new SettingConfigurationService()
-    } catch (error) {
-      createErrorNotification(error)
-    }
-  }
   static get instance(): SettingConfigurationService {
+    if (!this._instance) {
+      try {
+        this._instance = new SettingConfigurationService()
+      } catch (error) {
+        createErrorNotification(error)
+      }
+    }
     return this._instance
   }
 
@@ -156,28 +155,31 @@ export default class SettingConfigurationService
   }
 
   public get extensionVersion(): string {
-    const extension = extensions.getExtension(
-      'AndrewButson.vscode-openai'
-    )?.packageJSON
-    return extension.version ? extension.version.toString() : 'beta'
+    try {
+      const extension = extensions.getExtension(
+        'AndrewButson.vscode-openai'
+      )?.packageJSON
+      return extension.version ? extension.version.toString() : 'beta'
+    } catch (error) {
+      createErrorNotification(error)
+    }
+    return ''
   }
 
   public static LogConfigurationService(): void {
     try {
-      const instance = this._instance
       const cfgMap = new Map<string, string>()
-
       cfgMap.set('vscode_version', version)
-      cfgMap.set('extension_version', instance.extensionVersion)
-      cfgMap.set('service_provider', instance.serviceProvider)
-      cfgMap.set('host', instance.host)
-      cfgMap.set('base_url', instance.baseUrl)
-      cfgMap.set('inference_model', instance.defaultModel)
-      cfgMap.set('inference_deploy', instance.azureDeployment)
-      cfgMap.set('embeddings_model', instance.embeddingModel)
-      cfgMap.set('embeddings_deploy', instance.embeddingsDeployment)
-      cfgMap.set('az_api_version', instance.azureApiVersion)
-      const convHist = instance.conversationHistory.toString()
+      cfgMap.set('extension_version', this.instance.extensionVersion)
+      cfgMap.set('service_provider', this.instance.serviceProvider)
+      cfgMap.set('host', this.instance.host)
+      cfgMap.set('base_url', this.instance.baseUrl)
+      cfgMap.set('inference_model', this.instance.defaultModel)
+      cfgMap.set('inference_deploy', this.instance.azureDeployment)
+      cfgMap.set('embeddings_model', this.instance.embeddingModel)
+      cfgMap.set('embeddings_deploy', this.instance.embeddingsDeployment)
+      cfgMap.set('az_api_version', this.instance.azureApiVersion)
+      const convHist = this.instance.conversationHistory.toString()
       cfgMap.set('conversation_history', convHist)
 
       createInfoNotification(Object.fromEntries(cfgMap), 'configuration')

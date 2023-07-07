@@ -1,9 +1,13 @@
-export interface IConfigurationService {
+export interface IConfigurationSetting {
   serviceProvider: string
   baseUrl: string
   defaultModel: string
   embeddingModel: string
-  azureApiVersion: string
   azureDeployment: string
   embeddingsDeployment: string
+  azureApiVersion: string
+
+  host: string
+  inferenceUrl: string
+  embeddingUrl: string
 }

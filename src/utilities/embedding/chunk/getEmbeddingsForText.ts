@@ -2,24 +2,20 @@ import { createEmbedding } from '@app/utilities/openai'
 import { StatusBarHelper } from '@app/utilities/vscode'
 import { chunkText } from '../'
 import { IEmbeddingText } from '@app/interfaces'
-
-const MAX_CHAR_LENGTH = 300 * 4
+import { ConfigurationEmbeddingService } from '@app/services'
 
 // This function takes a text and returns an array of embeddings for each chunk of the text
 // The text is split into chunks of a given maximum charcter length
 // The embeddings are computed in batches of a given size
-export async function getEmbeddingsForText({
-  text,
-  maxCharLength = MAX_CHAR_LENGTH,
-  batchSize = 1,
-}: {
-  text: string
-  maxCharLength?: number
-  batchSize?: number
-}): Promise<IEmbeddingText[]> {
+export async function getEmbeddingsForText(
+  content: string
+): Promise<IEmbeddingText[]> {
   StatusBarHelper.instance.showStatusBarInformation('sync~spin', '- chunk data')
 
-  const textChunks = chunkText({ text, maxCharLength })
+  const batchSize = 1
+  const MAX_CHAR_LENGTH =
+    ConfigurationEmbeddingService.instance.maxCharacterLength
+  const textChunks = chunkText({ content, maxCharLength: MAX_CHAR_LENGTH })
 
   let chunkCounter = 1
   const batches = []

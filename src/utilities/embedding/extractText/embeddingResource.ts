@@ -31,9 +31,7 @@ export async function embeddingResource(uri: Uri) {
     `embedding-controller extract ${fileContent.mimeType} ${fileContent.content.length} (bytes)`
   )
 
-  const embeddingText = await getEmbeddingsForText({
-    text: fileContent.content,
-  })
+  const embeddingText = await getEmbeddingsForText(fileContent.content)
   createDebugNotification(
     `embedding-controller embedding ${embeddingText.length} (chunks)`
   )

@@ -16,6 +16,7 @@ import {
   registerConversationCommand,
   registerEmbeddingView,
   registerConversationsWebviewView,
+  registerEmbeddingCommand,
 } from '@app/contexts'
 import {
   VSCODE_OPENAI_EXTENSION,
@@ -23,10 +24,12 @@ import {
   VSCODE_OPENAI_EMBEDDING,
 } from '@app/constants'
 import {
-  ConfigurationService,
+  ConfigurationSettingService,
+  ConfigurationConversationService,
   ConversationStorageService,
   EmbeddingStorageService,
   enableServiceFeature,
+  ConfigurationEmbeddingService,
 } from '@app/services'
 import {
   createDebugNotification,
@@ -52,8 +55,9 @@ export function activate(context: ExtensionContext) {
 
     //load configuration
     createDebugNotification('initialise configuration service')
-    ConfigurationService.init()
-    ConfigurationService.LogConfigurationService()
+    ConfigurationSettingService.LogConfigurationService()
+    ConfigurationConversationService.LogConfigurationService()
+    ConfigurationEmbeddingService.LogConfigurationService()
 
     createDebugNotification('initialise components')
     StatusBarHelper.init(context)
@@ -66,6 +70,7 @@ export function activate(context: ExtensionContext) {
     registerOpenaiServiceCommand(context)
     registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
+    registerEmbeddingCommand(context)
     registerConversationCommand(context)
     // views
     registerEmbeddingView(context)

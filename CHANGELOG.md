@@ -4,6 +4,12 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.3.5]
+
+- Feature/20230704-Resource Query for all resources
+- Feature/20230705-Improved Resource Query context results
+- Feature/20230706-Adding user configuration for conversation and embeddings
+
 ## [1.3.4]
 
 - Feature/20230701-Add support for credal.ai

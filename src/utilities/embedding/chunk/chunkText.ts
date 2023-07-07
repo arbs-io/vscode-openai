@@ -1,13 +1,13 @@
 export function chunkText({
-  text,
+  content,
   maxCharLength,
 }: {
-  text: string
+  content: string
   maxCharLength: number
 }): string[] {
   const chunks: string[] = []
   let currentChunk = ''
-  const sentences = text.replace(/\n/g, ' ').split(/([.])/)
+  const sentences = content.replace(/\n/g, ' ').split(/([.])/)
 
   for (const sentence of sentences) {
     const trimmedSentence = sentence.trim()

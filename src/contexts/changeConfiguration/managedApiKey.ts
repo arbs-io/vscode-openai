@@ -1,5 +1,8 @@
 import { waitFor } from '@app/utilities/node'
-import { ConfigurationService, enableServiceFeature } from '@app/services'
+import {
+  ConfigurationSettingService,
+  enableServiceFeature,
+} from '@app/services'
 import { verifyApiKey } from '@app/utilities/openai'
 
 export class ManagedApiKey {
@@ -20,7 +23,7 @@ export class ManagedApiKey {
     await waitFor(500, () => false)
     await verifyApiKey()
     enableServiceFeature()
-    ConfigurationService.LogConfigurationService()
+    ConfigurationSettingService.LogConfigurationService()
     this._isQueued = false
   }
 }

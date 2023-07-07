@@ -8,10 +8,9 @@
  */
 
 import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
-import { ConfigurationService } from '@app/services'
+import { ConfigurationSettingService } from '@app/services'
 import { listModelsAzureOpenAI, ModelCapabiliy } from '@app/utilities/openai'
 import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
-import { IConfigurationService } from '@app/interfaces'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -226,7 +225,8 @@ export async function quickPickSetupAzureOpenai(
   const embeddingModel = state.quickPickEmbeddingModel.description as string
   const embeddingDeployment = state.quickPickEmbeddingModel.label
 
-  const config: IConfigurationService = {
+  await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
+  await ConfigurationSettingService.loadConfigurationService({
     serviceProvider: 'Azure-OpenAI',
     baseUrl: state.openaiBaseUrl,
     defaultModel: inferenceModel,
@@ -234,7 +234,5 @@ export async function quickPickSetupAzureOpenai(
     azureDeployment: inferenceDeployment,
     embeddingsDeployment: embeddingDeployment,
     azureApiVersion: '2023-05-15',
-  }
-  await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-  await ConfigurationService.loadConfigurationService(config)
+  })
 }

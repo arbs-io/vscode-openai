@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -40,15 +40,15 @@
     "clean": "node ./utilities/scripts/clean.js"
   },
   "devDependencies": {
-    "@types/node": "^20.3.1",
+    "@types/node": "^20.3.3",
     "@types/vscode": "^1.79.1",
-    "@typescript-eslint/eslint-plugin": "^5.60.0",
-    "@typescript-eslint/parser": "^5.60.0",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
     "@vscode/vsce": "^2.19.0",
-    "esbuild": "^0.18.8",
-    "eslint": "^8.43.0",
+    "esbuild": "^0.18.11",
+    "eslint": "^8.44.0",
     "npm-run-all": "^4.1.5",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
     "@vscode/extension-telemetry": "^0.8.0",
@@ -152,7 +152,7 @@
             "Use OpenAI native service (https://api.openai.com)",
             "Use Azure OpenAI service (https://instance-name.openai.azure.com/openai)."
           ],
-          "order": 1
+          "order": 101
         },
         "vscode-openai.authentication": {
           "type": "string",
@@ -164,7 +164,7 @@
           "enumDescriptions": [
             "Use OpenAI API keys for authentication. Visit your API Keys page to retrieve the API key you'll use in your requests."
           ],
-          "order": 2
+          "order": 102
         },
         "vscode-openai.baseUrl": {
           "type": "string",
@@ -172,13 +172,13 @@
           "markdownDescription": "The base url for the OpenAI service dependencies on `#vscode-openai.serviceProvider#`.\n- `OpenAI` then default `https://api.openai.com/v1`\n- `openai.azure.com` then default `https://<instance-name>.openai.azure.com/openai`",
           "format": "url",
           "description": "Specifies the base url for the openai service.",
-          "order": 3
+          "order": 103
         },
         "vscode-openai.defaultModel": {
           "type": "string",
           "default": "setup-required",
           "description": "Specifies the default openai model.",
-          "order": 4
+          "order": 104
         },
         "vscode-openai.azureDeployment": {
           "type": "string",
@@ -186,19 +186,19 @@
           "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
           "format": "url",
           "description": "Specifies the base url for the openai service.",
-          "order": 5
+          "order": 105
         },
         "vscode-openai.embeddingModel": {
           "type": "string",
           "default": "setup-required",
           "description": "Specifies the default openai model for embedding resources.",
-          "order": 6
+          "order": 106
         },
         "vscode-openai.embeddingModel.show-welcome": {
           "type": "boolean",
           "default": true,
           "description": "Display welcome panel for embedding.",
-          "order": 6
+          "order": 107
         },
         "vscode-openai.embeddingsDeployment": {
           "type": "string",
@@ -206,7 +206,7 @@
           "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
           "format": "url",
           "description": "Specifies the base url for the openai service.",
-          "order": 7
+          "order": 108
         },
         "vscode-openai.azureApiVersion": {
           "type": "string",
@@ -218,16 +218,7 @@
           "enumDescriptions": [
             "The initial azure api that support chat completion."
           ],
-          "order": 8
-        },
-        "vscode-openai.conversationHistory": {
-          "type": "number",
-          "default": 6,
-          "markdownDescription": "The number of previous messages sent to the current prompt.",
-          "minimum": 0,
-          "maximum": 25,
-          "description": "Specifies the base url for the openai service.",
-          "order": 9
+          "order": 109
         },
         "vscode-openai.logLevel": {
           "type": "string",
@@ -243,43 +234,99 @@
             "Information messages about the progress of vscode-openai and external services",
             "Error messages for events that could potentially cause issues for vscode-openai"
           ],
-          "order": 10
+          "order": 110
+        },
+        "vscode-openai.conversation-configuration.temperature": {
+          "type": "number",
+          "default": 0.2,
+          "minimum": 0,
+          "maximum": 2,
+          "markdownDescription": "What sampling **temperature** to use. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Value must range between (0.0 - 2.0)",
+          "order": 201
+        },
+        "vscode-openai.conversation-configuration.presence-penalty": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 2,
+          "markdownDescription": "Positive values `penalize new tokens` based on whether they **appear in the text so far**, increasing the model's likelihood to talk about new topics. Value must range between (0.0 - 2.0)",
+          "order": 202
+        },
+        "vscode-openai.conversation-configuration.frequency-penalty": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 2,
+          "markdownDescription": "Positive values `penalize new tokens` based on their **existing frequency in the text so far**, decreasing the model's likelihood to repeat the same line verbatim. Value must range between (0.0 - 2.0)",
+          "order": 203
+        },
+        "vscode-openai.conversation-configuration.number-of-attempts": {
+          "type": "integer",
+          "default": 20,
+          "minimum": 5,
+          "maximum": 30,
+          "markdownDescription": "The number of retries if request has been rate-limited (http-429). Value must range between (5 - 30)",
+          "order": 204
+        },
+        "vscode-openai.conversation-configuration.history": {
+          "type": "number",
+          "default": 6,
+          "markdownDescription": "The number of previous messages sent to the current prompt.",
+          "minimum": 0,
+          "maximum": 128,
+          "description": "Specifies the base url for the openai service.",
+          "order": 205
         },
         "vscode-openai.prompt-editor.comment": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease add comments to the source code explaining what the code is doing.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place inline comments into the `source code`\n- Author: **vscode-openai**",
-          "description": "Edit prompt optimize.",
-          "order": 11
+          "order": 301
         },
         "vscode-openai.prompt-editor.explain": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease provide headers comments in the source code for each function providing:\n- description, input and output parameters.\n- input parameters.\n- output parameters.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place header comments for each class or function within the `source code`\n- Author: **Bryon Roscoe**",
-          "order": 12
+          "order": 302
         },
         "vscode-openai.prompt-editor.bounty": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease fix any bugs and include comments for the changed code explaining what was wrong with the original code.\nOnly provide the fixed source code with comments in #{language} explaining the corrected problem.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find and fix bugs within the `source code`\n- Author: **Ed Linden**",
-          "order": 13
+          "order": 303
         },
         "vscode-openai.prompt-editor.optimize": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease optimize the source code by reducing the number of operations performed during execution.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find inefficiencies and resolve them within the `source code`\n- Author: **vscode-openai**",
-          "order": 14
+          "order": 304
         },
         "vscode-openai.prompt-editor.patterns": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease rewrite the code using appropriate design patterns.\nThe design pattern should combine Concurrency, Behavioral, Structural and Creational design patterns.\nThe response should be a single solution using all the valuable patterns identified.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to suggest design patterns to improve readability, maintainability, ... in the `source code`\n- Author: **vscode-openai**",
-          "order": 15
+          "order": 305
+        },
+        "vscode-openai.embedding-configuration.max-character-length": {
+          "type": "integer",
+          "default": 1200,
+          "minimum": 256,
+          "maximum": 2048,
+          "markdownDescription": "There are different methods for **chunking**, and each of them might be appropriate for resource `embedding`. Value must range between (256 - 2048)",
+          "order": 401
+        },
+        "vscode-openai.embedding-configuration.cosine-similarity-threshold": {
+          "type": "number",
+          "default": 0.72,
+          "minimum": 0.5,
+          "maximum": 1,
+          "markdownDescription": "**Cosine similarity** measures the `cosine` of the angle between two vectors projected in a `multi-dimensional space`. Value must range between (0.5 - 1.0)",
+          "order": 402
         }
       }
     },
@@ -318,19 +365,34 @@
           "group": "navigation@3"
         },
         {
-          "command": "vscode-openai.embedding.index-file",
+          "command": "vscode-openai.settings.conversation",
+          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "group": "navigation@4"
+        },
+        {
+          "command": "vscode-openai.embedding.conversation-all",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@0"
         },
         {
-          "command": "vscode-openai.embedding.index-folder",
+          "command": "vscode-openai.embedding.index-file",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@1"
+        },
+        {
+          "command": "vscode-openai.embedding.index-folder",
+          "when": "view == vscode-openai.sidebar.embedding",
+          "group": "navigation@2"
         },
         {
           "command": "vscode-openai.embedding.refresh",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@3"
+        },
+        {
+          "command": "vscode-openai.settings.embedding",
+          "when": "view == vscode-openai.sidebar.embedding",
+          "group": "navigation@4"
         }
       ],
       "scm/title": [
@@ -421,6 +483,21 @@
         "icon": "$(notebook-delete-cell)"
       },
       {
+        "command": "vscode-openai.settings.conversation",
+        "title": "Edit conversation configuration setting",
+        "category": "vscode-openai.conversation",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "vscode-openai.embedding.conversation-all",
+        "title": "New conversation over all resources",
+        "category": "vscode-openai.embedding",
+        "icon": {
+          "light": "./assets/openai-light.png",
+          "dark": "./assets/openai-dark.png"
+        }
+      },
+      {
         "command": "vscode-openai.embedding.index-file",
         "title": "Index selected file",
         "category": "vscode-openai.embedding",
@@ -452,6 +529,12 @@
         "title": "Delete Embedding",
         "category": "vscode-openai.embedding",
         "icon": "$(notebook-delete-cell)"
+      },
+      {
+        "command": "vscode-openai.settings.embedding",
+        "title": "Edit embedding configuration setting",
+        "category": "vscode-openai.settings",
+        "icon": "$(tools)"
       },
       {
         "command": "vscode-openai.settings.prompt-editor",

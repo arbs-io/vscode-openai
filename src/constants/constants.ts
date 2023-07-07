@@ -7,6 +7,8 @@ export const VSCODE_OPENAI_EXTENSION = {
   INSTRUMENTATION_KEY: 'e01c0a97-9930-4885-b2e8-772176ced488',
   ENABLED_COMMAND_ID: 'vscode-openai.extension.enabled',
   SETTINGS_PROMPT_EDIT_COMMAND_ID: 'vscode-openai.settings.prompt-editor',
+  SETTINGS_EMBEDDING_COMMAND_ID: 'vscode-openai.settings.embedding',
+  SETTINGS_CONVERSATION_COMMAND_ID: 'vscode-openai.settings.conversation',
 }
 
 // VSCODE_OPENAI_REGISTER: Contains the command ID for registering the OpenAI service.
@@ -31,6 +33,8 @@ export const VSCODE_OPENAI_EMBEDDING = {
   ENABLED_COMMAND_ID: 'vscode-openai.embedding.enabled',
   SETUP_REQUIRED_COMMAND_ID: 'vscode-openai.embedding.setup-required',
   STORAGE_V1_ID: 'embedding.v1',
+
+  CONVERSATION_ALL_COMMAND_ID: 'vscode-openai.embedding.conversation-all',
   INDEX_FILE_COMMAND_ID: 'vscode-openai.embedding.index-file',
   INDEX_FOLDER_COMMAND_ID: 'vscode-openai.embedding.index-folder',
   INDEX_WEB_COMMAND_ID: 'vscode-openai.embedding.index-web',

@@ -10,20 +10,18 @@ export default class EmbeddingStorageService {
 
   private static _instance: EmbeddingStorageService
 
-  constructor(private _embeddings: Array<IEmbeddingFileLite>) {}
-
-  static init(): void {
-    try {
-      const embeddings = EmbeddingStorageService.loadEmbeddings()
-      EmbeddingStorageService._instance = new EmbeddingStorageService(
-        embeddings
-      )
-    } catch (error) {
-      createErrorNotification(error)
+  static get instance(): EmbeddingStorageService {
+    if (!this._instance) {
+      try {
+        EmbeddingStorageService._instance = new EmbeddingStorageService()
+      } catch (error) {
+        createErrorNotification(error)
+      }
     }
+    return this._instance
   }
 
-  private static loadEmbeddings(): Array<IEmbeddingFileLite> {
+  public getAll(): Array<IEmbeddingFileLite> {
     const embeddings: Array<IEmbeddingFileLite> = []
     const keys = GlobalStorageService.instance.keys()
     keys.forEach((key) => {
@@ -35,19 +33,15 @@ export default class EmbeddingStorageService {
         }
       }
     })
-    return embeddings
-  }
-
-  static get instance(): EmbeddingStorageService {
-    return EmbeddingStorageService._instance
-  }
-
-  public getAll(): Array<IEmbeddingFileLite> {
-    return this._embeddings.sort((n1, n2) => n2.timestamp - n1.timestamp)
+    return embeddings.sort((n1, n2) => n2.timestamp - n1.timestamp)
   }
 
   public get(key: string): IEmbeddingFileLite | undefined {
-    return this._embeddings.find((item) => item.embeddingId === key)
+    const embedding =
+      GlobalStorageService.instance.getValue<IEmbeddingFileLite>(
+        `${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-${key}`
+      )
+    return embedding
   }
 
   public delete(key: string) {
@@ -56,9 +50,6 @@ export default class EmbeddingStorageService {
   }
 
   private _delete(key: string) {
-    this._embeddings.forEach((item, index) => {
-      if (item.embeddingId === key) this._embeddings.splice(index, 1)
-    })
     GlobalStorageService.instance.deleteKey(
       `${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-${key}`
     )
@@ -75,6 +66,5 @@ export default class EmbeddingStorageService {
       `${VSCODE_OPENAI_EMBEDDING.STORAGE_V1_ID}-${embedding.embeddingId}`,
       embedding
     )
-    this._embeddings.push(embedding)
   }
 }

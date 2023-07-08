@@ -4,6 +4,10 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.4.0]
+
+- Feature/20230708-Reduce Embedding Memory
+
 ## [1.3.6]
 
 - Feature/20230707-Marketplace Error Fixed Failed Release

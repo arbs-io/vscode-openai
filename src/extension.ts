@@ -27,7 +27,6 @@ import {
   ConfigurationSettingService,
   ConfigurationConversationService,
   ConversationStorageService,
-  EmbeddingStorageService,
   enableServiceFeature,
   ConfigurationEmbeddingService,
 } from '@app/services'

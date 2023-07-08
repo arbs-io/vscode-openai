@@ -78,7 +78,6 @@ export function activate(context: ExtensionContext) {
 
     createDebugNotification('starting conversation service')
     ConversationStorageService.init(context)
-    EmbeddingStorageService.init()
 
     createDebugNotification('verifying authentication openai service')
     validateApiKey() //On activation check if the api key is valid

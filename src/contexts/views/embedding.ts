@@ -31,9 +31,7 @@ const _registerCommandConversation = (
     (node: EmbeddingTreeItem) => {
       const persona = getQueryResourcePersona()
       const conversation: IConversation =
-        ConversationStorageService.instance.create(persona, [
-          node.embeddingFileLite.embeddingId,
-        ])
+        ConversationStorageService.instance.create(persona, [node.embeddingId])
       ConversationStorageService.instance.update(conversation)
       ConversationStorageService.instance.show(conversation.conversationId)
     }
@@ -52,9 +50,7 @@ const _registerCommandDelete = (instance: EmbeddingTreeDataProvider): void => {
         )
         .then((answer) => {
           if (answer === 'Yes') {
-            EmbeddingStorageService.instance.delete(
-              node.embeddingFileLite.embeddingId
-            )
+            EmbeddingStorageService.instance.delete(node.embeddingId)
             instance.refresh()
           }
         })

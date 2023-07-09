@@ -142,9 +142,10 @@ export default class ConversationStorageService {
     if (embeddingIds) {
       content =
         'Welcome to resource query. This conversation will be scoped to the following resources'
-      embeddingIds.forEach((embeddingId) => {
-        const embeddingResource =
-          EmbeddingStorageService.instance.get(embeddingId)
+      embeddingIds.forEach(async (embeddingId) => {
+        const embeddingResource = await EmbeddingStorageService.instance.get(
+          embeddingId
+        )
         content = content + `\n- ${embeddingResource?.name}`
       })
     }

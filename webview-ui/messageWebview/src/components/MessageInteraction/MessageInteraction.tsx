@@ -8,12 +8,13 @@ import { IChatCompletion } from '../../interfaces/IChatCompletion'
 const MessageInteraction: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)
   const [chatHistory, setChatHistory] = useState<IChatCompletion[]>([])
+  const [autoSaveThreshold, setAutoSaveThreshold] = useState<number>(0)
   const [forceRefresh, setForceRefresh] = useState<boolean>()
   const messageStyles = useMessageStyles()
 
   useEffect(() => {
     bottomAnchorRef.current?.scrollIntoView({ behavior: 'smooth' })
-    if (chatHistory.length > 0) {
+    if (chatHistory.length > autoSaveThreshold) {
       vscode.postMessage({
         command: 'onDidSaveMessages',
         text: JSON.stringify(chatHistory),
@@ -26,6 +27,7 @@ const MessageInteraction: FC = () => {
     switch (message.command) {
       case 'onWillRenderMessages': {
         const chatMessages: IChatCompletion[] = JSON.parse(message.text)
+        setAutoSaveThreshold(chatMessages.length)
         setChatHistory(chatMessages)
         break
       }

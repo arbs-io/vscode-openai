@@ -40,7 +40,7 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
         style={{ width: '100%' }}
         placeholder="Enter+Shift for a newline and Enter+ArrowUp restore previous value"
         value={value}
-        onChange={(e, d) => {
+        onChange={(_e, d) => {
           setValue(d.value)
         }}
         onKeyDown={(event) => {

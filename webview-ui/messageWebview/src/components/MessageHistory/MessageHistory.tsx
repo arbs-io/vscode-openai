@@ -1,24 +1,11 @@
-import {
-  Button,
-  makeStyles,
-  tokens,
-  Toolbar,
-  ToolbarButton,
-  Tooltip,
-} from '@fluentui/react-components'
+import { makeStyles, tokens } from '@fluentui/react-components'
 import { CSSProperties, FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
-import {
-  Clipboard24Regular,
-  Open24Regular,
-  CalendarMonthRegular,
-} from '@fluentui/react-icons'
-import { vscode } from '../../utilities/vscode'
 import { TokenInfo } from '../TokenInfo'
-import { IMessageHistoryProps, ICodeDocument } from '../../interfaces'
+import { IMessageHistoryProps } from '../../interfaces'
 import { CopyToClipboardButton } from '../Buttons'
 import OpenSourceFileButton from '../Buttons/OpenSourceFileButton'
 

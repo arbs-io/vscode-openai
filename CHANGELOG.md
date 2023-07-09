@@ -4,9 +4,11 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
-## [1.4.0]
+## [1.3.7]
 
 - Feature/20230708-Reduce Embedding Memory
+- Feature/20230708-Handle Multiple File Drops
+- Bugfix/20230709-Reloading conversation auto save threshold.
 
 ## [1.3.6]
 

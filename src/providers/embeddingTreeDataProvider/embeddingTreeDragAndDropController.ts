@@ -39,12 +39,19 @@ export class EmbeddingTreeDragAndDropController
         return
       }
 
-      createDebugNotification(`drag-and-drop-controller: ${transferItem.value}`)
-      const uri = Uri.parse(transferItem.value)
-      const fileObject = await embeddingResource(uri)
-      if (!fileObject) return
+      const handleDropUrls = (await transferItem.asString()).split('\r\n')
 
-      this._onDidDragDropTreeData.fire([fileObject])
+      handleDropUrls.map(async (handleDropUrl) => {
+        try {
+          createDebugNotification(`drag-and-drop-controller: ${handleDropUrl}`)
+          const uri = Uri.parse(handleDropUrl)
+          const fileObject = await embeddingResource(uri)
+          if (!fileObject) return
+          this._onDidDragDropTreeData.fire([fileObject])
+        } catch (error) {
+          createErrorNotification(error)
+        }
+      })
     } catch (error) {
       createErrorNotification(error)
     }

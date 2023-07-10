@@ -50,13 +50,17 @@ export default class EmbeddingStorageService {
   public async get(
     embeddingId: string
   ): Promise<IEmbeddingFileLite | undefined> {
-    const key = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-${embeddingId}`
-    const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
+    try {
+      const key = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-${embeddingId}`
+      const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
 
-    const readData = await workspace.fs.readFile(keyPath)
-    const readStr = Buffer.from(readData).toString('utf8')
-    const embeddingFileLite: IEmbeddingFileLite = JSON.parse(readStr)
-    return embeddingFileLite
+      const readData = await workspace.fs.readFile(keyPath)
+      const readStr = Buffer.from(readData).toString('utf8')
+      const embeddingFileLite: IEmbeddingFileLite = JSON.parse(readStr)
+      return embeddingFileLite
+    } catch (error) {
+      createErrorNotification(error)
+    }
   }
 
   public delete(embeddingId: string) {
@@ -67,7 +71,7 @@ export default class EmbeddingStorageService {
   private _delete(embeddingId: string) {
     const key = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-${embeddingId}`
     const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
-    workspace.fs.delete(keyPath)
+    workspace.fs.delete(keyPath).then(noop, noop)
 
     GlobalStorageService.instance.deleteKey(key)
   }

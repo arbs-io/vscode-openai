@@ -36,7 +36,10 @@ export default class ConversationStorageService {
   private static loadConversations(): Array<IConversation> {
     const conversations: Array<IConversation> = []
     const keys = GlobalStorageService.instance.keys()
+
+    ConversationStorageService.houseKeeping()
     keys.forEach((key) => {
+      // If conversation found then added to cache
       if (key.startsWith(`${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`)) {
         const conversation =
           GlobalStorageService.instance.getValue<IConversation>(key)
@@ -46,6 +49,16 @@ export default class ConversationStorageService {
       }
     })
     return conversations
+  }
+
+  private static houseKeeping() {
+    const keys = GlobalStorageService.instance.keys()
+    keys.forEach((key) => {
+      //Bugfix: 20230710 - Capture and remove all conversation bugs
+      if (key == `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-undefined`) {
+        GlobalStorageService.instance.deleteKey(key)
+      }
+    })
   }
 
   static get instance(): ConversationStorageService {
@@ -131,12 +144,13 @@ export default class ConversationStorageService {
       totalTokens: 0,
     })
 
+    const currentDateTime = new Date().toLocaleString()
     const conversation: IConversation = {
       timestamp: new Date().getTime(),
       conversationId: uuid4,
       persona: persona,
       embeddingId: embeddingIds,
-      summary: '<New Conversation>',
+      summary: `Query Resource (${embeddingIds?.length} resource) @ ${currentDateTime}`,
       chatMessages: chatCompletion,
     }
     return conversation

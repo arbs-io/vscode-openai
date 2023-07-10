@@ -107,13 +107,18 @@ export default class ConversationStorageService {
     this._conversations.push(conversation)
   }
 
-  public create(
+  public async create(
     persona: IPersonaOpenAI,
     embeddingIds?: Array<string>
-  ): IConversation {
+  ): Promise<IConversation> {
     const uuid4 = crypto.randomUUID()
 
-    const welcomeMessage = this.getWelcomeMessage(embeddingIds)
+    let welcomeMessage = ''
+    if (embeddingIds)
+      welcomeMessage = await this.getEmbeddingWelcomeMessage(embeddingIds)
+    else welcomeMessage = await this.getWelcomeMessage()
+
+    // const welcomeMessage = this.getWelcomeMessage(embeddingIds)
 
     const chatCompletion: IChatCompletion[] = []
     chatCompletion.push({
@@ -137,18 +142,23 @@ export default class ConversationStorageService {
     return conversation
   }
 
-  private getWelcomeMessage(embeddingIds?: Array<string>): string {
-    let content = `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`
-    if (embeddingIds) {
-      content =
-        'Welcome to resource query. This conversation will be scoped to the following resources'
-      embeddingIds.forEach(async (embeddingId) => {
+  private async getWelcomeMessage(): Promise<string> {
+    return `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`
+  }
+  private async getEmbeddingWelcomeMessage(
+    embeddingIds: Array<string>
+  ): Promise<string> {
+    let content =
+      'Welcome to resource query. This conversation will be scoped to the following resources'
+    const embeddingNames = await Promise.all(
+      embeddingIds.map(async (embeddingId) => {
         const embeddingResource = await EmbeddingStorageService.instance.get(
           embeddingId
         )
-        content = content + `\n- ${embeddingResource?.name}`
+        if (embeddingResource) return embeddingResource.name
       })
-    }
+    )
+    content = content + `\n- ${embeddingNames.join('\n- ')}`
     return content
   }
 }

@@ -28,8 +28,10 @@ export async function ChatCompletionRequestMessageEmbedding(
     conversation.chatMessages[conversation.chatMessages.length - 1].content
 
   const embeddingFileLites: Array<IEmbeddingFileLite> = []
-  conversation.embeddingId!.forEach((embeddingId) => {
-    const embeddingFileLite = EmbeddingStorageService.instance.get(embeddingId)
+  conversation.embeddingId!.forEach(async (embeddingId) => {
+    const embeddingFileLite = await EmbeddingStorageService.instance.get(
+      embeddingId
+    )
     if (embeddingFileLite) embeddingFileLites.push(embeddingFileLite)
   })
 

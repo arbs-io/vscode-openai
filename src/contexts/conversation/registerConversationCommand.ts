@@ -22,12 +22,12 @@ function _registerConversationNewDefaultCommand(context: ExtensionContext) {
     context.subscriptions.push(
       commands.registerCommand(
         VSCODE_OPENAI_CONVERSATION.NEW_STANDARD_COMMAND_ID,
-        () => {
+        async () => {
           const persona = getSystemPersonas().find(
             (a) => a.roleName === 'General Chat'
           )!
           const conversation: IConversation =
-            ConversationStorageService.instance.create(persona)
+            await ConversationStorageService.instance.create(persona)
           ConversationStorageService.instance.update(conversation)
           ConversationStorageService.instance.show(conversation.conversationId)
         }

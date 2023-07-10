@@ -26,14 +26,14 @@ export function registerEmbeddingCommand(_context: ExtensionContext) {
 const _registerCommandConversationAll = (): void => {
   commands.registerCommand(
     VSCODE_OPENAI_EMBEDDING.CONVERSATION_ALL_COMMAND_ID,
-    () => {
+    async () => {
       const persona = getQueryResourcePersona()
       const conversation: IConversation =
-        ConversationStorageService.instance.create(
+        await ConversationStorageService.instance.create(
           persona,
-          EmbeddingStorageService.instance
-            .getAll()
-            .map((embedding) => embedding.embeddingId)
+          (
+            await EmbeddingStorageService.instance.getAll()
+          ).map((embedding) => embedding.embeddingId)
         )
       ConversationStorageService.instance.update(conversation)
       ConversationStorageService.instance.show(conversation.conversationId)

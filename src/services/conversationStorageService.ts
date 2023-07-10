@@ -187,7 +187,7 @@ export default class ConversationStorageService {
 
   private async getEmbeddingSummary(embeddingId: string): Promise<string> {
     if (embeddingId === VSCODE_OPENAI_EMBEDDING.RESOURCE_QUERY_ALL) {
-      return 'ALL resources'
+      return 'all-resources'
     } else {
       const embedding = await EmbeddingStorageService.instance.get(embeddingId)
       return embedding?.name ?? ''

@@ -6,6 +6,7 @@ import { EmbeddingStorageService } from '@app/services'
 import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { searchFileChunks } from '@app/utilities/embedding'
 import { StatusBarHelper } from '@app/utilities/vscode'
+import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
 export async function ChatCompletionRequestMessageEmbedding(
   conversation: IConversation
@@ -27,13 +28,15 @@ export async function ChatCompletionRequestMessageEmbedding(
   const searchQuery =
     conversation.chatMessages[conversation.chatMessages.length - 1].content
 
-  const embeddingFileLites: Array<IEmbeddingFileLite> = []
-  conversation.embeddingId!.forEach(async (embeddingId) => {
-    const embeddingFileLite = await EmbeddingStorageService.instance.get(
-      embeddingId
+  let embeddingFileLites: Array<IEmbeddingFileLite> = []
+  if (conversation.embeddingId === VSCODE_OPENAI_EMBEDDING.RESOURCE_QUERY_ALL) {
+    embeddingFileLites = [...(await EmbeddingStorageService.instance.getAll())]
+  } else if (conversation.embeddingId) {
+    const embedding = await EmbeddingStorageService.instance.get(
+      conversation.embeddingId
     )
-    if (embeddingFileLite) embeddingFileLites.push(embeddingFileLite)
-  })
+    if (embedding) embeddingFileLites.push(embedding)
+  }
 
   const searchFiles = await searchFileChunks({
     searchQuery: searchQuery,

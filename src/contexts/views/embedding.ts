@@ -31,9 +31,10 @@ const _registerCommandConversation = (
     async (node: EmbeddingTreeItem) => {
       const persona = getQueryResourcePersona()
       const conversation: IConversation =
-        await ConversationStorageService.instance.create(persona, [
-          node.embeddingId,
-        ])
+        await ConversationStorageService.instance.create(
+          persona,
+          node.embeddingId
+        )
       ConversationStorageService.instance.update(conversation)
       ConversationStorageService.instance.show(conversation.conversationId)
     }

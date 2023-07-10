@@ -31,9 +31,7 @@ const _registerCommandConversationAll = (): void => {
       const conversation: IConversation =
         await ConversationStorageService.instance.create(
           persona,
-          (
-            await EmbeddingStorageService.instance.getAll()
-          ).map((embedding) => embedding.embeddingId)
+          VSCODE_OPENAI_EMBEDDING.RESOURCE_QUERY_ALL
         )
       ConversationStorageService.instance.update(conversation)
       ConversationStorageService.instance.show(conversation.conversationId)

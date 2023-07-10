@@ -4,7 +4,6 @@ import { IEmbeddingFileLite } from '@app/interfaces'
 import {
   createDebugNotification,
   createErrorNotification,
-  noop,
 } from '@app/utilities/node'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
@@ -19,8 +18,11 @@ export default class EmbeddingStorageService {
     try {
       EmbeddingStorageService._instance = new EmbeddingStorageService(context)
 
-      //Create extension folder andrewbutson.vscode-openai
-      workspace.fs.createDirectory(context.globalStorageUri).then(noop, noop)
+      // Create extension folder andrewbutson.vscode-openai
+      ;(async () => {
+        await workspace.fs.createDirectory(context.globalStorageUri)
+      })()
+
       EmbeddingStorageService._upgradeV1()
     } catch (error) {
       createErrorNotification(error)
@@ -69,11 +71,18 @@ export default class EmbeddingStorageService {
   }
 
   private _delete(embeddingId: string) {
-    const key = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-${embeddingId}`
-    const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
-    workspace.fs.delete(keyPath).then(noop, noop)
+    try {
+      const key = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-${embeddingId}`
+      const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
+      // Use async/await to handle the promise returned by delete
+      ;(async () => {
+        await workspace.fs.delete(keyPath)
+      })()
 
-    GlobalStorageService.instance.deleteKey(key)
+      GlobalStorageService.instance.deleteKey(key)
+    } catch (error) {
+      createErrorNotification(error)
+    }
   }
 
   public update(embedding: IEmbeddingFileLite) {
@@ -82,14 +91,21 @@ export default class EmbeddingStorageService {
   }
 
   private _update(embedding: IEmbeddingFileLite) {
-    this._delete(embedding.embeddingId)
+    try {
+      this._delete(embedding.embeddingId)
 
-    const key = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-${embedding.embeddingId}`
-    const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
-    const encoded = new TextEncoder().encode(JSON.stringify(embedding))
-    workspace.fs.writeFile(keyPath, encoded)
+      const key = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-${embedding.embeddingId}`
+      const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
+      const encoded = new TextEncoder().encode(JSON.stringify(embedding))
+      // Use async/await to handle the promise returned by writeFile
+      ;(async () => {
+        await workspace.fs.writeFile(keyPath, encoded)
+      })()
 
-    GlobalStorageService.instance.setValue<string>(key, key)
+      GlobalStorageService.instance.setValue<string>(key, key)
+    } catch (error) {
+      createErrorNotification(error)
+    }
   }
 
   private static _upgradeV1() {
@@ -102,7 +118,6 @@ export default class EmbeddingStorageService {
           createDebugNotification(`migrating embedding v1 -> v2: ${key}`)
           EmbeddingStorageService.instance._update(embedding)
           GlobalStorageService.instance.deleteKey(key)
-          //TODO Delete the storage item
         }
       }
     })

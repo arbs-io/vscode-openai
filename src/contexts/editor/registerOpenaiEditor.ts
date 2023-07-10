@@ -55,7 +55,7 @@ class CommandRegistry {
           )
           if (persona) {
             const conversation: IConversation =
-              ConversationStorageService.instance.create(persona)
+              await ConversationStorageService.instance.create(persona)
             const prompt = await factory.createPrompt()()
 
             const chatCompletion: IChatCompletion = {

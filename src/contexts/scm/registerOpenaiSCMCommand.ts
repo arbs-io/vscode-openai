@@ -53,7 +53,7 @@ const getComments = async (diff: string): Promise<string> => {
   )
   if (persona) {
     const conversation: IConversation =
-      ConversationStorageService.instance.create(persona)
+      await ConversationStorageService.instance.create(persona)
 
     const prompt = [
       'Each line should be less than 72 characters.',

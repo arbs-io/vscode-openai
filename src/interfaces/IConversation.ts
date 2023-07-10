@@ -5,6 +5,6 @@ export interface IConversation {
   conversationId: string
   persona: IPersonaOpenAI
   summary: string
-  embeddingId?: Array<string>
+  embeddingId?: string
   chatMessages: IChatCompletion[]
 }

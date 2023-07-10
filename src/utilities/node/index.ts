@@ -6,3 +6,4 @@ export {
 } from './notificationManager'
 export { waitFor } from './waitFor'
 export { HttpRequest } from './httpClient'
+export { noop } from './noop'

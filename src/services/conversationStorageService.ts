@@ -7,7 +7,10 @@ import {
   createDebugNotification,
   createErrorNotification,
 } from '@app/utilities/node'
-import { VSCODE_OPENAI_CONVERSATION } from '@app/constants'
+import {
+  VSCODE_OPENAI_CONVERSATION,
+  VSCODE_OPENAI_EMBEDDING,
+} from '@app/constants'
 import { EmbeddingStorageService } from '.'
 
 export default class ConversationStorageService {
@@ -36,7 +39,10 @@ export default class ConversationStorageService {
   private static loadConversations(): Array<IConversation> {
     const conversations: Array<IConversation> = []
     const keys = GlobalStorageService.instance.keys()
+
+    ConversationStorageService.houseKeeping()
     keys.forEach((key) => {
+      // If conversation found then added to cache
       if (key.startsWith(`${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`)) {
         const conversation =
           GlobalStorageService.instance.getValue<IConversation>(key)
@@ -46,6 +52,16 @@ export default class ConversationStorageService {
       }
     })
     return conversations
+  }
+
+  private static houseKeeping() {
+    const keys = GlobalStorageService.instance.keys()
+    keys.forEach((key) => {
+      //Bugfix: 20230710 - Capture and remove all conversation bugs
+      if (key == `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-undefined`) {
+        GlobalStorageService.instance.deleteKey(key)
+      }
+    })
   }
 
   static get instance(): ConversationStorageService {
@@ -107,13 +123,21 @@ export default class ConversationStorageService {
     this._conversations.push(conversation)
   }
 
-  public create(
+  public async create(
     persona: IPersonaOpenAI,
-    embeddingIds?: Array<string>
-  ): IConversation {
+    embeddingId?: string
+  ): Promise<IConversation> {
     const uuid4 = crypto.randomUUID()
 
-    const welcomeMessage = this.getWelcomeMessage(embeddingIds)
+    let welcomeMessage = ''
+    let summary = '<New Conversation>'
+
+    if (embeddingId) {
+      welcomeMessage = await this.getEmbeddingWelcomeMessage(embeddingId)
+
+      const embeddingSummary = await this.getEmbeddingSummary(embeddingId)
+      summary = `Query ${embeddingSummary.toUpperCase()}`
+    } else welcomeMessage = await this.getWelcomeMessage()
 
     const chatCompletion: IChatCompletion[] = []
     chatCompletion.push({
@@ -130,24 +154,43 @@ export default class ConversationStorageService {
       timestamp: new Date().getTime(),
       conversationId: uuid4,
       persona: persona,
-      embeddingId: embeddingIds,
-      summary: '<New Conversation>',
+      embeddingId: embeddingId,
+      summary: summary,
       chatMessages: chatCompletion,
     }
     return conversation
   }
 
-  private getWelcomeMessage(embeddingIds?: Array<string>): string {
-    let content = `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`
-    if (embeddingIds) {
-      content =
-        'Welcome to resource query. This conversation will be scoped to the following resources'
-      embeddingIds.forEach((embeddingId) => {
-        const embeddingResource =
-          EmbeddingStorageService.instance.get(embeddingId)
-        content = content + `\n- ${embeddingResource?.name}`
+  private async getWelcomeMessage(): Promise<string> {
+    return `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`
+  }
+  private async getEmbeddingWelcomeMessage(
+    embeddingId: string
+  ): Promise<string> {
+    let content =
+      'Welcome to resource query. This conversation will be scoped to the following resources'
+
+    // If we use the "special key" we're using all resources
+    if (embeddingId === VSCODE_OPENAI_EMBEDDING.RESOURCE_QUERY_ALL) {
+      const allEmbeddings = (
+        await EmbeddingStorageService.instance.getAll()
+      ).map((embedding) => {
+        return embedding.name
       })
+      content = content + `\n- ${allEmbeddings.join('\n- ')}`
+    } else {
+      const embedding = await EmbeddingStorageService.instance.get(embeddingId)
+      content = content + `\n- ${embedding?.name}`
     }
     return content
+  }
+
+  private async getEmbeddingSummary(embeddingId: string): Promise<string> {
+    if (embeddingId === VSCODE_OPENAI_EMBEDDING.RESOURCE_QUERY_ALL) {
+      return 'all-resources'
+    } else {
+      const embedding = await EmbeddingStorageService.instance.get(embeddingId)
+      return embedding?.name ?? ''
+    }
   }
 }

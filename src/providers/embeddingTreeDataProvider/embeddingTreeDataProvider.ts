@@ -53,10 +53,12 @@ export class EmbeddingTreeDataProvider
     this._onDidChangeTreeData.fire(undefined)
   }
 
-  public getChildren(_element: EmbeddingTreeItem): EmbeddingTreeItem[] {
+  public async getChildren(
+    _element: EmbeddingTreeItem
+  ): Promise<EmbeddingTreeItem[]> {
     const openaiTreeItems: Array<EmbeddingTreeItem> = []
 
-    const embeddings = EmbeddingStorageService.instance.getAll()
+    const embeddings = await EmbeddingStorageService.instance.getAll()
     embeddings.forEach((embedding) => {
       const openaiTreeItem = this.ConvertIEmbeddingToTreeItem(embedding)
       openaiTreeItems.push(openaiTreeItem)

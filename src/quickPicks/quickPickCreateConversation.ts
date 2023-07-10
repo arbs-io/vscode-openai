@@ -157,7 +157,7 @@ export async function quickPickCreateConversation(
     (a) => a.roleName === state.personaQuickPickItem.label
   )!
   const conversation: IConversation =
-    ConversationStorageService.instance.create(persona)
+    await ConversationStorageService.instance.create(persona)
   ConversationStorageService.instance.update(conversation)
   ConversationStorageService.instance.show(conversation.conversationId)
 }

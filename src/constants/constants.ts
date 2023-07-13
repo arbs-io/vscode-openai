@@ -83,4 +83,5 @@ export const VSCODE_OPENAI_SERVICE_PROVIDER = {
   OPENAI: '$(vscode-openai)  openai.com',
   AZURE_OPENAI: '$(azure)  openai.azure.com',
   CREDAL: '$(comment)  credal.ai',
+  CHANGE_MODEL: '$(symbol-function)  Change Models',
 }

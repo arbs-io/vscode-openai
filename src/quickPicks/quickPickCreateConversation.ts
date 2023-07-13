@@ -28,7 +28,7 @@ export async function quickPickCreateConversation(
 
   async function collectInputs() {
     const state = {} as Partial<State>
-    await MultiStepInput.run((input) => selectAuthentication(input, state))
+    await MultiStepInput.run((input) => selectPersona(input, state))
     return state as State
   }
 
@@ -39,11 +39,11 @@ export async function quickPickCreateConversation(
    * @param input - The multi-step input object.
    * @param state - The current state of the application.
    */
-  async function selectAuthentication(
+  async function selectPersona(
     input: MultiStepInput,
     state: Partial<State>
   ): Promise<void> {
-    const models = await getAvailableRuntimes()
+    const models = await getAvailablePersonas()
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
     state.personaQuickPickItem = await input.showQuickPick({
@@ -58,7 +58,7 @@ export async function quickPickCreateConversation(
     })
   }
 
-  function getAvailableRuntimes(): QuickPickItem[] {
+  function getAvailablePersonas(): QuickPickItem[] {
     const quickPickItemTypes: QuickPickItem[] = [
       {
         label: 'Developer/Programmer',

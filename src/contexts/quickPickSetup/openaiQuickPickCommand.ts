@@ -1,17 +1,23 @@
-import { ExtensionContext, QuickPickItem, window } from 'vscode'
 import {
+  ExtensionContext,
+  QuickPickItem,
+  QuickPickItemKind,
+  window,
+} from 'vscode'
+import {
+  quickPickChangeModel,
   quickPickSetupAzureOpenai,
   quickPickSetupCredalOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
 } from '@app/quickPicks'
 import { ICommandOpenai } from '@app/interfaces'
-import { VSCODE_OPENAI_SERVICE_PROVIDER } from '@app/constants/constants'
-
-// const SERVICE_PROVIDER_VSCODE_OPENAI = '$(pulse)  vscode-openai'
-// const SERVICE_PROVIDER_OPENAI = '$(vscode-openai)  openai.com'
-// const SERVICE_PROVIDER_AZURE_OPENAI = '$(azure)  openai.azure.com'
-// const SERVICE_PROVIDER_CREDAL = '$(comment)  credal.ai'
+import {
+  VSCODE_OPENAI_EXTENSION,
+  VSCODE_OPENAI_SERVICE_PROVIDER,
+} from '@app/constants/constants'
+import { getFeatureFlag } from '@app/utilities/vscode'
+import { ConfigurationSettingService } from '@app/services'
 
 export class OpenaiQuickPickCommand implements ICommandOpenai {
   private static instance: OpenaiQuickPickCommand
@@ -49,6 +55,10 @@ export class OpenaiQuickPickCommand implements ICommandOpenai {
         quickPickSetupCredalOpenai(this.context)
         break
 
+      case VSCODE_OPENAI_SERVICE_PROVIDER.CHANGE_MODEL:
+        quickPickChangeModel(this.context)
+        break
+
       default:
         break
     }
@@ -74,6 +84,10 @@ export class OpenaiQuickPickCommand implements ICommandOpenai {
 function BuildOpenAiServiceTypes(): QuickPickItem[] {
   const quickPickItemTypes: QuickPickItem[] = [
     {
+      label: 'Service Provider',
+      kind: QuickPickItemKind.Separator,
+    },
+    {
       label: VSCODE_OPENAI_SERVICE_PROVIDER.VSCODE_OPENAI,
       description: '(Sponsored) Use vscode-openai service',
     },
@@ -92,5 +106,25 @@ function BuildOpenAiServiceTypes(): QuickPickItem[] {
     },
   ]
 
-  return [...quickPickItemTypes]
+  const isValidKey = getFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID)
+  const validSP: string[] = ['OpenAI', 'Azure-OpenAI']
+  const allowed = validSP.includes(
+    ConfigurationSettingService.instance.serviceProvider
+  )
+  let quickPickModelSelecter: QuickPickItem[] = []
+  if (isValidKey && allowed) {
+    quickPickModelSelecter = [
+      {
+        label: 'Models',
+        kind: QuickPickItemKind.Separator,
+      },
+      {
+        label: VSCODE_OPENAI_SERVICE_PROVIDER.CHANGE_MODEL,
+        description: 'change chat and embedding model',
+        alwaysShow: false,
+      },
+    ]
+  }
+
+  return [...quickPickItemTypes, ...quickPickModelSelecter]
 }

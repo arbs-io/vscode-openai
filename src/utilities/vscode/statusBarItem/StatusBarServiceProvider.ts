@@ -9,27 +9,32 @@ import { VSCODE_OPENAI_REGISTER } from '@app/constants'
 import { ConfigurationSettingService } from '@app/services'
 import { createErrorNotification } from '@app/utilities/node'
 
-export default class StatusBarHelper {
-  private static _instance: StatusBarHelper
+export default class StatusBarServiceProvider {
+  private static _instance: StatusBarServiceProvider
   constructor(private statusBarItem: StatusBarItem) {}
 
   static init(context: ExtensionContext) {
     try {
-      const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right)
+      const statusBarItem = window.createStatusBarItem(
+        StatusBarAlignment.Right,
+        102
+      )
       statusBarItem.name = 'vscode-openai'
       statusBarItem.command = VSCODE_OPENAI_REGISTER.SERVICE_COMMAND_ID
       statusBarItem.backgroundColor = new ThemeColor(
         'statusBarItem.errorBackground'
       )
       context.subscriptions.push(statusBarItem)
-      StatusBarHelper._instance = new StatusBarHelper(statusBarItem)
+      StatusBarServiceProvider._instance = new StatusBarServiceProvider(
+        statusBarItem
+      )
     } catch (error) {
       createErrorNotification(error)
     }
   }
 
-  static get instance(): StatusBarHelper {
-    return StatusBarHelper._instance
+  static get instance(): StatusBarServiceProvider {
+    return StatusBarServiceProvider._instance
   }
 
   public async showStatusBarInformation(icon: string, text: string) {

@@ -1,7 +1,7 @@
 import { ExtensionContext } from 'vscode'
 import { validateApiKey } from '@app/utilities/openai'
 import {
-  StatusBarHelper,
+  StatusBarServiceProvider,
   GlobalStorageService,
   TelemetryService,
   SecretStorageService,
@@ -60,8 +60,11 @@ export function activate(context: ExtensionContext) {
     ConfigurationEmbeddingService.LogConfigurationService()
 
     createDebugNotification('initialise components')
-    StatusBarHelper.init(context)
-    StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
+    StatusBarServiceProvider.init(context)
+    StatusBarServiceProvider.instance.showStatusBarInformation(
+      'vscode-openai',
+      ''
+    )
 
     // registerCommands
     createDebugNotification('register commands')

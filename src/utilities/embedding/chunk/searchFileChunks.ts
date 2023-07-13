@@ -1,4 +1,4 @@
-import { StatusBarHelper } from '@app/utilities/vscode'
+import { StatusBarServiceProvider } from '@app/utilities/vscode'
 import { IEmbeddingFileChunk, IEmbeddingFileLite } from '@app/interfaces'
 import { createDebugNotification } from '@app/utilities/node'
 import { createEmbedding } from '@app/utilities/openai'
@@ -26,7 +26,7 @@ export async function searchFileChunks({
     itemCount: 1,
     batchLength: 1,
   })
-  StatusBarHelper.instance.showStatusBarInformation(
+  StatusBarServiceProvider.instance.showStatusBarInformation(
     'sync~spin',
     '- search resource'
   )
@@ -68,6 +68,9 @@ export async function searchFileChunks({
     // Take the first maxResults chunks
     .slice(0, maxResults)
 
-  StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
+  StatusBarServiceProvider.instance.showStatusBarInformation(
+    'vscode-openai',
+    ''
+  )
   return rankedChunks
 }

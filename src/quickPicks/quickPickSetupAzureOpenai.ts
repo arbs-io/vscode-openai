@@ -7,10 +7,11 @@
  * 		Store and activate configuration
  */
 
-import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
+import { QuickPickItem, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationSettingService } from '@app/services'
-import { listModelsAzureOpenAI, ModelCapabiliy } from '@app/utilities/openai'
+import { ModelCapabiliy } from '@app/utilities/openai'
 import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
+import { getAvailableModelsAzure } from './getAvailableModels'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -101,7 +102,7 @@ export async function quickPickSetupAzureOpenai(
     input: MultiStepInput,
     state: Partial<State>
   ) {
-    const models = await getAvailableModels(
+    const models = await getAvailableModelsAzure(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
       ModelCapabiliy.ChatCompletion,
@@ -115,7 +116,7 @@ export async function quickPickSetupAzureOpenai(
       totalSteps: 4,
       ignoreFocusOut: true,
       placeholder:
-        'Selected Chat Completion DeploymentModel (if empty, no valid chat completion models found)',
+        'Selected chat completion deployment/model (if empty, no valid models found)',
       items: models,
       activeItem: state.quickPickInferenceModel,
       shouldResume: shouldResume,
@@ -133,7 +134,7 @@ export async function quickPickSetupAzureOpenai(
     input: MultiStepInput,
     state: Partial<State>
   ) {
-    const models = await getAvailableModels(
+    const models = await getAvailableModelsAzure(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
       ModelCapabiliy.Embedding,
@@ -146,8 +147,7 @@ export async function quickPickSetupAzureOpenai(
       step: 4,
       totalSteps: 4,
       ignoreFocusOut: true,
-      placeholder:
-        'Selected Embedding DeploymentModel (if empty, no valid chat completion models found)',
+      placeholder: `Selected embedding deployment/model (if empty, no valid models found)`,
       items: models,
       activeItem: state.quickPickEmbeddingModel,
       shouldResume: shouldResume,
@@ -181,34 +181,6 @@ export async function quickPickSetupAzureOpenai(
     baseUrl: string
   ): Promise<string | undefined> {
     return Uri.parse(baseUrl) ? undefined : 'Invalid Uri'
-  }
-
-  /**
-   * This function retrieves available models from Open AI using an API key. It returns a list of QuickPickItems representing each available model.
-   * @param openapiAPIKey - The API key used to authenticate with Open AI.
-   * @param token - A cancellation token that can be used to cancel this operation. Not currently implemented in this codebase so defaults to undefined.
-   * @returns A list of QuickPickItems representing each available model returned by the API call to Open AI.
-   */
-  async function getAvailableModels(
-    openapiAPIKey: string,
-    openapiBaseUrl: string,
-    modelCapabiliy: ModelCapabiliy,
-    _token?: CancellationToken
-  ): Promise<QuickPickItem[]> {
-    const chatCompletionModels = await listModelsAzureOpenAI(
-      openapiAPIKey,
-      openapiBaseUrl,
-      modelCapabiliy
-    )
-
-    const quickPickItems: QuickPickItem[] = []
-    chatCompletionModels?.forEach((deployment) => {
-      quickPickItems.push({
-        label: deployment.deployment,
-        description: deployment.model,
-      })
-    })
-    return quickPickItems
   }
 
   function shouldResume() {

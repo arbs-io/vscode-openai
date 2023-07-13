@@ -7,10 +7,11 @@
  * 		Store and activate configuration
  */
 
-import { QuickPickItem, CancellationToken, ExtensionContext, Uri } from 'vscode'
+import { QuickPickItem, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationSettingService } from '@app/services'
-import { ModelCapabiliy, listModelsOpenAI } from '@app/utilities/openai'
+import { ModelCapabiliy } from '@app/utilities/openai'
 import { SecretStorageService, MultiStepInput } from '@app/utilities/vscode'
+import { getAvailableModelsOpenai } from './getAvailableModels'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -101,7 +102,7 @@ export async function quickPickSetupOpenai(
     input: MultiStepInput,
     state: Partial<State>
   ) {
-    const models = await getAvailableModels(
+    const models = await getAvailableModelsOpenai(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
       ModelCapabiliy.ChatCompletion,
@@ -115,7 +116,7 @@ export async function quickPickSetupOpenai(
       totalSteps: 4,
       ignoreFocusOut: true,
       placeholder:
-        'Selected Chat Completion DeploymentModel (if empty, no valid chat completion models found)',
+        'Selected chat completion model (if empty, no valid models found)',
       items: models,
       activeItem: state.quickPickInferenceModel,
       shouldResume: shouldResume,
@@ -133,7 +134,7 @@ export async function quickPickSetupOpenai(
     input: MultiStepInput,
     state: Partial<State>
   ): Promise<void> {
-    const models = await getAvailableModels(
+    const models = await getAvailableModelsOpenai(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
       ModelCapabiliy.Embedding,
@@ -146,8 +147,7 @@ export async function quickPickSetupOpenai(
       step: 4,
       totalSteps: 4,
       ignoreFocusOut: true,
-      placeholder:
-        'Selected Embedding Model (if empty, no valid chat completion models found)',
+      placeholder: 'Selected embedding model (if empty, no valid models found)',
       items: models,
       activeItem: state.quickPickEmbeddingModel,
       shouldResume: shouldResume,
@@ -183,28 +183,6 @@ export async function quickPickSetupOpenai(
     baseUrl: string
   ): Promise<string | undefined> {
     return Uri.parse(baseUrl) ? undefined : 'Invalid Uri'
-  }
-
-  /**
-   * This function retrieves available models from Open AI using an API key. It returns a list of QuickPickItems representing each available model.
-   * @param openapiAPIKey - The API key used to authenticate with Open AI.
-   * @param _token - A cancellation token that can be used to cancel this operation. Not currently implemented in this codebase so defaults to undefined.
-   * @returns A list of QuickPickItems representing each available model returned by the API call to Open AI.
-   */
-  async function getAvailableModels(
-    apiKey: string,
-    baseUrl: string,
-    modelCapabiliy: ModelCapabiliy,
-    _token?: CancellationToken
-  ): Promise<QuickPickItem[]> {
-    const chatCompletionModels = await listModelsOpenAI(
-      apiKey,
-      baseUrl,
-      modelCapabiliy
-    )
-
-    // Map each returned label into a QuickPickItem object with label property set as label value returned by API call.
-    return chatCompletionModels.map((label) => ({ label }))
   }
 
   function shouldResume() {

@@ -6,10 +6,10 @@ import {
   getEmbeddingsForText,
 } from '@app/utilities/embedding'
 import { IEmbeddingFileLite } from '@app/interfaces'
-import { StatusBarHelper } from '@app/utilities/vscode'
+import { StatusBarServiceProvider } from '@app/utilities/vscode'
 
 export async function embeddingResource(uri: Uri) {
-  StatusBarHelper.instance.showStatusBarInformation(
+  StatusBarServiceProvider.instance.showStatusBarInformation(
     'sync~spin',
     '- memory-buffer'
   )
@@ -49,7 +49,10 @@ export async function embeddingResource(uri: Uri) {
     chunks: embeddingText,
     extractedText: fileContent.content,
   }
-  StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
+  StatusBarServiceProvider.instance.showStatusBarInformation(
+    'vscode-openai',
+    ''
+  )
   return fileObject
 }
 

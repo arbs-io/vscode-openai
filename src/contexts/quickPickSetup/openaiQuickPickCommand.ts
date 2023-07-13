@@ -1,11 +1,23 @@
-import { ExtensionContext, QuickPickItem, window } from 'vscode'
 import {
+  ExtensionContext,
+  QuickPickItem,
+  QuickPickItemKind,
+  window,
+} from 'vscode'
+import {
+  quickPickChangeModel,
   quickPickSetupAzureOpenai,
   quickPickSetupCredalOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
 } from '@app/quickPicks'
 import { ICommandOpenai } from '@app/interfaces'
+import {
+  VSCODE_OPENAI_EXTENSION,
+  VSCODE_OPENAI_SERVICE_PROVIDER,
+} from '@app/constants/constants'
+import { getFeatureFlag } from '@app/utilities/vscode'
+import { ConfigurationSettingService } from '@app/services'
 
 export class OpenaiQuickPickCommand implements ICommandOpenai {
   private static instance: OpenaiQuickPickCommand
@@ -27,20 +39,24 @@ export class OpenaiQuickPickCommand implements ICommandOpenai {
     const selectedProvider = await this.showQuickPick(openAiServiceType)
 
     switch (selectedProvider.label) {
-      case 'vscode-openai':
+      case VSCODE_OPENAI_SERVICE_PROVIDER.VSCODE_OPENAI:
         quickPickSetupVscodeOpenai(this.context)
         break
 
-      case 'openai.com':
+      case VSCODE_OPENAI_SERVICE_PROVIDER.OPENAI:
         quickPickSetupOpenai(this.context)
         break
 
-      case 'openai.azure.com':
+      case VSCODE_OPENAI_SERVICE_PROVIDER.AZURE_OPENAI:
         quickPickSetupAzureOpenai(this.context)
         break
 
-      case 'credal.ai':
+      case VSCODE_OPENAI_SERVICE_PROVIDER.CREDAL:
         quickPickSetupCredalOpenai(this.context)
+        break
+
+      case VSCODE_OPENAI_SERVICE_PROVIDER.CHANGE_MODEL:
+        quickPickChangeModel(this.context)
         break
 
       default:
@@ -68,23 +84,47 @@ export class OpenaiQuickPickCommand implements ICommandOpenai {
 function BuildOpenAiServiceTypes(): QuickPickItem[] {
   const quickPickItemTypes: QuickPickItem[] = [
     {
-      label: 'vscode-openai',
+      label: 'Service Provider',
+      kind: QuickPickItemKind.Separator,
+    },
+    {
+      label: VSCODE_OPENAI_SERVICE_PROVIDER.VSCODE_OPENAI,
       description: '(Sponsored) Use vscode-openai service',
     },
     {
-      label: 'openai.com',
+      label: VSCODE_OPENAI_SERVICE_PROVIDER.OPENAI,
       description: '(BYOK) Use your own OpenAI subscription (api.openai.com)',
     },
     {
-      label: 'openai.azure.com',
+      label: VSCODE_OPENAI_SERVICE_PROVIDER.AZURE_OPENAI,
       description:
         '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
     },
     {
-      label: 'credal.ai',
+      label: VSCODE_OPENAI_SERVICE_PROVIDER.CREDAL,
       description: '(BYOK) Use your own Credal instance (credal.ai)',
     },
   ]
 
-  return [...quickPickItemTypes]
+  const isValidKey = getFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID)
+  const validSP: string[] = ['OpenAI', 'Azure-OpenAI']
+  const allowed = validSP.includes(
+    ConfigurationSettingService.instance.serviceProvider
+  )
+  let quickPickModelSelecter: QuickPickItem[] = []
+  if (isValidKey && allowed) {
+    quickPickModelSelecter = [
+      {
+        label: 'Models',
+        kind: QuickPickItemKind.Separator,
+      },
+      {
+        label: VSCODE_OPENAI_SERVICE_PROVIDER.CHANGE_MODEL,
+        description: 'change chat and embedding model',
+        alwaysShow: false,
+      },
+    ]
+  }
+
+  return [...quickPickItemTypes, ...quickPickModelSelecter]
 }

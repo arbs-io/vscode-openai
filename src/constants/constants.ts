@@ -74,3 +74,13 @@ export const VSCODE_OPENAI_SIDEBAR = {
   CONVERSATIONS_COMMAND_ID: 'vscode-openai.sidebar.conversationsWebview',
   EMBEDDING_COMMAND_ID: 'vscode-openai.sidebar.embedding',
 }
+
+// VSCODE_OPENAI_SIDEBAR: Contains various command IDs for opening webviews in the sidebar of VS Code.
+// Input: None
+// Output: An object containing strings representing various command IDs for opening webviews in the sidebar of VS Code.
+export const VSCODE_OPENAI_SERVICE_PROVIDER = {
+  VSCODE_OPENAI: '$(pulse)  vscode-openai',
+  OPENAI: '$(vscode-openai)  openai.com',
+  AZURE_OPENAI: '$(azure)  openai.azure.com',
+  CREDAL: '$(comment)  credal.ai',
+}

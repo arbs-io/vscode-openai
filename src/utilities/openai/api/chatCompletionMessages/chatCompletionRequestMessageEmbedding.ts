@@ -5,7 +5,7 @@ import {
 import { EmbeddingStorageService } from '@app/services'
 import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { searchFileChunks } from '@app/utilities/embedding'
-import { StatusBarHelper } from '@app/utilities/vscode'
+import { StatusBarServiceProvider } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
 export async function ChatCompletionRequestMessageEmbedding(
@@ -13,7 +13,7 @@ export async function ChatCompletionRequestMessageEmbedding(
 ): Promise<ChatCompletionRequestMessage[]> {
   const MAX_RESULTS = 10
 
-  StatusBarHelper.instance.showStatusBarInformation(
+  StatusBarServiceProvider.instance.showStatusBarInformation(
     'sync~spin',
     `- search file chunks (${MAX_RESULTS})`
   )
@@ -44,7 +44,7 @@ export async function ChatCompletionRequestMessageEmbedding(
     maxResults: MAX_RESULTS,
   })
 
-  StatusBarHelper.instance.showStatusBarInformation(
+  StatusBarServiceProvider.instance.showStatusBarInformation(
     'sync~spin',
     `- found file chunks (${searchFiles.length})`
   )
@@ -62,7 +62,10 @@ export async function ChatCompletionRequestMessageEmbedding(
     content: content,
   })
 
-  StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
+  StatusBarServiceProvider.instance.showStatusBarInformation(
+    'vscode-openai',
+    ''
+  )
 
   return chatCompletion
 }

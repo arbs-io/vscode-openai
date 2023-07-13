@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { ConfigurationSettingService, featureVerifyApiKey } from '@app/services'
-import { StatusBarHelper, setFeatureFlag } from '@app/utilities/vscode'
+import { StatusBarServiceProvider, setFeatureFlag } from '@app/utilities/vscode'
 import { errorHandler } from './errorHandler'
 import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
 import {
@@ -20,7 +20,7 @@ export async function verifyApiKey(): Promise<boolean> {
   try {
     if (!featureVerifyApiKey()) return true
 
-    StatusBarHelper.instance.showStatusBarInformation(
+    StatusBarServiceProvider.instance.showStatusBarInformation(
       'loading~spin',
       '- verify authentication'
     )
@@ -35,7 +35,10 @@ export async function verifyApiKey(): Promise<boolean> {
     if (response.status === 200) {
       setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, true)
       createInfoNotification('verifyApiKey success')
-      StatusBarHelper.instance.showStatusBarInformation('vscode-openai', '')
+      StatusBarServiceProvider.instance.showStatusBarInformation(
+        'vscode-openai',
+        ''
+      )
       return true
     }
   } catch (error: any) {

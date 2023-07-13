@@ -6,6 +6,12 @@ import {
   quickPickSetupVscodeOpenai,
 } from '@app/quickPicks'
 import { ICommandOpenai } from '@app/interfaces'
+import { VSCODE_OPENAI_SERVICE_PROVIDER } from '@app/constants/constants'
+
+// const SERVICE_PROVIDER_VSCODE_OPENAI = '$(pulse)  vscode-openai'
+// const SERVICE_PROVIDER_OPENAI = '$(vscode-openai)  openai.com'
+// const SERVICE_PROVIDER_AZURE_OPENAI = '$(azure)  openai.azure.com'
+// const SERVICE_PROVIDER_CREDAL = '$(comment)  credal.ai'
 
 export class OpenaiQuickPickCommand implements ICommandOpenai {
   private static instance: OpenaiQuickPickCommand
@@ -27,19 +33,19 @@ export class OpenaiQuickPickCommand implements ICommandOpenai {
     const selectedProvider = await this.showQuickPick(openAiServiceType)
 
     switch (selectedProvider.label) {
-      case 'vscode-openai':
+      case VSCODE_OPENAI_SERVICE_PROVIDER.VSCODE_OPENAI:
         quickPickSetupVscodeOpenai(this.context)
         break
 
-      case 'openai.com':
+      case VSCODE_OPENAI_SERVICE_PROVIDER.OPENAI:
         quickPickSetupOpenai(this.context)
         break
 
-      case 'openai.azure.com':
+      case VSCODE_OPENAI_SERVICE_PROVIDER.AZURE_OPENAI:
         quickPickSetupAzureOpenai(this.context)
         break
 
-      case 'credal.ai':
+      case VSCODE_OPENAI_SERVICE_PROVIDER.CREDAL:
         quickPickSetupCredalOpenai(this.context)
         break
 
@@ -68,20 +74,20 @@ export class OpenaiQuickPickCommand implements ICommandOpenai {
 function BuildOpenAiServiceTypes(): QuickPickItem[] {
   const quickPickItemTypes: QuickPickItem[] = [
     {
-      label: 'vscode-openai',
+      label: VSCODE_OPENAI_SERVICE_PROVIDER.VSCODE_OPENAI,
       description: '(Sponsored) Use vscode-openai service',
     },
     {
-      label: 'openai.com',
+      label: VSCODE_OPENAI_SERVICE_PROVIDER.OPENAI,
       description: '(BYOK) Use your own OpenAI subscription (api.openai.com)',
     },
     {
-      label: 'openai.azure.com',
+      label: VSCODE_OPENAI_SERVICE_PROVIDER.AZURE_OPENAI,
       description:
         '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
     },
     {
-      label: 'credal.ai',
+      label: VSCODE_OPENAI_SERVICE_PROVIDER.CREDAL,
       description: '(BYOK) Use your own Credal instance (credal.ai)',
     },
   ]

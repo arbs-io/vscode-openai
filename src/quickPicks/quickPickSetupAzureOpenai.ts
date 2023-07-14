@@ -61,7 +61,7 @@ export async function quickPickSetupAzureOpenai(
       valueSelection:
         typeof state.openaiBaseUrl === 'string' ? undefined : [8, 16],
       prompt:
-        'Enter you instance name. Provide the base url for example "https://instance.openai.azure.com/openai"',
+        '$(globe)  Enter you instance name. Provide the base url for example "https://instance.openai.azure.com/openai"',
       placeholder: 'https://instance.openai.azure.com/openai',
       validate: validateOpenaiBaseUrl,
       shouldResume: shouldResume,
@@ -85,7 +85,7 @@ export async function quickPickSetupAzureOpenai(
       totalSteps: 4,
       ignoreFocusOut: true,
       value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
-      prompt: 'Enter you openai.com Api-Key',
+      prompt: '$(key)  Enter you openai.com Api-Key',
       placeholder: 'ed4af062d8567543ad104587ea4505ce',
       validate: validateAzureOpenaiApiKey,
       shouldResume: shouldResume,
@@ -193,9 +193,15 @@ export async function quickPickSetupAzureOpenai(
   //Start openai.com configuration processes
   const state = await collectInputs()
   const inferenceModel = state.quickPickInferenceModel.description as string
-  const inferenceDeployment = state.quickPickInferenceModel.label
+  const inferenceDeployment = state.quickPickInferenceModel.label.replace(
+    `$(symbol-function)  `,
+    ''
+  )
   const embeddingModel = state.quickPickEmbeddingModel.description as string
-  const embeddingDeployment = state.quickPickEmbeddingModel.label
+  const embeddingDeployment = state.quickPickEmbeddingModel.label.replace(
+    `$(symbol-function)  `,
+    ''
+  )
 
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
   await ConfigurationSettingService.loadConfigurationService({

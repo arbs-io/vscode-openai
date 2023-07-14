@@ -24,7 +24,9 @@ export async function getAvailableModelsOpenai(
   )
 
   // Map each returned label into a QuickPickItem object with label property set as label value returned by API call.
-  return chatCompletionModels.map((label) => ({ label }))
+  return chatCompletionModels.map((label) => ({
+    label: `$(symbol-function)  ${label}`,
+  }))
 }
 
 /**
@@ -48,7 +50,7 @@ export async function getAvailableModelsAzure(
   const quickPickItems: QuickPickItem[] = []
   chatCompletionModels?.forEach((deployment) => {
     quickPickItems.push({
-      label: deployment.deployment,
+      label: `$(symbol-function)  ${deployment.deployment}`,
       description: deployment.model,
     })
   })

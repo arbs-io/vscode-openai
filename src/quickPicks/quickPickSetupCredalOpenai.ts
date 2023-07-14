@@ -51,7 +51,7 @@ export async function quickPickSetupCredalOpenai(
       totalSteps: 2,
       ignoreFocusOut: true,
       value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
-      prompt: 'Enter you openai.com Api-Key',
+      prompt: '$(key)  Enter you openai.com Api-Key',
       placeholder: 'eyJh...CJ9.eyJ1dW...NDk2fQ.hiBLQ...66W18',
       validate: validateOpenaiApiKey,
       shouldResume: shouldResume,
@@ -77,7 +77,7 @@ export async function quickPickSetupCredalOpenai(
       totalSteps: 2,
       ignoreFocusOut: true,
       placeholder:
-        'Selected Chat Completion DeploymentModel (if empty, no valid chat completion models found)',
+        '$(symbol-function)  Selected Chat Completion DeploymentModel (if empty, no valid chat completion models found)',
       items: models,
       activeItem: state.quickPickInferenceModel,
       shouldResume: shouldResume,

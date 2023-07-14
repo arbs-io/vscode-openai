@@ -64,7 +64,7 @@ export async function quickPickSetupVscodeOpenai(
   function getAvailableRuntimes(): QuickPickItem[] {
     const quickPickItemTypes: QuickPickItem[] = [
       {
-        label: 'GitHub',
+        label: '$(github)  GitHub',
         description:
           'Use your github.com profile to sign into to vscode-openai service',
       },

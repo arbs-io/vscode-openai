@@ -126,8 +126,15 @@ export async function quickPickChangeModel(
 
   //Start openai.com configuration processes
   const state = await collectInputs()
-  ConfigurationSettingService.instance.defaultModel =
-    state.chatModelQuickPickItem.label
-  ConfigurationSettingService.instance.embeddingModel =
-    state.embeddingModelQuickPickItem.label
+
+  const inferenceModel = state.chatModelQuickPickItem.label.replace(
+    `$(symbol-function)  `,
+    ''
+  )
+  const embeddingModel = state.embeddingModelQuickPickItem.label.replace(
+    `$(symbol-function)  `,
+    ''
+  )
+  ConfigurationSettingService.instance.defaultModel = inferenceModel
+  ConfigurationSettingService.instance.embeddingModel = embeddingModel
 }

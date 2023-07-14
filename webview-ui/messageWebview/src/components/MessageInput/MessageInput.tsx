@@ -38,7 +38,7 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
       <Textarea
         ref={chatBottomRef}
         style={{ width: '100%' }}
-        placeholder="Enter+Shift for a newline and Enter+ArrowUp restore previous value"
+        placeholder="Shift+Enter for a newline, Shift+ArrowUp restores previous value"
         value={value}
         onChange={(_e, d) => {
           setValue(d.value)

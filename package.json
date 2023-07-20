@@ -31,6 +31,7 @@
     "build:webview": "npm-run-all --parallel build:webview:*",
     "build:webview:messageWebview": "npm --prefix ./webview-ui/messageWebview run build",
     "build:webview:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview run build",
+    "build:wasm": "node ./utilities/scripts/copy-wasm.js",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --target=es2020",
     "esbuild": "npm run esbuild-base -- --sourcemap",
@@ -40,17 +41,18 @@
     "clean": "node ./utilities/scripts/clean.js"
   },
   "devDependencies": {
-    "@types/node": "^20.4.1",
+    "@types/node": "^20.4.2",
     "@types/vscode": "^1.79.1",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
     "@vscode/vsce": "^2.19.0",
-    "esbuild": "^0.18.11",
-    "eslint": "^8.44.0",
+    "esbuild": "^0.18.14",
+    "eslint": "^8.45.0",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@arbs.io/extract-text-content-wasm": "^0.0.2",
     "@vscode/extension-telemetry": "^0.8.1",
     "exponential-backoff": "^3.1.1",
     "mammoth": "^1.6.0",
@@ -236,13 +238,33 @@
           ],
           "order": 110
         },
+        "vscode-openai.conversation-configuration.headers": {
+          "type": "array",
+          "markdownDescription": "Provide additional header to be used within each api call. This property is an array of key-value pair for each header name and value.",
+          "items": {
+            "type": "object",
+            "title": "api_headers",
+            "properties": {
+              "header_name": {
+                "type": "string",
+                "description": "The name of the custom api-header"
+              },
+              "header_value": {
+                "type": "string",
+                "description": "The value of the custom api-header"
+              }
+            }
+          },
+          "default": [],
+          "order": 201
+        },
         "vscode-openai.conversation-configuration.temperature": {
           "type": "number",
           "default": 0.2,
           "minimum": 0,
           "maximum": 2,
           "markdownDescription": "What sampling **temperature** to use. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Value must range between (0.0 - 2.0)",
-          "order": 201
+          "order": 202
         },
         "vscode-openai.conversation-configuration.presence-penalty": {
           "type": "number",
@@ -250,7 +272,7 @@
           "minimum": 0,
           "maximum": 2,
           "markdownDescription": "Positive values `penalize new tokens` based on whether they **appear in the text so far**, increasing the model's likelihood to talk about new topics. Value must range between (0.0 - 2.0)",
-          "order": 202
+          "order": 203
         },
         "vscode-openai.conversation-configuration.frequency-penalty": {
           "type": "number",
@@ -258,7 +280,7 @@
           "minimum": 0,
           "maximum": 2,
           "markdownDescription": "Positive values `penalize new tokens` based on their **existing frequency in the text so far**, decreasing the model's likelihood to repeat the same line verbatim. Value must range between (0.0 - 2.0)",
-          "order": 203
+          "order": 204
         },
         "vscode-openai.conversation-configuration.number-of-attempts": {
           "type": "integer",
@@ -266,7 +288,7 @@
           "minimum": 5,
           "maximum": 30,
           "markdownDescription": "The number of retries if request has been rate-limited (http-429). Value must range between (5 - 30)",
-          "order": 204
+          "order": 205
         },
         "vscode-openai.conversation-configuration.history": {
           "type": "number",
@@ -275,7 +297,7 @@
           "minimum": 0,
           "maximum": 128,
           "description": "Specifies the base url for the openai service.",
-          "order": 205
+          "order": 206
         },
         "vscode-openai.prompt-editor.comment": {
           "type": "string",

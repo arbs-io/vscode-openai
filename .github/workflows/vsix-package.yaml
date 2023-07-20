@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 16.x
       - run: npm run install:all
-      - run: npm run build:webview
+      - run: npm run build:all
       - name: Publish
         if: success() && startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-latest'
         run: npm run deploy

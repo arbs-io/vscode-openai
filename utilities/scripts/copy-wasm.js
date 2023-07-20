@@ -1,20 +1,22 @@
 const fs = require('fs')
+const path = require('path')
 
-const targetFiles = './out/extract-text-content-wasm_bg.wasm'
-const sourceFiles =
-  './node_modules/@arbs.io/extract-text-content-wasm/extract-text-content-wasm_bg.wasm'
+const outFolder = '../../out'
+const targetFiles = path.join(
+  __dirname,
+  '../../out/extract-text-content-wasm_bg.wasm'
+)
+const sourceFiles = path.join(
+  __dirname,
+  '../../node_modules/@arbs.io/extract-text-content-wasm/extract-text-content-wasm_bg.wasm'
+)
+
+const dir = path.join(__dirname, outFolder)
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir)
+}
 
 fs.copyFile(sourceFiles, targetFiles, (err) => {
   if (err) throw err
   console.log(`copied:\n\t${sourceFiles}\n\t${targetFiles}`)
 })
-
-// sourceFiles.forEach((file) => {
-//   const source = path.join(__dirname, file)
-//   if (fs.existsSync(source)) {
-//     fs.copyFile(source, 'destination.txt', (err) => {
-//       if (err) throw err
-//       console.log(`copied ${source}`)
-//     })
-//   }
-// })

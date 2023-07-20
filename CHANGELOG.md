@@ -7,6 +7,9 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 ## [1.3.9]
 
 - Feature/202314-Fixed input box prompt
+- Feature/20230720-Embedding wasm added
+- Feature/20230720-Adding custom api headers
+- Feature/20230720-Azure Openai Embedding Model Check
 
 ## [1.3.8]
 

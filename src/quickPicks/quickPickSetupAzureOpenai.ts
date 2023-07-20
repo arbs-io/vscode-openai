@@ -140,18 +140,23 @@ export async function quickPickSetupAzureOpenai(
       ModelCapabiliy.Embedding,
       undefined /* TODO: token */
     )
-    // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
-    // Return void since this is not used elsewhere in the code.
-    state.quickPickEmbeddingModel = await input.showQuickPick({
-      title,
-      step: 4,
-      totalSteps: 4,
-      ignoreFocusOut: true,
-      placeholder: `Selected embedding deployment/model (if empty, no valid models found)`,
-      items: models,
-      activeItem: state.quickPickEmbeddingModel,
-      shouldResume: shouldResume,
-    })
+
+    if (models.length > 0) {
+      // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
+      // Return void since this is not used elsewhere in the code.
+      state.quickPickEmbeddingModel = await input.showQuickPick({
+        title,
+        step: 4,
+        totalSteps: 4,
+        ignoreFocusOut: true,
+        placeholder: `Selected embedding deployment/model (if empty, no valid models found)`,
+        items: models,
+        activeItem: state.quickPickEmbeddingModel,
+        shouldResume: shouldResume,
+      })
+    } else {
+      state.quickPickEmbeddingModel = undefined
+    }
   }
 
   /**
@@ -197,11 +202,16 @@ export async function quickPickSetupAzureOpenai(
     `$(symbol-function)  `,
     ''
   )
-  const embeddingModel = state.quickPickEmbeddingModel.description as string
-  const embeddingDeployment = state.quickPickEmbeddingModel.label.replace(
-    `$(symbol-function)  `,
-    ''
-  )
+
+  let embeddingModel = 'setup-required'
+  let embeddingDeployment = 'setup-required'
+  if (state.quickPickEmbeddingModel) {
+    embeddingModel = state.quickPickEmbeddingModel.description as string
+    embeddingDeployment = state.quickPickEmbeddingModel.label.replace(
+      `$(symbol-function)  `,
+      ''
+    )
+  }
 
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
   await ConfigurationSettingService.loadConfigurationService({

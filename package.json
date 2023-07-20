@@ -245,11 +245,11 @@
             "type": "object",
             "title": "api_headers",
             "properties": {
-              "header_name": {
+              "name": {
                 "type": "string",
                 "description": "The name of the custom api-header"
               },
-              "header_value": {
+              "value": {
                 "type": "string",
                 "description": "The value of the custom api-header"
               }

@@ -4,6 +4,14 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.3.9]
+
+- Feature/202314-Fixed input box prompt
+
+## [1.3.8]
+
+- Feature/20230713 quickpick models
+
 ## [1.3.7]
 
 - Feature/20230708-Reduce Embedding Memory

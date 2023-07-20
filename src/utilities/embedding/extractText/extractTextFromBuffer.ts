@@ -2,7 +2,14 @@ import mammoth from 'mammoth'
 import { NodeHtmlMarkdown } from 'node-html-markdown'
 import { ITextExtract } from '.'
 import { GuessedFile, fileTypeInfo } from '../'
-import { createErrorNotification } from '@app/utilities/node'
+import {
+  createDebugNotification,
+  createErrorNotification,
+} from '@app/utilities/node'
+import {
+  detect_buffer_extension,
+  detect_buffer_mime_type,
+} from '@arbs.io/extract-text-content-wasm'
 
 export async function extractTextFromBuffer({
   bufferArray,
@@ -13,6 +20,19 @@ export async function extractTextFromBuffer({
 }): Promise<ITextExtract | undefined> {
   const fileTypeInfos: Array<GuessedFile> = fileTypeInfo(bufferArray)
   let mimeType = ''
+
+  try {
+    const detectBufferExtension = detect_buffer_extension(bufferArray)
+    createDebugNotification(
+      `detectBufferExtension: ${detectBufferExtension ?? 'unknown'}`
+    )
+    const detectBufferMimeType = detect_buffer_mime_type(bufferArray)
+    createDebugNotification(
+      `detectBufferMimeType: ${detectBufferMimeType ?? 'unknown'}`
+    )
+  } catch (error) {
+    createDebugNotification(`Failed to detect binary file type`)
+  }
 
   // let mimeType = 'application/pdf'
   // if (fileTypeInfos.some((e) => e.mime === mimeType)) {

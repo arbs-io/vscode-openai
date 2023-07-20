@@ -10,7 +10,12 @@ import {
   waitFor,
 } from '@app/utilities/node'
 import ConfigurationService from './configurationService'
-import { IConfigurationSetting } from '@app/interfaces'
+import { IConfigurationSetting, IDynamicLooseObject } from '@app/interfaces'
+
+type ApiHeader = {
+  name: string
+  value: string
+}
 
 export default class ConfigurationSettingService
   extends ConfigurationService
@@ -133,23 +138,45 @@ export default class ConfigurationSettingService
     return `${this.baseUrl}`
   }
 
+  public get customHeaders(): IDynamicLooseObject {
+    const config = this.getConfigValue<Array<ApiHeader>>(
+      'conversation-configuration.headers'
+    )
+    const headers: IDynamicLooseObject = {}
+    config.map((x) => {
+      headers[x.name] = x.value
+    })
+    return headers
+  }
+
   public async getRequestConfig(): Promise<any> {
+    const headers = this.customHeaders
+
     if (this.serviceProvider === 'VSCode-OpenAI') {
       const hash = crypto
         .createHash('sha512')
         .update(`vscode-openai::${this.extensionVersion}`)
         .digest('hex')
-      return { headers: { 'vscode-openai': hash } }
+      return { headers: { ...headers, 'vscode-openai': hash } }
+      // const config = {
+      //   headers: { ...headers, 'vscode-openai': hash },
+      // }
+      // return config
     } else if (this.serviceProvider === 'Azure-OpenAI') {
       return {
         headers: {
+          ...headers,
           'api-key':
             (await SecretStorageService.instance.getAuthApiKey()) as string,
         },
         params: { 'api-version': this.azureApiVersion },
       }
     } else {
-      return {}
+      return {
+        headers: {
+          ...headers,
+        },
+      }
     }
   }
   public async getApiKey(): Promise<string> {

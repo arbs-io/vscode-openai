@@ -2,6 +2,7 @@ import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
 import { HttpRequest, createErrorNotification } from '@app/utilities/node'
 import { ModelCapabiliy } from './modelCapabiliy'
+import { ConfigurationSettingService } from '@app/services'
 
 export interface IDeploymentModel {
   deployment: string
@@ -14,6 +15,7 @@ export async function listModelsAzureOpenAI(
   modelCapabiliy: ModelCapabiliy
 ): Promise<Array<IDeploymentModel> | undefined> {
   try {
+    const headers = ConfigurationSettingService.instance.customHeaders
     const configuration = new Configuration({
       apiKey: apiKey,
       basePath: baseUrl,
@@ -21,7 +23,7 @@ export async function listModelsAzureOpenAI(
     const openai = new OpenAIApi(configuration)
 
     const response = await openai.listModels({
-      headers: { 'api-key': apiKey },
+      headers: { ...headers, 'api-key': apiKey },
       params: { 'api-version': '2023-05-15' },
     })
 

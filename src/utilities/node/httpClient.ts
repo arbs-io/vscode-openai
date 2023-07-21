@@ -1,3 +1,4 @@
+import { ConfigurationSettingService } from '@app/services'
 import { ClientRequest } from 'http'
 import http = require('https')
 import { Uri } from 'vscode'
@@ -9,6 +10,7 @@ import { Uri } from 'vscode'
 export class HttpRequest {
   private _requestOptions: http.RequestOptions = {}
   constructor(method: string, apiKey: string, baseUrl: string) {
+    const headers = ConfigurationSettingService.instance.customHeaders
     const uri = Uri.parse(baseUrl)
     this._requestOptions = {
       hostname: uri.authority,
@@ -16,6 +18,7 @@ export class HttpRequest {
       path: `${uri.path}?${uri.query}`,
       port: 443,
       headers: {
+        ...headers,
         Accept: 'application/json;odata=verbose',
         'api-key': apiKey,
         Authorization: apiKey,

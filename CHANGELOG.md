@@ -4,6 +4,10 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.3.10]
+
+- BugFix/20230721-Adding Custom Header To ListModel
+
 ## [1.3.9]
 
 - Feature/202314-Fixed input box prompt

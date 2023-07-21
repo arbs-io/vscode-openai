@@ -158,10 +158,6 @@ export default class ConfigurationSettingService
         .update(`vscode-openai::${this.extensionVersion}`)
         .digest('hex')
       return { headers: { ...headers, 'vscode-openai': hash } }
-      // const config = {
-      //   headers: { ...headers, 'vscode-openai': hash },
-      // }
-      // return config
     } else if (this.serviceProvider === 'Azure-OpenAI') {
       return {
         headers: {

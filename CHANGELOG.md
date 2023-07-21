@@ -8,6 +8,7 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 - BugFix/20230721-Enable Enterprise Auth on Azure
 - Feature/20230721-Add Support Search in Conversation view
+- Feature/20230721-Resolve Summary Length
 
 ## [1.3.10]
 

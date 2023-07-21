@@ -10,6 +10,7 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 - Feature/20230721-Add Support Search in Conversation view
 - Feature/20230721-Resolve Summary Length
 - BugFix/20230721-Reduce Conversation Memory Footprint
+- Feature/20230722-Enhance The Chat Input Placeholder
 
 ## [1.3.10]
 

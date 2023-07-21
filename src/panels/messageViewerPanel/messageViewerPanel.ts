@@ -72,6 +72,7 @@ export class MessageViewerPanel {
       {
         enableScripts: true,
         retainContextWhenHidden: true,
+        enableFindWidget: true,
         localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
       }
     )

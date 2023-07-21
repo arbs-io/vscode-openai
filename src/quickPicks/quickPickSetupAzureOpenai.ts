@@ -168,11 +168,8 @@ export async function quickPickSetupAzureOpenai(
     name: string
   ): Promise<string | undefined> {
     const OPENAI_APIKEY_LENGTH = 32
-    const OPENAI_OAUTH2_STARTSWITH = 'ey'
-
     // Native azure service key or oauth2 token
-    return name.length >= OPENAI_APIKEY_LENGTH ||
-      name.startsWith(OPENAI_OAUTH2_STARTSWITH)
+    return name.length >= OPENAI_APIKEY_LENGTH
       ? undefined
       : 'Invalid Api-Key or Token'
   }

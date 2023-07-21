@@ -19,39 +19,17 @@ export default class ConversationStorageService {
 
   private static _instance: ConversationStorageService
 
-  constructor(
-    private _context: ExtensionContext,
-    private _conversations: Array<IConversation>
-  ) {}
+  constructor(private _context: ExtensionContext) {}
 
   static init(context: ExtensionContext): void {
     try {
-      const conversations = ConversationStorageService.loadConversations()
+      ConversationStorageService.houseKeeping()
       ConversationStorageService._instance = new ConversationStorageService(
-        context,
-        conversations
+        context
       )
     } catch (error) {
       createErrorNotification(error)
     }
-  }
-
-  private static loadConversations(): Array<IConversation> {
-    const conversations: Array<IConversation> = []
-    const keys = GlobalStorageService.instance.keys()
-
-    ConversationStorageService.houseKeeping()
-    keys.forEach((key) => {
-      // If conversation found then added to cache
-      if (key.startsWith(`${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`)) {
-        const conversation =
-          GlobalStorageService.instance.getValue<IConversation>(key)
-        if (conversation !== undefined) {
-          conversations.push(conversation)
-        }
-      }
-    })
-    return conversations
   }
 
   private static houseKeeping() {
@@ -73,15 +51,47 @@ export default class ConversationStorageService {
   }
 
   public getAll(): Array<IConversation> {
-    return this._conversations.sort((n1, n2) => n2.timestamp - n1.timestamp)
-  }
-
-  public show(key: string) {
-    this._conversations.forEach((conversation) => {
-      if (key === conversation.conversationId) {
-        MessageViewerPanel.render(this._context.extensionUri, conversation)
+    const conversations: Array<IConversation> = []
+    const keys = GlobalStorageService.instance.keys()
+    keys.forEach((key) => {
+      // If conversation found then added to cache
+      if (key.startsWith(`${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`)) {
+        const conversation =
+          GlobalStorageService.instance.getValue<IConversation>(key)
+        if (conversation !== undefined) {
+          conversations.push(conversation)
+        }
       }
     })
+    return conversations.sort((n1, n2) => n2.timestamp - n1.timestamp)
+  }
+
+  public show(conversationId: string) {
+    const conversation = GlobalStorageService.instance.getValue<IConversation>(
+      `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conversationId}`
+    )
+    if (conversation)
+      MessageViewerPanel.render(this._context.extensionUri, conversation)
+  }
+
+  public deleteAll() {
+    const keys = GlobalStorageService.instance.keys()
+    keys.forEach((key) => {
+      // If conversation found then added to cache
+      if (key.startsWith(`${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`)) {
+        const conversation =
+          GlobalStorageService.instance.getValue<IConversation>(key)
+        if (conversation !== undefined) {
+          GlobalStorageService.instance.deleteKey(
+            `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conversation.conversationId}`
+          )
+          createDebugNotification(
+            `Deleting conversation: ${conversation.conversationId}`
+          )
+        }
+      }
+    })
+    ConversationStorageService._emitterDidChange.fire()
   }
 
   public delete(key: string) {
@@ -89,21 +99,7 @@ export default class ConversationStorageService {
     ConversationStorageService._emitterDidChange.fire()
   }
 
-  public deleteAll() {
-    this._conversations.map((conv) => {
-      GlobalStorageService.instance.deleteKey(
-        `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conv.conversationId}`
-      )
-      createDebugNotification(`Deleting conversation: ${conv.conversationId}`)
-    })
-    this._conversations = [] //clear local cache
-    ConversationStorageService._emitterDidChange.fire()
-  }
-
   private _delete(key: string) {
-    this._conversations.forEach((item, index) => {
-      if (item.conversationId === key) this._conversations.splice(index, 1)
-    })
     GlobalStorageService.instance.deleteKey(
       `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${key}`
     )
@@ -120,7 +116,6 @@ export default class ConversationStorageService {
       `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conversation.conversationId}`,
       conversation as IConversation
     )
-    this._conversations.push(conversation)
   }
 
   public async create(

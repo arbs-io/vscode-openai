@@ -22,7 +22,7 @@ export const onDidSaveMessages = (
       const summary = JSON.parse(JSON.stringify(conversation)) as IConversation
       const chatCompletion: IChatCompletion = {
         content:
-          'Summarise the conversation in one sentence. Be as concise as possible and only provide the facts. Start the sentence with the key points. Using no more than 150 characters',
+          'Please summarise the content above. The summary must be less than 70 words. Only provide the facts within the content.',
         author: 'summary',
         timestamp: new Date().toLocaleString(),
         mine: false,

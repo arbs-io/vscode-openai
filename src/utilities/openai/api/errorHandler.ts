@@ -41,8 +41,6 @@ export function errorHandler(error: any) {
         statusBarItem.message
       )
     }
-
-    return
   }
 }
 

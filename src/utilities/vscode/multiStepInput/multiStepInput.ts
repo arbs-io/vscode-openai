@@ -80,7 +80,7 @@ export class MultiStepInput {
         }
         input.buttons = [
           ...(this.steps.length > 1 ? [QuickInputButtons.Back] : []),
-          ...(buttons || []),
+          ...(buttons ?? []),
         ]
         disposables.push(
           input.onDidTriggerButton((item) => {
@@ -142,7 +142,7 @@ export class MultiStepInput {
         input.placeholder = placeholder
         input.buttons = [
           ...(this.steps.length > 1 ? [QuickInputButtons.Back] : []),
-          ...(buttons || []),
+          ...(buttons ?? []),
         ]
         let validating = validate('')
         disposables.push(

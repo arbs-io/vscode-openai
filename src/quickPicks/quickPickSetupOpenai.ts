@@ -105,8 +105,7 @@ export async function quickPickSetupOpenai(
     const models = await getAvailableModelsOpenai(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
-      ModelCapabiliy.ChatCompletion,
-      undefined /* TODO: token */
+      ModelCapabiliy.ChatCompletion
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
@@ -137,8 +136,7 @@ export async function quickPickSetupOpenai(
     const models = await getAvailableModelsOpenai(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
-      ModelCapabiliy.Embedding,
-      undefined /* TODO: token */
+      ModelCapabiliy.Embedding
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.

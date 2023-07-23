@@ -34,16 +34,6 @@ export async function extractTextFromBuffer({
     createDebugNotification(`Failed to detect binary file type`)
   }
 
-  // let mimeType = 'application/pdf'
-  // if (fileTypeInfos.some((e) => e.mime === mimeType)) {
-  //   const pdfData = await pdfParse(Buffer.from(bufferArray.buffer))
-  //   const textExtract: ITextExtract = {
-  //     mimeType: mimeType,
-  //     content: pdfData.text,
-  //   }
-  //   return textExtract
-  // }
-
   mimeType =
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
   if (fileTypeInfos.some((e) => e.mime === mimeType)) {

@@ -139,12 +139,13 @@ export default class ConfigurationSettingService
   }
 
   public get customHeaders(): IDynamicLooseObject {
-    const config = this.getConfigValue<Array<ApiHeader>>(
+    const apiHeaders = this.getConfigValue<Array<ApiHeader>>(
       'conversation-configuration.headers'
     )
     const headers: IDynamicLooseObject = {}
-    config.map((x) => {
-      headers[x.name] = x.value
+
+    apiHeaders.forEach((apiHeader) => {
+      headers[apiHeader.name] = apiHeader.value
     })
     return headers
   }

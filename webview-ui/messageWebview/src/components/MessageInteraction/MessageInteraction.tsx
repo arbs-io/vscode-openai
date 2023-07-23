@@ -23,6 +23,9 @@ const MessageInteraction: FC = () => {
   }, [chatHistory, forceRefresh])
 
   window.addEventListener('message', (event) => {
+    console.log(event.origin)
+    if (!event.origin.startsWith('vscode-webview://')) return
+
     const message = event.data // The JSON data our extension sent
     switch (message.command) {
       case 'onWillRenderMessages': {
@@ -44,8 +47,11 @@ const MessageInteraction: FC = () => {
   return (
     <div className={mergeClasses(messageStyles.container)}>
       <div className={mergeClasses(messageStyles.history)}>
-        {chatHistory.map((m, idx) => (
-          <MessageHistory key={idx} message={m} />
+        {chatHistory.map((chatCompletion) => (
+          <MessageHistory
+            key={chatCompletion.timestamp}
+            message={chatCompletion}
+          />
         ))}
         <div ref={bottomAnchorRef} />
       </div>

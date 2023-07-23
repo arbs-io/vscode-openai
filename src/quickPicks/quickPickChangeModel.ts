@@ -98,16 +98,14 @@ export async function quickPickChangeModel(
         models = await getAvailableModelsOpenai(
           await ConfigurationSettingService.instance.getApiKey(),
           ConfigurationSettingService.instance.baseUrl,
-          modelCapabiliy,
-          undefined /* TODO: token */
+          modelCapabiliy
         )
         break
       case 'Azure-OpenAI':
         models = await getAvailableModelsAzure(
           await ConfigurationSettingService.instance.getApiKey(),
           ConfigurationSettingService.instance.baseUrl,
-          modelCapabiliy,
-          undefined /* TODO: token */
+          modelCapabiliy
         )
         break
 

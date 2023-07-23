@@ -72,7 +72,7 @@ class GitService {
   }
 
   public getNumberOfRepositories() {
-    return this.api?.repositories.length || 0
+    return this.api?.repositories.length ?? 0
   }
 
   public getAvailableRepositoryPaths(): string[] {

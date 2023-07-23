@@ -25,7 +25,7 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
     borderRadius: tokens.borderRadiusXLarge,
     margin: '1rem',
     padding: '1rem',
-    maxWidth: '70%',
+    maxWidth: '80%',
     boxShadow: tokens.shadow64,
   }
 
@@ -41,7 +41,7 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
     whiteSpace: 'pre-wrap',
   }
 
-  const useStyles = makeStyles({
+  const componentStyles = makeStyles({
     toolbar: {
       display: 'flex',
       justifyContent: 'flex-end',
@@ -69,7 +69,7 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
             const match = /language-(\w+)/.exec(className || '')
             return !inline && match ? (
               <div style={styleCode}>
-                <div className={useStyles().toolbar}>
+                <div className={componentStyles().toolbar}>
                   <CopyToClipboardButton
                     language={match[1]}
                     content={String(children).replace(/\n$/, '')}

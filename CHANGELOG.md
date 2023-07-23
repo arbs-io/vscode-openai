@@ -12,6 +12,7 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 - BugFix/20230721-Reduce Conversation Memory Footprint
 - Feature/20230722-Cross vscode instnace refresh
 - Feature/20230722-Enhance The Chat Input Placeholder
+- Feature/20230723-Static Code Analysis
 
 ## [1.3.10]
 

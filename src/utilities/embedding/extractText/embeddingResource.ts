@@ -71,5 +71,4 @@ async function getValidMimeType(uri: Uri): Promise<string | undefined> {
     default:
       return undefined
   }
-  return ''
 }

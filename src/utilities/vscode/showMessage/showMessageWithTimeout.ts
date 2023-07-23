@@ -5,7 +5,7 @@ export const showMessageWithTimeout = (
   message: string,
   timeout = 3000
 ): void => {
-  void window.withProgress(
+  window.withProgress(
     {
       location: ProgressLocation.Notification,
       title: message,

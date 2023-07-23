@@ -7,11 +7,23 @@ import {
   DataGridHeaderCell,
   DataGridCell,
   mergeClasses,
+  makeStyles,
 } from '@fluentui/react-components'
 import { ConversationGridColumnDefinition } from '../ConversationGridColumnDefinition'
-import { useStyles } from './useStyles'
 import { IConversation, IConversationGridProps } from '../../interfaces'
 
+const componentStyles = makeStyles({
+  verticalPadding: {
+    paddingTop: '0.25rem',
+    paddingBottom: '0.25rem',
+    cursor: 'context-menu',
+  },
+  horizontalPadding: {
+    paddingLeft: '0.5rem',
+    paddingRight: '0.5rem',
+    cursor: 'context-menu',
+  },
+})
 
 const ConversationGrid: FC<IConversationGridProps> = ({ conversations }) => {
   return (
@@ -40,7 +52,7 @@ const ConversationGrid: FC<IConversationGridProps> = ({ conversations }) => {
         {({ item, rowId }) => (
           <DataGridRow<IConversation>
             key={rowId}
-            className={mergeClasses(useStyles().verticalPadding)}
+            className={mergeClasses(componentStyles().verticalPadding)}
           >
             {({ renderCell }) => (
               <DataGridCell>{renderCell(item)}</DataGridCell>

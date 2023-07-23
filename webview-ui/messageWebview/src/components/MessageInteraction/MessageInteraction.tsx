@@ -47,8 +47,11 @@ const MessageInteraction: FC = () => {
   return (
     <div className={mergeClasses(messageStyles.container)}>
       <div className={mergeClasses(messageStyles.history)}>
-        {chatHistory.map((m, idx) => (
-          <MessageHistory key={idx} message={m} />
+        {chatHistory.map((chatCompletion) => (
+          <MessageHistory
+            key={chatCompletion.timestamp}
+            message={chatCompletion}
+          />
         ))}
         <div ref={bottomAnchorRef} />
       </div>

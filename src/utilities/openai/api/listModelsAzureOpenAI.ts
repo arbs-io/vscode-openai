@@ -30,13 +30,10 @@ export async function listModelsAzureOpenAI(
     const models = new Array<string>()
     response.data.data.forEach((model: any) => {
       if (
-        modelCapabiliy == ModelCapabiliy.ChatCompletion &&
-        model.capabilities.chat_completion
-      ) {
-        models.push(model.id)
-      } else if (
-        modelCapabiliy == ModelCapabiliy.Embedding &&
-        model.capabilities.embeddings
+        (modelCapabiliy == ModelCapabiliy.ChatCompletion &&
+          model.capabilities.chat_completion) ||
+        (modelCapabiliy == ModelCapabiliy.Embedding &&
+          model.capabilities.embeddings)
       ) {
         models.push(model.id)
       }

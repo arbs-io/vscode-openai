@@ -18,13 +18,10 @@ export async function listModelsOpenAI(
 
     response.data.data.forEach((model) => {
       if (
-        modelCapabiliy == ModelCapabiliy.ChatCompletion &&
-        model.id.startsWith('gpt')
-      ) {
-        models.push(model.id)
-      } else if (
-        modelCapabiliy == ModelCapabiliy.Embedding &&
-        model.id.indexOf('embedding') > 0
+        (modelCapabiliy == ModelCapabiliy.ChatCompletion &&
+          model.id.startsWith('gpt')) ||
+        (modelCapabiliy == ModelCapabiliy.Embedding &&
+          model.id.indexOf('embedding') > 0)
       ) {
         models.push(model.id)
       }

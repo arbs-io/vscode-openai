@@ -11,7 +11,10 @@ import {
   ConversationStorageService,
   EmbeddingStorageService,
 } from '@app/services'
-import { createDebugNotification } from '@app/utilities/node'
+import {
+  createDebugNotification,
+  createErrorNotification,
+} from '@app/utilities/node'
 import { embeddingResource } from '@app/utilities/embedding'
 import { getQueryResourcePersona } from '@app/models'
 import { IConversation } from '@app/interfaces'
@@ -40,9 +43,11 @@ const _registerCommandConversationAll = (): void => {
 }
 
 const _registerCommandIndexFile = (): void => {
+  // Register a command in VS Code that will be invoked when the user wants to index a file
   commands.registerCommand(
     VSCODE_OPENAI_EMBEDDING.INDEX_FILE_COMMAND_ID,
     () => {
+      // Define the options for the open dialog
       const options: OpenDialogOptions = {
         canSelectMany: true,
         openLabel: 'vscode-openai index file',
@@ -50,14 +55,26 @@ const _registerCommandIndexFile = (): void => {
         canSelectFolders: false,
       }
 
+      // Show the open dialog and wait for the user to select a file
       window.showOpenDialog(options).then(async (fileUri) => {
-        if (fileUri && fileUri[0]) {
-          const uri = fileUri[0]
-          if (!uri) return
-          createDebugNotification(`file-index: ${uri.fsPath}`)
-          const fileObject = await embeddingResource(uri)
-          if (!fileObject) return
-          EmbeddingStorageService.instance.update(fileObject)
+        try {
+          // Check if a file was selected
+          if (fileUri?.[0]) {
+            const uri = fileUri[0]
+            if (!uri) return
+
+            // Create a debug notification with the path of the selected file
+            createDebugNotification(`file-index: ${uri.fsPath}`)
+
+            // Generate an embedding for the selected file
+            const fileObject = await embeddingResource(uri)
+            if (!fileObject) return
+
+            // Update the embedding storage with the new embedding
+            EmbeddingStorageService.instance.update(fileObject)
+          }
+        } catch (error) {
+          createErrorNotification(error)
         }
       })
     }

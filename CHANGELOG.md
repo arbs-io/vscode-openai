@@ -4,12 +4,13 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
-## [1.3.11]
+## [1.4.0]
 
 - BugFix/20230721-Enable Enterprise Auth on Azure
 - Feature/20230721-Add Support Search in Conversation view
 - Feature/20230721-Resolve Summary Length
 - BugFix/20230721-Reduce Conversation Memory Footprint
+- Feature/20230722-Cross vscode instnace refresh
 - Feature/20230722-Enhance The Chat Input Placeholder
 
 ## [1.3.10]

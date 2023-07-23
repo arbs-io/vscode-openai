@@ -43,7 +43,7 @@ export async function quickPickCreateConversation(
     input: MultiStepInput,
     state: Partial<State>
   ): Promise<void> {
-    const models = await getAvailablePersonas()
+    const models = getAvailablePersonas()
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
     state.personaQuickPickItem = await input.showQuickPick({

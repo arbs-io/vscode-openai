@@ -9,31 +9,31 @@ export function chunkText({
   let currentChunk = ''
   const sentences = content.replace(/\n/g, ' ').split(/([.])/)
 
-  for (const sentence of sentences) {
+  sentences.forEach((sentence) => {
     const trimmedSentence = sentence.trim()
-    if (!trimmedSentence) continue
+    if (!trimmedSentence) return
+
     const chunkLength = currentChunk.length + trimmedSentence.length + 1
     const lowerBound = maxCharLength - maxCharLength * 0.5
     const upperBound = maxCharLength + maxCharLength * 0.5
 
     if (
-      chunkLength >= lowerBound &&
-      chunkLength <= upperBound &&
-      currentChunk
+      (chunkLength >= lowerBound &&
+        chunkLength <= upperBound &&
+        currentChunk) ||
+      chunkLength > upperBound
     ) {
       currentChunk = currentChunk.replace(/^[. ]+/, '').trim()
       if (currentChunk) chunks.push(currentChunk)
-      currentChunk = ''
-    } else if (chunkLength > upperBound) {
-      currentChunk = currentChunk.replace(/^[. ]+/, '').trim()
-      if (currentChunk) chunks.push(currentChunk)
-      currentChunk = trimmedSentence
+      currentChunk = chunkLength > upperBound ? trimmedSentence : ''
     } else {
       currentChunk += `${trimmedSentence === '.' ? '' : ' '}${trimmedSentence}`
     }
-  }
+  })
+
   if (currentChunk) {
     chunks.push(currentChunk)
   }
+
   return chunks
 }

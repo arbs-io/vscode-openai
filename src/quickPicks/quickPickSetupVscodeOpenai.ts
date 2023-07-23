@@ -46,7 +46,7 @@ export async function quickPickSetupVscodeOpenai(
     input: MultiStepInput,
     state: Partial<State>
   ): Promise<void> {
-    const models = await getAvailableRuntimes()
+    const models = getAvailableRuntimes()
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
     state.authType = await input.showQuickPick({

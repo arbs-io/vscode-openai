@@ -19,7 +19,7 @@ export async function createEmbedding({
   batchLength,
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
-    const model = await ConfigurationSettingService.instance.embeddingModel
+    const model = ConfigurationSettingService.instance.embeddingModel
     const apiKey = await ConfigurationSettingService.instance.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')
 

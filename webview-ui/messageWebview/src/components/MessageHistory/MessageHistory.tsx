@@ -25,7 +25,7 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
     borderRadius: tokens.borderRadiusXLarge,
     margin: '1rem',
     padding: '1rem',
-    maxWidth: '70%',
+    maxWidth: '80%',
     boxShadow: tokens.shadow64,
   }
 

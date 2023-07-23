@@ -23,6 +23,9 @@ const MessageInteraction: FC = () => {
   }, [chatHistory, forceRefresh])
 
   window.addEventListener('message', (event) => {
+    console.log(event.origin)
+    if (!event.origin.startsWith('vscode-webview://')) return
+
     const message = event.data // The JSON data our extension sent
     switch (message.command) {
       case 'onWillRenderMessages': {

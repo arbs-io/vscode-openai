@@ -7,7 +7,7 @@ export const waitFor = async (
     await delay(100)
   }
 
-  return timeout > 0 ? true : false
+  return timeout > 0
 }
 
 function delay(ms: number) {

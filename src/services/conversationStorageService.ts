@@ -114,7 +114,7 @@ export default class ConversationStorageService {
     this._delete(conversation.conversationId)
     GlobalStorageService.instance.setValue<IConversation>(
       `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conversation.conversationId}`,
-      conversation as IConversation
+      conversation
     )
   }
 

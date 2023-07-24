@@ -82,7 +82,7 @@ export const createNode = (
   bytes: string[],
   info?: Info
 ): NewNode => {
-  return { typename, bytes, info: info ? info : {} }
+  return { typename, bytes, info: info || {} }
 }
 
 export const createComplexNode = (
@@ -90,7 +90,7 @@ export const createComplexNode = (
   bytes: string[],
   info?: Info
 ): Node => {
-  let obj: Node = {
+  const obj: Node = {
     bytes: {},
     matches: undefined,
   }

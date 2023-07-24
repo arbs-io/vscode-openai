@@ -8,6 +8,7 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 - Feature/20230721-Enable Enterprise Auth on OpenAI
 - Feature/20230721-Improve conversation summary
+- BugFix/20230721-Resolving Code Smells
 
 ## [1.4.0]
 

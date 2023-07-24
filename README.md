@@ -2,8 +2,14 @@
 
 ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/AndrewButson.vscode-openai)
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/AndrewButson.vscode-openai)
-[![GitHub issues](https://img.shields.io/github/issues/arbs-io/vscode-openai-docs.svg)](https://github.com/arbs-io/vscode-openai-docs/issues)
+[![GitHub issues](https://img.shields.io/github/issues/arbs-io/vscode-openai-docs.svg)](https://github.com/arbs-io/vscode-openai/issues)
 ![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/AndrewButson.vscode-openai)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-openai&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-openai)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-openai&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-openai)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-openai&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-openai)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-openai&metric=bugs)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-openai)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-openai&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-openai)
 
 The VSCode-OpenAI extension is a powerful and versatile tool designed to integrate OpenAI features seamlessly into your code editor. By leveraging this extension, you can obtain instant answers to your questions without the need to switch between multiple applications, allowing you to maintain focus on your coding environment.
 
@@ -77,17 +83,9 @@ Overall, vscode-openai is a valuable tool for developers looking to streamline t
 
 This new feature for vscode-openai provides a powerful addition allows users to load their own sources to enhance the conversation experience and provide tailored assistance based on the latest standards, library documentation, or specialist subjects.
 
-## Getting Started
-
 To activate this feature, you can register or re-register your OpenAI service provider. This will enable you to choose the suitable model for embedding. However, please note that due to rate limiting, this feature is exclusively available for Azure and Native OpenAI services.
 
-![vscode-openai-embedding-welcome.png](images/vscode-openai-embedding-welcome.png)
-
-## Key Benefits:
-
-- **Personalized Assistance**: By uploading your own resources, you can receive personalized guidance and support based on the specific materials you're working with. This ensures that the information provided is relevant and up-to-date according to your needs.
-- **Enhanced Learning**: With access to specialized content like research papers or industry-specific documentation, you can deepen your understanding of niche topics and stay ahead in your field.
-- **Streamlined Workflow**: Integrating custom sources directly into vscode-openai enables seamless access to relevant information without having to switch between multiple applications or browser tabs.
+![vscode-openai-embedding.png](images/vscode-openai-embedding.png)
 
 ## How It Works:
 
@@ -97,11 +95,11 @@ To activate this feature, you can register or re-register your OpenAI service pr
 
 With Custom Source Integration for vscode-openai, users now have an even more powerful tool at their disposal, enabling them to stay informed and up-to-date with the latest standards, libraries, and specialist subjects. This feature not only enhances the overall user experience but also empowers developers, researchers, and educators alike to excel in their respective fields.
 
-## Coming Soon
+### Coming Soon
 
 Additional file formats will be added soon. Starting with PDF files.
 
-![vscode-openai-embedding.png](images/vscode-openai-embedding.png)
+![vscode-openai-embedding-welcome.png](images/vscode-openai-embedding-welcome.png)
 
 # Detecting Issues
 
@@ -144,15 +142,20 @@ To configure your azure openai instance, you need to enter the following configu
 
 # FAQ
 
-## Why is this not Open Source
+## How can i help
 
-The repo is not "Public" but will be in the future. This extension is still in feature mode and active development. Like all of my extensions, this will become open-source soon. However, I would like to introduce a few more "advanced" features before opening for contribution. As with all of my extensions, help is always greatly received and very much appreciated.
+The project is now open source! If you'd like to get involve please reachout.
 
-## What's Next
+- Engineering Agents: This feature provides the ability to deploy "agents" to help scaffold new project or work on existing project
+- Multilingual: Adding l10n support for languages (on request).
+- Extending Embedding: Additional file support.
 
-The features in development are:
+## How You Can Contribute
 
-- OAuth2 support for enterprises scenarios (Internal Proxy/Api Gateways)
-- Prompt Developer
-- Embedding Analysis (Debugging vectors)
-- More Developer Features
+We're excited to announce that our project is now open source! We welcome contributions from the software engineering community. If you're interested in getting involved, please don't hesitate to reach out. Here are a few areas where your expertise could be invaluable:
+
+- **Engineering Agents**: This feature allows the deployment of "agents" that can help scaffold new projects or work on existing ones. If you have experience in project setup and structuring, your insights could help improve this feature.
+- **Multilingual Support**: We're looking to add localization (l10n) support for additional languages. If you're fluent in a language other than English, or have experience with localization, your contribution could help make our project accessible to a wider audience.
+- **Extending Embedding**: We're working on supporting additional file types. If you have experience with different file formats and their handling, your expertise could be crucial in extending the versatility of our project.
+
+We look forward to your contributions and to working together to improve and expand this project.

@@ -4,6 +4,10 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.4.1]
+
+- BugFix/20230721-Enable Enterprise Auth on OpenAI
+
 ## [1.4.0]
 
 - BugFix/20230721-Enable Enterprise Auth on Azure

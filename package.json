@@ -9,7 +9,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arbs-io/vscode-openai-docs.git"
+    "url": "https://github.com/arbs-io/vscode-openai.git"
   },
   "sponsor": {
     "url": "https://github.com/sponsors/arbs-io"

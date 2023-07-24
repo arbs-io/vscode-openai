@@ -1,7 +1,7 @@
 import { ConfigurationSettingService } from '@app/services'
 import { IPersonaOpenAI } from '@app/interfaces'
 
-function getgetQueryResourcePersona(): IPersonaOpenAI {
+function getQueryResourcePersona(): IPersonaOpenAI {
   const getQueryResourcePersona: IPersonaOpenAI = {
     roleId: 'f84b3895-255a-495a-ba84-c296bf3609ab',
     roleName: 'Query Resource',
@@ -20,4 +20,4 @@ function getgetQueryResourcePersona(): IPersonaOpenAI {
   return getQueryResourcePersona
 }
 
-export default getgetQueryResourcePersona
+export default getQueryResourcePersona

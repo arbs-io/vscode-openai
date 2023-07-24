@@ -10,16 +10,16 @@ export const onDidSaveMessages = (
   try {
     if (!conversation) return
 
+    const SUMMARY_THRESHOLD = 5
+
     conversation.chatMessages = chatMessages
     ConversationStorageService.instance.update(conversation)
 
     //Add summary to conversation
-    if (
-      conversation.chatMessages.length > 5 &&
-      conversation.summary === '<New Conversation>'
-    ) {
+    if (conversation.chatMessages.length % SUMMARY_THRESHOLD == 0) {
       //Deep clone for summary
       const summary = JSON.parse(JSON.stringify(conversation)) as IConversation
+      summary.embeddingId = undefined // ignore embedding for summary
       const chatCompletion: IChatCompletion = {
         content:
           'Please summarise the content above. The summary must be less than 70 words. Only provide the facts within the content.',

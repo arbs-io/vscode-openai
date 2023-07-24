@@ -32,7 +32,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
 
     ConversationStorageService.onDidChange((_e) => {
       if (this._view?.visible) {
-        onDidInitialize(this._view!)
+        onDidInitialize(this._view)
       }
     }, null)
   }
@@ -114,7 +114,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
         case 'onDidInitialize': {
-          onDidInitialize(this._view!)
+          if (this._view) onDidInitialize(this._view)
           return
         }
 

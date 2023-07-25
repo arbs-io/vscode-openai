@@ -4,6 +4,22 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.4.2]
+
+### What's Changed
+
+- fixed github issues and removed duplicated info by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/139
+- Adding Perform CodeQL Analysis workflow by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/140
+- Bump semver from 5.7.1 to 5.7.2 by @dependabot in https://github.com/arbs-io/vscode-openai/pull/141
+- bumping package versions by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/142
+- Feature/20230725 configure summary settings by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/143
+
+### New Contributors
+
+- @dependabot made their first contribution in https://github.com/arbs-io/vscode-openai/pull/141
+
+**Full Changelog**: https://github.com/arbs-io/vscode-openai/compare/1.4.1...1.4.2
+
 ## [1.4.1]
 
 - Feature/20230721-Enable Enterprise Auth on OpenAI

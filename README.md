@@ -2,7 +2,7 @@
 
 ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/AndrewButson.vscode-openai)
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/AndrewButson.vscode-openai)
-[![GitHub issues](https://img.shields.io/github/issues/arbs-io/vscode-openai-docs.svg)](https://github.com/arbs-io/vscode-openai/issues)
+[![GitHub issues](https://img.shields.io/github/issues/arbs-io/vscode-openai.svg)](https://github.com/arbs-io/vscode-openai/issues)
 ![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/AndrewButson.vscode-openai)
 
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-openai&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-openai)
@@ -71,15 +71,7 @@ Provides quick access to useful features whilst working with source code and des
 - **Comments**: vscode-openai allows adding comments to methods, improving code readability and maintainability by providing context and explanations.
 - **Design Patterns**: vscode-openai analyzes code structure and behavior to suggest suitable design patterns, helping developers write more robust, scalable, and maintainable applications.
 
-## Summary
-
-vscode-openai is a free vscode extension that provides advanced features and technology to developers of all levels. Its features include bug-finding, optimization, explanation, commenting, and design pattern suggestion, which can help you write better code more quickly. One of the critical benefits of vscode-openai is its use of the latest and most cost-effective models from OpenAI, making it an affordable option for developers who want to improve their coding skills.
-
-Using vscode-openai can also help you to write more readable, maintainable, and scalable code. The explanation and commenting features help you communicate more effectively with other developers and organize your thoughts. Meanwhile, the design pattern suggestion feature saves time and effort in researching and implementing established solutions to common problems.
-
-Overall, vscode-openai is a valuable tool for developers looking to streamline their workflow and improve their coding skills. Its advanced features make it a must-have extension for anyone looking to write better code faster at an affordable price point.
-
-# Custom Source Integration
+## Custom Source Integration
 
 This new feature for vscode-openai provides a powerful addition allows users to load their own sources to enhance the conversation experience and provide tailored assistance based on the latest standards, library documentation, or specialist subjects.
 
@@ -87,7 +79,7 @@ To activate this feature, you can register or re-register your OpenAI service pr
 
 ![vscode-openai-embedding.png](images/vscode-openai-embedding.png)
 
-## How It Works:
+### How It Works:
 
 - **Upload Your Sources**: Easily upload documents in various formats (e.g., pdf, docx, ...) through a user-friendly interface within vscode-openai.
 - **Indexing and Processing**: Once uploaded, vscode-openai will index and process the content of your documents, making them available for use during conversations.
@@ -140,15 +132,15 @@ To configure your azure openai instance, you need to enter the following configu
 
 ![vscode-openai-configuration.png](images/vscode-openai-configuration.png)
 
+# Summary
+
+vscode-openai is a free vscode extension that provides advanced features and technology to developers of all levels. Its features include bug-finding, optimization, explanation, commenting, and design pattern suggestion, which can help you write better code more quickly. One of the critical benefits of vscode-openai is its use of the latest and most cost-effective models from OpenAI, making it an affordable option for developers who want to improve their coding skills.
+
+Using vscode-openai can also help you to write more readable, maintainable, and scalable code. The explanation and commenting features help you communicate more effectively with other developers and organize your thoughts. Meanwhile, the design pattern suggestion feature saves time and effort in researching and implementing established solutions to common problems.
+
+Overall, vscode-openai is a valuable tool for developers looking to streamline their workflow and improve their coding skills. Its advanced features make it a must-have extension for anyone looking to write better code faster at an affordable price point.
+
 # FAQ
-
-## How can i help
-
-The project is now open source! If you'd like to get involve please reachout.
-
-- Engineering Agents: This feature provides the ability to deploy "agents" to help scaffold new project or work on existing project
-- Multilingual: Adding l10n support for languages (on request).
-- Extending Embedding: Additional file support.
 
 ## How You Can Contribute
 

@@ -238,7 +238,63 @@
           ],
           "order": 110
         },
-        "vscode-openai.conversation-configuration.headers": {
+        "vscode-openai.conversation-configuration.temperature": {
+          "type": "number",
+          "default": 0.2,
+          "minimum": 0,
+          "maximum": 2,
+          "markdownDescription": "What sampling **temperature** to use. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Value must range between (0.0 - 2.0)",
+          "order": 201
+        },
+        "vscode-openai.conversation-configuration.presence-penalty": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 2,
+          "markdownDescription": "Positive values `penalize new tokens` based on whether they **appear in the text so far**, increasing the model's likelihood to talk about new topics. Value must range between (0.0 - 2.0)",
+          "order": 202
+        },
+        "vscode-openai.conversation-configuration.frequency-penalty": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 2,
+          "markdownDescription": "Positive values `penalize new tokens` based on their **existing frequency in the text so far**, decreasing the model's likelihood to repeat the same line verbatim. Value must range between (0.0 - 2.0)",
+          "order": 203
+        },
+        "vscode-openai.conversation-configuration.number-of-attempts": {
+          "type": "integer",
+          "default": 20,
+          "minimum": 5,
+          "maximum": 30,
+          "markdownDescription": "The number of retries if request has been rate-limited (http-429). Value must range between (5 - 30)",
+          "order": 204
+        },
+        "vscode-openai.conversation-configuration.history": {
+          "type": "number",
+          "default": 6,
+          "markdownDescription": "The number of previous messages sent to the current prompt.",
+          "minimum": 0,
+          "maximum": 128,
+          "order": 205
+        },
+        "vscode-openai.conversation-configuration.summary-max-length": {
+          "type": "number",
+          "default": 70,
+          "markdownDescription": "The maximum length of the `summarising messages` the conversation. Value must range between (50 - 250)",
+          "minimum": 50,
+          "maximum": 250,
+          "order": 206
+        },
+        "vscode-openai.conversation-configuration.summary-threshold": {
+          "type": "number",
+          "default": 5,
+          "markdownDescription": "The number of `messages` before **summarising** the conversation. Value must range between (3 - 12)",
+          "minimum": 3,
+          "maximum": 12,
+          "order": 207
+        },
+        "vscode-openai.conversation-configuration.api-headers": {
           "type": "array",
           "markdownDescription": "Provide additional header to be used within each api call. This property is an array of key-value pair for each header name and value.",
           "items": {
@@ -256,48 +312,7 @@
             }
           },
           "default": [],
-          "order": 201
-        },
-        "vscode-openai.conversation-configuration.temperature": {
-          "type": "number",
-          "default": 0.2,
-          "minimum": 0,
-          "maximum": 2,
-          "markdownDescription": "What sampling **temperature** to use. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Value must range between (0.0 - 2.0)",
-          "order": 202
-        },
-        "vscode-openai.conversation-configuration.presence-penalty": {
-          "type": "number",
-          "default": 0,
-          "minimum": 0,
-          "maximum": 2,
-          "markdownDescription": "Positive values `penalize new tokens` based on whether they **appear in the text so far**, increasing the model's likelihood to talk about new topics. Value must range between (0.0 - 2.0)",
-          "order": 203
-        },
-        "vscode-openai.conversation-configuration.frequency-penalty": {
-          "type": "number",
-          "default": 0,
-          "minimum": 0,
-          "maximum": 2,
-          "markdownDescription": "Positive values `penalize new tokens` based on their **existing frequency in the text so far**, decreasing the model's likelihood to repeat the same line verbatim. Value must range between (0.0 - 2.0)",
-          "order": 204
-        },
-        "vscode-openai.conversation-configuration.number-of-attempts": {
-          "type": "integer",
-          "default": 20,
-          "minimum": 5,
-          "maximum": 30,
-          "markdownDescription": "The number of retries if request has been rate-limited (http-429). Value must range between (5 - 30)",
-          "order": 205
-        },
-        "vscode-openai.conversation-configuration.history": {
-          "type": "number",
-          "default": 6,
-          "markdownDescription": "The number of previous messages sent to the current prompt.",
-          "minimum": 0,
-          "maximum": 128,
-          "description": "Specifies the base url for the openai service.",
-          "order": 206
+          "order": 208
         },
         "vscode-openai.prompt-editor.comment": {
           "type": "string",

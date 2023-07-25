@@ -47,17 +47,29 @@ export default class ConfigurationConversationService
     return this.getConfigValue<number>('conversation-configuration.history')
   }
 
+  public get summaryMaxLength(): number {
+    return this.getConfigValue<number>(
+      'conversation-configuration.summary-max-length'
+    )
+  }
+
+  public get summaryThreshold(): number {
+    return this.getConfigValue<number>(
+      'conversation-configuration.summary-threshold'
+    )
+  }
+
   public static LogConfigurationService(): void {
     try {
+      const cfg = this.instance
       const cfgMap = new Map<string, string>()
-      cfgMap.set('temperature', this.instance.temperature.toString())
-      cfgMap.set('presence_penalty', this.instance.presencePenalty.toString())
-      cfgMap.set('frequency_penalty', this.instance.frequencyPenalty.toString())
-      cfgMap.set('number_of_attempts', this.instance.numOfAttempts.toString())
-      cfgMap.set(
-        'conversation_history',
-        this.instance.conversationHistory.toString()
-      )
+      cfgMap.set('temperature', cfg.temperature.toString())
+      cfgMap.set('presence_penalty', cfg.presencePenalty.toString())
+      cfgMap.set('frequency_penalty', cfg.frequencyPenalty.toString())
+      cfgMap.set('number_of_attempts', cfg.numOfAttempts.toString())
+      cfgMap.set('conversation_history', cfg.conversationHistory.toString())
+      cfgMap.set('summary_max_length', cfg.summaryMaxLength.toString())
+      cfgMap.set('summary_threshold', cfg.summaryThreshold.toString())
 
       createInfoNotification(
         Object.fromEntries(cfgMap),

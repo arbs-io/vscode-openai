@@ -1,6 +1,9 @@
 import { window } from 'vscode'
 import { IChatCompletion, IConversation } from '@app/interfaces'
-import { ConversationStorageService } from '@app/services'
+import {
+  ConfigurationConversationService,
+  ConversationStorageService,
+} from '@app/services'
 import { ResponseFormat, createChatCompletion } from '@app/utilities/openai'
 
 export const onDidSaveMessages = (
@@ -10,7 +13,10 @@ export const onDidSaveMessages = (
   try {
     if (!conversation) return
 
-    const SUMMARY_THRESHOLD = 5
+    const SUMMARY_THRESHOLD =
+      ConfigurationConversationService.instance.summaryThreshold
+    const SUMMARY_MAX_LENGTH =
+      ConfigurationConversationService.instance.summaryMaxLength
 
     conversation.chatMessages = chatMessages
     ConversationStorageService.instance.update(conversation)
@@ -21,8 +27,7 @@ export const onDidSaveMessages = (
       const summary = JSON.parse(JSON.stringify(conversation)) as IConversation
       summary.embeddingId = undefined // ignore embedding for summary
       const chatCompletion: IChatCompletion = {
-        content:
-          'Please summarise the content above. The summary must be less than 70 words. Only provide the facts within the content.',
+        content: `Please summarise the content above. The summary must be less than ${SUMMARY_MAX_LENGTH} words. Only provide the facts within the content.`,
         author: 'summary',
         timestamp: new Date().toLocaleString(),
         mine: false,

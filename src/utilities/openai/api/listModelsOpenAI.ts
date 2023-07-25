@@ -1,6 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { errorHandler } from './errorHandler'
 import { ModelCapabiliy } from './modelCapabiliy'
+import { ConfigurationSettingService } from '@app/services'
 
 export async function listModelsOpenAI(
   apiKey: string,
@@ -9,12 +10,15 @@ export async function listModelsOpenAI(
 ): Promise<Array<string>> {
   const models = new Array<string>()
   try {
+    const headers = ConfigurationSettingService.instance.apiHeaders
     const configuration = new Configuration({
       apiKey: apiKey,
       basePath: baseUrl,
     })
     const openai = new OpenAIApi(configuration)
-    const response = await openai.listModels()
+    const response = await openai.listModels({
+      headers: { ...headers },
+    })
 
     response.data.data.forEach((model) => {
       if (

@@ -138,9 +138,9 @@ export default class ConfigurationSettingService
     return `${this.baseUrl}`
   }
 
-  public get customHeaders(): IDynamicLooseObject {
+  public get apiHeaders(): IDynamicLooseObject {
     const apiHeaders = this.getConfigValue<Array<ApiHeader>>(
-      'conversation-configuration.headers'
+      'conversation-configuration.api-headers'
     )
     const headers: IDynamicLooseObject = {}
 
@@ -151,7 +151,7 @@ export default class ConfigurationSettingService
   }
 
   public async getRequestConfig(): Promise<any> {
-    const headers = this.customHeaders
+    const headers = this.apiHeaders
 
     if (this.serviceProvider === 'VSCode-OpenAI') {
       const hash = crypto

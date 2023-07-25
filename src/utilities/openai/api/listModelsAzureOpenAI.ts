@@ -15,7 +15,7 @@ export async function listModelsAzureOpenAI(
   modelCapabiliy: ModelCapabiliy
 ): Promise<Array<IDeploymentModel> | undefined> {
   try {
-    const headers = ConfigurationSettingService.instance.customHeaders
+    const headers = ConfigurationSettingService.instance.apiHeaders
     const configuration = new Configuration({
       apiKey: apiKey,
       basePath: baseUrl,

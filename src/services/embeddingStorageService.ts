@@ -76,6 +76,8 @@ export default class EmbeddingStorageService {
       const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
       // Use async/await to handle the promise returned by delete
       ;(async () => {
+        // Possible Unable to delete nonexistent file
+        await workspace.fs.stat(keyPath)
         await workspace.fs.delete(keyPath)
       })()
 

@@ -17,12 +17,8 @@ export async function embeddingResource(uri: Uri) {
   createDebugNotification(`embedding-controller memory-buffer`)
   const bufferArray = await workspace.fs.readFile(uri)
 
-  createDebugNotification(`embedding-controller reading buffer type`)
-  const mimeType = await getValidMimeType(uri)
-
   const fileContent = await extractTextFromBuffer({
     bufferArray: bufferArray,
-    filetype: mimeType,
   })
 
   if (!fileContent) return //if mimetype not supported
@@ -43,7 +39,7 @@ export async function embeddingResource(uri: Uri) {
       decodeURIComponent(uri.path).lastIndexOf('/') + 1
     ),
     url: decodeURIComponent(uri.path),
-    type: mimeType,
+    type: fileContent.mimeType,
     size: fileContent.content.length,
     expanded: false,
     chunks: embeddingText,
@@ -54,21 +50,4 @@ export async function embeddingResource(uri: Uri) {
     ''
   )
   return fileObject
-}
-
-async function getValidMimeType(uri: Uri): Promise<string | undefined> {
-  const fileExtension = uri.path.substring(uri.path.lastIndexOf('.') + 1)
-  switch (fileExtension) {
-    case 'htm':
-    case 'html':
-      return 'text/html'
-    case 'csv':
-      return 'text/csv'
-    case 'md':
-      return 'text/markdown'
-    case 'txt':
-      return 'text/plain'
-    default:
-      return undefined
-  }
 }

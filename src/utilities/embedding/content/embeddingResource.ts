@@ -21,12 +21,8 @@ export async function embeddingResource(uri: Uri) {
     bufferArray: bufferArray,
   })
 
-  if (!fileInfo) return //if mimetype not supported
-  createDebugNotification(
-    `embedding-controller extract ${fileInfo.mimetype} ${fileInfo.content?.length} (bytes)`
-  )
-
   if (!fileInfo?.content) return
+
   const embeddingText = await getEmbeddingsForText(fileInfo.content)
   createDebugNotification(
     `embedding-controller embedding ${embeddingText.length} (chunks)`

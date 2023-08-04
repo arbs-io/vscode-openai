@@ -15,7 +15,7 @@
     "url": "https://github.com/sponsors/arbs-io"
   },
   "engines": {
-    "vscode": "^1.80.0"
+    "vscode": "^1.74.0"
   },
   "categories": [
     "Other",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
-    "@types/vscode": "^1.80.0",
+    "@types/vscode": "^1.74.0",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
     "@vscode/vsce": "^2.19.0",
@@ -52,7 +52,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@arbs.io/extract-text-content-wasm": "^0.0.4",
+    "@arbs.io/extract-text-content-wasm": "^0.0.5",
     "@vscode/extension-telemetry": "^0.8.2",
     "exponential-backoff": "^3.1.1",
     "openai": "^3.3.0"

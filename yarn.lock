@@ -7,10 +7,10 @@
   resolved "https://registry.npmjs.org/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz"
   integrity sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==
 
-"@arbs.io/extract-text-content-wasm@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.npmjs.org/@arbs.io/extract-text-content-wasm/-/extract-text-content-wasm-0.0.4.tgz"
-  integrity sha512-Yu0frUD6TgK7rht/YU9e15zd8fxr55x/RJx3MSVayFUe0eTMtrlPs6ojNtUAy7qQK5oYaI5ScVQSbRThGgwY3A==
+"@arbs.io/extract-text-content-wasm@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmjs.org/@arbs.io/extract-text-content-wasm/-/extract-text-content-wasm-0.0.5.tgz"
+  integrity sha512-ldmlBGX7dLDASz4hEQ+EBvy9w27LLlVbqZIZFW/JfEIAZ29JVihgrubheK3IgX1yNkme6Fhx4NTGBAqI7AsdHA==
 
 "@azure/abort-controller@^1.0.0":
   version "1.1.0"
@@ -336,7 +336,7 @@
   resolved "https://registry.npmjs.org/@types/shimmer/-/shimmer-1.0.2.tgz"
   integrity sha512-dKkr1bTxbEsFlh2ARpKzcaAmsYixqt9UyCdoEZk8rHyE4iQYcDCyvSjDSf7JUWJHlJiTtbIoQjxKh6ViywqDAg==
 
-"@types/vscode@^1.80.0":
+"@types/vscode@^1.74.0":
   version "1.80.0"
   resolved "https://registry.npmjs.org/@types/vscode/-/vscode-1.80.0.tgz"
   integrity sha512-qK/CmOdS2o7ry3k6YqU4zD3R2AYlJfbwBoSbKpBoP+GpXNE+0NEgJOli4n0bm0diK5kfBnchgCEj4igQz/44Hg==

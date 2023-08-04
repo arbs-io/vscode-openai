@@ -476,7 +476,7 @@
         },
         {
           "command": "vscode-openai.settings.prompt-editor",
-          "group": "prompt-editor.settings@2",
+          "group": "prompt-editor.source.setting",
           "when": "vscode-openai.extension.enabled"
         }
       ]
@@ -573,7 +573,7 @@
       },
       {
         "command": "vscode-openai.settings.prompt-editor",
-        "title": "Edit Prompts",
+        "title": "Settings...",
         "category": "vscode-openai.settings"
       },
       {

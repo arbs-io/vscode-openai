@@ -17,17 +17,13 @@ export async function embeddingResource(uri: Uri) {
   createDebugNotification(`embedding-controller memory-buffer`)
   const bufferArray = await workspace.fs.readFile(uri)
 
-  const fileContent = await extractTextFromBuffer({
+  const fileInfo = await extractTextFromBuffer({
     bufferArray: bufferArray,
   })
 
-  if (!fileContent) return //if mimetype not supported
+  if (!fileInfo?.content) return
 
-  createDebugNotification(
-    `embedding-controller extract ${fileContent.mimeType} ${fileContent.content.length} (bytes)`
-  )
-
-  const embeddingText = await getEmbeddingsForText(fileContent.content)
+  const embeddingText = await getEmbeddingsForText(fileInfo.content)
   createDebugNotification(
     `embedding-controller embedding ${embeddingText.length} (chunks)`
   )
@@ -39,11 +35,11 @@ export async function embeddingResource(uri: Uri) {
       decodeURIComponent(uri.path).lastIndexOf('/') + 1
     ),
     url: decodeURIComponent(uri.path),
-    type: fileContent.mimeType,
-    size: fileContent.content.length,
+    type: fileInfo.mimetype,
+    size: fileInfo.content?.length,
     expanded: false,
     chunks: embeddingText,
-    extractedText: fileContent.content,
+    extractedText: fileInfo.content,
   }
   StatusBarServiceProvider.instance.showStatusBarInformation(
     'vscode-openai',

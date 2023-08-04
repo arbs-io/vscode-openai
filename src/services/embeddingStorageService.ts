@@ -1,3 +1,4 @@
+import * as fs from 'fs'
 import { workspace, EventEmitter, Event, ExtensionContext, Uri } from 'vscode'
 import { GlobalStorageService } from '@app/utilities/vscode'
 import { IEmbeddingFileLite } from '@app/interfaces'
@@ -74,12 +75,9 @@ export default class EmbeddingStorageService {
     try {
       const key = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-${embeddingId}`
       const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
-      // Use async/await to handle the promise returned by delete
-      ;(async () => {
-        // Possible Unable to delete nonexistent file
-        await workspace.fs.stat(keyPath)
-        await workspace.fs.delete(keyPath)
-      })()
+      if (fs.existsSync(keyPath.fsPath)) {
+        workspace.fs.delete(keyPath)
+      }
 
       GlobalStorageService.instance.deleteKey(key)
     } catch (error) {

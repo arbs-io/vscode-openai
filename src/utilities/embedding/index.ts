@@ -1,10 +1,8 @@
 export {
-  ITextExtract,
   extractTextFromBuffer,
   extractTextFromFile,
-  embeddingResource,
-} from './extractText'
-
+} from './content/extractText'
+export { embeddingResource } from './content/embeddingResource'
 export { chunkText } from './chunk/chunkText'
 export { getEmbeddingsForText } from './chunk/getEmbeddingsForText'
 export { searchFileChunks } from './chunk/searchFileChunks'

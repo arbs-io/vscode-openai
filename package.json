@@ -445,7 +445,7 @@
         {
           "submenu": "vscode-openai.menu.toolbox",
           "group": "navigation",
-          "when": "editorFocus && !editorReadonly"
+          "when": "!activeEditorIsReadonly"
         }
       ],
       "vscode-openai.menu.toolbox": [

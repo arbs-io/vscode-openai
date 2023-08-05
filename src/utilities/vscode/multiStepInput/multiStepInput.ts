@@ -87,12 +87,11 @@ export class MultiStepInput {
             if (item === QuickInputButtons.Back) {
               reject(InputFlowAction.back)
             } else {
-              resolve(<any>item)
+              resolve(item as any)
             }
           }),
           input.onDidChangeSelection((items) => resolve(items[0])),
           input.onDidHide(() => {
-            // eslint-disable-next-line @typescript-eslint/no-extra-semi
             ;(async () => {
               reject(
                 shouldResume && (await shouldResume())
@@ -150,7 +149,7 @@ export class MultiStepInput {
             if (item === QuickInputButtons.Back) {
               reject(InputFlowAction.back)
             } else {
-              resolve(<any>item)
+              resolve(item as any)
             }
           }),
           input.onDidAccept(async () => {
@@ -172,7 +171,6 @@ export class MultiStepInput {
             }
           }),
           input.onDidHide(() => {
-            // eslint-disable-next-line @typescript-eslint/no-extra-semi
             ;(async () => {
               reject(
                 shouldResume && (await shouldResume())

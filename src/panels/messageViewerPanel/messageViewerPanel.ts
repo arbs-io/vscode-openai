@@ -66,7 +66,7 @@ export class MessageViewerPanel {
     }
     // If a webview panel does not already exist create and show a new one
     const panel = window.createWebviewPanel(
-      'showPreviewClaimset',
+      'vscode-openai.webview.messages',
       conversation.persona.roleName,
       ViewColumn.One,
       {
@@ -170,7 +170,7 @@ export class MessageViewerPanel {
           <title>Claimset</title>
         </head>
         <body style="margin:0;padding:0">
-          <div id="root" theme='${panelTheme}' />
+          <div id="root" theme='${panelTheme}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>

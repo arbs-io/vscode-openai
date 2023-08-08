@@ -49,7 +49,10 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   })
 
   return (
-    <div style={styleMessageHistory}>
+    <div
+      style={styleMessageHistory}
+      data-vscode-context='{"webviewSection": "menu"}'
+    >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div style={{ paddingBottom: 10 }}>
           {message.mine ? null : (

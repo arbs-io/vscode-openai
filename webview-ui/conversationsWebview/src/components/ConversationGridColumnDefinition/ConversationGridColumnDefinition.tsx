@@ -60,6 +60,7 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
               description={conversation.summary}
               onClick={() => handleOpenConversation(conversation)}
               style={{ paddingRight: '1rem', cursor: 'pointer' }}
+              data-vscode-context='{"webviewSection": "menu"}'
             />
             <ContextMenu conversation={conversation} />
           </TableCell>

@@ -366,6 +366,16 @@
       }
     },
     "menus": {
+      "webview/context": [
+        {
+          "command": "catCoding.yarn",
+          "when": "webviewId == 'vscode-openai.webview.messages' && webviewSection == 'menu'"
+        },
+        {
+          "command": "catCoding.insertLion",
+          "when": "webviewId == 'vscode-openai.sidebar.conversationsWebview' && webviewSection == 'menu'"
+        }
+      ],
       "view/item/context": [
         {
           "command": "vscode-openai.embedding.conversation",
@@ -493,6 +503,16 @@
       }
     ],
     "commands": [
+      {
+        "command": "catCoding.yarn",
+        "title": "Yarn 🧶",
+        "category": "Cat Coding"
+      },
+      {
+        "command": "catCoding.insertLion",
+        "title": "Insert 🦁",
+        "category": "Cat Coding"
+      },
       {
         "command": "vscode-openai.conversation.new-standard",
         "title": "New conversation",

@@ -368,11 +368,11 @@
     "menus": {
       "webview/context": [
         {
-          "command": "catCoding.yarn",
+          "command": "vscode-openai.messages.clipboard-message",
           "when": "webviewId == 'vscode-openai.webview.messages' && webviewSection == 'menu'"
         },
         {
-          "command": "catCoding.insertLion",
+          "command": "vscode-openai.conversation.clipboard-summary",
           "when": "webviewId == 'vscode-openai.sidebar.conversationsWebview' && webviewSection == 'menu'"
         }
       ],
@@ -504,14 +504,14 @@
     ],
     "commands": [
       {
-        "command": "catCoding.yarn",
-        "title": "Yarn 🧶",
-        "category": "Cat Coding"
+        "command": "vscode-openai.conversation.clipboard-summary",
+        "title": "Copy 🧶",
+        "category": "vscode-openai.conversation.menu"
       },
       {
-        "command": "catCoding.insertLion",
-        "title": "Insert 🦁",
-        "category": "Cat Coding"
+        "command": "vscode-openai.messages.clipboard-message",
+        "title": "Copy 🦁",
+        "category": "vscode-openai.messages.menu"
       },
       {
         "command": "vscode-openai.conversation.new-standard",

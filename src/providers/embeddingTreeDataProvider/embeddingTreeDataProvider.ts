@@ -8,7 +8,7 @@ import {
 import { VSCODE_OPENAI_SIDEBAR } from '@app/constants'
 import { EmbeddingStorageService } from '@app/services'
 import { EmbeddingTreeDragAndDropController, EmbeddingTreeItem } from '.'
-import { IEmbeddingFileLite } from '@app/interfaces'
+import { IEmbeddingFileLite } from '@app/types'
 
 export class EmbeddingTreeDataProvider
   implements TreeDataProvider<EmbeddingTreeItem>

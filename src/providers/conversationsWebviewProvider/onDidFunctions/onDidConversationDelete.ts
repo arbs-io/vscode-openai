@@ -1,5 +1,5 @@
 import { window } from 'vscode'
-import { IConversation } from '@app/interfaces'
+import { IConversation } from '@app/types'
 import { ConversationStorageService } from '@app/services'
 
 export const onDidConversationDelete = (conversation: IConversation): void => {

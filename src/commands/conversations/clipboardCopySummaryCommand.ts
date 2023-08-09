@@ -1,8 +1,8 @@
 import { Command } from '../commandManager'
 import { showMessageWithTimeout } from '@app/utilities/vscode'
 
-export class CopyClipboardSummaryCommand implements Command {
-  public readonly id = 'vscode-openai.conversation.clipboard-summary'
+export default class ClipboardCopySummaryCommand implements Command {
+  public readonly id = 'vscode-openai.conversations.clipboard-copy.summary'
 
   public constructor() {}
 

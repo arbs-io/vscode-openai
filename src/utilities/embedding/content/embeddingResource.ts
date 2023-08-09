@@ -5,7 +5,7 @@ import {
   extractTextFromBuffer,
   getEmbeddingsForText,
 } from '@app/utilities/embedding'
-import { IEmbeddingFileLite } from '@app/interfaces'
+import { IEmbeddingFileLite } from '@app/types'
 import { StatusBarServiceProvider } from '@app/utilities/vscode'
 
 export async function embeddingResource(uri: Uri) {

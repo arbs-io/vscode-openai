@@ -8,7 +8,6 @@ export const VSCODE_OPENAI_EXTENSION = {
   ENABLED_COMMAND_ID: 'vscode-openai.extension.enabled',
   SETTINGS_PROMPT_EDIT_COMMAND_ID: 'vscode-openai.settings.prompt-editor',
   SETTINGS_EMBEDDING_COMMAND_ID: 'vscode-openai.settings.embedding',
-  SETTINGS_CONVERSATION_COMMAND_ID: 'vscode-openai.settings.conversation',
 }
 
 // VSCODE_OPENAI_REGISTER: Contains the command ID for registering the OpenAI service.
@@ -50,10 +49,6 @@ export const VSCODE_OPENAI_EMBEDDING = {
 // Output: A string representing the command ID for commenting on a change in source control management.
 export const VSCODE_OPENAI_CONVERSATION = {
   STORAGE_V1_ID: 'conversation',
-  NEW_STANDARD_COMMAND_ID: 'vscode-openai.conversation.new-standard',
-  NEW_PERSONA_COMMAND_ID: 'vscode-openai.conversation.new-persona',
-  REFRESH_COMMAND_ID: 'vscode-openai.conversation.refresh',
-  DELETE_ALL_COMMAND_ID: 'vscode-openai.conversation.delete-all',
 }
 
 // VSCODE_OPENAI_PROMPT: Contains various command IDs for prompting OpenAI to complete tasks.

@@ -1,5 +1,5 @@
 import { ConfigurationSettingService } from '@app/services'
-import { IMessage } from '@app/interfaces'
+import { IMessage } from '@app/types'
 import {
   createErrorNotification,
   createInfoNotification,

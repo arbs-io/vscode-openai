@@ -6,7 +6,7 @@ import {
   ConversationStorageService,
   EmbeddingStorageService,
 } from '@app/services'
-import { IConversation } from '@app/interfaces'
+import { IConversation } from '@app/types'
 import { getQueryResourcePersona } from '@app/models'
 
 export function registerEmbeddingView(context: ExtensionContext) {

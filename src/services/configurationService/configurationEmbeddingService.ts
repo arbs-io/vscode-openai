@@ -3,7 +3,7 @@ import {
   createInfoNotification,
 } from '@app/utilities/node'
 import ConfigurationService from './configurationService'
-import { IConfigurationEmbedding } from '@app/interfaces'
+import { IConfigurationEmbedding } from '@app/types'
 
 export default class ConfigurationEmbeddingService
   extends ConfigurationService

@@ -9,7 +9,7 @@ import { QuickPickItem, ExtensionContext } from 'vscode'
 import { MultiStepInput } from '@app/utilities/vscode'
 import { ConversationStorageService } from '@app/services'
 import { getSystemPersonas } from '@app/models'
-import { IConversation } from '@app/interfaces'
+import { IConversation } from '@app/types'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.

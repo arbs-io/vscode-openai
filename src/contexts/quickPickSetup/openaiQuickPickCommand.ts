@@ -11,7 +11,7 @@ import {
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
 } from '@app/quickPicks'
-import { ICommandOpenai } from '@app/interfaces'
+import { ICommandOpenai } from '@app/types'
 import {
   VSCODE_OPENAI_EXTENSION,
   VSCODE_OPENAI_SERVICE_PROVIDER,

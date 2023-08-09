@@ -12,7 +12,7 @@ import {
   Uri,
 } from 'vscode'
 import { EmbeddingTreeItem } from '.'
-import { IEmbeddingFileLite } from '@app/interfaces'
+import { IEmbeddingFileLite } from '@app/types'
 import { embeddingResource } from '@app/utilities/embedding'
 
 export class EmbeddingTreeDragAndDropController

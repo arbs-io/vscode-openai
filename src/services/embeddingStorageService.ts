@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import { workspace, EventEmitter, Event, ExtensionContext, Uri } from 'vscode'
 import { GlobalStorageService } from '@app/utilities/vscode'
-import { IEmbeddingFileLite } from '@app/interfaces'
+import { IEmbeddingFileLite } from '@app/types'
 import {
   createDebugNotification,
   createErrorNotification,

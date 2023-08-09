@@ -1,5 +1,6 @@
 import { ExtensionContext } from 'vscode'
 import { validateApiKey } from '@app/utilities/openai'
+import { CommandManager, registerVscodeOpenAICommands } from './commands'
 import {
   StatusBarServiceProvider,
   GlobalStorageService,
@@ -13,7 +14,6 @@ import {
   registerOpenaiServiceCommand,
   registerOpenaiSCMCommand,
   registerOpenSettings,
-  registerConversationCommand,
   registerEmbeddingView,
   registerConversationsWebviewView,
   registerEmbeddingCommand,
@@ -67,6 +67,11 @@ export function activate(context: ExtensionContext) {
     )
 
     // registerCommands
+    const commandManager = new CommandManager()
+    context.subscriptions.push(
+      registerVscodeOpenAICommands(context, commandManager)
+    )
+
     createDebugNotification('register commands')
     registerOpenaiEditor(context)
     registerChangeConfiguration(context)
@@ -74,7 +79,6 @@ export function activate(context: ExtensionContext) {
     registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
     registerEmbeddingCommand(context)
-    registerConversationCommand(context)
     // views
     registerEmbeddingView(context)
     registerConversationsWebviewView(context)

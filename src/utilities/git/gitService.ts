@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { GitExtension, API, Repository } from '@app/@type/git'
+import { GitExtension, API, Repository } from '@app/typings/git'
 
 export type RepositoryChangeCallback = (repositoryInfo: {
   numberOfRepositories: number

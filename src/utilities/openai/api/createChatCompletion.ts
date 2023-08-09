@@ -5,7 +5,7 @@ import {
   ConfigurationConversationService,
   ConfigurationSettingService,
 } from '@app/services'
-import { IConversation, IMessage } from '@app/interfaces'
+import { IConversation, IMessage } from '@app/types'
 import { errorHandler } from './errorHandler'
 import {
   ChatCompletionRequestMessageEmbedding,

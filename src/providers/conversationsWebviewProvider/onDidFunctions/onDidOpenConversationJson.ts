@@ -1,4 +1,4 @@
-import { IConversation } from '@app/interfaces'
+import { IConversation } from '@app/types'
 import { ViewColumn, window, workspace } from 'vscode'
 
 export const onDidOpenConversationJson = (

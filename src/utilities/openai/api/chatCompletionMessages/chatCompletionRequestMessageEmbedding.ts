@@ -3,7 +3,7 @@ import {
   ChatCompletionRequestMessageRoleEnum,
 } from 'openai'
 import { EmbeddingStorageService } from '@app/services'
-import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
+import { IConversation, IEmbeddingFileLite } from '@app/types'
 import { searchFileChunks } from '@app/utilities/embedding'
 import { StatusBarServiceProvider } from '@app/utilities/vscode'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'

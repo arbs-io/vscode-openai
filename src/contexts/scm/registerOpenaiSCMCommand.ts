@@ -1,7 +1,7 @@
 import { commands, ExtensionContext } from 'vscode'
 import { VSCODE_OPENAI_SCM } from '@app/constants'
 import GitService from '@app/utilities/git/gitService'
-import { IChatCompletion, IConversation } from '@app/interfaces'
+import { IChatCompletion, IConversation } from '@app/types'
 import { getSystemPersonas } from '@app/models'
 import { ConversationStorageService } from '@app/services'
 import { createChatCompletion, ResponseFormat } from '@app/utilities/openai'

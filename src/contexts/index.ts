@@ -3,7 +3,6 @@ export { registerChangeConfiguration } from './changeConfiguration/registerChang
 export { registerOpenaiServiceCommand } from './quickPickSetup/registerOpenaiServiceCommand'
 export { registerOpenaiSCMCommand } from './scm/registerOpenaiSCMCommand'
 export { registerOpenSettings } from './settings/registerOpenSettings'
-export { registerConversationCommand } from './conversation/registerConversationCommand'
 export { registerEmbeddingCommand } from './embedding/registerEmbeddingCommand'
 
 export { registerConversationsWebviewView } from './views/conversations'

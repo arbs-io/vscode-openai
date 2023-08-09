@@ -372,7 +372,7 @@
           "when": "webviewId == 'vscode-openai.webview.messages' && webviewSection == 'menu'"
         },
         {
-          "command": "vscode-openai.conversation.clipboard-summary",
+          "command": "vscode-openai.conversations.clipboard-copy.summary",
           "when": "webviewId == 'vscode-openai.sidebar.conversationsWebview' && webviewSection == 'menu'"
         }
       ],
@@ -390,27 +390,27 @@
       ],
       "view/title": [
         {
-          "command": "vscode-openai.conversation.new-standard",
+          "command": "vscode-openai.conversations.new.conversation.standard",
           "when": "view == vscode-openai.sidebar.conversationsWebview",
           "group": "navigation@0"
         },
         {
-          "command": "vscode-openai.conversation.new-persona",
+          "command": "vscode-openai.conversations.new.conversation.persona",
           "when": "view == vscode-openai.sidebar.conversationsWebview",
           "group": "navigation@1"
         },
         {
-          "command": "vscode-openai.conversation.refresh",
+          "command": "vscode-openai.conversations.refresh",
           "when": "view == vscode-openai.sidebar.conversationsWebview",
           "group": "navigation@2"
         },
         {
-          "command": "vscode-openai.conversation.delete-all",
+          "command": "vscode-openai.conversations.delete-all",
           "when": "view == vscode-openai.sidebar.conversationsWebview",
           "group": "navigation@3"
         },
         {
-          "command": "vscode-openai.settings.conversation",
+          "command": "vscode-openai.conversations.settings",
           "when": "view == vscode-openai.sidebar.conversationsWebview",
           "group": "navigation@4"
         },
@@ -504,7 +504,7 @@
     ],
     "commands": [
       {
-        "command": "vscode-openai.conversation.clipboard-summary",
+        "command": "vscode-openai.conversations.clipboard-copy.summary",
         "title": "Copy 🧶",
         "category": "vscode-openai.conversation.menu"
       },
@@ -514,31 +514,31 @@
         "category": "vscode-openai.messages.menu"
       },
       {
-        "command": "vscode-openai.conversation.new-standard",
+        "command": "vscode-openai.conversations.new.conversation.standard",
         "title": "New conversation",
         "category": "vscode-openai.conversation",
         "icon": "$(comment)"
       },
       {
-        "command": "vscode-openai.conversation.new-persona",
+        "command": "vscode-openai.conversations.new.conversation.persona",
         "title": "New persona conversation",
         "category": "vscode-openai.conversation",
         "icon": "$(feedback)"
       },
       {
-        "command": "vscode-openai.conversation.refresh",
+        "command": "vscode-openai.conversations.refresh",
         "title": "Refresh",
         "category": "vscode-openai.conversation",
         "icon": "$(refresh)"
       },
       {
-        "command": "vscode-openai.conversation.delete-all",
+        "command": "vscode-openai.conversations.delete-all",
         "title": "Delete all conversations",
         "category": "vscode-openai.conversation",
         "icon": "$(notebook-delete-cell)"
       },
       {
-        "command": "vscode-openai.settings.conversation",
+        "command": "vscode-openai.conversations.settings",
         "title": "Edit conversation configuration setting",
         "category": "vscode-openai.conversation",
         "icon": "$(tools)"

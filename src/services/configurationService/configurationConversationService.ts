@@ -3,7 +3,7 @@ import {
   createInfoNotification,
 } from '@app/utilities/node'
 import ConfigurationService from './configurationService'
-import { IConfigurationConversation } from '@app/interfaces'
+import { IConfigurationConversation } from '@app/types'
 
 export default class ConfigurationConversationService
   extends ConfigurationService

@@ -17,7 +17,7 @@ import {
 } from '@app/utilities/node'
 import { embeddingResource } from '@app/utilities/embedding'
 import { getQueryResourcePersona } from '@app/models'
-import { IConversation } from '@app/interfaces'
+import { IConversation } from '@app/types'
 
 export function registerEmbeddingCommand(_context: ExtensionContext) {
   _registerCommandConversationAll()

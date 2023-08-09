@@ -10,7 +10,7 @@ import {
   CancellationToken,
   ColorTheme,
 } from 'vscode'
-import { IConversation } from '@app/interfaces'
+import { IConversation } from '@app/types'
 import { getNonce, getUri } from '@app/utilities/vscode'
 import { ConversationStorageService } from '@app/services'
 import {

@@ -10,7 +10,7 @@ import {
   waitFor,
 } from '@app/utilities/node'
 import ConfigurationService from './configurationService'
-import { IConfigurationSetting, IDynamicLooseObject } from '@app/interfaces'
+import { IConfigurationSetting, IDynamicLooseObject } from '@app/types'
 
 type ApiHeader = {
   name: string

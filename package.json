@@ -378,12 +378,12 @@
       ],
       "view/item/context": [
         {
-          "command": "vscode-openai.embedding.conversation",
+          "command": "vscode-openai.embeddings.new.conversation",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "inline@1"
         },
         {
-          "command": "vscode-openai.embedding.delete",
+          "command": "vscode-openai.embeddings.delete.resource",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "inline@2"
         }
@@ -420,22 +420,22 @@
           "group": "navigation@0"
         },
         {
-          "command": "vscode-openai.embedding.index-file",
+          "command": "vscode-openai.embeddings.new.file",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@1"
         },
         {
-          "command": "vscode-openai.embedding.index-folder",
+          "command": "vscode-openai.embeddings.new.folder",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@2"
         },
         {
-          "command": "vscode-openai.embedding.refresh",
+          "command": "vscode-openai.embeddings.refresh",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@3"
         },
         {
-          "command": "vscode-openai.settings.embedding",
+          "command": "vscode-openai.embeddings.settings",
           "when": "view == vscode-openai.sidebar.embedding",
           "group": "navigation@4"
         }
@@ -553,25 +553,25 @@
         }
       },
       {
-        "command": "vscode-openai.embedding.index-file",
+        "command": "vscode-openai.embeddings.new.file",
         "title": "Index selected file",
         "category": "vscode-openai.embedding",
         "icon": "$(new-file)"
       },
       {
-        "command": "vscode-openai.embedding.index-folder",
+        "command": "vscode-openai.embeddings.new.folder",
         "title": "Index selected folder",
         "category": "vscode-openai.embedding",
         "icon": "$(new-folder)"
       },
       {
-        "command": "vscode-openai.embedding.refresh",
+        "command": "vscode-openai.embeddings.refresh",
         "title": "Refresh",
         "category": "vscode-openai.embedding",
         "icon": "$(refresh)"
       },
       {
-        "command": "vscode-openai.embedding.conversation",
+        "command": "vscode-openai.embeddings.new.conversation",
         "title": "New scoped conversation",
         "category": "vscode-openai.embedding",
         "icon": {
@@ -580,13 +580,13 @@
         }
       },
       {
-        "command": "vscode-openai.embedding.delete",
+        "command": "vscode-openai.embeddings.delete.resource",
         "title": "Delete Embedding",
         "category": "vscode-openai.embedding",
         "icon": "$(notebook-delete-cell)"
       },
       {
-        "command": "vscode-openai.settings.embedding",
+        "command": "vscode-openai.embeddings.settings",
         "title": "Edit embedding configuration setting",
         "category": "vscode-openai.settings",
         "icon": "$(tools)"

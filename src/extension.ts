@@ -14,9 +14,7 @@ import {
   registerOpenaiServiceCommand,
   registerOpenaiSCMCommand,
   registerOpenSettings,
-  registerEmbeddingView,
   registerConversationsWebviewView,
-  registerEmbeddingCommand,
 } from '@app/contexts'
 import {
   VSCODE_OPENAI_EXTENSION,
@@ -36,6 +34,7 @@ import {
   createErrorNotification,
   createInfoNotification,
 } from '@app/utilities/node'
+import { EmbeddingTreeDataProvider } from './providers'
 
 export function activate(context: ExtensionContext) {
   try {
@@ -68,8 +67,9 @@ export function activate(context: ExtensionContext) {
 
     // registerCommands
     const commandManager = new CommandManager()
+    const embeddingTree = new EmbeddingTreeDataProvider(context)
     context.subscriptions.push(
-      registerVscodeOpenAICommands(context, commandManager)
+      registerVscodeOpenAICommands(context, commandManager, embeddingTree)
     )
 
     createDebugNotification('register commands')
@@ -78,9 +78,7 @@ export function activate(context: ExtensionContext) {
     registerOpenaiServiceCommand(context)
     registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
-    registerEmbeddingCommand(context)
     // views
-    registerEmbeddingView(context)
     registerConversationsWebviewView(context)
 
     createDebugNotification('starting conversation service')

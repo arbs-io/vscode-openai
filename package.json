@@ -442,7 +442,7 @@
       ],
       "scm/title": [
         {
-          "command": "vscode-openai.scm.comment",
+          "command": "vscode-openai.scm.generate.comments",
           "group": "navigation",
           "icon": {
             "light": "./assets/openai-light.png",
@@ -597,7 +597,7 @@
         "category": "vscode-openai.settings"
       },
       {
-        "command": "vscode-openai.scm.comment",
+        "command": "vscode-openai.scm.generate.comments",
         "title": "Auto generate comments using OpenAI",
         "category": "vscode-openai.scm",
         "icon": {

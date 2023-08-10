@@ -1,17 +1,6 @@
 import * as vscode from 'vscode'
+import { IRepositoryChangeCallback } from '.'
 import { GitExtension, API, Repository } from '@app/typings/git'
-
-export type RepositoryChangeCallback = (repositoryInfo: {
-  numberOfRepositories: number
-  selectedRepositoryPath: string
-  availableRepositories: string[]
-}) => void
-
-export interface RepositoryInfo {
-  numberOfRepositories: number
-  selectedRepositoryPath: string
-  availableRepositories: string[]
-}
 
 class GitService {
   private isGitAvailable = false
@@ -52,7 +41,7 @@ class GitService {
     }
   }
 
-  public onRepositoryDidChange(handler: RepositoryChangeCallback) {
+  public onRepositoryDidChange(handler: IRepositoryChangeCallback) {
     this.disposables.forEach((d) => d.dispose())
     this.disposables = []
 

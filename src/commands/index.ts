@@ -17,6 +17,7 @@ import {
   NewEmbeddingFolderCommand,
   EmbeddingsSettingsCommand,
 } from './embeddings'
+import { GenerateCommentsCommand } from './scm'
 import { EmbeddingTreeDataProvider } from '@app/providers'
 
 export { CommandManager }
@@ -41,6 +42,9 @@ export function registerVscodeOpenAICommands(
   commandManager.register(new NewEmbeddingFolderCommand())
   commandManager.register(new NewEmbeddingFileCommand())
   commandManager.register(new EmbeddingsSettingsCommand())
+
+  // SCM (git)
+  commandManager.register(new GenerateCommentsCommand())
 
   return commandManager
 }

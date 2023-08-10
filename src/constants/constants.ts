@@ -16,14 +16,6 @@ export const VSCODE_OPENAI_REGISTER = {
   SERVICE_COMMAND_ID: 'vscode-openai.register.openaiService',
 }
 
-// VSCODE_OPENAI_SCM: Contains the command ID for commenting on a change in source control management.
-// Input: None
-// Output: A string representing the command ID for commenting on a change in source control management.
-export const VSCODE_OPENAI_SCM = {
-  ENABLED_COMMAND_ID: 'vscode-openai.scm.enabled',
-  COMMENT_COMMAND_ID: 'vscode-openai.scm.comment',
-}
-
 // VSCODE_OPENAI_EMBEDDING: Contains the command ID for deleting embedding results.
 // Input: None
 // Output: A string representing the command ID for commenting on a change in source control management.

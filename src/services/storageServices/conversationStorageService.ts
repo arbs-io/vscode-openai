@@ -11,7 +11,7 @@ import {
   VSCODE_OPENAI_CONVERSATION,
   VSCODE_OPENAI_EMBEDDING,
 } from '@app/constants'
-import { EmbeddingStorageService } from '.'
+import { EmbeddingStorageService } from '..'
 
 export default class ConversationStorageService {
   private static _emitterDidChange = new EventEmitter<void>()

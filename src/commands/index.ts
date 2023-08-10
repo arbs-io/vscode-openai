@@ -19,6 +19,7 @@ import {
 } from './embeddings'
 import { GenerateCommentsCommand } from './scm'
 import { EmbeddingTreeDataProvider } from '@app/providers'
+import { EditorCommentCodeCommand } from './editor'
 
 export { CommandManager }
 export function registerVscodeOpenAICommands(
@@ -45,6 +46,9 @@ export function registerVscodeOpenAICommands(
 
   // SCM (git)
   commandManager.register(new GenerateCommentsCommand())
+
+  // Editor
+  commandManager.register(new EditorCommentCodeCommand())
 
   return commandManager
 }

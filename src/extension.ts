@@ -12,13 +12,13 @@ import {
   registerChangeConfiguration,
   registerOpenaiEditor,
   registerOpenaiServiceCommand,
-  registerOpenaiSCMCommand,
+  // registerOpenaiSCMCommand,
   registerOpenSettings,
   registerConversationsWebviewView,
 } from '@app/contexts'
 import {
   VSCODE_OPENAI_EXTENSION,
-  VSCODE_OPENAI_SCM,
+  // VSCODE_OPENAI_SCM,
   VSCODE_OPENAI_EMBEDDING,
 } from '@app/constants'
 import {
@@ -40,7 +40,7 @@ export function activate(context: ExtensionContext) {
   try {
     // Disable functionality until we validate auth
     setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, false)
-    setFeatureFlag(VSCODE_OPENAI_SCM.ENABLED_COMMAND_ID, false)
+    // setFeatureFlag(VSCODE_OPENAI_SCM.ENABLED_COMMAND_ID, false)
     setFeatureFlag(VSCODE_OPENAI_EMBEDDING.ENABLED_COMMAND_ID, false)
 
     // Enable logging and telemetry
@@ -76,7 +76,7 @@ export function activate(context: ExtensionContext) {
     registerOpenaiEditor(context)
     registerChangeConfiguration(context)
     registerOpenaiServiceCommand(context)
-    registerOpenaiSCMCommand(context)
+    // registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
     // views
     registerConversationsWebviewView(context)

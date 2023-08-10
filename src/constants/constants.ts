@@ -38,7 +38,7 @@ export const VSCODE_OPENAI_CONVERSATION = {
 // Input: None
 // Output: An object containing strings representing various command IDs for prompting OpenAI to complete tasks.
 export const VSCODE_OPENAI_PROMPT = {
-  PROMPT_COMMENTS_COMMAND_ID: 'vscode-openai.prompt-editor.comment',
+  // PROMPT_COMMENTS_COMMAND_ID: 'vscode-openai.editor.code.comments',
   PROMPT_EXPLAIN_COMMAND_ID: 'vscode-openai.prompt-editor.explain',
   PROMPT_BOUNTY_COMMAND_ID: 'vscode-openai.prompt-editor.bounty',
   PROMPT_OPTIMIZE_COMMAND_ID: 'vscode-openai.prompt-editor.optimize',

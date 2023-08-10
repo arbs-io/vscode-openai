@@ -5,7 +5,7 @@ import { getSystemPersonas } from '@app/models'
 import {
   PromptFactory,
   BountyPromptFactory,
-  CommentPromptFactory,
+  // CommentPromptFactory,
   ExplainPromptFactory,
   OptimizePromptFactory,
   PatternPromptFactory,
@@ -23,10 +23,10 @@ class CommandRegistry {
 
   constructor() {
     this.factories = new Map([
-      [
-        VSCODE_OPENAI_PROMPT.PROMPT_COMMENTS_COMMAND_ID,
-        new CommentPromptFactory(),
-      ],
+      // [
+      //   VSCODE_OPENAI_PROMPT.PROMPT_COMMENTS_COMMAND_ID,
+      //   new CommentPromptFactory(),
+      // ],
       [
         VSCODE_OPENAI_PROMPT.PROMPT_EXPLAIN_COMMAND_ID,
         new ExplainPromptFactory(),

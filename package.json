@@ -312,7 +312,7 @@
           "default": [],
           "order": 208
         },
-        "vscode-openai.prompt-editor.comment": {
+        "vscode-openai.editor.code.comments": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease add comments to the source code explaining what the code is doing.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
@@ -460,7 +460,7 @@
       ],
       "vscode-openai.menu.toolbox": [
         {
-          "command": "vscode-openai.prompt-editor.comment",
+          "command": "vscode-openai.editor.code.comments",
           "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
@@ -616,7 +616,7 @@
         }
       },
       {
-        "command": "vscode-openai.prompt-editor.comment",
+        "command": "vscode-openai.editor.code.comments",
         "title": "Comments",
         "category": "vscode-openai.completion"
       },

@@ -41,13 +41,13 @@
     "clean": "node ./utilities/scripts/clean.js"
   },
   "devDependencies": {
-    "@types/node": "^20.4.5",
+    "@types/node": "^20.4.9",
     "@types/vscode": "^1.74.0",
-    "@typescript-eslint/eslint-plugin": "^6.2.0",
-    "@typescript-eslint/parser": "^6.2.0",
-    "@vscode/vsce": "^2.19.0",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "@vscode/vsce": "^2.20.1",
     "esbuild": "^0.18.16",
-    "eslint": "^8.45.0",
+    "eslint": "^8.46.0",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.1.6"
   },
@@ -110,8 +110,8 @@
     },
     "viewsWelcome": [
       {
-        "view": "vscode-openai.sidebar.embedding",
-        "contents": "To utilize the Query Resources feature, it is necessary to register (or re-register) with the OpenAI service provider. This will enable you to select from a variety of embedding models.\n\nSupported file types (DOCX, HTML, TEXT and MARKDOWN), support for PDF will be added soon.\n\nPlease note that this particular feature is exclusively available with the native and Azure OpenAI services, and unfortunately, it is not provided by the vscode-openai service.\n[Setup OpenAI Provider](command:vscode-openai.register.openaiService)",
+        "view": "vscode-openai.embeddings.view.sidebar",
+        "contents": "To utilize the Query Resources feature, it is necessary to register (or re-register) with the OpenAI service provider. This will enable you to select from a variety of embedding models.\n\nSupported file types (DOCX, HTML, TEXT and MARKDOWN), support for PDF will be added soon.\n\nPlease note that this particular feature is exclusively available with the native and Azure OpenAI services, and unfortunately, it is not provided by the vscode-openai service.\n[Setup OpenAI Provider](command:vscode-openai.configuration.show.quickpick)",
         "when": "vscode-openai.embedding.setup-required"
       }
     ],
@@ -119,14 +119,14 @@
       "vscode-openai-sidebar-view": [
         {
           "type": "webview",
-          "id": "vscode-openai.sidebar.conversationsWebview",
+          "id": "vscode-openai.conversations.view.sidebar",
           "name": "Conversations",
           "icon": "./assets/openai-sidebar.svg",
           "contextualTitle": "vscode-openai conversations",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "id": "vscode-openai.sidebar.embedding",
+          "id": "vscode-openai.embeddings.view.sidebar",
           "name": "Query Resources",
           "icon": "./assets/openai-sidebar.svg",
           "contextualTitle": "vscode-openai conversations",
@@ -312,35 +312,35 @@
           "default": [],
           "order": 208
         },
-        "vscode-openai.prompt-editor.comment": {
+        "vscode-openai.editor.code.comments": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease add comments to the source code explaining what the code is doing.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place inline comments into the `source code`\n- Author: **vscode-openai**",
           "order": 301
         },
-        "vscode-openai.prompt-editor.explain": {
+        "vscode-openai.editor.code.explain": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease provide headers comments in the source code for each function providing:\n- description, input and output parameters.\n- input parameters.\n- output parameters.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place header comments for each class or function within the `source code`\n- Author: **Bryon Roscoe**",
           "order": 302
         },
-        "vscode-openai.prompt-editor.bounty": {
+        "vscode-openai.editor.code.bounty": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease fix any bugs and include comments for the changed code explaining what was wrong with the original code.\nOnly provide the fixed source code with comments in #{language} explaining the corrected problem.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find and fix bugs within the `source code`\n- Author: **Ed Linden**",
           "order": 303
         },
-        "vscode-openai.prompt-editor.optimize": {
+        "vscode-openai.editor.code.optimize": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease optimize the source code by reducing the number of operations performed during execution.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find inefficiencies and resolve them within the `source code`\n- Author: **vscode-openai**",
           "order": 304
         },
-        "vscode-openai.prompt-editor.patterns": {
+        "vscode-openai.editor.code.patterns": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease rewrite the code using appropriate design patterns.\nThe design pattern should combine Concurrency, Behavioral, Structural and Creational design patterns.\nThe response should be a single solution using all the valuable patterns identified.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
           "editPresentation": "multilineText",
@@ -366,79 +366,89 @@
       }
     },
     "menus": {
+      "webview/context": [
+        {
+          "command": "vscode-openai.messages.clipboard-message",
+          "when": "webviewId == 'vscode-openai.webview.messages' && webviewSection == 'menu'"
+        },
+        {
+          "command": "vscode-openai.conversations.clipboard-copy.summary",
+          "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'menu'"
+        }
+      ],
       "view/item/context": [
         {
-          "command": "vscode-openai.embedding.conversation",
-          "when": "view == vscode-openai.sidebar.embedding",
+          "command": "vscode-openai.embeddings.new.conversation",
+          "when": "view == vscode-openai.embeddings.view.sidebar",
           "group": "inline@1"
         },
         {
-          "command": "vscode-openai.embedding.delete",
-          "when": "view == vscode-openai.sidebar.embedding",
+          "command": "vscode-openai.embeddings.delete.resource",
+          "when": "view == vscode-openai.embeddings.view.sidebar",
           "group": "inline@2"
         }
       ],
       "view/title": [
         {
-          "command": "vscode-openai.conversation.new-standard",
-          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "command": "vscode-openai.conversations.new.conversation.standard",
+          "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@0"
         },
         {
-          "command": "vscode-openai.conversation.new-persona",
-          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "command": "vscode-openai.conversations.new.conversation.persona",
+          "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@1"
         },
         {
-          "command": "vscode-openai.conversation.refresh",
-          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "command": "vscode-openai.conversations.refresh",
+          "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@2"
         },
         {
-          "command": "vscode-openai.conversation.delete-all",
-          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "command": "vscode-openai.conversations.delete-all",
+          "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@3"
         },
         {
-          "command": "vscode-openai.settings.conversation",
-          "when": "view == vscode-openai.sidebar.conversationsWebview",
+          "command": "vscode-openai.conversations.settings",
+          "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@4"
         },
         {
-          "command": "vscode-openai.embedding.conversation-all",
-          "when": "view == vscode-openai.sidebar.embedding",
+          "command": "vscode-openai.embeddings.new.conversation-all",
+          "when": "view == vscode-openai.embeddings.view.sidebar",
           "group": "navigation@0"
         },
         {
-          "command": "vscode-openai.embedding.index-file",
-          "when": "view == vscode-openai.sidebar.embedding",
+          "command": "vscode-openai.embeddings.new.file",
+          "when": "view == vscode-openai.embeddings.view.sidebar",
           "group": "navigation@1"
         },
         {
-          "command": "vscode-openai.embedding.index-folder",
-          "when": "view == vscode-openai.sidebar.embedding",
+          "command": "vscode-openai.embeddings.new.folder",
+          "when": "view == vscode-openai.embeddings.view.sidebar",
           "group": "navigation@2"
         },
         {
-          "command": "vscode-openai.embedding.refresh",
-          "when": "view == vscode-openai.sidebar.embedding",
+          "command": "vscode-openai.embeddings.refresh",
+          "when": "view == vscode-openai.embeddings.view.sidebar",
           "group": "navigation@3"
         },
         {
-          "command": "vscode-openai.settings.embedding",
-          "when": "view == vscode-openai.sidebar.embedding",
+          "command": "vscode-openai.embeddings.settings",
+          "when": "view == vscode-openai.embeddings.view.sidebar",
           "group": "navigation@4"
         }
       ],
       "scm/title": [
         {
-          "command": "vscode-openai.scm.comment",
+          "command": "vscode-openai.scm.generate.comments",
           "group": "navigation",
           "icon": {
             "light": "./assets/openai-light.png",
             "dark": "./assets/openai-dark.png"
           },
-          "when": "vscode-openai.extension.enabled && vscode-openai.scm.enabled && scmProvider == git"
+          "when": "vscode-openai.extension.enabled && scmProvider == git"
         }
       ],
       "editor/title": [
@@ -450,32 +460,32 @@
       ],
       "vscode-openai.menu.toolbox": [
         {
-          "command": "vscode-openai.prompt-editor.comment",
+          "command": "vscode-openai.editor.code.comments",
           "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.prompt-editor.explain",
+          "command": "vscode-openai.editor.code.explain",
           "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.prompt-editor.bounty",
+          "command": "vscode-openai.editor.code.bounty",
           "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.prompt-editor.optimize",
+          "command": "vscode-openai.editor.code.optimize",
           "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.prompt-editor.patterns",
+          "command": "vscode-openai.editor.code.patterns",
           "group": "prompt-editor.source@1",
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.settings.prompt-editor",
+          "command": "vscode-openai.editor.settings",
           "group": "prompt-editor.source.setting",
           "when": "vscode-openai.extension.enabled"
         }
@@ -494,37 +504,47 @@
     ],
     "commands": [
       {
-        "command": "vscode-openai.conversation.new-standard",
+        "command": "vscode-openai.conversations.clipboard-copy.summary",
+        "title": "Copy 🧶",
+        "category": "vscode-openai.conversation.menu"
+      },
+      {
+        "command": "vscode-openai.messages.clipboard-message",
+        "title": "Copy 🦁",
+        "category": "vscode-openai.messages.menu"
+      },
+      {
+        "command": "vscode-openai.conversations.new.conversation.standard",
         "title": "New conversation",
         "category": "vscode-openai.conversation",
         "icon": "$(comment)"
       },
       {
-        "command": "vscode-openai.conversation.new-persona",
+        "command": "vscode-openai.conversations.new.conversation.persona",
         "title": "New persona conversation",
         "category": "vscode-openai.conversation",
         "icon": "$(feedback)"
       },
       {
-        "command": "vscode-openai.conversation.refresh",
+        "command": "vscode-openai.conversations.refresh",
         "title": "Refresh",
         "category": "vscode-openai.conversation",
         "icon": "$(refresh)"
       },
       {
-        "command": "vscode-openai.conversation.delete-all",
+        "command": "vscode-openai.conversations.delete-all",
         "title": "Delete all conversations",
         "category": "vscode-openai.conversation",
         "icon": "$(notebook-delete-cell)"
       },
       {
-        "command": "vscode-openai.settings.conversation",
+        "command": "vscode-openai.conversations.settings",
         "title": "Edit conversation configuration setting",
         "category": "vscode-openai.conversation",
         "icon": "$(tools)"
       },
       {
-        "command": "vscode-openai.embedding.conversation-all",
+        "command": "vscode-openai.embeddings.new.conversation-all",
         "title": "New conversation over all resources",
         "category": "vscode-openai.embedding",
         "icon": {
@@ -533,25 +553,25 @@
         }
       },
       {
-        "command": "vscode-openai.embedding.index-file",
+        "command": "vscode-openai.embeddings.new.file",
         "title": "Index selected file",
         "category": "vscode-openai.embedding",
         "icon": "$(new-file)"
       },
       {
-        "command": "vscode-openai.embedding.index-folder",
+        "command": "vscode-openai.embeddings.new.folder",
         "title": "Index selected folder",
         "category": "vscode-openai.embedding",
         "icon": "$(new-folder)"
       },
       {
-        "command": "vscode-openai.embedding.refresh",
+        "command": "vscode-openai.embeddings.refresh",
         "title": "Refresh",
         "category": "vscode-openai.embedding",
         "icon": "$(refresh)"
       },
       {
-        "command": "vscode-openai.embedding.conversation",
+        "command": "vscode-openai.embeddings.new.conversation",
         "title": "New scoped conversation",
         "category": "vscode-openai.embedding",
         "icon": {
@@ -560,34 +580,34 @@
         }
       },
       {
-        "command": "vscode-openai.embedding.delete",
+        "command": "vscode-openai.embeddings.delete.resource",
         "title": "Delete Embedding",
         "category": "vscode-openai.embedding",
         "icon": "$(notebook-delete-cell)"
       },
       {
-        "command": "vscode-openai.settings.embedding",
+        "command": "vscode-openai.embeddings.settings",
         "title": "Edit embedding configuration setting",
         "category": "vscode-openai.settings",
         "icon": "$(tools)"
       },
       {
-        "command": "vscode-openai.settings.prompt-editor",
+        "command": "vscode-openai.editor.settings",
         "title": "Settings...",
         "category": "vscode-openai.settings"
       },
       {
-        "command": "vscode-openai.scm.comment",
+        "command": "vscode-openai.scm.generate.comments",
         "title": "Auto generate comments using OpenAI",
         "category": "vscode-openai.scm",
         "icon": {
           "light": "./assets/openai-light.png",
           "dark": "./assets/openai-dark.png"
         },
-        "when": "vscode-openai.extension.enabled && vscode-openai.scm.enabled && scmProvider == git"
+        "when": "vscode-openai.extension.enabled && scmProvider == git"
       },
       {
-        "command": "vscode-openai.register.openaiService",
+        "command": "vscode-openai.configuration.show.quickpick",
         "title": "Register OpenAI Service",
         "category": "vscode-openai.register",
         "icon": {
@@ -596,27 +616,27 @@
         }
       },
       {
-        "command": "vscode-openai.prompt-editor.comment",
+        "command": "vscode-openai.editor.code.comments",
         "title": "Comments",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.prompt-editor.explain",
+        "command": "vscode-openai.editor.code.explain",
         "title": "Explanation",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.prompt-editor.bounty",
+        "command": "vscode-openai.editor.code.bounty",
         "title": "Bug Bounty",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.prompt-editor.optimize",
+        "command": "vscode-openai.editor.code.optimize",
         "title": "Optimize",
         "category": "vscode-openai.completion"
       },
       {
-        "command": "vscode-openai.prompt-editor.patterns",
+        "command": "vscode-openai.editor.code.patterns",
         "title": "Design Patterns",
         "category": "vscode-openai.completion"
       }

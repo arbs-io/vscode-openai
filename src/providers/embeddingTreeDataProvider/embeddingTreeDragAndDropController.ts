@@ -1,7 +1,7 @@
 import {
   createDebugNotification,
   createErrorNotification,
-} from '@app/utilities/node'
+} from '@app/apis/node'
 import {
   EventEmitter,
   TreeDragAndDropController,
@@ -12,8 +12,8 @@ import {
   Uri,
 } from 'vscode'
 import { EmbeddingTreeItem } from '.'
-import { IEmbeddingFileLite } from '@app/interfaces'
-import { embeddingResource } from '@app/utilities/embedding'
+import { IEmbeddingFileLite } from '@app/types'
+import { embeddingResource } from '@app/apis/embedding'
 
 export class EmbeddingTreeDragAndDropController
   implements TreeDragAndDropController<EmbeddingTreeItem>

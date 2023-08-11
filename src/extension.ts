@@ -1,26 +1,16 @@
 import { ExtensionContext } from 'vscode'
-import { validateApiKey } from '@app/utilities/openai'
+import { validateApiKey } from '@app/apis/openai'
+import { CommandManager, registerVscodeOpenAICommands } from './commands'
 import {
   StatusBarServiceProvider,
   GlobalStorageService,
   TelemetryService,
   SecretStorageService,
   setFeatureFlag,
-} from '@app/utilities/vscode'
-import {
-  registerChangeConfiguration,
-  registerOpenaiEditor,
-  registerOpenaiServiceCommand,
-  registerOpenaiSCMCommand,
-  registerOpenSettings,
-  registerConversationCommand,
-  registerEmbeddingView,
-  registerConversationsWebviewView,
-  registerEmbeddingCommand,
-} from '@app/contexts'
+} from '@app/apis/vscode'
+import { registerConfigurationMonitor } from '@app/utilities/configurationMonitor'
 import {
   VSCODE_OPENAI_EXTENSION,
-  VSCODE_OPENAI_SCM,
   VSCODE_OPENAI_EMBEDDING,
 } from '@app/constants'
 import {
@@ -35,13 +25,17 @@ import {
   createDebugNotification,
   createErrorNotification,
   createInfoNotification,
-} from '@app/utilities/node'
+} from '@app/apis/node'
+import {
+  EmbeddingTreeDataProvider,
+  conversationsWebviewViewProvider,
+} from './providers'
 
 export function activate(context: ExtensionContext) {
   try {
     // Disable functionality until we validate auth
     setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, false)
-    setFeatureFlag(VSCODE_OPENAI_SCM.ENABLED_COMMAND_ID, false)
+    // setFeatureFlag(VSCODE_OPENAI_SCM.ENABLED_COMMAND_ID, false)
     setFeatureFlag(VSCODE_OPENAI_EMBEDDING.ENABLED_COMMAND_ID, false)
 
     // Enable logging and telemetry
@@ -68,16 +62,14 @@ export function activate(context: ExtensionContext) {
 
     // registerCommands
     createDebugNotification('register commands')
-    registerOpenaiEditor(context)
-    registerChangeConfiguration(context)
-    registerOpenaiServiceCommand(context)
-    registerOpenaiSCMCommand(context)
-    registerOpenSettings(context)
-    registerEmbeddingCommand(context)
-    registerConversationCommand(context)
+    const commandManager = new CommandManager()
+    const embeddingTree = new EmbeddingTreeDataProvider(context)
+    context.subscriptions.push(
+      registerVscodeOpenAICommands(context, commandManager, embeddingTree)
+    )
+    registerConfigurationMonitor(context)
     // views
-    registerEmbeddingView(context)
-    registerConversationsWebviewView(context)
+    conversationsWebviewViewProvider(context)
 
     createDebugNotification('starting conversation service')
     ConversationStorageService.init(context)

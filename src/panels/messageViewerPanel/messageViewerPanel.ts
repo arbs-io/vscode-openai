@@ -10,11 +10,11 @@ import {
   EventEmitter,
   Event,
 } from 'vscode'
-import { getUri, getNonce } from '@app/utilities/vscode'
-import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
-import { ResponseFormat, createChatCompletion } from '@app/utilities/openai'
+import { getUri, getNonce } from '@app/apis/vscode'
+import { IChatCompletion, ICodeDocument, IConversation } from '@app/types'
+import { ResponseFormat, createChatCompletion } from '@app/apis/openai'
 import {
-  onDidCreateClipboard,
+  onDidCopyClipboardCode,
   onDidCreateDocument,
   onDidSaveMessages,
 } from './onDidFunctions'
@@ -187,7 +187,7 @@ export class MessageViewerPanel {
    *    | extension	| webview		| onWillAnswerMessage			| IChatCompletion		|
    *    | webview		| extension	| onDidSaveMessages				| IChatCompletion[]	|
    *    | webview		| extension	| onDidCreateDocument			| ICodeDocument			|
-   *    | webview		| extension	| onDidCreateClipboard		| ICodeDocument			|
+   *    | webview		| extension	| onDidCopyClipboardCode		| ICodeDocument			|
    *
    */
   private _setWebviewMessageListener(webview: Webview) {
@@ -220,9 +220,9 @@ export class MessageViewerPanel {
             return
           }
 
-          case 'onDidCreateClipboard': {
+          case 'onDidCopyClipboardCode': {
             const codeDocument: ICodeDocument = JSON.parse(message.text)
-            onDidCreateClipboard(codeDocument)
+            onDidCopyClipboardCode(codeDocument)
             return
           }
 

@@ -16,6 +16,8 @@ const handleOpenConversation = (conversation: IConversation) => {
   })
 }
 
+//await navigator.clipboard.write(data)
+
 const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
   [
     createTableColumn<IConversation>({
@@ -44,7 +46,7 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
         )
       },
     }),
-
+    //data-vscode-context='{"webviewSection": "menu"}'
     createTableColumn<IConversation>({
       columnId: 'summary',
       compare: (a, b) => {
@@ -60,6 +62,10 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
               description={conversation.summary}
               onClick={() => handleOpenConversation(conversation)}
               style={{ paddingRight: '1rem', cursor: 'pointer' }}
+              data-vscode-context={JSON.stringify({
+                webviewSection: 'menu',
+                data: `"${conversation.summary}"`,
+              })}
             />
             <ContextMenu conversation={conversation} />
           </TableCell>

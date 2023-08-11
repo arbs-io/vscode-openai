@@ -14,7 +14,7 @@ const handleCopyToClipboard = (language: string, content: string) => {
     content: content,
   }
   vscode.postMessage({
-    command: 'onDidCreateClipboard',
+    command: 'onDidCopyClipboardCode',
     text: JSON.stringify(codeDocument),
   })
 }

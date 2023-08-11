@@ -8,7 +8,7 @@ import {
   SecretStorageService,
   setFeatureFlag,
 } from '@app/apis/vscode'
-import { registerChangeConfiguration } from '@app/contexts'
+import { registerConfigurationMonitor } from '@app/utilities/configurationMonitor'
 import {
   VSCODE_OPENAI_EXTENSION,
   VSCODE_OPENAI_EMBEDDING,
@@ -61,14 +61,13 @@ export function activate(context: ExtensionContext) {
     )
 
     // registerCommands
+    createDebugNotification('register commands')
     const commandManager = new CommandManager()
     const embeddingTree = new EmbeddingTreeDataProvider(context)
     context.subscriptions.push(
       registerVscodeOpenAICommands(context, commandManager, embeddingTree)
     )
-
-    createDebugNotification('register commands')
-    registerChangeConfiguration(context)
+    registerConfigurationMonitor(context)
     // views
     conversationsWebviewViewProvider(context)
 

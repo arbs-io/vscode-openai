@@ -3,12 +3,12 @@ import * as crypto from 'crypto'
 import {
   SecretStorageService,
   StatusBarServiceProvider,
-} from '@app/utilities/vscode'
+} from '@app/apis/vscode'
 import {
   createErrorNotification,
   createInfoNotification,
   waitFor,
-} from '@app/utilities/node'
+} from '@app/apis/node'
 import ConfigurationService from './configurationService'
 import { IConfigurationSetting, IDynamicLooseObject } from '@app/types'
 

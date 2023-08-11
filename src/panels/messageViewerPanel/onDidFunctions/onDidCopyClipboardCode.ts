@@ -1,5 +1,5 @@
 import { env } from 'vscode'
-import { showMessageWithTimeout } from '@app/utilities/vscode'
+import { showMessageWithTimeout } from '@app/apis/vscode'
 import { ICodeDocument } from '@app/types'
 
 export const onDidCopyClipboardCode = (codeDocument: ICodeDocument): void => {

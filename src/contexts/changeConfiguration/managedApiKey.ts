@@ -1,9 +1,9 @@
-import { waitFor } from '@app/utilities/node'
+import { waitFor } from '@app/apis/node'
 import {
   ConfigurationSettingService,
   enableServiceFeature,
 } from '@app/services'
-import { verifyApiKey } from '@app/utilities/openai'
+import { verifyApiKey } from '@app/apis/openai'
 
 export class ManagedApiKey {
   private static instance: ManagedApiKey

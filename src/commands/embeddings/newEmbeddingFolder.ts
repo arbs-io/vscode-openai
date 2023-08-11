@@ -1,8 +1,8 @@
 import { OpenDialogOptions, Uri, window, workspace } from 'vscode'
 import { Command } from '../commandManager'
 import { EmbeddingStorageService } from '@app/services'
-import { createDebugNotification } from '@app/utilities/node'
-import { embeddingResource } from '@app/utilities/embedding'
+import { createDebugNotification } from '@app/apis/node'
+import { embeddingResource } from '@app/apis/embedding'
 
 export default class NewEmbeddingFolderCommand implements Command {
   public readonly id = 'vscode-openai.embeddings.new.folder'

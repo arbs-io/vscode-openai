@@ -11,11 +11,11 @@ import {
   PatternPromptFactory,
   createChatCompletion,
   ResponseFormat,
-} from '@app/utilities/openai'
-import { compareFileToClipboard } from '@app/utilities/vscode'
+} from '@app/apis/openai'
+import { compareFileToClipboard } from '@app/apis/vscode'
 import { VSCODE_OPENAI_PROMPT } from '@app/constants'
 import { ConversationStorageService } from '@app/services'
-import { createErrorNotification } from '@app/utilities/node'
+import { createErrorNotification } from '@app/apis/node'
 
 // Define a command registry that uses the factory pattern
 class CommandRegistry {

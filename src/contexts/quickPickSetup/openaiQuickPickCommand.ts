@@ -10,13 +10,13 @@ import {
   quickPickSetupCredalOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
-} from '@app/quickPicks'
+} from '@app/util/quickPicks'
 import { ICommandOpenai } from '@app/types'
 import {
   VSCODE_OPENAI_EXTENSION,
   VSCODE_OPENAI_SERVICE_PROVIDER,
-} from '@app/constants/constants'
-import { getFeatureFlag } from '@app/utilities/vscode'
+} from '@app/constants'
+import { getFeatureFlag } from '@app/apis/vscode'
 import { ConfigurationSettingService } from '@app/services'
 
 export class OpenaiQuickPickCommand implements ICommandOpenai {

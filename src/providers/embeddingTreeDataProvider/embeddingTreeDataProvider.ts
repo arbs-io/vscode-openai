@@ -5,7 +5,6 @@ import {
   ExtensionContext,
   window,
 } from 'vscode'
-import { VSCODE_OPENAI_SIDEBAR } from '@app/constants'
 import { EmbeddingStorageService } from '@app/services'
 import { EmbeddingTreeDragAndDropController, EmbeddingTreeItem } from '.'
 import { IEmbeddingFileLite } from '@app/types'
@@ -38,7 +37,7 @@ export class EmbeddingTreeDataProvider
     })
 
     const view = window.createTreeView(
-      VSCODE_OPENAI_SIDEBAR.EMBEDDING_COMMAND_ID,
+      'vscode-openai.embeddings.view.sidebar',
       {
         treeDataProvider: this,
         showCollapseAll: false,

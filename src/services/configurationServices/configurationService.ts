@@ -2,7 +2,7 @@ import { workspace } from 'vscode'
 import {
   createDebugNotification,
   createErrorNotification,
-} from '@app/utilities/node'
+} from '@app/apis/node'
 
 export default class ConfigurationService {
   protected getConfigValue<T>(configName: string): T {

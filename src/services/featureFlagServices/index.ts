@@ -1,6 +1,6 @@
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 import { ConfigurationSettingService } from '@app/services'
-import { setFeatureFlag } from '@app/utilities/vscode'
+import { setFeatureFlag } from '@app/apis/vscode'
 
 export const SUPPORT_EMBEDDING = ['OpenAI', 'Azure-OpenAI']
 export const SUPPORT_VERIFY_APIKEY = ['OpenAI', 'Azure-OpenAI', 'VSCode-OpenAI']

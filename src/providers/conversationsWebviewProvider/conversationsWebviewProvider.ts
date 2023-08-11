@@ -11,7 +11,7 @@ import {
   ColorTheme,
 } from 'vscode'
 import { IConversation } from '@app/types'
-import { getNonce, getUri } from '@app/utilities/vscode'
+import { getNonce, getUri } from '@app/apis/vscode'
 import { ConversationStorageService } from '@app/services'
 import {
   onDidInitialize,

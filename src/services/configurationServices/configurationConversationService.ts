@@ -1,7 +1,4 @@
-import {
-  createErrorNotification,
-  createInfoNotification,
-} from '@app/utilities/node'
+import { createErrorNotification, createInfoNotification } from '@app/apis/node'
 import ConfigurationService from './configurationService'
 import { IConfigurationConversation } from '@app/types'
 

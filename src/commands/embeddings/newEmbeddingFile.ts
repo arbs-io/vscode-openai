@@ -4,8 +4,8 @@ import { EmbeddingStorageService } from '@app/services'
 import {
   createDebugNotification,
   createErrorNotification,
-} from '@app/utilities/node'
-import { embeddingResource } from '@app/utilities/embedding'
+} from '@app/apis/node'
+import { embeddingResource } from '@app/apis/embedding'
 
 export default class NewEmbeddingFileCommand implements Command {
   public readonly id = 'vscode-openai.embeddings.new.file'

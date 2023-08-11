@@ -1,12 +1,12 @@
 import * as crypto from 'crypto'
 import { EventEmitter, Event, ExtensionContext } from 'vscode'
-import { GlobalStorageService } from '@app/utilities/vscode'
+import { GlobalStorageService } from '@app/apis/vscode'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/types'
 import { MessageViewerPanel } from '@app/panels'
 import {
   createDebugNotification,
   createErrorNotification,
-} from '@app/utilities/node'
+} from '@app/apis/node'
 import {
   VSCODE_OPENAI_CONVERSATION,
   VSCODE_OPENAI_EMBEDDING,

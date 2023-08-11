@@ -10,9 +10,9 @@ import {
   EventEmitter,
   Event,
 } from 'vscode'
-import { getUri, getNonce } from '@app/utilities/vscode'
+import { getUri, getNonce } from '@app/apis/vscode'
 import { IChatCompletion, ICodeDocument, IConversation } from '@app/types'
-import { ResponseFormat, createChatCompletion } from '@app/utilities/openai'
+import { ResponseFormat, createChatCompletion } from '@app/apis/openai'
 import {
   onDidCopyClipboardCode,
   onDidCreateDocument,

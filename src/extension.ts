@@ -1,5 +1,5 @@
 import { ExtensionContext } from 'vscode'
-import { validateApiKey } from '@app/utilities/openai'
+import { validateApiKey } from '@app/apis/openai'
 import { CommandManager, registerVscodeOpenAICommands } from './commands'
 import {
   StatusBarServiceProvider,
@@ -7,18 +7,15 @@ import {
   TelemetryService,
   SecretStorageService,
   setFeatureFlag,
-} from '@app/utilities/vscode'
+} from '@app/apis/vscode'
 import {
   registerChangeConfiguration,
   registerOpenaiEditor,
   registerOpenaiServiceCommand,
-  // registerOpenaiSCMCommand,
   registerOpenSettings,
-  registerConversationsWebviewView,
 } from '@app/contexts'
 import {
   VSCODE_OPENAI_EXTENSION,
-  // VSCODE_OPENAI_SCM,
   VSCODE_OPENAI_EMBEDDING,
 } from '@app/constants'
 import {
@@ -33,8 +30,11 @@ import {
   createDebugNotification,
   createErrorNotification,
   createInfoNotification,
-} from '@app/utilities/node'
-import { EmbeddingTreeDataProvider } from './providers'
+} from '@app/apis/node'
+import {
+  EmbeddingTreeDataProvider,
+  conversationsWebviewViewProvider,
+} from './providers'
 
 export function activate(context: ExtensionContext) {
   try {
@@ -79,7 +79,7 @@ export function activate(context: ExtensionContext) {
     // registerOpenaiSCMCommand(context)
     registerOpenSettings(context)
     // views
-    registerConversationsWebviewView(context)
+    conversationsWebviewViewProvider(context)
 
     createDebugNotification('starting conversation service')
     ConversationStorageService.init(context)

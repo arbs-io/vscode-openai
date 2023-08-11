@@ -1,11 +1,11 @@
 import * as fs from 'fs'
 import { workspace, EventEmitter, Event, ExtensionContext, Uri } from 'vscode'
-import { GlobalStorageService } from '@app/utilities/vscode'
+import { GlobalStorageService } from '@app/apis/vscode'
 import { IEmbeddingFileLite } from '@app/types'
 import {
   createDebugNotification,
   createErrorNotification,
-} from '@app/utilities/node'
+} from '@app/apis/node'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
 export default class EmbeddingStorageService {

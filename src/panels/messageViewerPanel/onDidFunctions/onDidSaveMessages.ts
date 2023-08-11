@@ -4,7 +4,7 @@ import {
   ConfigurationConversationService,
   ConversationStorageService,
 } from '@app/services'
-import { ResponseFormat, createChatCompletion } from '@app/utilities/openai'
+import { ResponseFormat, createChatCompletion } from '@app/apis/openai'
 
 export const onDidSaveMessages = (
   conversation: IConversation,

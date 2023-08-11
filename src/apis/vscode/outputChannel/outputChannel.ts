@@ -1,5 +1,5 @@
 import { OutputChannel, window, workspace } from 'vscode'
-import * as util from 'util'
+import util from 'util'
 
 class OutputChannelFactory {
   private static outLogChannel: OutputChannel

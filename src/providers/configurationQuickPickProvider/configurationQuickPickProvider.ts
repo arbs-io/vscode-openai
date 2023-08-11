@@ -10,7 +10,7 @@ import {
   quickPickSetupCredalOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
-} from '@app/util/quickPicks'
+} from '@app/utilities/quickPicks'
 import {
   VSCODE_OPENAI_EXTENSION,
   VSCODE_OPENAI_SERVICE_PROVIDER,

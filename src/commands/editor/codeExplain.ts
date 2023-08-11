@@ -1,12 +1,15 @@
 import { Command } from '../commandManager'
 import { getSystemPersonas } from '@app/models'
-import { compareResultsToClipboard, getEditorPrompt } from '@app/util/editor'
+import {
+  compareResultsToClipboard,
+  getEditorPrompt,
+} from '@app/utilities/editor'
 
-export default class CommentCodeCommand implements Command {
-  public readonly id = 'vscode-openai.editor.code.comments'
+export default class CodeExplainCommand implements Command {
+  public readonly id = 'vscode-openai.editor.code.explain'
 
   public async execute() {
-    const prompt = await getEditorPrompt('editor.code.comments')
+    const prompt = await getEditorPrompt('editor.code.explain')
     const persona = getSystemPersonas().find(
       (a) => a.roleName === 'Developer/Programmer'
     )

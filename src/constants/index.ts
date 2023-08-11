@@ -26,17 +26,6 @@ export const VSCODE_OPENAI_CONVERSATION = {
   STORAGE_V1_ID: 'conversation',
 }
 
-// VSCODE_OPENAI_PROMPT: Contains various command IDs for prompting OpenAI to complete tasks.
-// Input: None
-// Output: An object containing strings representing various command IDs for prompting OpenAI to complete tasks.
-export const VSCODE_OPENAI_PROMPT = {
-  // PROMPT_COMMENTS_COMMAND_ID: 'vscode-openai.editor.code.comments',
-  PROMPT_EXPLAIN_COMMAND_ID: 'vscode-openai.prompt-editor.explain',
-  PROMPT_BOUNTY_COMMAND_ID: 'vscode-openai.prompt-editor.bounty',
-  PROMPT_OPTIMIZE_COMMAND_ID: 'vscode-openai.prompt-editor.optimize',
-  PROMPT_PATTERNS_COMMAND_ID: 'vscode-openai.prompt-editor.patterns',
-}
-
 // VSCODE_OPENAI_SIDEBAR: Contains various command IDs for opening webviews in the sidebar of VS Code.
 // Input: None
 // Output: An object containing strings representing various command IDs for opening webviews in the sidebar of VS Code.

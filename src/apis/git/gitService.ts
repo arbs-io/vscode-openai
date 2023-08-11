@@ -1,15 +1,15 @@
-import * as vscode from 'vscode'
+import { Disposable, Extension, extensions } from 'vscode'
 import { IRepositoryChangeCallback } from '.'
 import { GitExtension, API, Repository } from '@app/typings/git'
 
 class GitService {
   private isGitAvailable = false
-  private gitExtension: vscode.Extension<GitExtension> | undefined
+  private gitExtension: Extension<GitExtension> | undefined
   private api: API | undefined
-  private disposables: vscode.Disposable[] = []
+  private disposables: Disposable[] = []
 
   constructor() {
-    this.gitExtension = vscode.extensions.getExtension('vscode.git')
+    this.gitExtension = extensions.getExtension('vscode.git')
 
     if (!this.gitExtension) {
       return
@@ -36,9 +36,8 @@ class GitService {
       (r: Repository) => r.rootUri.path === path
     )
 
-    if (repository) {
-      return repository
-    }
+    if (repository) return repository
+    return undefined
   }
 
   public onRepositoryDidChange(handler: IRepositoryChangeCallback) {

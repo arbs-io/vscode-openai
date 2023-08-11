@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import fs from 'fs'
 import { workspace, EventEmitter, Event, ExtensionContext, Uri } from 'vscode'
 import { GlobalStorageService } from '@app/apis/vscode'
 import { IEmbeddingFileLite } from '@app/types'
@@ -64,6 +64,7 @@ export default class EmbeddingStorageService {
     } catch (error) {
       createErrorNotification(error)
     }
+    return undefined
   }
 
   public delete(embeddingId: string) {

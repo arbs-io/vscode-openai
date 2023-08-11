@@ -94,4 +94,5 @@ export async function createChatCompletion(
   } catch (error: any) {
     errorHandler(error)
   }
+  return undefined
 }

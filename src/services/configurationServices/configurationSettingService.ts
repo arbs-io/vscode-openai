@@ -1,5 +1,5 @@
 import { extensions, version } from 'vscode'
-import * as crypto from 'crypto'
+import crypto from 'crypto'
 import {
   SecretStorageService,
   StatusBarServiceProvider,

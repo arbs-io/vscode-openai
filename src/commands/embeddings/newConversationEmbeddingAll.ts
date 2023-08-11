@@ -5,7 +5,7 @@ import { getQueryResourcePersona } from '@app/models'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
 export default class NewConversationEmbeddingAllCommand implements Command {
-  public readonly id = 'vscode-openai.embeddings.new.conversation'
+  public readonly id = 'vscode-openai.embeddings.new.conversation-all'
 
   public async execute() {
     const persona = getQueryResourcePersona()

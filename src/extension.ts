@@ -8,10 +8,7 @@ import {
   SecretStorageService,
   setFeatureFlag,
 } from '@app/apis/vscode'
-import {
-  registerChangeConfiguration,
-  registerOpenaiEditor,
-} from '@app/contexts'
+import { registerChangeConfiguration } from '@app/contexts'
 import {
   VSCODE_OPENAI_EXTENSION,
   VSCODE_OPENAI_EMBEDDING,
@@ -71,7 +68,6 @@ export function activate(context: ExtensionContext) {
     )
 
     createDebugNotification('register commands')
-    registerOpenaiEditor(context)
     registerChangeConfiguration(context)
     // views
     conversationsWebviewViewProvider(context)

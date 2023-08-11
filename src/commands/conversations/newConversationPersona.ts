@@ -1,6 +1,6 @@
 import { ExtensionContext } from 'vscode'
 import { Command } from '../commandManager'
-import { quickPickCreateConversation } from '@app/util/quickPicks'
+import { quickPickCreateConversation } from '@app/utilities/quickPicks'
 
 export default class NewConversationPersonaCommand implements Command {
   public readonly id = 'vscode-openai.conversations.new.conversation.persona'

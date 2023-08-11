@@ -1,4 +1,4 @@
-import * as crypto from 'crypto'
+import crypto from 'crypto'
 import { Uri, workspace } from 'vscode'
 import { createDebugNotification } from '@app/apis/node'
 import {

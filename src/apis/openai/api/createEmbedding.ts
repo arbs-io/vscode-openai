@@ -65,4 +65,5 @@ export async function createEmbedding({
   } catch (error: any) {
     errorHandler(error)
   }
+  return undefined
 }

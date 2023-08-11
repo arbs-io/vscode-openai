@@ -1,4 +1,4 @@
-import * as crypto from 'crypto'
+import crypto from 'crypto'
 import { EventEmitter, Event, ExtensionContext } from 'vscode'
 import { GlobalStorageService } from '@app/apis/vscode'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/types'

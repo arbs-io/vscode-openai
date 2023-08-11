@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import fs from 'fs'
 import { createDebugNotification, createInfoNotification } from '@app/apis/node'
 import {
   extractContentFromBuffer,
@@ -20,11 +20,10 @@ export async function extractTextFromBuffer({
     createInfoNotification(Object.fromEntries(cfgMap), 'file_information')
 
     if (bufferContent) return bufferContent
-
-    return undefined
   } catch (error) {
     createDebugNotification(`Failed to detect binary file type`)
   }
+  return undefined
 }
 
 export async function extractTextFromFile({

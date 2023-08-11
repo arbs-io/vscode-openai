@@ -25,7 +25,7 @@ The Quick Pick feature of the VSCode-OpenAI extension is a convenient and effici
 
 Once configured, you can effortlessly utilize OpenAI features within VSCode without any interruptions to your workflow.
 
-Note: To activate the setup, you have two options: either use the command **"vscode-openai.register.openaiService"** or access it through the **vscode-openai StatusBar** located at the bottom left corner of VSCode.
+Note: To activate the setup, you have two options: either use the command **"vscode-openai.configuration.show.quickpick"** or access it through the **vscode-openai StatusBar** located at the bottom left corner of VSCode.
 
 ![vscode-openai-serviceproviders.png](images/vscode-openai-serviceproviders.png)
 

@@ -111,7 +111,7 @@
     "viewsWelcome": [
       {
         "view": "vscode-openai.embeddings.view.sidebar",
-        "contents": "To utilize the Query Resources feature, it is necessary to register (or re-register) with the OpenAI service provider. This will enable you to select from a variety of embedding models.\n\nSupported file types (DOCX, HTML, TEXT and MARKDOWN), support for PDF will be added soon.\n\nPlease note that this particular feature is exclusively available with the native and Azure OpenAI services, and unfortunately, it is not provided by the vscode-openai service.\n[Setup OpenAI Provider](command:vscode-openai.register.openaiService)",
+        "contents": "To utilize the Query Resources feature, it is necessary to register (or re-register) with the OpenAI service provider. This will enable you to select from a variety of embedding models.\n\nSupported file types (DOCX, HTML, TEXT and MARKDOWN), support for PDF will be added soon.\n\nPlease note that this particular feature is exclusively available with the native and Azure OpenAI services, and unfortunately, it is not provided by the vscode-openai service.\n[Setup OpenAI Provider](command:vscode-openai.configuration.show.quickpick)",
         "when": "vscode-openai.embedding.setup-required"
       }
     ],
@@ -485,7 +485,7 @@
           "when": "vscode-openai.extension.enabled"
         },
         {
-          "command": "vscode-openai.settings.prompt-editor",
+          "command": "vscode-openai.editor.settings",
           "group": "prompt-editor.source.setting",
           "when": "vscode-openai.extension.enabled"
         }
@@ -592,7 +592,7 @@
         "icon": "$(tools)"
       },
       {
-        "command": "vscode-openai.settings.prompt-editor",
+        "command": "vscode-openai.editor.settings",
         "title": "Settings...",
         "category": "vscode-openai.settings"
       },
@@ -607,7 +607,7 @@
         "when": "vscode-openai.extension.enabled && scmProvider == git"
       },
       {
-        "command": "vscode-openai.register.openaiService",
+        "command": "vscode-openai.configuration.show.quickpick",
         "title": "Register OpenAI Service",
         "category": "vscode-openai.register",
         "icon": {

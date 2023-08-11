@@ -5,7 +5,6 @@ import { ConversationStorageService } from '@app/services'
 
 export default class NewConversationStandardCommand implements Command {
   public readonly id = 'vscode-openai.conversations.new.conversation.standard'
-  public constructor() {}
 
   public async execute() {
     const persona = getSystemPersonas().find(

@@ -18,8 +18,10 @@ import {
   EmbeddingsSettingsCommand,
 } from './embeddings'
 import { GenerateCommentsCommand } from './scm'
+import { ConfigurationShowQuickpick } from './configuration'
+
 import { EmbeddingTreeDataProvider } from '@app/providers'
-import { EditorCommentCodeCommand } from './editor'
+import { EditorCommentCodeCommand, EditorSettingsCommand } from './editor'
 
 export { CommandManager }
 export function registerVscodeOpenAICommands(
@@ -48,7 +50,11 @@ export function registerVscodeOpenAICommands(
   commandManager.register(new GenerateCommentsCommand())
 
   // Editor
+  commandManager.register(new EditorSettingsCommand())
   commandManager.register(new EditorCommentCodeCommand())
+
+  // Configuration
+  commandManager.register(new ConfigurationShowQuickpick(context))
 
   return commandManager
 }

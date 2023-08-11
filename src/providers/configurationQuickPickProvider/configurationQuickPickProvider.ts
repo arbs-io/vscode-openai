@@ -11,7 +11,6 @@ import {
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
 } from '@app/util/quickPicks'
-import { ICommandOpenai } from '@app/types'
 import {
   VSCODE_OPENAI_EXTENSION,
   VSCODE_OPENAI_SERVICE_PROVIDER,
@@ -19,19 +18,22 @@ import {
 import { getFeatureFlag } from '@app/apis/vscode'
 import { ConfigurationSettingService } from '@app/services'
 
-export class OpenaiQuickPickCommand implements ICommandOpenai {
-  private static instance: OpenaiQuickPickCommand
+export class ConfigurationQuickPickProvider {
+  private static instance: ConfigurationQuickPickProvider
   private context: ExtensionContext
 
   constructor(context: ExtensionContext) {
     this.context = context
   }
 
-  public static getInstance(context: ExtensionContext): OpenaiQuickPickCommand {
-    if (!OpenaiQuickPickCommand.instance) {
-      OpenaiQuickPickCommand.instance = new OpenaiQuickPickCommand(context)
+  public static getInstance(
+    context: ExtensionContext
+  ): ConfigurationQuickPickProvider {
+    if (!ConfigurationQuickPickProvider.instance) {
+      ConfigurationQuickPickProvider.instance =
+        new ConfigurationQuickPickProvider(context)
     }
-    return OpenaiQuickPickCommand.instance
+    return ConfigurationQuickPickProvider.instance
   }
 
   public async execute(): Promise<void> {

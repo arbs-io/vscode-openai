@@ -6,7 +6,6 @@ import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
 export default class NewConversationEmbeddingAllCommand implements Command {
   public readonly id = 'vscode-openai.embeddings.new.conversation'
-  public constructor() {}
 
   public async execute() {
     const persona = getQueryResourcePersona()

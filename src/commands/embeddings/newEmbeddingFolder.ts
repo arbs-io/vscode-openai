@@ -6,7 +6,6 @@ import { embeddingResource } from '@app/apis/embedding'
 
 export default class NewEmbeddingFolderCommand implements Command {
   public readonly id = 'vscode-openai.embeddings.new.folder'
-  public constructor() {}
 
   public async execute() {
     const options: OpenDialogOptions = {
@@ -27,8 +26,9 @@ export default class NewEmbeddingFolderCommand implements Command {
             const uriFile = Uri.joinPath(uriFolders, file[0])
             createDebugNotification(`file-index: ${uriFile.fsPath}`)
             const fileObject = await embeddingResource(uriFile)
-            if (!fileObject) return
-            EmbeddingStorageService.instance.update(fileObject)
+            if (fileObject) {
+              EmbeddingStorageService.instance.update(fileObject)
+            }
           })
         })
       }

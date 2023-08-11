@@ -5,7 +5,6 @@ import {
   ThemeColor,
   window,
 } from 'vscode'
-import { VSCODE_OPENAI_REGISTER } from '@app/constants'
 import { ConfigurationSettingService } from '@app/services'
 import { createErrorNotification } from '@app/apis/node'
 
@@ -20,7 +19,7 @@ export default class StatusBarServiceProvider {
         102
       )
       statusBarItem.name = 'vscode-openai'
-      statusBarItem.command = VSCODE_OPENAI_REGISTER.SERVICE_COMMAND_ID
+      statusBarItem.command = 'vscode-openai.configuration.show.quickpick'
       statusBarItem.backgroundColor = new ThemeColor(
         'statusBarItem.errorBackground'
       )

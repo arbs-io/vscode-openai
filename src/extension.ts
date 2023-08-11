@@ -11,8 +11,6 @@ import {
 import {
   registerChangeConfiguration,
   registerOpenaiEditor,
-  registerOpenaiServiceCommand,
-  registerOpenSettings,
 } from '@app/contexts'
 import {
   VSCODE_OPENAI_EXTENSION,
@@ -75,9 +73,6 @@ export function activate(context: ExtensionContext) {
     createDebugNotification('register commands')
     registerOpenaiEditor(context)
     registerChangeConfiguration(context)
-    registerOpenaiServiceCommand(context)
-    // registerOpenaiSCMCommand(context)
-    registerOpenSettings(context)
     // views
     conversationsWebviewViewProvider(context)
 

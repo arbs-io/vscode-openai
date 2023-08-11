@@ -3,7 +3,6 @@ import { GitService, getComments, getGitDifferences } from '@app/apis/git'
 
 export default class GenerateCommentsCommand implements Command {
   public readonly id = 'vscode-openai.scm.generate.comments'
-  public constructor() {}
 
   public async execute() {
     const gitService = new GitService()

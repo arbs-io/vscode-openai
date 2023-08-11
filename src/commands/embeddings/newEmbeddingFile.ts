@@ -9,7 +9,6 @@ import { embeddingResource } from '@app/apis/embedding'
 
 export default class NewEmbeddingFileCommand implements Command {
   public readonly id = 'vscode-openai.embeddings.new.file'
-  public constructor() {}
 
   public async execute() {
     // Define the options for the open dialog

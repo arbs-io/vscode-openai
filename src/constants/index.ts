@@ -6,14 +6,6 @@
 export const VSCODE_OPENAI_EXTENSION = {
   INSTRUMENTATION_KEY: 'e01c0a97-9930-4885-b2e8-772176ced488',
   ENABLED_COMMAND_ID: 'vscode-openai.extension.enabled',
-  SETTINGS_PROMPT_EDIT_COMMAND_ID: 'vscode-openai.settings.prompt-editor',
-}
-
-// VSCODE_OPENAI_REGISTER: Contains the command ID for registering the OpenAI service.
-// Input: None
-// Output: A string representing the command ID for registering the OpenAI service.
-export const VSCODE_OPENAI_REGISTER = {
-  SERVICE_COMMAND_ID: 'vscode-openai.register.openaiService',
 }
 
 // VSCODE_OPENAI_EMBEDDING: Contains the command ID for deleting embedding results.

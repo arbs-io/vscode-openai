@@ -373,29 +373,29 @@
           "group": "inline@1"
         },
         {
-          "command": "vscode-openai.conversation.open",
+          "command": "vscode-openai.conversation.open.webview",
           "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
-          "group": "inline@1"
+          "group": "conversation01@1"
         },
         {
           "command": "vscode-openai.conversation.clipboard-copy.summary",
           "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
-          "group": "inline@2"
+          "group": "conversation02@1"
         },
         {
           "command": "vscode-openai.conversation.open.markdown",
           "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
-          "group": "inline@3"
+          "group": "conversation03@1"
         },
         {
           "command": "vscode-openai.conversation.open.json",
           "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
-          "group": "inline@4"
+          "group": "conversation03@2"
         },
         {
           "command": "vscode-openai.conversation.delete",
           "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
-          "group": "inline@5"
+          "group": "conversation04@1"
         }
       ],
       "view/item/context": [
@@ -538,7 +538,7 @@
         "icon": "$(feedback)"
       },
       {
-        "command": "vscode-openai.conversation.open",
+        "command": "vscode-openai.conversation.open.webview",
         "title": "Open",
         "category": "vscode-openai.conversation.open"
       },

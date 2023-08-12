@@ -369,11 +369,33 @@
       "webview/context": [
         {
           "command": "vscode-openai.messages.clipboard-message",
-          "when": "webviewId == 'vscode-openai.webview.messages' && webviewSection == 'menu'"
+          "when": "webviewId == 'vscode-openai.webview.messages' && webviewSection == 'menu'",
+          "group": "inline@1"
         },
         {
-          "command": "vscode-openai.conversations.clipboard-copy.summary",
-          "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'menu'"
+          "command": "vscode-openai.conversation.open",
+          "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
+          "group": "inline@1"
+        },
+        {
+          "command": "vscode-openai.conversation.clipboard-copy.summary",
+          "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
+          "group": "inline@2"
+        },
+        {
+          "command": "vscode-openai.conversation.open.markdown",
+          "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
+          "group": "inline@3"
+        },
+        {
+          "command": "vscode-openai.conversation.open.json",
+          "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
+          "group": "inline@4"
+        },
+        {
+          "command": "vscode-openai.conversation.delete",
+          "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
+          "group": "inline@5"
         }
       ],
       "view/item/context": [
@@ -390,12 +412,12 @@
       ],
       "view/title": [
         {
-          "command": "vscode-openai.conversations.new.conversation.standard",
+          "command": "vscode-openai.conversation.new.standard",
           "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@0"
         },
         {
-          "command": "vscode-openai.conversations.new.conversation.persona",
+          "command": "vscode-openai.conversation.new.persona",
           "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@1"
         },
@@ -504,26 +526,46 @@
     ],
     "commands": [
       {
-        "command": "vscode-openai.conversations.clipboard-copy.summary",
-        "title": "Copy 🧶",
-        "category": "vscode-openai.conversation.menu"
+        "command": "vscode-openai.conversation.new.standard",
+        "title": "New conversation (standard)",
+        "category": "vscode-openai.conversation.new",
+        "icon": "$(comment)"
+      },
+      {
+        "command": "vscode-openai.conversation.new.persona",
+        "title": "New conversation (persona)",
+        "category": "vscode-openai.conversation.new",
+        "icon": "$(feedback)"
+      },
+      {
+        "command": "vscode-openai.conversation.open",
+        "title": "Open",
+        "category": "vscode-openai.conversation.open"
+      },
+      {
+        "command": "vscode-openai.conversation.clipboard-copy.summary",
+        "title": "Copy Summary",
+        "category": "vscode-openai.conversation.clipboard-copy"
+      },
+      {
+        "command": "vscode-openai.conversation.open.markdown",
+        "title": "Open (markdown)",
+        "category": "vscode-openai.conversation.open"
+      },
+      {
+        "command": "vscode-openai.conversation.open.json",
+        "title": "Open (json)",
+        "category": "vscode-openai.conversation.open"
+      },
+      {
+        "command": "vscode-openai.conversation.delete",
+        "title": "Delete",
+        "category": "vscode-openai.conversation.delete"
       },
       {
         "command": "vscode-openai.messages.clipboard-message",
         "title": "Copy 🦁",
         "category": "vscode-openai.messages.menu"
-      },
-      {
-        "command": "vscode-openai.conversations.new.conversation.standard",
-        "title": "New conversation",
-        "category": "vscode-openai.conversation",
-        "icon": "$(comment)"
-      },
-      {
-        "command": "vscode-openai.conversations.new.conversation.persona",
-        "title": "New persona conversation",
-        "category": "vscode-openai.conversation",
-        "icon": "$(feedback)"
       },
       {
         "command": "vscode-openai.conversations.refresh",

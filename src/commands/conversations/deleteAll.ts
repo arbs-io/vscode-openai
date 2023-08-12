@@ -2,7 +2,7 @@ import { window } from 'vscode'
 import { Command } from '../commandManager'
 import { ConversationStorageService } from '@app/services'
 
-export default class DeleteAllCommand implements Command {
+export default class DeleteAllConversationsCommand implements Command {
   public readonly id = 'vscode-openai.conversations.delete-all'
 
   public async execute() {

@@ -53,6 +53,10 @@ const ConversationGrid: FC<IConversationGridProps> = ({ conversations }) => {
           <DataGridRow<IConversation>
             key={rowId}
             className={mergeClasses(componentStyles().verticalPadding)}
+            data-vscode-context={JSON.stringify({
+              webviewSection: 'conversation',
+              data: item,
+            })}
           >
             {({ renderCell }) => (
               <DataGridCell>{renderCell(item)}</DataGridCell>

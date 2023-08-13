@@ -6,7 +6,7 @@ import {
 } from '@app/utilities/editor'
 
 export default class CodeBountyCommand implements Command {
-  public readonly id = 'vscode-openai.editor.code.bounty'
+  public readonly id = '_vscode-openai.editor.code.bounty'
 
   public async execute() {
     const prompt = await getEditorPrompt('editor.code.bounty')

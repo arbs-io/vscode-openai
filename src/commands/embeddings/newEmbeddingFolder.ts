@@ -5,7 +5,7 @@ import { createDebugNotification } from '@app/apis/node'
 import { embeddingResource } from '@app/apis/embedding'
 
 export default class NewEmbeddingFolderCommand implements Command {
-  public readonly id = 'vscode-openai.embeddings.new.folder'
+  public readonly id = '_vscode-openai.embeddings.new.folder'
 
   public async execute() {
     const options: OpenDialogOptions = {

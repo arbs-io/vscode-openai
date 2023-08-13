@@ -4,7 +4,7 @@ import { Command } from '../commandManager'
 import { EmbeddingStorageService } from '@app/services'
 
 export default class RefreshCommand implements Command {
-  public readonly id = 'vscode-openai.embeddings.delete.resource'
+  public readonly id = '_vscode-openai.embeddings.delete.resource'
   public constructor(private _instance: EmbeddingTreeDataProvider) {}
 
   public async execute(node: EmbeddingTreeItem) {

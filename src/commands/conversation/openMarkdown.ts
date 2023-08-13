@@ -3,7 +3,7 @@ import { Command } from '../commandManager'
 import { IConversation } from '@app/types'
 
 export default class OpenConversationMarkdownCommand implements Command {
-  public readonly id = 'vscode-openai.conversation.open.markdown'
+  public readonly id = '_vscode-openai.conversation.open.markdown'
 
   public execute(args: { data: IConversation }) {
     const conversation = args.data

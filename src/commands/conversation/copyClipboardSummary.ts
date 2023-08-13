@@ -6,7 +6,7 @@ import { IConversation } from '@app/types'
 export default class ClipboardCopyConversationSummaryCommand
   implements Command
 {
-  public readonly id = 'vscode-openai.conversation.clipboard-copy.summary'
+  public readonly id = '_vscode-openai.conversation.clipboard-copy.summary'
 
   public execute(args: { data: IConversation }) {
     const summary = args.data.summary

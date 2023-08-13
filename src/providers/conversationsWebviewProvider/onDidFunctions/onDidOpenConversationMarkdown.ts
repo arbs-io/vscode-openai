@@ -4,7 +4,7 @@ import { IConversation } from '@app/types'
 export const onDidOpenConversationMarkdown = (
   conversation: IConversation
 ): void => {
-  commands.executeCommand('vscode-openai.conversation.open.markdown', {
+  commands.executeCommand('_vscode-openai.conversation.open.markdown', {
     data: conversation,
   })
 }

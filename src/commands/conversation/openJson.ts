@@ -3,7 +3,7 @@ import { Command } from '../commandManager'
 import { IConversation } from '@app/types'
 
 export default class OpenConversationJsonCommand implements Command {
-  public readonly id = 'vscode-openai.conversation.open.json'
+  public readonly id = '_vscode-openai.conversation.open.json'
 
   public execute(args: { data: IConversation }) {
     workspace

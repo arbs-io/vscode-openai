@@ -4,7 +4,7 @@ import { IConversation } from '@app/types'
 import { ConversationStorageService } from '@app/services'
 
 export default class DeleteConversationCommand implements Command {
-  public readonly id = 'vscode-openai.conversation.delete'
+  public readonly id = '_vscode-openai.conversation.delete'
 
   public execute(args: { data: IConversation }) {
     window

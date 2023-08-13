@@ -368,8 +368,8 @@
     "menus": {
       "webview/context": [
         {
-          "command": "vscode-openai.messages.clipboard-message",
-          "when": "webviewId == 'vscode-openai.webview.messages' && webviewSection == 'menu'",
+          "command": "_vscode-openai.messages.clipboard-copy.message",
+          "when": "webviewId == 'vscode-openai.webview.messages' && webviewSection == 'message'",
           "group": "inline@1"
         },
         {
@@ -563,8 +563,8 @@
         "category": "_vscode-openai.conversation.delete"
       },
       {
-        "command": "vscode-openai.messages.clipboard-message",
-        "title": "Copy 🦁",
+        "command": "_vscode-openai.messages.clipboard-copy.message",
+        "title": "Copy Message",
         "category": "vscode-openai.messages.menu"
       },
       {

@@ -35,22 +35,22 @@ export {
 
 export function registerVscodeOpenAIServices(context: ExtensionContext) {
   //register storage (Singletons)
-  createDebugNotification('initialise storage services')
+  createDebugNotification('initialise vscode services')
   SecretStorageService.init(context)
   GlobalStorageService.init(context)
 
-  createDebugNotification('starting vscode services')
+  createDebugNotification('starting storage services')
   registerConfigurationMonitorService(context)
   ConversationStorageService.init(context)
   EmbeddingStorageService.init(context)
 
   //load configuration
-  createDebugNotification('initialise configuration service')
+  createDebugNotification('log configuration service')
   ConfigurationSettingService.LogConfigurationService()
   ConfigurationConversationService.LogConfigurationService()
   ConfigurationEmbeddingService.LogConfigurationService()
 
-  createDebugNotification('verifying authentication openai service')
+  createDebugNotification('verifying service authentication')
   validateApiKey() //On activation check if the api key is valid
 
   createDebugNotification('verifying enabled features')

@@ -4,8 +4,8 @@ import {
   NewConversationStandardCommand,
   NewConversationPersonaCommand,
   OpenConversationWebviewCommand,
-  OpenConversationJsonCommand,
-  OpenConversationMarkdownCommand,
+  ShowConversationJsonCommand,
+  ShowConversationMarkdownCommand,
   ClipboardCopyConversationSummaryCommand,
   DeleteConversationCommand,
 } from './conversation'
@@ -46,8 +46,8 @@ export function registerVscodeOpenAICommands(
   commandManager.register(new NewConversationStandardCommand())
   commandManager.register(new NewConversationPersonaCommand(context))
   commandManager.register(new OpenConversationWebviewCommand())
-  commandManager.register(new OpenConversationJsonCommand())
-  commandManager.register(new OpenConversationMarkdownCommand())
+  commandManager.register(new ShowConversationJsonCommand())
+  commandManager.register(new ShowConversationMarkdownCommand())
   commandManager.register(new ClipboardCopyConversationSummaryCommand())
   commandManager.register(new DeleteConversationCommand())
 

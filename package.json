@@ -383,12 +383,12 @@
           "group": "conversation02@1"
         },
         {
-          "command": "_vscode-openai.conversation.open.markdown",
+          "command": "_vscode-openai.conversation.show.markdown",
           "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
           "group": "conversation03@1"
         },
         {
-          "command": "_vscode-openai.conversation.open.json",
+          "command": "_vscode-openai.conversation.show.json",
           "when": "webviewId == 'vscode-openai.conversations.view.sidebar' && webviewSection == 'conversation'",
           "group": "conversation03@2"
         },
@@ -548,14 +548,14 @@
         "category": "vscode-openai.conversation.clipboard-copy"
       },
       {
-        "command": "_vscode-openai.conversation.open.markdown",
-        "title": "Open (markdown)",
-        "category": "vscode-openai.conversation.open"
+        "command": "_vscode-openai.conversation.show.markdown",
+        "title": "Show Markdown",
+        "category": "vscode-openai.conversation.show"
       },
       {
-        "command": "_vscode-openai.conversation.open.json",
-        "title": "Open (json)",
-        "category": "vscode-openai.conversation.open"
+        "command": "_vscode-openai.conversation.show.json",
+        "title": "Show Json",
+        "category": "vscode-openai.conversation.show"
       },
       {
         "command": "_vscode-openai.conversation.delete",

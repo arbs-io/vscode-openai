@@ -2,7 +2,9 @@ import { ExtensionContext, workspace } from 'vscode'
 import { createErrorNotification } from '@app/apis/node'
 import { ManagedApiKey } from './managedApiKey'
 
-export function registerConfigurationMonitor(_context: ExtensionContext): void {
+export function registerConfigurationMonitorService(
+  _context: ExtensionContext
+): void {
   try {
     const managedApiKeyInstance = ManagedApiKey.getInstance()
     const eventAffectsConfigurations = [

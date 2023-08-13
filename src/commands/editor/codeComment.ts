@@ -6,7 +6,7 @@ import {
 } from '@app/utilities/editor'
 
 export default class CodeCommentCommand implements Command {
-  public readonly id = 'vscode-openai.editor.code.comments'
+  public readonly id = '_vscode-openai.editor.code.comments'
 
   public async execute() {
     const prompt = await getEditorPrompt('editor.code.comments')

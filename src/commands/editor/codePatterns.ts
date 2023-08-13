@@ -6,7 +6,7 @@ import {
 } from '@app/utilities/editor'
 
 export default class CodePatternsCommand implements Command {
-  public readonly id = 'vscode-openai.editor.code.patterns'
+  public readonly id = '_vscode-openai.editor.code.patterns'
 
   public async execute() {
     const prompt = await getEditorPrompt('editor.code.patterns')

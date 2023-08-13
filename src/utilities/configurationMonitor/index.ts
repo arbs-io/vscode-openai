@@ -1,1 +1,0 @@
-export { registerConfigurationMonitor } from './registerChangeConfiguration'

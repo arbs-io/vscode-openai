@@ -6,7 +6,7 @@ import {
 } from '@app/utilities/editor'
 
 export default class CodeExplainCommand implements Command {
-  public readonly id = 'vscode-openai.editor.code.explain'
+  public readonly id = '_vscode-openai.editor.code.explain'
 
   public async execute() {
     const prompt = await getEditorPrompt('editor.code.explain')

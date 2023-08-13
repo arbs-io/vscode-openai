@@ -3,10 +3,16 @@ import { CommandManager } from './commandManager'
 import {
   NewConversationStandardCommand,
   NewConversationPersonaCommand,
-  ClipboardCopySummaryCommand,
-  ConversationsRefreshCommand,
-  ConversationsDeleteAllCommand,
-  ConversationsSettingsCommand,
+  OpenConversationWebviewCommand,
+  ShowConversationJsonCommand,
+  ShowConversationMarkdownCommand,
+  ClipboardCopyConversationSummaryCommand,
+  DeleteConversationCommand,
+} from './conversation'
+import {
+  RefreshConversationsCommand,
+  DeleteAllConversationsCommand,
+  SettingsConversationsCommand,
 } from './conversations'
 import {
   EmbeddingsDeleteCommand,
@@ -36,13 +42,19 @@ export function registerVscodeOpenAICommands(
   commandManager: CommandManager,
   embeddingTree: EmbeddingTreeDataProvider
 ): Disposable {
-  // Conversations
+  // Conversation
   commandManager.register(new NewConversationStandardCommand())
   commandManager.register(new NewConversationPersonaCommand(context))
-  commandManager.register(new ClipboardCopySummaryCommand())
-  commandManager.register(new ConversationsRefreshCommand())
-  commandManager.register(new ConversationsDeleteAllCommand())
-  commandManager.register(new ConversationsSettingsCommand())
+  commandManager.register(new OpenConversationWebviewCommand())
+  commandManager.register(new ShowConversationJsonCommand())
+  commandManager.register(new ShowConversationMarkdownCommand())
+  commandManager.register(new ClipboardCopyConversationSummaryCommand())
+  commandManager.register(new DeleteConversationCommand())
+
+  // Conversations
+  commandManager.register(new RefreshConversationsCommand())
+  commandManager.register(new DeleteAllConversationsCommand())
+  commandManager.register(new SettingsConversationsCommand())
 
   // Embeddings
   commandManager.register(new EmbeddingsRefreshCommand(embeddingTree))

@@ -1,8 +1,8 @@
 import { commands } from 'vscode'
 import { Command } from '../commandManager'
 
-export default class SettingsCommand implements Command {
-  public readonly id = 'vscode-openai.conversations.settings'
+export default class SettingsConversationsCommand implements Command {
+  public readonly id = '_vscode-openai.conversations.settings'
 
   public async execute() {
     commands.executeCommand(

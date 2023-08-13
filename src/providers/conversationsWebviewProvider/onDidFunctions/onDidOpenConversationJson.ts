@@ -1,19 +1,10 @@
+import { commands } from 'vscode'
 import { IConversation } from '@app/types'
-import { ViewColumn, window, workspace } from 'vscode'
 
 export const onDidOpenConversationJson = (
   conversation: IConversation
 ): void => {
-  workspace
-    .openTextDocument({
-      content: JSON.stringify(conversation.chatMessages, undefined, 4),
-      language: 'json',
-    })
-    .then((doc) =>
-      window.showTextDocument(doc, {
-        preserveFocus: true,
-        preview: false,
-        viewColumn: ViewColumn.One,
-      })
-    )
+  commands.executeCommand('_vscode-openai.conversation.show.json', {
+    data: conversation,
+  })
 }

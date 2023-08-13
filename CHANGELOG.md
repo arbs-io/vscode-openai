@@ -4,6 +4,15 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.4.3]
+
+- Feature/20230805 code cleanup by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/148
+- The changes made in this commit include: by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/151
+- Feature/20230808 custom copy context menu by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/153
+- Feature/20230812 conversation context menu by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/154
+- Bump import-in-the-middle and @azure/opentelemetry-instrumentation-azure-sdk by @dependabot in https://github.com/arbs-io/vscode-openai/pull/155
+- Bump @opentelemetry/instrumentation and @azure/opentelemetry-instrumentation-azure-sdk by @dependabot in https://github.com/arbs-io/vscode-openai/pull/156
+
 ## [1.4.2]
 
 - fixed github issues and removed duplicated info by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/139

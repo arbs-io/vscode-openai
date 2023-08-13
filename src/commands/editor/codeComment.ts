@@ -6,10 +6,10 @@ import {
 } from '@app/utilities/editor'
 
 export default class CodeCommentCommand implements Command {
-  public readonly id = '_vscode-openai.editor.code.comments'
+  public readonly id = '_vscode-openai.editor.code.comment'
 
   public async execute() {
-    const prompt = await getEditorPrompt('editor.code.comments')
+    const prompt = await getEditorPrompt('editor.code.comment')
     const persona = getSystemPersonas().find(
       (a) => a.roleName === 'Developer/Programmer'
     )

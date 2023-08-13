@@ -35,6 +35,7 @@ import {
   EditorCodeOptimizeCommand,
   EditorCodePatternsCommand,
 } from './editor'
+import { ClipboardCopyMessagesMessageCommand } from './messages'
 
 export { CommandManager }
 export function registerVscodeOpenAICommands(
@@ -55,6 +56,9 @@ export function registerVscodeOpenAICommands(
   commandManager.register(new RefreshConversationsCommand())
   commandManager.register(new DeleteAllConversationsCommand())
   commandManager.register(new SettingsConversationsCommand())
+
+  // Messages
+  commandManager.register(new ClipboardCopyMessagesMessageCommand())
 
   // Embeddings
   commandManager.register(new EmbeddingsRefreshCommand(embeddingTree))

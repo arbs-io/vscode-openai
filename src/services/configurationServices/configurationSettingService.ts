@@ -22,6 +22,15 @@ export default class ConfigurationSettingService
   implements IConfigurationSetting
 {
   private static _instance: ConfigurationSettingService
+
+  static init(): void {
+    try {
+      ConfigurationSettingService._upgradeV1()
+    } catch (error) {
+      createErrorNotification(error)
+    }
+  }
+
   static get instance(): ConfigurationSettingService {
     if (!this._instance) {
       try {
@@ -212,6 +221,28 @@ export default class ConfigurationSettingService
       )
     } catch (error) {
       createErrorNotification(error)
+    }
+  }
+
+  private static _upgradeV1() {
+    upgradeConfigProperty('prompt-editor.comment', 'editor.code.comment')
+    upgradeConfigProperty('prompt-editor.explain', 'editor.code.explain')
+    upgradeConfigProperty('prompt-editor.bounty', 'editor.code.bounty')
+    upgradeConfigProperty('prompt-editor.optimize', 'editor.code.optimize')
+    upgradeConfigProperty('prompt-editor.patterns', 'editor.code.pattern')
+
+    function upgradeConfigProperty(oldProperty: string, newProperty: string) {
+      const value =
+        ConfigurationSettingService.instance.getConfigValue<string>(oldProperty)
+      if (value) {
+        // migrate new property
+        ConfigurationSettingService.instance.setConfigValue(newProperty, value)
+        // remove old property
+        ConfigurationSettingService.instance.setConfigValue(
+          oldProperty,
+          undefined
+        )
+      }
     }
   }
 }

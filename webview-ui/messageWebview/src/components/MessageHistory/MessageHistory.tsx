@@ -51,7 +51,10 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   return (
     <div
       style={styleMessageHistory}
-      data-vscode-context='{"webviewSection": "menu"}'
+      data-vscode-context={JSON.stringify({
+        webviewSection: 'message',
+        data: message,
+      })}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div style={{ paddingBottom: 10 }}>

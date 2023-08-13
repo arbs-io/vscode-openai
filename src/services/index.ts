@@ -38,6 +38,7 @@ export function registerVscodeOpenAIServices(context: ExtensionContext) {
   createDebugNotification('initialise vscode services')
   SecretStorageService.init(context)
   GlobalStorageService.init(context)
+  ConfigurationSettingService.init()
 
   createDebugNotification('starting storage services')
   registerConfigurationMonitorService(context)

@@ -7,7 +7,7 @@ export default class SettingsCommand implements Command {
   public async execute() {
     commands.executeCommand(
       'workbench.action.openSettings',
-      'vscode-openai.prompt-editor'
+      'vscode-openai.editor.code'
     )
   }
 }

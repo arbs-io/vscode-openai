@@ -7,6 +7,7 @@ import {
   OpenConversationJsonCommand,
   OpenConversationMarkdownCommand,
   ClipboardCopyConversationSummaryCommand,
+  DeleteConversationCommand,
 } from './conversation'
 import {
   RefreshConversationsCommand,
@@ -48,6 +49,7 @@ export function registerVscodeOpenAICommands(
   commandManager.register(new OpenConversationJsonCommand())
   commandManager.register(new OpenConversationMarkdownCommand())
   commandManager.register(new ClipboardCopyConversationSummaryCommand())
+  commandManager.register(new DeleteConversationCommand())
 
   // Conversations
   commandManager.register(new RefreshConversationsCommand())

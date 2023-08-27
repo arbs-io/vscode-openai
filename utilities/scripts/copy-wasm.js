@@ -4,11 +4,11 @@ const path = require('path')
 const outFolder = '../../out'
 const targetFiles = path.join(
   __dirname,
-  '../../out/extract-text-content-wasm_bg.wasm'
+  '../../out/asset-extractor-wasm_bg.wasm'
 )
 const sourceFiles = path.join(
   __dirname,
-  '../../node_modules/@arbs.io/extract-text-content-wasm/extract-text-content-wasm_bg.wasm'
+  '../../node_modules/@arbs.io/asset-extractor-wasm/asset-extractor-wasm_bg.wasm'
 )
 
 const dir = path.join(__dirname, outFolder)

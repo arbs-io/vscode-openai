@@ -1,12 +1,10 @@
 import crypto from 'crypto'
 import { Uri, workspace } from 'vscode'
-import { createDebugNotification } from '@app/apis/node'
-import {
-  extractTextFromBuffer,
-  getEmbeddingsForText,
-} from '@app/apis/embedding'
+import { createDebugNotification, createInfoNotification } from '@app/apis/node'
+import { getEmbeddingsForText } from '@app/apis/embedding'
 import { IEmbeddingFileLite } from '@app/types'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
+import { createDocumentParser } from '@arbs.io/asset-extractor-wasm'
 
 export async function embeddingResource(uri: Uri) {
   StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -17,13 +15,21 @@ export async function embeddingResource(uri: Uri) {
   createDebugNotification(`embedding-controller memory-buffer`)
   const bufferArray = await workspace.fs.readFile(uri)
 
-  const fileInfo = await extractTextFromBuffer({
-    bufferArray: bufferArray,
-  })
+  const documentParser = createDocumentParser(bufferArray)
+  if (!documentParser) {
+    createInfoNotification('failed to readed buffer')
+    return
+  }
+  const cfgMap = new Map<string, string>()
+  cfgMap.set('path', uri.path)
+  cfgMap.set('extension', documentParser.extension)
+  cfgMap.set('mimetype', documentParser.mimetype)
+  cfgMap.set('length', documentParser?.contents?.text?.length.toString() ?? '0')
+  createInfoNotification(Object.fromEntries(cfgMap), 'file_information')
 
-  if (!fileInfo?.content) return
+  if (!documentParser?.contents?.text) return
 
-  const embeddingText = await getEmbeddingsForText(fileInfo.content)
+  const embeddingText = await getEmbeddingsForText(documentParser.contents.text)
   createDebugNotification(
     `embedding-controller embedding ${embeddingText.length} (chunks)`
   )
@@ -35,11 +41,11 @@ export async function embeddingResource(uri: Uri) {
       decodeURIComponent(uri.path).lastIndexOf('/') + 1
     ),
     url: decodeURIComponent(uri.path),
-    type: fileInfo.mimetype,
-    size: fileInfo.content?.length,
+    type: documentParser.mimetype,
+    size: documentParser.contents.text.length,
     expanded: false,
     chunks: embeddingText,
-    extractedText: fileInfo.content,
+    extractedText: documentParser.contents.text,
   }
   StatusBarServiceProvider.instance.showStatusBarInformation(
     'vscode-openai',

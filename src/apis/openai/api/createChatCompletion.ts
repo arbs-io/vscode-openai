@@ -1,5 +1,4 @@
 import { OpenAI } from 'openai'
-import { BackoffOptions, backOff } from 'exponential-backoff'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import {
   ConfigurationConversationService,

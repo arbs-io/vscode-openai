@@ -16,8 +16,13 @@ export async function listModelsAzureOpenAI(
 ): Promise<Array<IDeploymentModel> | undefined> {
   try {
     const headers = ConfigurationSettingService.instance.apiHeaders
+    const azureApiVersion = await ConfigurationSettingService.instance
+      .azureApiVersion
+
     const openai = new OpenAI({
       apiKey: apiKey,
+      defaultQuery: { 'api-version': azureApiVersion },
+      defaultHeaders: { 'api-key': apiKey },
       baseURL: baseUrl,
     })
 

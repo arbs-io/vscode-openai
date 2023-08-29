@@ -20,11 +20,15 @@ export async function createEmbedding({
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
     const model = ConfigurationSettingService.instance.embeddingModel
+    const azureApiVersion = await ConfigurationSettingService.instance
+      .azureApiVersion
     const apiKey = await ConfigurationSettingService.instance.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')
 
     const openai = new OpenAI({
       apiKey: apiKey,
+      defaultQuery: { 'api-version': azureApiVersion },
+      defaultHeaders: { 'api-key': apiKey },
       baseURL: ConfigurationSettingService.instance.embeddingUrl,
     })
 

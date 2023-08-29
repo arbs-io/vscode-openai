@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai'
+import { OpenAI } from 'openai'
 import { BackoffOptions, backOff } from 'exponential-backoff'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import {
@@ -23,14 +23,14 @@ export async function createChatCompletion(
       'sync~spin',
       '- build-conversation'
     )
+
     const apiKey = await ConfigurationSettingService.instance.getApiKey()
     if (!apiKey) return undefined
 
-    const configuration = new Configuration({
+    const openai = new OpenAI({
       apiKey: apiKey,
-      basePath: ConfigurationSettingService.instance.inferenceUrl,
+      baseURL: ConfigurationSettingService.instance.inferenceUrl,
     })
-    const openai = new OpenAIApi(configuration)
 
     const chatCompletionMessages = conversation.embeddingId
       ? await ChatCompletionRequestMessageEmbedding(conversation)
@@ -55,7 +55,7 @@ export async function createChatCompletion(
 
     const completion = await backOff(
       () =>
-        openai.createChatCompletion(
+        openai.chat.completions.create(
           {
             model: ConfigurationSettingService.instance.defaultModel,
             messages: chatCompletionMessages,
@@ -70,18 +70,18 @@ export async function createChatCompletion(
       backoffOptions
     )
 
-    const content = completion.data.choices[0].message?.content
+    const content = completion.choices[0].message?.content
     if (!content) return undefined
     const message: IMessage = {
       content: content,
-      completionTokens: completion.data.usage?.completion_tokens
-        ? completion.data.usage?.completion_tokens
+      completionTokens: completion.usage?.completion_tokens
+        ? completion.usage?.completion_tokens
         : 0,
-      promptTokens: completion.data.usage?.prompt_tokens
-        ? completion.data.usage?.prompt_tokens
+      promptTokens: completion.usage?.prompt_tokens
+        ? completion.usage?.prompt_tokens
         : 0,
-      totalTokens: completion.data.usage?.total_tokens
-        ? completion.data.usage?.total_tokens
+      totalTokens: completion.usage?.total_tokens
+        ? completion.usage?.total_tokens
         : 0,
     }
 

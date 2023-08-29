@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai'
+import { OpenAI } from 'openai'
 import { errorHandler } from './errorHandler'
 import { ModelCapabiliy } from './modelCapabiliy'
 import { ConfigurationSettingService } from '@app/services'
@@ -11,16 +11,17 @@ export async function listModelsOpenAI(
   const models = new Array<string>()
   try {
     const headers = ConfigurationSettingService.instance.apiHeaders
-    const configuration = new Configuration({
+
+    const openai = new OpenAI({
       apiKey: apiKey,
-      basePath: baseUrl,
+      baseURL: baseUrl,
     })
-    const openai = new OpenAIApi(configuration)
-    const response = await openai.listModels({
+
+    const response = await openai.models.list({
       headers: { ...headers },
     })
 
-    response.data.data.forEach((model) => {
+    response.data.forEach((model) => {
       if (
         (modelCapabiliy == ModelCapabiliy.ChatCompletion &&
           model.id.startsWith('gpt')) ||

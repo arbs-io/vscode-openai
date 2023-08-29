@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai'
+import OpenAI from 'openai'
 import { ConfigurationSettingService, featureVerifyApiKey } from '@app/services'
 import { StatusBarServiceProvider, setFeatureFlag } from '@app/apis/vscode'
 import { errorHandler } from './errorHandler'
@@ -21,15 +21,15 @@ export async function verifyApiKey(): Promise<boolean> {
       'loading~spin',
       '- verify authentication'
     )
-    const configuration = new Configuration({
+    const openai = new OpenAI({
       apiKey: await ConfigurationSettingService.instance.getApiKey(),
-      basePath: ConfigurationSettingService.instance.baseUrl,
+      baseURL: ConfigurationSettingService.instance.baseUrl,
     })
-    const openai = new OpenAIApi(configuration)
-    const response = await openai.listModels(
+    const response = await openai.models.list(
       await ConfigurationSettingService.instance.getRequestConfig()
     )
-    if (response.status === 200) {
+
+    if (response) {
       setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, true)
       createInfoNotification('verifyApiKey success')
       StatusBarServiceProvider.instance.showStatusBarInformation(

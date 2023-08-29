@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai'
+import { OpenAI } from 'openai'
 import { backOff, BackoffOptions } from 'exponential-backoff'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import {
@@ -23,11 +23,10 @@ export async function createEmbedding({
     const apiKey = await ConfigurationSettingService.instance.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')
 
-    const configuration = new Configuration({
+    const openai = new OpenAI({
       apiKey: apiKey,
-      basePath: ConfigurationSettingService.instance.embeddingUrl,
+      baseURL: ConfigurationSettingService.instance.embeddingUrl,
     })
-    const openai = new OpenAIApi(configuration)
 
     const requestConfig =
       await ConfigurationSettingService.instance.getRequestConfig()
@@ -43,7 +42,7 @@ export async function createEmbedding({
 
     const result = await backOff(
       () =>
-        openai.createEmbedding(
+        openai.embeddings.create(
           {
             model,
             input,
@@ -58,10 +57,10 @@ export async function createEmbedding({
       `- embedding chunk [${itemCount}/${batchLength}]`
     )
 
-    if (!result.data.data[0].embedding) {
+    if (!result.data[0].embedding) {
       throw new Error('No embedding returned from the completions endpoint')
     }
-    return result.data.data.map((d) => d.embedding)
+    return result.data.map((d) => d.embedding)
   } catch (error: any) {
     errorHandler(error)
   }

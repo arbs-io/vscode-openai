@@ -1,7 +1,3 @@
-import {
-  ChatCompletionRequestMessage,
-  ChatCompletionRequestMessageRoleEnum,
-} from 'openai'
 import { ConfigurationConversationService } from '@app/services'
 import { IConversation } from '@app/types'
 import { ResponseFormat } from '.'
@@ -9,8 +5,13 @@ import { ResponseFormat } from '.'
 export async function ChatCompletionRequestMessageStandard(
   conversation: IConversation,
   responseFormat: ResponseFormat
-): Promise<ChatCompletionRequestMessage[]> {
-  const chatCompletion: ChatCompletionRequestMessage[] = []
+): Promise<
+  Array<{ role: 'system' | 'user' | 'assistant' | 'function'; content: string }>
+> {
+  const chatCompletion: Array<{
+    role: 'system' | 'user' | 'assistant' | 'function'
+    content: string
+  }> = []
 
   const content = [
     `${conversation.persona.prompt.system}`,
@@ -18,7 +19,7 @@ export async function ChatCompletionRequestMessageStandard(
   ].join('\n')
 
   chatCompletion.push({
-    role: ChatCompletionRequestMessageRoleEnum.System,
+    role: 'system',
     content: content,
   })
 
@@ -28,11 +29,10 @@ export async function ChatCompletionRequestMessageStandard(
     .splice(conversationHistory * -1)
     .forEach((chatMessage) => {
       chatCompletion.push({
-        role: chatMessage.mine
-          ? ChatCompletionRequestMessageRoleEnum.User
-          : ChatCompletionRequestMessageRoleEnum.Assistant,
+        role: chatMessage.mine ? 'user' : 'assistant',
         content: chatMessage.content,
       })
     })
+
   return chatCompletion
 }

@@ -1,7 +1,3 @@
-import {
-  ChatCompletionRequestMessage,
-  ChatCompletionRequestMessageRoleEnum,
-} from 'openai'
 import { EmbeddingStorageService } from '@app/services'
 import { IConversation, IEmbeddingFileLite } from '@app/types'
 import { searchFileChunks } from '@app/apis/embedding'
@@ -10,7 +6,9 @@ import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
 export async function ChatCompletionRequestMessageEmbedding(
   conversation: IConversation
-): Promise<ChatCompletionRequestMessage[]> {
+): Promise<
+  Array<{ role: 'system' | 'user' | 'assistant' | 'function'; content: string }>
+> {
   const MAX_RESULTS = 10
 
   StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -18,10 +16,13 @@ export async function ChatCompletionRequestMessageEmbedding(
     `- search file chunks (${MAX_RESULTS})`
   )
 
-  const chatCompletion: ChatCompletionRequestMessage[] = []
+  const chatCompletion: Array<{
+    role: 'system' | 'user' | 'assistant' | 'function'
+    content: string
+  }> = []
 
   chatCompletion.push({
-    role: ChatCompletionRequestMessageRoleEnum.System,
+    role: 'system',
     content: conversation.persona.prompt.system,
   })
 
@@ -58,7 +59,7 @@ export async function ChatCompletionRequestMessageEmbedding(
     `Question: ${searchQuery}\n\n` + `Files:\n${filesString}\n\n` + `Answer:`
 
   chatCompletion.push({
-    role: ChatCompletionRequestMessageRoleEnum.Assistant,
+    role: 'assistant',
     content: content,
   })
 

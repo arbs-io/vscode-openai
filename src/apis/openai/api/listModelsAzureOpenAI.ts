@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai'
+import { OpenAI } from 'openai'
 import { errorHandler } from './errorHandler'
 import { HttpRequest, createErrorNotification } from '@app/apis/node'
 import { ModelCapabiliy } from './modelCapabiliy'
@@ -16,19 +16,23 @@ export async function listModelsAzureOpenAI(
 ): Promise<Array<IDeploymentModel> | undefined> {
   try {
     const headers = ConfigurationSettingService.instance.apiHeaders
-    const configuration = new Configuration({
-      apiKey: apiKey,
-      basePath: baseUrl,
-    })
-    const openai = new OpenAIApi(configuration)
+    const azureApiVersion = await ConfigurationSettingService.instance
+      .azureApiVersion
 
-    const response = await openai.listModels({
+    const openai = new OpenAI({
+      apiKey: apiKey,
+      defaultQuery: { 'api-version': azureApiVersion },
+      defaultHeaders: { 'api-key': apiKey },
+      baseURL: baseUrl,
+    })
+
+    const response = await openai.models.list({
       headers: { ...headers, 'api-key': apiKey },
-      params: { 'api-version': '2023-05-15' },
+      query: { 'api-version': '2023-05-15' },
     })
 
     const models = new Array<string>()
-    response.data.data.forEach((model: any) => {
+    response.data.forEach((model: any) => {
       if (
         (modelCapabiliy == ModelCapabiliy.ChatCompletion &&
           model.capabilities.chat_completion) ||

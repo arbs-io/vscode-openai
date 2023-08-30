@@ -1,5 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai'
-import { BackoffOptions, backOff } from 'exponential-backoff'
+import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import {
   ConfigurationConversationService,
@@ -23,14 +22,19 @@ export async function createChatCompletion(
       'sync~spin',
       '- build-conversation'
     )
+
+    const azureApiVersion = await ConfigurationSettingService.instance
+      .azureApiVersion
     const apiKey = await ConfigurationSettingService.instance.getApiKey()
     if (!apiKey) return undefined
 
-    const configuration = new Configuration({
+    const openai = new OpenAI({
       apiKey: apiKey,
-      basePath: ConfigurationSettingService.instance.inferenceUrl,
+      defaultQuery: { 'api-version': azureApiVersion },
+      defaultHeaders: { 'api-key': apiKey },
+      baseURL: ConfigurationSettingService.instance.inferenceUrl,
+      maxRetries: ConfigurationConversationService.instance.numOfAttempts,
     })
-    const openai = new OpenAIApi(configuration)
 
     const chatCompletionMessages = conversation.embeddingId
       ? await ChatCompletionRequestMessageEmbedding(conversation)
@@ -44,44 +48,31 @@ export async function createChatCompletion(
       '- completion'
     )
 
-    const backoffOptions: BackoffOptions = {
-      numOfAttempts: ConfigurationConversationService.instance.numOfAttempts,
-      retry: async (_e: any, _attemptNumber: number) => {
-        const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
-        await sleep(1000)
-        return true
+    const results = await openai.chat.completions.create(
+      {
+        model: ConfigurationSettingService.instance.defaultModel,
+        messages: chatCompletionMessages,
+        temperature: ConfigurationConversationService.instance.temperature,
+        frequency_penalty:
+          ConfigurationConversationService.instance.frequencyPenalty,
+        presence_penalty:
+          ConfigurationConversationService.instance.presencePenalty,
       },
-    }
-
-    const completion = await backOff(
-      () =>
-        openai.createChatCompletion(
-          {
-            model: ConfigurationSettingService.instance.defaultModel,
-            messages: chatCompletionMessages,
-            temperature: ConfigurationConversationService.instance.temperature,
-            frequency_penalty:
-              ConfigurationConversationService.instance.frequencyPenalty,
-            presence_penalty:
-              ConfigurationConversationService.instance.presencePenalty,
-          },
-          requestConfig
-        ),
-      backoffOptions
+      requestConfig
     )
 
-    const content = completion.data.choices[0].message?.content
+    const content = results.choices[0].message.content
     if (!content) return undefined
     const message: IMessage = {
       content: content,
-      completionTokens: completion.data.usage?.completion_tokens
-        ? completion.data.usage?.completion_tokens
+      completionTokens: results.usage?.completion_tokens
+        ? results.usage?.completion_tokens
         : 0,
-      promptTokens: completion.data.usage?.prompt_tokens
-        ? completion.data.usage?.prompt_tokens
+      promptTokens: results.usage?.prompt_tokens
+        ? results.usage?.prompt_tokens
         : 0,
-      totalTokens: completion.data.usage?.total_tokens
-        ? completion.data.usage?.total_tokens
+      totalTokens: results.usage?.total_tokens
+        ? results.usage?.total_tokens
         : 0,
     }
 

@@ -1,5 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai'
-import { backOff, BackoffOptions } from 'exponential-backoff'
+import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import {
   ConfigurationConversationService,
@@ -20,37 +19,28 @@ export async function createEmbedding({
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
     const model = ConfigurationSettingService.instance.embeddingModel
+    const azureApiVersion = await ConfigurationSettingService.instance
+      .azureApiVersion
     const apiKey = await ConfigurationSettingService.instance.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')
 
-    const configuration = new Configuration({
+    const openai = new OpenAI({
       apiKey: apiKey,
-      basePath: ConfigurationSettingService.instance.embeddingUrl,
+      defaultQuery: { 'api-version': azureApiVersion },
+      defaultHeaders: { 'api-key': apiKey },
+      baseURL: ConfigurationSettingService.instance.embeddingUrl,
+      maxRetries: ConfigurationConversationService.instance.numOfAttempts,
     })
-    const openai = new OpenAIApi(configuration)
 
     const requestConfig =
       await ConfigurationSettingService.instance.getRequestConfig()
 
-    const backoffOptions: BackoffOptions = {
-      numOfAttempts: ConfigurationConversationService.instance.numOfAttempts,
-      retry: async (_e: any, _attemptNumber: number) => {
-        const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
-        await sleep(1000)
-        return true
+    const results = await openai.embeddings.create(
+      {
+        model,
+        input,
       },
-    }
-
-    const result = await backOff(
-      () =>
-        openai.createEmbedding(
-          {
-            model,
-            input,
-          },
-          requestConfig
-        ),
-      backoffOptions
+      requestConfig
     )
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -58,10 +48,10 @@ export async function createEmbedding({
       `- embedding chunk [${itemCount}/${batchLength}]`
     )
 
-    if (!result.data.data[0].embedding) {
+    if (!results.data[0].embedding) {
       throw new Error('No embedding returned from the completions endpoint')
     }
-    return result.data.data.map((d) => d.embedding)
+    return results.data.map((d) => d.embedding)
   } catch (error: any) {
     errorHandler(error)
   }

@@ -1,5 +1,4 @@
 import { OpenAI } from 'openai'
-import { backOff, BackoffOptions } from 'exponential-backoff'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import {
   ConfigurationConversationService,
@@ -30,30 +29,18 @@ export async function createEmbedding({
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
       baseURL: ConfigurationSettingService.instance.embeddingUrl,
+      maxRetries: ConfigurationConversationService.instance.numOfAttempts,
     })
 
     const requestConfig =
       await ConfigurationSettingService.instance.getRequestConfig()
 
-    const backoffOptions: BackoffOptions = {
-      numOfAttempts: ConfigurationConversationService.instance.numOfAttempts,
-      retry: async (_e: any, _attemptNumber: number) => {
-        const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
-        await sleep(1000)
-        return true
+    const results = await openai.embeddings.create(
+      {
+        model,
+        input,
       },
-    }
-
-    const result = await backOff(
-      () =>
-        openai.embeddings.create(
-          {
-            model,
-            input,
-          },
-          requestConfig
-        ),
-      backoffOptions
+      requestConfig
     )
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -61,10 +48,10 @@ export async function createEmbedding({
       `- embedding chunk [${itemCount}/${batchLength}]`
     )
 
-    if (!result.data[0].embedding) {
+    if (!results.data[0].embedding) {
       throw new Error('No embedding returned from the completions endpoint')
     }
-    return result.data.map((d) => d.embedding)
+    return results.data.map((d) => d.embedding)
   } catch (error: any) {
     errorHandler(error)
   }

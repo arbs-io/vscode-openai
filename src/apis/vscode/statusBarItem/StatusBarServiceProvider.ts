@@ -36,7 +36,10 @@ export default class StatusBarServiceProvider {
     return StatusBarServiceProvider._instance
   }
 
-  public async showStatusBarInformation(icon: string, text: string) {
+  public async showStatusBarInformation(
+    icon: string = 'vscode-openai',
+    text: string = ''
+  ) {
     this.statusBarItem.text = `$(${icon}) ${ConfigurationSettingService.instance.host} ${text}`
     this.statusBarItem.backgroundColor = undefined
     this.statusBarItem.show()

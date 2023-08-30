@@ -9,43 +9,36 @@ interface IStatusBarItem {
 }
 
 export function errorHandler(error: any) {
-  if (
-    error.syscall !== undefined &&
-    error.syscall === 'getaddrinfo' &&
-    error.errno === -3008
-  ) {
+  createErrorNotification(error)
+
+  if (error.message == 'Connection error.') {
     StatusBarServiceProvider.instance.showStatusBarError(
       'server-environment',
       `- unknown host`,
       error.hostname
     )
-    // disable extension when exception occurs
     setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, false)
-    createErrorNotification(error)
     return
   }
 
-  if (error.response !== undefined) {
-    const statusBarItem = handleResponse(error)
-    if (statusBarItem.isError) {
-      createErrorNotification(error)
-
-      StatusBarServiceProvider.instance.showStatusBarError(
-        statusBarItem.icon,
-        statusBarItem.message
-      )
-    } else {
-      // createWarningNotification(statusBarItem.message.split('- ').join(''))
-      StatusBarServiceProvider.instance.showStatusBarWarning(
-        statusBarItem.icon,
-        statusBarItem.message
-      )
-    }
+  const statusBarItem = handleResponse(error)
+  if (statusBarItem.isError) {
+    StatusBarServiceProvider.instance.showStatusBarError(
+      statusBarItem.icon,
+      statusBarItem.message
+    )
+    return
+  } else if (statusBarItem) {
+    StatusBarServiceProvider.instance.showStatusBarWarning(
+      statusBarItem.icon,
+      statusBarItem.message
+    )
   }
+  StatusBarServiceProvider.instance.showStatusBarWarning('error', error.message)
 }
 
 export function handleResponse(error: any): IStatusBarItem {
-  switch (error.response.status as number) {
+  switch (error.status as number) {
     case 401: {
       const statusBarItem: IStatusBarItem = {
         icon: 'lock',

@@ -33,6 +33,7 @@ export async function createChatCompletion(
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
       baseURL: ConfigurationSettingService.instance.inferenceUrl,
+      maxRetries: ConfigurationConversationService.instance.numOfAttempts,
     })
 
     const chatCompletionMessages = conversation.embeddingId

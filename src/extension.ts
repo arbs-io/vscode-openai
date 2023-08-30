@@ -23,14 +23,11 @@ export function activate(context: ExtensionContext) {
     TelemetryService.init(context)
     createInfoNotification('activate vscode-openai')
 
-    registerVscodeOpenAIServices(context)
-
     createDebugNotification('initialise components')
     StatusBarServiceProvider.init(context)
-    StatusBarServiceProvider.instance.showStatusBarInformation(
-      'vscode-openai',
-      ''
-    )
+    StatusBarServiceProvider.instance.showStatusBarInformation()
+
+    registerVscodeOpenAIServices(context)
 
     // registerCommands
     createDebugNotification('initialise vscode commands')

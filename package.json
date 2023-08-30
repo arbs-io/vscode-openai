@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -54,7 +54,6 @@
   "dependencies": {
     "@arbs.io/asset-extractor-wasm": "^0.0.5",
     "@vscode/extension-telemetry": "^0.8.4",
-    "exponential-backoff": "^3.1.1",
     "openai": "^4.2.0"
   },
   "keywords": [

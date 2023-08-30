@@ -4,6 +4,11 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.4.4]
+
+- Feature/20230827 adding unicode pdf support by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/159
+- Feature/20230829 package upgrades (openai sdk fixing azure bug) by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/160
+
 ## [1.4.3]
 
 - Feature/20230805 code cleanup by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/148

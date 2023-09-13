@@ -15,7 +15,8 @@ import { EmbeddingStorageService } from '..'
 
 export default class ConversationStorageService {
   private static _emitterDidChange = new EventEmitter<void>()
-  static readonly onDidChange: Event<void> = this._emitterDidChange.event
+  static readonly onDidChangeConversationStorage: Event<void> =
+    this._emitterDidChange.event
 
   private static _instance: ConversationStorageService
 

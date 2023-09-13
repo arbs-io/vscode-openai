@@ -2,8 +2,11 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "useDefineForClassFields": true,
+    "outDir": "out",
+    "sourceMap": true,
+    "rootDir": "src",
     "allowJs": false,
+    "useDefineForClassFields": true,
     "skipLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,

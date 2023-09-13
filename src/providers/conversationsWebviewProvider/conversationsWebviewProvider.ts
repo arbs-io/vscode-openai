@@ -30,9 +30,14 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
       this._refreshWebview()
     })
 
-    ConversationStorageService.onDidChange((_e) => {
+    ConversationStorageService.onDidChangeConversationStorage((_e) => {
       if (this._view?.visible) {
-        onDidInitialize(this._view)
+        // onDidInitialize(this._view)
+        const conversations = ConversationStorageService.instance.getAll()
+        this._view?.webview.postMessage({
+          command: 'onWillConversationsLoad',
+          text: JSON.stringify(conversations),
+        })
       }
     }, null)
   }

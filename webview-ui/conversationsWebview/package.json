@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build --emptyOutDir",
-    "preview": "vite preview"
+    "build": "tsc && vite build --logLevel info --debug true --emptyOutDir",
+    "preview": "vite preview",
+    "test-compile": "tsc -p ./"
   },
   "dependencies": {
     "@fluentui/react-components": "^9.31.0",

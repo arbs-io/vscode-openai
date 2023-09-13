@@ -18,16 +18,11 @@ function App() {
           const loadedConversations: IConversation[] = JSON.parse(
             event.data.text
           )
-          setConversations(loadedConversations)
-          break
-        }
-        case 'onWillTest': {
-          const loadedConversations = getTestConversation()
+          console.log(`onWillConversationsLoad: ${loadedConversations.length}`)
           setConversations(loadedConversations)
           break
         }
       }
-
       setState(event)
     },
     [state]

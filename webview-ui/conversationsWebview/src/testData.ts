@@ -30,6 +30,6 @@ export function getTestConversation(): IConversation[] {
     summary: 'summary',
     chatMessages: [],
   }
-  console.log(`conversation: ${conversation}`)
+  console.log(`getTestConversation: ${conversation.conversationId}`)
   return [conversation]
 }

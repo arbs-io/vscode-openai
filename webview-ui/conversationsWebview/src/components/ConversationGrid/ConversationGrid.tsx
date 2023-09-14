@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useReducer, useState } from 'react'
 import {
   DataGridBody,
   DataGridRow,
@@ -43,6 +43,13 @@ const ConversationGrid: FC = () => {
       }
     }
   })
+
+  const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+  useEffect(() => {
+    console.log(`useEffect::set ${conversations.length}`)
+    console.log(conversations)
+    forceUpdate()
+  }, [conversations])
 
   return (
     <DataGrid

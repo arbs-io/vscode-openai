@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import {
   DataGridBody,
   DataGridRow,
@@ -10,7 +10,7 @@ import {
   makeStyles,
 } from '@fluentui/react-components'
 import { ConversationGridColumnDefinition } from '../ConversationGridColumnDefinition'
-import { IConversation, IConversationGridProps } from '../../interfaces'
+import { IConversation } from '../../interfaces'
 
 const componentStyles = makeStyles({
   verticalPadding: {
@@ -25,7 +25,25 @@ const componentStyles = makeStyles({
   },
 })
 
-const ConversationGrid: FC<IConversationGridProps> = ({ conversations }) => {
+const ConversationGrid: FC = () => {
+  const [conversations, setConversations] = useState<IConversation[]>([])
+  window.addEventListener('message', (event: MessageEvent) => {
+    console.log(event.origin)
+    if (!event.origin.startsWith('vscode-webview://')) return
+    const message = event.data // The JSON data our extension sent
+    switch (message.command) {
+      case 'onWillConversationsLoad': {
+        const rcvConversations: IConversation[] = JSON.parse(event.data.text)
+        console.log(`onWillConversationsLoad::rcv ${rcvConversations.length}`)
+        console.log(rcvConversations)
+        setConversations(rcvConversations)
+        console.log(`onWillConversationsLoad::set ${conversations.length}`)
+        console.log(conversations)
+        break
+      }
+    }
+  })
+
   return (
     <DataGrid
       size="extra-small"

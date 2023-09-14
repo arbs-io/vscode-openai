@@ -1,51 +1,31 @@
-import { useCallback, useEffect, useState } from 'react'
+// import { useState } from 'react'
 import ConversationGrid from './components/ConversationGrid/ConversationGrid'
-import { IConversation } from './interfaces/IConversation'
-import { vscode } from './utilities/vscode'
-import { getTestConversation } from './testData'
+// import { IConversation } from './interfaces/IConversation'
+// import { getTestConversation } from './testConversation'
 
 function App() {
-  const [didInitialize, setDidInitialize] = useState<boolean>(false)
-  const [state, setState] = useState<MessageEvent>()
+  // const [conversations, setConversations] = useState<IConversation[]>([])
 
-  const convs = getTestConversation()
-  const [conversations, setConversations] = useState<IConversation[]>(convs)
-
-  const onMessageReceivedFromIframe = useCallback(
-    (event: MessageEvent) => {
-      switch (event.data.command) {
-        case 'onWillConversationsLoad': {
-          const loadedConversations: IConversation[] = JSON.parse(
-            event.data.text
-          )
-          console.log(`onWillConversationsLoad: ${loadedConversations.length}`)
-          setConversations(loadedConversations)
-          break
-        }
-      }
-      setState(event)
-    },
-    [state]
-  )
-
-  useEffect(() => {
-    window.addEventListener('message', onMessageReceivedFromIframe)
-
-    if (!didInitialize) {
-      vscode.postMessage({
-        command: 'onDidInitialize',
-        text: undefined,
-      })
-      setDidInitialize(true)
-    }
-
-    return () =>
-      window.removeEventListener('message', onMessageReceivedFromIframe)
-  }, [onMessageReceivedFromIframe])
+  // window.addEventListener('message', (event: MessageEvent) => {
+  //   console.log(event.origin)
+  //   if (!event.origin.startsWith('vscode-webview://')) return
+  //   const message = event.data // The JSON data our extension sent
+  //   switch (message.command) {
+  //     case 'onWillConversationsLoad': {
+  //       const rcvConversations: IConversation[] = JSON.parse(event.data.text)
+  //       console.log(`onWillConversationsLoad::rcv ${rcvConversations.length}`)
+  //       console.log(rcvConversations)
+  //       setConversations(rcvConversations)
+  //       console.log(`onWillConversationsLoad::set ${conversations.length}`)
+  //       console.log(conversations)
+  //       break
+  //     }
+  //   }
+  // })
 
   return (
     <main>
-      <ConversationGrid conversations={conversations} />
+      <ConversationGrid />
     </main>
   )
 }

@@ -1,4 +1,4 @@
-import { FC, useEffect, useReducer, useState } from 'react'
+import { FC, useEffect, useCallback, useState } from 'react'
 import {
   DataGridBody,
   DataGridRow,
@@ -11,6 +11,7 @@ import {
 } from '@fluentui/react-components'
 import { ConversationGridColumnDefinition } from '../ConversationGridColumnDefinition'
 import { IConversation } from '../../interfaces'
+import { vscode } from '../../utilities/vscode'
 
 const componentStyles = makeStyles({
   verticalPadding: {
@@ -26,30 +27,43 @@ const componentStyles = makeStyles({
 })
 
 const ConversationGrid: FC = () => {
+  const [didInitialize, setDidInitialize] = useState<boolean>(false)
+  const [state, setState] = useState<MessageEvent>()
   const [conversations, setConversations] = useState<IConversation[]>([])
-  window.addEventListener('message', (event: MessageEvent) => {
-    console.log(event.origin)
-    if (!event.origin.startsWith('vscode-webview://')) return
-    const message = event.data // The JSON data our extension sent
-    switch (message.command) {
-      case 'onWillConversationsLoad': {
-        const rcvConversations: IConversation[] = JSON.parse(event.data.text)
-        console.log(`onWillConversationsLoad::rcv ${rcvConversations.length}`)
-        console.log(rcvConversations)
-        setConversations(rcvConversations)
-        console.log(`onWillConversationsLoad::set ${conversations.length}`)
-        console.log(conversations)
-        break
-      }
-    }
-  })
 
-  const [_, forceUpdate] = useReducer((x) => x + 1, 0)
+  const onMessageReceivedFromIframe = useCallback(
+    (event: MessageEvent) => {
+      switch (event.data.command) {
+        case 'onWillConversationsLoad': {
+          const loadedConversations: IConversation[] = JSON.parse(
+            event.data.text
+          )
+          // setConversations(loadedConversations)
+          console.log(loadedConversations)
+          setConversations([])
+          break
+        }
+      }
+
+      setState(event)
+    },
+    [state]
+  )
+
   useEffect(() => {
-    console.log(`useEffect::set ${conversations.length}`)
-    console.log(conversations)
-    forceUpdate()
-  }, [conversations])
+    window.addEventListener('message', onMessageReceivedFromIframe)
+
+    if (!didInitialize) {
+      vscode.postMessage({
+        command: 'onDidInitialize',
+        text: undefined,
+      })
+      setDidInitialize(true)
+    }
+
+    return () =>
+      window.removeEventListener('message', onMessageReceivedFromIframe)
+  }, [onMessageReceivedFromIframe])
 
   return (
     <DataGrid

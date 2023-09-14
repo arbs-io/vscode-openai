@@ -1,8 +1,8 @@
-export interface IPrompt {
+interface IPrompt {
   system: string
 }
 
-export interface IConfiguration {
+interface IConfiguration {
   model: string
   service: string
 }

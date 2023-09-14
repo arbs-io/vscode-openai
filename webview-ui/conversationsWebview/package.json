@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build --logLevel info --debug true --emptyOutDir",
+    "build": "tsc && vite build --emptyOutDir",
     "preview": "vite preview",
     "test-compile": "tsc -p ./"
   },

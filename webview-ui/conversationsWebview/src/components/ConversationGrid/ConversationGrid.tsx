@@ -35,12 +35,9 @@ const ConversationGrid: FC = () => {
     (event: MessageEvent) => {
       switch (event.data.command) {
         case 'onWillConversationsLoad': {
-          const loadedConversations: IConversation[] = JSON.parse(
-            event.data.text
-          )
-          // setConversations(loadedConversations)
-          console.log(loadedConversations)
-          setConversations([])
+          const rcvConversations: IConversation[] = JSON.parse(event.data.text)
+          setConversations(rcvConversations)
+          console.log(rcvConversations)
           break
         }
       }

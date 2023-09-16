@@ -19,18 +19,13 @@ class SentenceChunkingStrategy implements IChunkingStrategy {
       if (!trimmedSentence) return
 
       const chunkLength = currentChunk.length + trimmedSentence.length + 1
-      const lowerBound = maxCharLength - maxCharLength * 0.5
-      const upperBound = maxCharLength + maxCharLength * 0.5
 
-      if (
-        (chunkLength >= lowerBound &&
-          chunkLength <= upperBound &&
-          currentChunk) ||
-        chunkLength > upperBound
-      ) {
+      // The chunk is pushed to the chunks array and a new chunk is started
+      // when the length of the current chunk plus the next sentence exceeds the maxCharLength.
+      if (chunkLength > maxCharLength) {
         currentChunk = currentChunk.replace(/^[. ]+/, '').trim()
         if (currentChunk) chunks.push(currentChunk)
-        currentChunk = chunkLength > upperBound ? trimmedSentence : ''
+        currentChunk = trimmedSentence
       } else {
         currentChunk += `${
           trimmedSentence === '.' ? '' : ' '
@@ -38,6 +33,7 @@ class SentenceChunkingStrategy implements IChunkingStrategy {
       }
     })
 
+    // Push the last chunk if it's not empty
     if (currentChunk) {
       chunks.push(currentChunk)
     }

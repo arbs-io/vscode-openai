@@ -1,6 +1,5 @@
 export type { IChatCompletion } from './IChatCompletion'
 export type { IConversation } from './IConversation'
 export type { IPersonaOpenAI } from './IPersonaOpenAI'
-export type { IConversationGridProps } from './IConversationGridProps'
 export type { IMenuItemProps } from './IMenuItemProps'
 export type { IDialogProps } from './IDialogProps'

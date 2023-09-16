@@ -6,7 +6,6 @@ import {
   Avatar,
 } from '@fluentui/react-components'
 import { IConversation } from '../../interfaces'
-import { ContextMenu } from '../Menu'
 import { vscode } from '../../utilities/vscode'
 
 const handleOpenConversation = (conversation: IConversation) => {
@@ -15,8 +14,6 @@ const handleOpenConversation = (conversation: IConversation) => {
     text: JSON.stringify(conversation),
   })
 }
-
-//await navigator.clipboard.write(data)
 
 const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
   [
@@ -35,8 +32,9 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
               <TableCellLayout
                 media={
                   <Avatar
-                    badge={{ status: 'offline' }}
+                    badge={{ status: 'available', outOfOffice: true }}
                     name={item.persona.roleName}
+                    size={32}
                     color="colorful"
                   />
                 }
@@ -60,9 +58,8 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
             <TableCellLayout
               description={conversation.summary}
               onClick={() => handleOpenConversation(conversation)}
-              style={{ paddingRight: '1rem', cursor: 'pointer' }}
+              style={{ cursor: 'pointer' }}
             />
-            <ContextMenu conversation={conversation} />
           </TableCell>
         )
       },

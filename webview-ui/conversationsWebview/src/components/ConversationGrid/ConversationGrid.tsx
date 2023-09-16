@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useCallback, useState } from 'react'
 import {
   DataGridBody,
   DataGridRow,
@@ -10,22 +10,53 @@ import {
   makeStyles,
 } from '@fluentui/react-components'
 import { ConversationGridColumnDefinition } from '../ConversationGridColumnDefinition'
-import { IConversation, IConversationGridProps } from '../../interfaces'
+import { IConversation } from '../../interfaces'
+import { vscode } from '../../utilities/vscode'
 
 const componentStyles = makeStyles({
   verticalPadding: {
-    paddingTop: '0.25rem',
-    paddingBottom: '0.25rem',
-    cursor: 'context-menu',
-  },
-  horizontalPadding: {
-    paddingLeft: '0.5rem',
-    paddingRight: '0.5rem',
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
     cursor: 'context-menu',
   },
 })
 
-const ConversationGrid: FC<IConversationGridProps> = ({ conversations }) => {
+const ConversationGrid: FC = () => {
+  const [didInitialize, setDidInitialize] = useState<boolean>(false)
+  const [state, setState] = useState<MessageEvent>()
+  const [conversations, setConversations] = useState<IConversation[]>([])
+
+  const onMessageReceivedFromIframe = useCallback(
+    (event: MessageEvent) => {
+      switch (event.data.command) {
+        case 'onWillConversationsLoad': {
+          const rcvConversations: IConversation[] = JSON.parse(event.data.text)
+          setConversations(rcvConversations)
+          console.log(rcvConversations)
+          break
+        }
+      }
+
+      setState(event)
+    },
+    [state]
+  )
+
+  useEffect(() => {
+    window.addEventListener('message', onMessageReceivedFromIframe)
+
+    if (!didInitialize) {
+      vscode.postMessage({
+        command: 'onDidInitialize',
+        text: undefined,
+      })
+      setDidInitialize(true)
+    }
+
+    return () =>
+      window.removeEventListener('message', onMessageReceivedFromIframe)
+  }, [onMessageReceivedFromIframe])
+
   return (
     <DataGrid
       size="extra-small"
@@ -35,9 +66,9 @@ const ConversationGrid: FC<IConversationGridProps> = ({ conversations }) => {
       resizableColumns
       columnSizingOptions={{
         persona: {
-          minWidth: 30,
-          defaultWidth: 30,
-          idealWidth: 30,
+          minWidth: 35,
+          defaultWidth: 35,
+          idealWidth: 35,
         },
       }}
     >

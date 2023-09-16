@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai extension provides access to openai features. Now features sponsored (free) openai service.",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -421,12 +421,12 @@
           "group": "navigation@1"
         },
         {
-          "command": "_vscode-openai.conversations.refresh",
+          "command": "_vscode-openai.conversations.delete-all",
           "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@2"
         },
         {
-          "command": "_vscode-openai.conversations.delete-all",
+          "command": "_vscode-openai.conversations.refresh",
           "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@3"
         },

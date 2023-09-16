@@ -13,13 +13,7 @@ import {
 import { IConversation } from '@app/types'
 import { getNonce, getUri } from '@app/apis/vscode'
 import { ConversationStorageService } from '@app/services'
-import {
-  onDidInitialize,
-  onDidOpenConversationWebview,
-  onDidOpenConversationJson,
-  onDidOpenConversationMarkdown,
-  onDidConversationDelete,
-} from './onDidFunctions'
+import { onDidInitialize, onDidOpenConversationWebview } from './onDidFunctions'
 
 export class ConversationsWebviewProvider implements WebviewViewProvider {
   _view?: WebviewView
@@ -30,9 +24,14 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
       this._refreshWebview()
     })
 
-    ConversationStorageService.onDidChange((_e) => {
+    ConversationStorageService.onDidChangeConversationStorage((_e) => {
       if (this._view?.visible) {
-        onDidInitialize(this._view)
+        // onDidInitialize(this._view)
+        const conversations = ConversationStorageService.instance.getAll()
+        this._view?.webview.postMessage({
+          command: 'onWillConversationsLoad',
+          text: JSON.stringify(conversations),
+        })
       }
     }, null)
   }
@@ -104,9 +103,6 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
    *    | webview		| extension	| onDidInitialize											|									|
    *    | extension	| webview		| onWillConversationsLoad							| IConversation[]	|
    *    | webview		| extension	| onDidOpenConversationWebview				| IConversation		|
-   *    | webview		| extension	| onDidOpenConversationJson						| IConversation		|
-   *    | webview		| extension	| onDidOpenConversationMarkdown				| IConversation		|
-   *    | webview		| extension	| onDidConversationDelete							| IConversation		|
    *
    */
 
@@ -121,24 +117,6 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
         case 'onDidOpenConversationWebview': {
           const conversation: IConversation = JSON.parse(message.text)
           onDidOpenConversationWebview(conversation)
-          return
-        }
-
-        case 'onDidOpenConversationJson': {
-          const conversation: IConversation = JSON.parse(message.text)
-          onDidOpenConversationJson(conversation)
-          return
-        }
-
-        case 'onDidOpenConversationMarkdown': {
-          const conversation: IConversation = JSON.parse(message.text)
-          onDidOpenConversationMarkdown(conversation)
-          return
-        }
-
-        case 'onDidConversationDelete': {
-          const conversation: IConversation = JSON.parse(message.text)
-          onDidConversationDelete(conversation)
           return
         }
 

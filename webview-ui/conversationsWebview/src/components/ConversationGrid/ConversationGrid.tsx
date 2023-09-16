@@ -28,15 +28,11 @@ const ConversationGrid: FC = () => {
 
   const onMessageReceivedFromIframe = useCallback(
     (event: MessageEvent) => {
-      switch (event.data.command) {
-        case 'onWillConversationsLoad': {
-          const rcvConversations: IConversation[] = JSON.parse(event.data.text)
-          setConversations(rcvConversations)
-          console.log(rcvConversations)
-          break
-        }
+      if (event.data.command === 'onWillConversationsLoad') {
+        const rcvConversations: IConversation[] = JSON.parse(event.data.text)
+        setConversations(rcvConversations)
+        console.log(rcvConversations)
       }
-
       setState(event)
     },
     [state]

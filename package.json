@@ -421,12 +421,12 @@
           "group": "navigation@1"
         },
         {
-          "command": "_vscode-openai.conversations.refresh",
+          "command": "_vscode-openai.conversations.delete-all",
           "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@2"
         },
         {
-          "command": "_vscode-openai.conversations.delete-all",
+          "command": "_vscode-openai.conversations.refresh",
           "when": "view == vscode-openai.conversations.view.sidebar",
           "group": "navigation@3"
         },

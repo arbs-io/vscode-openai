@@ -52,7 +52,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@arbs.io/asset-extractor-wasm": "^0.0.5",
+    "@arbs.io/asset-extractor-wasm": "^0.1.0",
     "@vscode/extension-telemetry": "^0.8.4",
     "openai": "^4.2.0"
   },

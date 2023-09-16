@@ -19,8 +19,7 @@ export async function createEmbedding({
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
     const model = ConfigurationSettingService.instance.embeddingModel
-    const azureApiVersion = await ConfigurationSettingService.instance
-      .azureApiVersion
+    const azureApiVersion = ConfigurationSettingService.instance.azureApiVersion
     const apiKey = await ConfigurationSettingService.instance.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')
 

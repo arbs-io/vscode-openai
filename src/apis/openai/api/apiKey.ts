@@ -22,8 +22,7 @@ export async function verifyApiKey(): Promise<boolean> {
       '- verify authentication'
     )
 
-    const azureApiVersion = await ConfigurationSettingService.instance
-      .azureApiVersion
+    const azureApiVersion = ConfigurationSettingService.instance.azureApiVersion
     const apiKey = await ConfigurationSettingService.instance.getApiKey()
 
     const openai = new OpenAI({

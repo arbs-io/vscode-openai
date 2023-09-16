@@ -23,8 +23,7 @@ export async function createChatCompletion(
       '- build-conversation'
     )
 
-    const azureApiVersion = await ConfigurationSettingService.instance
-      .azureApiVersion
+    const azureApiVersion = ConfigurationSettingService.instance.azureApiVersion
     const apiKey = await ConfigurationSettingService.instance.getApiKey()
     if (!apiKey) return undefined
 

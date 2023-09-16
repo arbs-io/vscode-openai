@@ -5,7 +5,8 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build --emptyOutDir",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test-compile": "tsc -p ./"
   },
   "dependencies": {
     "@fluentui/react-components": "^9.27.0",

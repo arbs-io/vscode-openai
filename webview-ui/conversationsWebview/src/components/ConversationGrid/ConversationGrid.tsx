@@ -15,13 +15,8 @@ import { vscode } from '../../utilities/vscode'
 
 const componentStyles = makeStyles({
   verticalPadding: {
-    paddingTop: '0.25rem',
-    paddingBottom: '0.25rem',
-    cursor: 'context-menu',
-  },
-  horizontalPadding: {
-    paddingLeft: '0.5rem',
-    paddingRight: '0.5rem',
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
     cursor: 'context-menu',
   },
 })
@@ -71,9 +66,9 @@ const ConversationGrid: FC = () => {
       resizableColumns
       columnSizingOptions={{
         persona: {
-          minWidth: 30,
-          defaultWidth: 30,
-          idealWidth: 30,
+          minWidth: 35,
+          defaultWidth: 35,
+          idealWidth: 35,
         },
       }}
     >

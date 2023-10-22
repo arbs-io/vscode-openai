@@ -1,5 +1,4 @@
 import { OutputChannel, window, workspace } from 'vscode'
-import util from 'util'
 
 class OutputChannelFactory {
   private static outLogChannel: OutputChannel
@@ -26,7 +25,7 @@ export function logDebug(
   const isString = typeof value === 'string' && value !== null
   if (logLevel === 'Debug') {
     const logMessage = `${getTimeAndms()} [debug]\t\t${eventName} - ${
-      isString ? value : `Logging Object\n${util.inspect(value)}`
+      isString ? value : `Logging Object\n${JSON.stringify(value, null, 2)}`
     }`
     OutputChannelFactory.getLogChannel().appendLine(logMessage)
   }
@@ -43,7 +42,7 @@ export function logInfo(
   const isString = typeof value === 'string' && value !== null
   if (logLevel === 'Info' || logLevel === 'Debug') {
     const logMessage = `${getTimeAndms()} [info]\t\t${eventName} - ${
-      isString ? value : `event properties\n${util.inspect(value)}`
+      isString ? value : `event properties\n${JSON.stringify(value, null, 2)}`
     }`
     OutputChannelFactory.getLogChannel().appendLine(logMessage)
   }

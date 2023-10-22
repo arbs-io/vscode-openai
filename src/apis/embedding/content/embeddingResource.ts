@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import { v4 as uuidv4 } from 'uuid'
 import { Uri, workspace } from 'vscode'
 import { createDebugNotification, createInfoNotification } from '@app/apis/node'
 import { getEmbeddingsForText } from '@app/apis/embedding'
@@ -36,7 +36,7 @@ export async function embeddingResource(uri: Uri) {
 
   const fileObject: IEmbeddingFileLite = {
     timestamp: new Date().getTime(),
-    embeddingId: crypto.randomUUID(),
+    embeddingId: uuidv4(),
     name: decodeURIComponent(uri.path).substring(
       decodeURIComponent(uri.path).lastIndexOf('/') + 1
     ),

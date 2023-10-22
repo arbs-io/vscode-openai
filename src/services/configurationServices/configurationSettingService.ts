@@ -1,5 +1,5 @@
 import { extensions, version } from 'vscode'
-import crypto from 'crypto'
+import CryptoJS from 'crypto-js'
 import {
   SecretStorageService,
   StatusBarServiceProvider,
@@ -163,10 +163,7 @@ export default class ConfigurationSettingService
     const headers = this.apiHeaders
 
     if (this.serviceProvider === 'VSCode-OpenAI') {
-      const hash = crypto
-        .createHash('sha512')
-        .update(`vscode-openai::${this.extensionVersion}`)
-        .digest('hex')
+      const hash = CryptoJS.SHA512(`vscode-openai::${this.extensionVersion}`)
       return { headers: { ...headers, 'vscode-openai': hash } }
     } else if (this.serviceProvider === 'Azure-OpenAI') {
       return {

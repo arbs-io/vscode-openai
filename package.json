@@ -58,6 +58,7 @@
     "@vscode/extension-telemetry": "^0.8.5",
     "crypto-js": "^4.1.1",
     "openai": "^4.12.4",
+    "util": "^0.12.5",
     "uuid": "^9.0.1"
   },
   "keywords": [

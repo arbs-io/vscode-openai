@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import { v4 as uuidv4 } from 'uuid'
 import { EventEmitter, Event, ExtensionContext } from 'vscode'
 import { GlobalStorageService } from '@app/apis/vscode'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/types'
@@ -123,7 +123,7 @@ export default class ConversationStorageService {
     persona: IPersonaOpenAI,
     embeddingId?: string
   ): Promise<IConversation> {
-    const uuid4 = crypto.randomUUID()
+    const uuid4 = uuidv4()
 
     let welcomeMessage = ''
     let summary = '<New Conversation>'

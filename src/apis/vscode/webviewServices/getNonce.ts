@@ -1,4 +1,4 @@
-import { randomBytes } from 'crypto'
+import CryptoJS from 'crypto-js'
 
 /**
  * A helper function that returns a unique alphanumeric identifier called a nonce.
@@ -8,7 +8,7 @@ import { randomBytes } from 'crypto'
  *
  * @returns A nonce
  */
-export function getNonce() {
-  const nonce = randomBytes(32).toString('base64')
+export function getNonce(): string {
+  const nonce = CryptoJS.lib.WordArray.random(32).toString()
   return nonce
 }

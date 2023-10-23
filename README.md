@@ -1,6 +1,7 @@
 # vscode-openai
 
 ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/AndrewButson.vscode-openai)
+![.github/workflows/codeql-analysis](https://github.com/arbs-io/vscode-openai/actions/workflows/codeql-analysis.yml/badge.svg)
 ![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/AndrewButson.vscode-openai)
 [![GitHub issues](https://img.shields.io/github/issues/arbs-io/vscode-openai.svg)](https://github.com/arbs-io/vscode-openai/issues)
 ![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/AndrewButson.vscode-openai)
@@ -11,17 +12,15 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-openai&metric=bugs)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-openai)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=arbs-io_vscode-openai&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=arbs-io_vscode-openai)
 
-The VSCode-OpenAI extension is a powerful and versatile tool designed to integrate OpenAI features seamlessly into your code editor. By leveraging this extension, you can obtain instant answers to your questions without the need to switch between multiple applications, allowing you to maintain focus on your coding environment.
+The vscode-openai extension is a powerful and versatile tool designed to integrate OpenAI features seamlessly into the vscode editor. By leveraging this extension, you can obtain instant answers to your questions without the need to switch between multiple applications, allowing you to maintain focus on your coding environment.
 
-This extension provides support for both a **sponsored (free) openai instance** exclusive to extension users and **Bring-Your-Own-Key (BYOK)** options for native **OpenAI** and **Azure-OpenAI**. The intuitive quick-pick menu system enables rapid configuration of service providers, while also offering the flexibility to customize settings as needed. For detailed guidance on configuring service providers, please refer to the Configuring Service Providers section.
+This extension provides support for both a **sponsored (free) openai instance** exclusive to extension users and **Bring-Your-Own-Key (BYOK)** options for vanilla **OpenAI** and **Azure-OpenAI**. The intuitive quick-pick menu system enables rapid configuration of service providers, while also offering the flexibility to customize settings as needed. For detailed guidance on configuring service providers, please refer to the Configuring Service Providers section.
 
 In case you encounter difficulties connecting to your own OpenAI service, the [Detecting Issues](#detecting-issues) segment offers troubleshooting tips and insights to help resolve any configuration issues. Experience an enhanced coding experience with the **vscode-openai** extension – your go-to solution for seamless interaction with OpenAI services.
 
-# Features
-
 ## Setup
 
-The Quick Pick feature of the VSCode-OpenAI extension is a convenient and efficient configuration for service providers. With options to choose from sponsored, native, or Azure-OpenAI instances, you can tailor your selection based on your specific needs. This feature not only saves time but also offers step-by-step guidance and customized settings to ensure a smooth setup experience.
+The Quick Pick feature of the vscode-openai extension is a convenient and efficient configuration for service providers. With options to choose from sponsored, native, or Azure-OpenAI instances, you can tailor your selection based on your specific needs. This feature not only saves time but also offers step-by-step guidance and customized settings to ensure a smooth setup experience.
 
 Once configured, you can effortlessly utilize OpenAI features within VSCode without any interruptions to your workflow.
 
@@ -79,7 +78,7 @@ To activate this feature, you can register or re-register your OpenAI service pr
 
 ![vscode-openai-embedding.png](images/vscode-openai-embedding.png)
 
-### How It Works:
+#### How It Works:
 
 - **Upload Your Sources**: Easily upload documents in various formats (e.g., pdf, docx, ...) through a user-friendly interface within vscode-openai.
 - **Indexing and Processing**: Once uploaded, vscode-openai will index and process the content of your documents, making them available for use during conversations.
@@ -87,15 +86,9 @@ To activate this feature, you can register or re-register your OpenAI service pr
 
 With Custom Source Integration for vscode-openai, users now have an even more powerful tool at their disposal, enabling them to stay informed and up-to-date with the latest standards, libraries, and specialist subjects. This feature not only enhances the overall user experience but also empowers developers, researchers, and educators alike to excel in their respective fields.
 
-### Coming Soon
+## Detecting Issues
 
-Additional file formats will be added soon. Starting with PDF files.
-
-![vscode-openai-embedding-welcome.png](images/vscode-openai-embedding-welcome.png)
-
-# Detecting Issues
-
-### ![vscode-openai-vscode-codicons-cloud.png](images/vscode-openai-vscode-codicons-cloud.png) **Not Found**
+#### ![vscode-openai-vscode-codicons-cloud.png](images/vscode-openai-vscode-codicons-cloud.png) **Not Found**
 
 - Message: "**vscode-openai.openai.azure.com - not found**"
 - Description: This error occurs if any of the configuration parameters are incorrect. Please check the following:
@@ -106,23 +99,23 @@ Additional file formats will be added soon. Starting with PDF files.
     - The api-version is valid and is available in your region.
     - The deployment name is correct.
 
-### ![vscode-openai-vscode-codicons-lock.png](images/vscode-openai-vscode-codicons-lock.png) **Authentication Issue**
+#### ![vscode-openai-vscode-codicons-lock.png](images/vscode-openai-vscode-codicons-lock.png) **Authentication Issue**
 
 - Message: "**vscode-openai.openai.azure.com - failed authentication**"
 - Description: This error occurs if your Api-Key is invalid. Check the Api-Key is valid for the instance or has expired
 
-### ![vscode-openai-vscode-codicons-server-environment.png](images/vscode-openai-vscode-codicons-server-environment.png) **Unknown Host**
+#### ![vscode-openai-vscode-codicons-server-environment.png](images/vscode-openai-vscode-codicons-server-environment.png) **Unknown Host**
 
 - Message: "**vscode-openai1.openai.azure.com - unknown host**"
 - Description: This error occurs if the host is not found. Either your Azure instance or your Api-Gateway URL can't be resolved. The following error will be displayed.
 
-### Log Levels
+## Logging
 
 If you're having issue with the extension use the trace log to check for more information.
 
 ![vscode-openai-output.png](images/vscode-openai-output.png)
 
-# Configuring Service Providers
+## Configuring Service Providers
 
 To configure your azure openai instance, you need to enter the following configuration:
 
@@ -132,17 +125,9 @@ To configure your azure openai instance, you need to enter the following configu
 
 ![vscode-openai-configuration.png](images/vscode-openai-configuration.png)
 
-# Summary
+## FAQ
 
-vscode-openai is a free vscode extension that provides advanced features and technology to developers of all levels. Its features include bug-finding, optimization, explanation, commenting, and design pattern suggestion, which can help you write better code more quickly. One of the critical benefits of vscode-openai is its use of the latest and most cost-effective models from OpenAI, making it an affordable option for developers who want to improve their coding skills.
-
-Using vscode-openai can also help you to write more readable, maintainable, and scalable code. The explanation and commenting features help you communicate more effectively with other developers and organize your thoughts. Meanwhile, the design pattern suggestion feature saves time and effort in researching and implementing established solutions to common problems.
-
-Overall, vscode-openai is a valuable tool for developers looking to streamline their workflow and improve their coding skills. Its advanced features make it a must-have extension for anyone looking to write better code faster at an affordable price point.
-
-# FAQ
-
-## How You Can Contribute
+#### How You Can Contribute
 
 We're excited to announce that our project is now open source! We welcome contributions from the software engineering community. If you're interested in getting involved, please don't hesitate to reach out. Here are a few areas where your expertise could be invaluable:
 
@@ -151,3 +136,9 @@ We're excited to announce that our project is now open source! We welcome contri
 - **Extending Embedding**: We're working on supporting additional file types. If you have experience with different file formats and their handling, your expertise could be crucial in extending the versatility of our project.
 
 We look forward to your contributions and to working together to improve and expand this project.
+
+## **Copyright**
+
+Copyright © 2023 Andrew Butson
+
+Licensed under the MIT License

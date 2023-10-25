@@ -1,4 +1,4 @@
-import { extensions, version } from 'vscode'
+import { extensions, version, env, UIKind } from 'vscode'
 import CryptoJS from 'crypto-js'
 import {
   SecretStorageService,
@@ -128,6 +128,25 @@ export default class ConfigurationSettingService
   }
 
   // host is used for vscode status bar display only
+  public get vscodeVersion(): string {
+    return version
+  }
+
+  public get vscodeUiKind(): string {
+    switch (env.uiKind) {
+      case UIKind.Desktop:
+        return 'desktop'
+      case UIKind.Web:
+        return 'web'
+      default:
+        return 'unknown'
+    }
+  }
+
+  public get vscodeLanguage(): string {
+    return env.language
+  }
+
   public get host(): string {
     if (this.serviceProvider === 'VSCode-OpenAI') return 'vscode-openai'
     return new URL(this.baseUrl).host
@@ -201,7 +220,9 @@ export default class ConfigurationSettingService
   public static LogConfigurationService(): void {
     try {
       const cfgMap = new Map<string, string>()
-      cfgMap.set('vscode_version', version)
+      cfgMap.set('vscode_version', this.instance.vscodeVersion)
+      cfgMap.set('vscode_ui_kind', this.instance.vscodeUiKind)
+      cfgMap.set('vscode_language', this.instance.vscodeLanguage)
       cfgMap.set('extension_version', this.instance.extensionVersion)
       cfgMap.set('service_provider', this.instance.serviceProvider)
       cfgMap.set('host', this.instance.host)

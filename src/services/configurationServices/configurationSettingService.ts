@@ -81,50 +81,50 @@ export default class ConfigurationSettingService
   public get serviceProvider(): string {
     return this.getConfigValue<string>('serviceProvider')
   }
-  public set serviceProvider(value: string) {
-    this.setConfigValue<string>('serviceProvider', value)
+  public set serviceProvider(value: string | undefined) {
+    this.setConfigValue<string | undefined>('serviceProvider', value)
   }
 
   public get baseUrl(): string {
     return this.getConfigValue<string>('baseUrl')
   }
-  public set baseUrl(value: string) {
-    this.setConfigValue<string>('baseUrl', value)
+  public set baseUrl(value: string | undefined) {
+    this.setConfigValue<string | undefined>('baseUrl', value)
   }
 
   public get defaultModel(): string {
     return this.getConfigValue<string>('defaultModel')
   }
-  public set defaultModel(value: string) {
-    this.setConfigValue<string>('defaultModel', value)
+  public set defaultModel(value: string | undefined) {
+    this.setConfigValue<string | undefined>('defaultModel', value)
   }
 
   public get embeddingModel(): string {
     return this.getConfigValue<string>('embeddingModel')
   }
-  public set embeddingModel(value: string) {
-    this.setConfigValue<string>('embeddingModel', value)
+  public set embeddingModel(value: string | undefined) {
+    this.setConfigValue<string | undefined>('embeddingModel', value)
   }
 
   public get azureDeployment(): string {
     return this.getConfigValue<string>('azureDeployment')
   }
-  public set azureDeployment(value: string) {
-    this.setConfigValue<string>('azureDeployment', value)
+  public set azureDeployment(value: string | undefined) {
+    this.setConfigValue<string | undefined>('azureDeployment', value)
   }
 
   public get embeddingsDeployment(): string {
     return this.getConfigValue<string>('embeddingsDeployment')
   }
-  public set embeddingsDeployment(value: string) {
-    this.setConfigValue<string>('embeddingsDeployment', value)
+  public set embeddingsDeployment(value: string | undefined) {
+    this.setConfigValue<string | undefined>('embeddingsDeployment', value)
   }
 
   public get azureApiVersion(): string {
     return this.getConfigValue<string>('azureApiVersion')
   }
-  public set azureApiVersion(value: string) {
-    this.setConfigValue<string>('azureApiVersion', value)
+  public set azureApiVersion(value: string | undefined) {
+    this.setConfigValue<string | undefined>('azureApiVersion', value)
   }
 
   // host is used for vscode status bar display only
@@ -215,6 +215,16 @@ export default class ConfigurationSettingService
       createErrorNotification(error)
     }
     return ''
+  }
+
+  public static ResetConfigurationService(): void {
+    this.instance.serviceProvider = undefined
+    this.instance.baseUrl = undefined
+    this.instance.defaultModel = undefined
+    this.instance.azureDeployment = undefined
+    this.instance.embeddingModel = undefined
+    this.instance.embeddingsDeployment = undefined
+    this.instance.azureApiVersion = undefined
   }
 
   public static LogConfigurationService(): void {

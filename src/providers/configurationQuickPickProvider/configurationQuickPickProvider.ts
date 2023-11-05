@@ -13,8 +13,7 @@ import {
 } from '@app/utilities/quickPicks'
 import {
   VSCODE_OPENAI_EXTENSION,
-  VSCODE_OPENAI_SERVICE_PROVIDER,
-  VSCODE_OPENAI_CONFIGURATION,
+  VSCODE_OPENAI_QUICK_PICK,
 } from '@app/constants'
 import { getFeatureFlag } from '@app/apis/vscode'
 import { ConfigurationSettingService } from '@app/services'
@@ -42,25 +41,40 @@ export class ConfigurationQuickPickProvider {
     const selectedProvider = await this.showQuickPick(quickPickItems)
 
     switch (selectedProvider.label) {
-      case VSCODE_OPENAI_SERVICE_PROVIDER.VSCODE_OPENAI:
+      case VSCODE_OPENAI_QUICK_PICK.PROVIDER_VSCODE_OPENAI:
         quickPickSetupVscodeOpenai(this.context)
         break
 
-      case VSCODE_OPENAI_SERVICE_PROVIDER.OPENAI:
+      case VSCODE_OPENAI_QUICK_PICK.PROVIDER_OPENAI:
         quickPickSetupOpenai(this.context)
         break
 
-      case VSCODE_OPENAI_SERVICE_PROVIDER.AZURE_OPENAI:
+      case VSCODE_OPENAI_QUICK_PICK.PROVIDER_AZURE_OPENAI:
         quickPickSetupAzureOpenai(this.context)
         break
 
-      case VSCODE_OPENAI_SERVICE_PROVIDER.CREDAL:
+      case VSCODE_OPENAI_QUICK_PICK.PROVIDER_CREDAL:
         quickPickSetupCredalOpenai(this.context)
         break
 
-      case VSCODE_OPENAI_SERVICE_PROVIDER.CHANGE_MODEL:
+      case VSCODE_OPENAI_QUICK_PICK.MODEL_CHANGE:
         quickPickChangeModel(this.context)
         break
+
+      case VSCODE_OPENAI_QUICK_PICK.CONFIGURATION_RESET: {
+        window
+          .showInformationMessage(
+            'Are you sure you want to RESET configuration?',
+            'Yes',
+            'No'
+          )
+          .then((answer) => {
+            if (answer === 'Yes') {
+              ConfigurationSettingService.ResetConfigurationService()
+            }
+          })
+        break
+      }
 
       default:
         break
@@ -110,7 +124,7 @@ function BuildQuickPickModelSelection(): QuickPickItem[] {
         kind: QuickPickItemKind.Separator,
       },
       {
-        label: VSCODE_OPENAI_SERVICE_PROVIDER.CHANGE_MODEL,
+        label: VSCODE_OPENAI_QUICK_PICK.MODEL_CHANGE,
         description: 'change chat and embedding model',
         alwaysShow: false,
       },
@@ -126,20 +140,20 @@ function BuildQuickPickServiceProviders(): QuickPickItem[] {
       kind: QuickPickItemKind.Separator,
     },
     {
-      label: VSCODE_OPENAI_SERVICE_PROVIDER.VSCODE_OPENAI,
+      label: VSCODE_OPENAI_QUICK_PICK.PROVIDER_VSCODE_OPENAI,
       description: '(Sponsored) Use vscode-openai service',
     },
     {
-      label: VSCODE_OPENAI_SERVICE_PROVIDER.OPENAI,
+      label: VSCODE_OPENAI_QUICK_PICK.PROVIDER_OPENAI,
       description: '(BYOK) Use your own OpenAI subscription (api.openai.com)',
     },
     {
-      label: VSCODE_OPENAI_SERVICE_PROVIDER.AZURE_OPENAI,
+      label: VSCODE_OPENAI_QUICK_PICK.PROVIDER_AZURE_OPENAI,
       description:
         '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
     },
     {
-      label: VSCODE_OPENAI_SERVICE_PROVIDER.CREDAL,
+      label: VSCODE_OPENAI_QUICK_PICK.PROVIDER_CREDAL,
       description: '(BYOK) Use your own Credal instance (credal.ai)',
     },
   ]
@@ -153,7 +167,7 @@ function BuildQuickPickConfiguration(): QuickPickItem[] {
       kind: QuickPickItemKind.Separator,
     },
     {
-      label: VSCODE_OPENAI_CONFIGURATION.RESET,
+      label: VSCODE_OPENAI_QUICK_PICK.CONFIGURATION_RESET,
       description: 'reset vscode-openai configuration',
     },
   ]

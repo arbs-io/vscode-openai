@@ -36,3 +36,10 @@ export const VSCODE_OPENAI_SERVICE_PROVIDER = {
   CREDAL: '$(comment)  credal.ai',
   CHANGE_MODEL: '$(extensions)  change models',
 }
+
+// VSCODE_OPENAI_SIDEBAR: Contains various command IDs for opening webviews in the sidebar of VS Code.
+// Input: None
+// Output: An object containing strings representing various command IDs for opening webviews in the sidebar of VS Code.
+export const VSCODE_OPENAI_CONFIGURATION = {
+  RESET: '$(workspace-untrusted)  Reset...',
+}

@@ -29,17 +29,11 @@ export const VSCODE_OPENAI_CONVERSATION = {
 // VSCODE_OPENAI_SIDEBAR: Contains various command IDs for opening webviews in the sidebar of VS Code.
 // Input: None
 // Output: An object containing strings representing various command IDs for opening webviews in the sidebar of VS Code.
-export const VSCODE_OPENAI_SERVICE_PROVIDER = {
-  VSCODE_OPENAI: '$(pulse)  vscode-openai',
-  OPENAI: '$(vscode-openai)  openai.com',
-  AZURE_OPENAI: '$(azure)  openai.azure.com',
-  CREDAL: '$(comment)  credal.ai',
-  CHANGE_MODEL: '$(extensions)  change models',
-}
-
-// VSCODE_OPENAI_SIDEBAR: Contains various command IDs for opening webviews in the sidebar of VS Code.
-// Input: None
-// Output: An object containing strings representing various command IDs for opening webviews in the sidebar of VS Code.
-export const VSCODE_OPENAI_CONFIGURATION = {
-  RESET: '$(workspace-untrusted)  Reset...',
+export const VSCODE_OPENAI_QUICK_PICK = {
+  PROVIDER_VSCODE_OPENAI: '$(pulse)  vscode-openai',
+  PROVIDER_OPENAI: '$(vscode-openai)  openai.com',
+  PROVIDER_AZURE_OPENAI: '$(azure)  openai.azure.com',
+  PROVIDER_CREDAL: '$(comment)  credal.ai',
+  MODEL_CHANGE: '$(extensions)  change models',
+  CONFIGURATION_RESET: '$(workspace-untrusted)  reset...',
 }

@@ -239,6 +239,36 @@
           ],
           "order": 110
         },
+        "vscode-openai.conversation-configuration.colors": {
+          "order": 200,
+          "type": "object",
+          "scope": "application",
+          "markdownDescription": "Color for message text in vscode-openai conversation.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "darkUserText": {
+                "type": "string",
+                "default": "#9fd89f",
+                "description": "The `darkmode` color of the users text in the conversation"
+              },
+              "lightUserText": {
+                "type": "string",
+                "default": "#107c10",
+                "description": "The `lightmode` color of the users text in the conversation"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "darkUserText",
+              "lightUserText"
+            ],
+            "examples": {
+              "darkUserText": "#9fd89f",
+              "lightUserText": "#107c10"
+            }
+          }
+        },
         "vscode-openai.conversation-configuration.temperature": {
           "type": "number",
           "default": 0.2,

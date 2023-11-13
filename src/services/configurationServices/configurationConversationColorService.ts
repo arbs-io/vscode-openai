@@ -1,3 +1,4 @@
+import { window, ColorThemeKind } from 'vscode'
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
 import ConfigurationService from './configurationService'
 import { IConfigurationConversationColor } from '@app/types'
@@ -7,6 +8,7 @@ export default class ConfigurationConversationColorService
   implements IConfigurationConversationColor
 {
   private static _instance: ConfigurationConversationColorService
+  private readonly _cfg = 'conversation-configuration.colors.'
   static get instance(): ConfigurationConversationColorService {
     if (!this._instance) {
       try {
@@ -18,80 +20,47 @@ export default class ConfigurationConversationColorService
     return this._instance
   }
 
-  public get lightUserColor(): string {
-    return this.getConfigValue<string>(
-      'conversation-configuration.colors.lightUserColor'
-    )
+  public get userColor(): string {
+    return this._isThemeDark()
+      ? this.getConfigValue<string>(`${this._cfg}darkUserColor`)
+      : this.getConfigValue<string>(`${this._cfg}lightUserColor`)
   }
 
-  public get lightUserBackground(): string {
-    return this.getConfigValue<string>(
-      'conversation-configuration.colors.lightUserBackground'
-    )
+  public get userBackground(): string {
+    return this._isThemeDark()
+      ? this.getConfigValue<string>(`${this._cfg}darkUserBackground`)
+      : this.getConfigValue<string>(`${this._cfg}lightUserBackground`)
   }
 
-  public get lightAssistantColor(): string {
-    return this.getConfigValue<string>(
-      'conversation-configuration.colors.lightAssistantColor'
-    )
+  public get assistantColor(): string {
+    return this._isThemeDark()
+      ? this.getConfigValue<string>(`${this._cfg}darkAssistantColor`)
+      : this.getConfigValue<string>(`${this._cfg}lightAssistantColor`)
   }
 
-  public get lightAssistantBackground(): string {
-    return this.getConfigValue<string>(
-      'conversation-configuration.colors.lightAssistantBackground'
-    )
+  public get assistantBackground(): string {
+    return this._isThemeDark()
+      ? this.getConfigValue<string>(`${this._cfg}darkAssistantBackground`)
+      : this.getConfigValue<string>(`${this._cfg}lightAssistantBackground`)
   }
 
-  public get darkUserColor(): string {
-    return this.getConfigValue<string>(
-      'conversation-configuration.colors.darkUserColor'
-    )
-  }
-
-  public get darkUserBackground(): string {
-    return this.getConfigValue<string>(
-      'conversation-configuration.colors.darkUserBackground'
-    )
-  }
-
-  public get darkAssistantColor(): string {
-    return this.getConfigValue<string>(
-      'conversation-configuration.colors.darkAssistantColor'
-    )
-  }
-
-  public get darkAssistantBackground(): string {
-    return this.getConfigValue<string>(
-      'conversation-configuration.colors.darkAssistantBackground'
-    )
-  }
-
-  public get getConfigurationConversationColor(): IConfigurationConversationColor {
-    const conversationColor: IConfigurationConversationColor = {
-      lightUserColor: this.lightUserColor,
-      lightUserBackground: this.lightUserBackground,
-      lightAssistantColor: this.lightAssistantColor,
-      lightAssistantBackground: this.lightAssistantBackground,
-      darkUserColor: this.darkUserColor,
-      darkUserBackground: this.darkUserBackground,
-      darkAssistantColor: this.darkAssistantColor,
-      darkAssistantBackground: this.darkAssistantBackground,
-    }
-    return conversationColor
+  private _isThemeDark() {
+    return {
+      [ColorThemeKind.Light]: false,
+      [ColorThemeKind.Dark]: true,
+      [ColorThemeKind.HighContrast]: true,
+      [ColorThemeKind.HighContrastLight]: false,
+    }[window.activeColorTheme.kind]
   }
 
   public static LogConfigurationService(): void {
     try {
       const cfg = this.instance
       const cfgMap = new Map<string, string>()
-      cfgMap.set('lightUserColor', cfg.lightUserColor)
-      cfgMap.set('lightUserBackground', cfg.lightUserBackground)
-      cfgMap.set('lightAssistantColor', cfg.lightAssistantColor)
-      cfgMap.set('lightAssistantBackground', cfg.lightAssistantBackground)
-      cfgMap.set('darkUserColor', cfg.darkUserColor)
-      cfgMap.set('darkUserBackground', cfg.darkUserBackground)
-      cfgMap.set('darkAssistantColor', cfg.darkAssistantColor)
-      cfgMap.set('darkAssistantBackground', cfg.darkAssistantBackground)
+      cfgMap.set('userColor', cfg.userColor)
+      cfgMap.set('userBackground', cfg.userBackground)
+      cfgMap.set('assistantColor', cfg.assistantColor)
+      cfgMap.set('assistantBackground', cfg.assistantBackground)
 
       createInfoNotification(Object.fromEntries(cfgMap), 'conversation_color')
     } catch (error) {

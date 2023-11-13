@@ -187,7 +187,7 @@ export class MessageViewerPanel {
    *    | extension	| webview		| onWillAnswerMessage			| IChatCompletion		|
    *    | webview		| extension	| onDidSaveMessages				| IChatCompletion[]	|
    *    | webview		| extension	| onDidCreateDocument			| ICodeDocument			|
-   *    | webview		| extension	| onDidCopyClipboardCode		| ICodeDocument			|
+   *    | webview		| extension	| onDidCopyClipboardCode	| ICodeDocument			|
    *
    */
   private _setWebviewMessageListener(webview: Webview) {

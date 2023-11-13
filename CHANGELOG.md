@@ -4,6 +4,37 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.5.1]
+
+- Added custom conversation colors
+
+## [1.4.8]
+
+- Added env and UIKind imports from vscode by @arbs-io in #177
+- package upgrade by @arbs-io in #179
+- Feature/20231105 adding reset option by @arbs-io in #181
+
+## [1.4.7]
+
+- Feature/20231022 explicit util module by @arbs-io in #172
+- version bump by @arbs-io in #173
+- Added the badge for the GitHub Actions workflow for codeql-analysis. by @arbs-io in #174
+- updated project description by @arbs-io in #175
+
+## [1.4.6]
+
+- Bump postcss from 8.4.27 to 8.4.31 in /webview-ui/messageWebview by @dependabot in #167
+- Bump postcss from 8.4.27 to 8.4.31 in /webview-ui/conversationsWebview by @dependabot in #168
+- Bump @babel/traverse from 7.22.19 to 7.23.2 in /webview-ui/messageWebview by @dependabot in #169
+- Bump @babel/traverse from 7.22.19 to 7.23.2 in /webview-ui/conversationsWebview by @dependabot in #170
+- Feature/20231022 vscode server fix crypo lib by @arbs-io in #171
+
+## [1.4.5]
+
+- Feature/20230912 package upgrade fluent UI by @arbs-io in #162
+- Feature/20230916 removing redundant code by @arbs-io in #163
+- Modified src/apis/openai/api/listModelsOpenAI.ts to simplify the as… by @arbs-io in #164
+
 ## [1.4.4]
 
 - Feature/20230827 adding unicode pdf support by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/159

@@ -18,6 +18,7 @@ import {
   onDidCreateDocument,
   onDidSaveMessages,
 } from './onDidFunctions'
+import { ConfigurationConversationColorService } from '@app/services/configurationServices'
 
 export class MessageViewerPanel {
   public static currentPanel: MessageViewerPanel | undefined
@@ -156,8 +157,9 @@ export class MessageViewerPanel {
     ])
 
     const panelTheme = this._isThemeDark() ? 'dark' : 'light'
-    this._setPanelIcon()
+    const cccs = ConfigurationConversationColorService.instance
 
+    this._setPanelIcon()
     const nonce = getNonce()
 
     return /*html*/ `
@@ -170,7 +172,7 @@ export class MessageViewerPanel {
           <title>Claimset</title>
         </head>
         <body style="margin:0;padding:0">
-          <div id="root" theme='${panelTheme}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />
+          <div id="root" theme='${panelTheme}' assistantColor='${cccs.assistantColor}' assistantBackground='${cccs.assistantBackground}' userColor='${cccs.userColor}' userBackground='${cccs.userBackground}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>
@@ -187,7 +189,7 @@ export class MessageViewerPanel {
    *    | extension	| webview		| onWillAnswerMessage			| IChatCompletion		|
    *    | webview		| extension	| onDidSaveMessages				| IChatCompletion[]	|
    *    | webview		| extension	| onDidCreateDocument			| ICodeDocument			|
-   *    | webview		| extension	| onDidCopyClipboardCode		| ICodeDocument			|
+   *    | webview		| extension	| onDidCopyClipboardCode	| ICodeDocument			|
    *
    */
   private _setWebviewMessageListener(webview: Webview) {

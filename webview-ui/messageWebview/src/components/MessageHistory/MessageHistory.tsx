@@ -14,14 +14,16 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
     throw new Error('Invalid memory')
   }
 
+  const re = document.getElementById('root') as HTMLElement
+  const assistantColor = re.getAttribute('assistantColor') ?? tokens.colorPaletteGreenForeground3
+  const assistantBackground = re.getAttribute('assistantBackground') ?? tokens.colorPaletteGreenBackground1
+  const userColor = re.getAttribute('userColor') ?? tokens.colorNeutralForeground3Hover
+  const userBackground = re.getAttribute('userBackground') ?? tokens.colorNeutralBackground4
+
   const styleMessageHistory: CSSProperties = {
     alignSelf: message.mine ? 'flex-end' : 'flex-start',
-    backgroundColor: message.mine
-      ? tokens.colorNeutralBackground4
-      : tokens.colorPaletteGreenBackground1,
-    color: message.mine
-      ? tokens.colorNeutralForeground3Hover
-      : tokens.colorPaletteGreenForeground3,
+    backgroundColor: message.mine ? userBackground : assistantBackground,
+    color: message.mine ? userColor : assistantColor,
     borderRadius: tokens.borderRadiusXLarge,
     margin: '1rem',
     padding: '1rem',

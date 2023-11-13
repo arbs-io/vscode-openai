@@ -11,6 +11,7 @@ import {
 import { registerConfigurationMonitorService } from './configurationMonitorServices'
 import {
   ConfigurationConversationService,
+  ConfigurationConversationColorService,
   ConfigurationEmbeddingService,
   ConfigurationSettingService,
 } from './configurationServices'
@@ -50,6 +51,7 @@ export function registerVscodeOpenAIServices(context: ExtensionContext) {
   ConfigurationSettingService.LogConfigurationService()
   ConfigurationConversationService.LogConfigurationService()
   ConfigurationEmbeddingService.LogConfigurationService()
+  ConfigurationConversationColorService.LogConfigurationService()
 
   createDebugNotification('verifying service authentication')
   validateApiKey() //On activation check if the api key is valid

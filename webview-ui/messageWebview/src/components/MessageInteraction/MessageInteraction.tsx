@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 import { MessageHistory } from '../MessageHistory'
 import { MessageInput } from '../MessageInput'
 import { vscode } from '../../utilities/vscode'
-import { IChatCompletion } from '../../interfaces/IChatCompletion'
+import { IChatCompletion } from '../../interfaces'
 
 const MessageInteraction: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)

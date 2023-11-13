@@ -239,23 +239,59 @@
           ],
           "order": 110
         },
-        "vscode-openai.conversation-configuration.customise": {
+        "vscode-openai.conversation-configuration.colors": {
           "type": "object",
           "order": 201,
           "default": {
-            "darkUserText": "#9fd89f",
-            "lightUserText": "#107c10"
+            "lightUserColor": "#424242",
+            "lightUserBackground": "#f0f0f0",
+            "lightAssistantColor": "#107c10",
+            "lightAssistantBackground": "#f1faf1",
+            "darkUserColor": "#d6d6d6",
+            "darkUserBackground": "#0a0a0a",
+            "darkAssistantColor": "#9fd89f",
+            "darkAssistantBackground": "#052505"
           },
           "properties": {
-            "darkUserText": {
+            "lightUserColor": {
               "type": "string",
-              "default": "#9fd89f",
-              "description": "The `darkmode` color of the user's text in the conversation"
+              "description": "The `dark` mode color of the `User` text in the conversation view",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
             },
-            "lightUserText": {
+            "lightUserBackground": {
               "type": "string",
-              "default": "#107c10",
-              "description": "The `lightmode` color of the user's text in the conversation"
+              "description": "The `dark` mode color of the `User` background in the conversation view",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "lightAssistantColor": {
+              "type": "string",
+              "description": "The `dark` mode color of the `Assistant` text in the conversation view",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "lightAssistantBackground": {
+              "type": "string",
+              "description": "The `dark` mode color of the `Assistant` background in the conversation view",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "darkUserColor": {
+              "type": "string",
+              "description": "The `dark` mode color of the `User` text in the conversation view",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "darkUserBackground": {
+              "type": "string",
+              "description": "The `dark` mode color of the `User` background in the conversation view",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "darkAssistantColor": {
+              "type": "string",
+              "description": "The `dark` mode color of the `Assistant` text in the conversation view",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            },
+            "darkAssistantBackground": {
+              "type": "string",
+              "description": "The `dark` mode color of the `Assistant` background in the conversation view",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
             }
           },
           "scope": "application",

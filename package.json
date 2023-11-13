@@ -239,35 +239,27 @@
           ],
           "order": 110
         },
-        "vscode-openai.conversation-configuration.colors": {
-          "order": 200,
+        "vscode-openai.conversation-configuration.customise": {
           "type": "object",
-          "scope": "application",
-          "markdownDescription": "Color for message text in vscode-openai conversation.",
-          "items": {
-            "type": "object",
-            "properties": {
-              "darkUserText": {
-                "type": "string",
-                "default": "#9fd89f",
-                "description": "The `darkmode` color of the users text in the conversation"
-              },
-              "lightUserText": {
-                "type": "string",
-                "default": "#107c10",
-                "description": "The `lightmode` color of the users text in the conversation"
-              }
+          "order": 201,
+          "default": {
+            "darkUserText": "#9fd89f",
+            "lightUserText": "#107c10"
+          },
+          "properties": {
+            "darkUserText": {
+              "type": "string",
+              "default": "#9fd89f",
+              "description": "The `darkmode` color of the user's text in the conversation"
             },
-            "additionalProperties": false,
-            "required": [
-              "darkUserText",
-              "lightUserText"
-            ],
-            "examples": {
-              "darkUserText": "#9fd89f",
-              "lightUserText": "#107c10"
+            "lightUserText": {
+              "type": "string",
+              "default": "#107c10",
+              "description": "The `lightmode` color of the user's text in the conversation"
             }
-          }
+          },
+          "scope": "application",
+          "markdownDescription": "Customise the look and feels of vscode-openai **conversation**. This setting allows you to change `colors` in the message window."
         },
         "vscode-openai.conversation-configuration.temperature": {
           "type": "number",
@@ -275,7 +267,7 @@
           "minimum": 0,
           "maximum": 2,
           "markdownDescription": "What sampling **temperature** to use. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Value must range between (0.0 - 2.0)",
-          "order": 201
+          "order": 211
         },
         "vscode-openai.conversation-configuration.presence-penalty": {
           "type": "number",
@@ -283,7 +275,7 @@
           "minimum": 0,
           "maximum": 2,
           "markdownDescription": "Positive values `penalize new tokens` based on whether they **appear in the text so far**, increasing the model's likelihood to talk about new topics. Value must range between (0.0 - 2.0)",
-          "order": 202
+          "order": 212
         },
         "vscode-openai.conversation-configuration.frequency-penalty": {
           "type": "number",
@@ -291,7 +283,7 @@
           "minimum": 0,
           "maximum": 2,
           "markdownDescription": "Positive values `penalize new tokens` based on their **existing frequency in the text so far**, decreasing the model's likelihood to repeat the same line verbatim. Value must range between (0.0 - 2.0)",
-          "order": 203
+          "order": 213
         },
         "vscode-openai.conversation-configuration.number-of-attempts": {
           "type": "integer",
@@ -299,7 +291,7 @@
           "minimum": 5,
           "maximum": 30,
           "markdownDescription": "The number of retries if request has been rate-limited (http-429). Value must range between (5 - 30)",
-          "order": 204
+          "order": 214
         },
         "vscode-openai.conversation-configuration.history": {
           "type": "number",
@@ -307,7 +299,7 @@
           "markdownDescription": "The number of previous messages sent to the current prompt.",
           "minimum": 0,
           "maximum": 128,
-          "order": 205
+          "order": 215
         },
         "vscode-openai.conversation-configuration.summary-max-length": {
           "type": "number",
@@ -315,7 +307,7 @@
           "markdownDescription": "The maximum length of the `summarising messages` the conversation. Value must range between (50 - 250)",
           "minimum": 50,
           "maximum": 250,
-          "order": 206
+          "order": 221
         },
         "vscode-openai.conversation-configuration.summary-threshold": {
           "type": "number",
@@ -323,7 +315,7 @@
           "markdownDescription": "The number of `messages` before **summarising** the conversation. Value must range between (3 - 12)",
           "minimum": 3,
           "maximum": 12,
-          "order": 207
+          "order": 222
         },
         "vscode-openai.conversation-configuration.api-headers": {
           "type": "array",
@@ -343,7 +335,7 @@
             }
           },
           "default": [],
-          "order": 208
+          "order": 231
         },
         "vscode-openai.editor.code.comment": {
           "type": "string",

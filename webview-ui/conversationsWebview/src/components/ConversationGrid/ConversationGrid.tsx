@@ -11,7 +11,7 @@ import {
 } from '@fluentui/react-components'
 import { ConversationGridColumnDefinition } from '../ConversationGridColumnDefinition'
 import { IConversation } from '../../interfaces'
-import { vscode } from '../../utilities/vscode'
+import { vscode } from '../../utilities'
 
 const componentStyles = makeStyles({
   verticalPadding: {

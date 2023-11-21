@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
-import { TokenInfo } from '../TokenInfo'
+import { MessageUtility } from '../MessageUtility'
 import { IMessageHistoryProps } from '../../interfaces'
 import { CopyToClipboardButton } from '../Buttons'
 import OpenSourceFileButton from '../Buttons/OpenSourceFileButton'
@@ -15,10 +15,15 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   }
 
   const re = document.getElementById('root') as HTMLElement
-  const assistantColor = re.getAttribute('assistantColor') ?? tokens.colorPaletteGreenForeground3
-  const assistantBackground = re.getAttribute('assistantBackground') ?? tokens.colorPaletteGreenBackground1
-  const userColor = re.getAttribute('userColor') ?? tokens.colorNeutralForeground3Hover
-  const userBackground = re.getAttribute('userBackground') ?? tokens.colorNeutralBackground4
+  const assistantColor =
+    re.getAttribute('assistantColor') ?? tokens.colorPaletteGreenForeground3
+  const assistantBackground =
+    re.getAttribute('assistantBackground') ??
+    tokens.colorPaletteGreenBackground1
+  const userColor =
+    re.getAttribute('userColor') ?? tokens.colorNeutralForeground3Hover
+  const userBackground =
+    re.getAttribute('userBackground') ?? tokens.colorNeutralBackground4
 
   const styleMessageHistory: CSSProperties = {
     alignSelf: message.mine ? 'flex-end' : 'flex-start',
@@ -66,7 +71,7 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
             </span>
           )}
           <span style={{ fontSize: 10 }}> Date: {message.timestamp}</span>
-          {message.totalTokens > 0 && <TokenInfo message={message} />}
+          {message.totalTokens > 0 && <MessageUtility message={message} />}
         </div>
       </div>
       <ReactMarkdown

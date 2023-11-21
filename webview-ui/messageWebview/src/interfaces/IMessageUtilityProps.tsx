@@ -1,5 +1,5 @@
 import { IChatCompletion } from '.'
 
-export interface ITokenInfoProps {
+export interface IMessageUtilityProps {
   message: IChatCompletion
 }

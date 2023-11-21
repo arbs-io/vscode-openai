@@ -12,9 +12,11 @@ import {
   Pen16Regular,
   Notebook16Regular,
   CommentArrowRight16Regular,
+  Speaker216Regular,
 } from '@fluentui/react-icons'
-import { ITokenInfoProps } from '../../interfaces'
-import { FC } from 'react'
+import { IMessageUtilityProps } from '../../interfaces'
+import { FC, MouseEvent } from 'react'
+import { TextToSpeech } from '../../utilities'
 
 const useStyles = makeStyles({
   container: {
@@ -27,7 +29,16 @@ const useStyles = makeStyles({
     float: 'right',
   },
 })
-const TokenPopover: FC<ITokenInfoProps> = ({ message }) => {
+
+const handleSpeech = (
+  _e: MouseEvent<HTMLButtonElement>,
+  speechText: string
+) => {
+  const textToSpeech = TextToSpeech.getInstance()
+  textToSpeech.activateTextToSpeech(speechText)
+}
+
+const TokenPopover: FC<IMessageUtilityProps> = ({ message }) => {
   const styles = useStyles()
   return (
     <div className={styles.container}>
@@ -43,10 +54,16 @@ const TokenPopover: FC<ITokenInfoProps> = ({ message }) => {
     </div>
   )
 }
-export const TokenInfo: FC<ITokenInfoProps> = ({ message }) => {
+export const MessageUtility: FC<IMessageUtilityProps> = ({ message }) => {
   const styles = useStyles()
   return (
     <span className={styles.infoButton}>
+      <Button
+        appearance="transparent"
+        size="small"
+        icon={<Speaker216Regular />}
+        onClick={(e) => handleSpeech(e, message.content)}
+      />
       <Popover withArrow>
         <PopoverTrigger disableButtonEnhancement>
           <Button
@@ -64,4 +81,4 @@ export const TokenInfo: FC<ITokenInfoProps> = ({ message }) => {
   )
 }
 
-export default TokenInfo
+export default MessageUtility

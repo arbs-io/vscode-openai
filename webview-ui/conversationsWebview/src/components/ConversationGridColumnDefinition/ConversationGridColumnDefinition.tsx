@@ -6,7 +6,7 @@ import {
   Avatar,
 } from '@fluentui/react-components'
 import { IConversation } from '../../interfaces'
-import { vscode } from '../../utilities/vscode'
+import { vscode } from '../../utilities'
 
 const handleOpenConversation = (conversation: IConversation) => {
   vscode.postMessage({

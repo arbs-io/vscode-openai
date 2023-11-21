@@ -1,2 +1,2 @@
 export { vscode } from './vscode'
-export { activateTextToSpeech } from './textToSpeech'
+export { TextToSpeech } from './textToSpeech'

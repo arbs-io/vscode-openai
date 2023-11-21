@@ -12,11 +12,11 @@ import {
   Pen16Regular,
   Notebook16Regular,
   CommentArrowRight16Regular,
-  Speaker016Regular,
+  Speaker216Regular,
 } from '@fluentui/react-icons'
 import { IMessageUtilityProps } from '../../interfaces'
 import { FC, MouseEvent } from 'react'
-import { activateTextToSpeech } from '../../utilities'
+import { TextToSpeech } from '../../utilities'
 
 const useStyles = makeStyles({
   container: {
@@ -34,7 +34,8 @@ const handleSpeech = (
   _e: MouseEvent<HTMLButtonElement>,
   speechText: string
 ) => {
-  activateTextToSpeech(speechText)
+  const textToSpeech = TextToSpeech.getInstance()
+  textToSpeech.activateTextToSpeech(speechText)
 }
 
 const TokenPopover: FC<IMessageUtilityProps> = ({ message }) => {
@@ -60,7 +61,7 @@ export const MessageUtility: FC<IMessageUtilityProps> = ({ message }) => {
       <Button
         appearance="transparent"
         size="small"
-        icon={<Speaker016Regular />}
+        icon={<Speaker216Regular />}
         onClick={(e) => handleSpeech(e, message.content)}
       />
       <Popover withArrow>

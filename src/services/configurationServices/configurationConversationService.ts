@@ -56,6 +56,12 @@ export default class ConfigurationConversationService
     )
   }
 
+  public get messageShortcuts(): boolean {
+    return this.getConfigValue<boolean>(
+      'conversation-configuration.message-shortcuts'
+    )
+  }
+
   public static LogConfigurationService(): void {
     try {
       const cfg = this.instance

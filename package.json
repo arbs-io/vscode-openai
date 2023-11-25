@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -372,6 +372,12 @@
           },
           "default": [],
           "order": 231
+        },
+        "vscode-openai.conversation-configuration.message-shortcuts": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Enable keyboard shortcuts in the message input window (`Shift`+`Enter` && `Ctrl`+`ArrowUp`). You must use the send button if disabled.",
+          "order": 241
         },
         "vscode-openai.editor.code.comment": {
           "type": "string",

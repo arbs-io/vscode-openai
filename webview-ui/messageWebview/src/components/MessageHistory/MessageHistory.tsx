@@ -1,5 +1,5 @@
 import { makeStyles, tokens } from '@fluentui/react-components'
-import { CSSProperties, FC } from 'react'
+import { CSSProperties, FC, useContext } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -8,27 +8,25 @@ import { MessageUtility } from '../MessageUtility'
 import { IMessageHistoryProps } from '../../interfaces'
 import { CopyToClipboardButton } from '../Buttons'
 import OpenSourceFileButton from '../Buttons/OpenSourceFileButton'
+import { ConfigurationContext } from '../../utilities'
 
 const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   if (!message) {
     throw new Error('Invalid memory')
   }
-
-  const re = document.getElementById('root') as HTMLElement
-  const assistantColor =
-    re.getAttribute('assistantColor') ?? tokens.colorPaletteGreenForeground3
-  const assistantBackground =
-    re.getAttribute('assistantBackground') ??
-    tokens.colorPaletteGreenBackground1
-  const userColor =
-    re.getAttribute('userColor') ?? tokens.colorNeutralForeground3Hover
-  const userBackground =
-    re.getAttribute('userBackground') ?? tokens.colorNeutralBackground4
+  const configuration = useContext(ConfigurationContext)
+  if (!configuration) {
+    throw new Error('Invalid ConfigurationContext')
+  }
 
   const styleMessageHistory: CSSProperties = {
     alignSelf: message.mine ? 'flex-end' : 'flex-start',
-    backgroundColor: message.mine ? userBackground : assistantBackground,
-    color: message.mine ? userColor : assistantColor,
+    backgroundColor: message.mine
+      ? configuration.userBackground
+      : configuration.assistantBackground,
+    color: message.mine
+      ? configuration.userColor
+      : configuration.assistantColor,
     borderRadius: tokens.borderRadiusXLarge,
     margin: '1rem',
     padding: '1rem',

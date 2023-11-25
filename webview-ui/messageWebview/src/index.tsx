@@ -6,6 +6,8 @@ import {
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import { ConfigurationContext } from './utilities'
+import { getConfigurationDefaults } from './utilities/configurationContext'
 
 const rootElement = document.getElementById('root') as HTMLElement
 const theme =
@@ -14,8 +16,10 @@ const root = ReactDOM.createRoot(rootElement)
 
 root.render(
   <React.StrictMode>
-    <FluentProvider theme={theme}>
-      <App />
-    </FluentProvider>
+    <ConfigurationContext.Provider value={getConfigurationDefaults()}>
+      <FluentProvider theme={theme}>
+        <App />
+      </FluentProvider>
+    </ConfigurationContext.Provider>
   </React.StrictMode>
 )

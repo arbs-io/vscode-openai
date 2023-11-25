@@ -37,8 +37,6 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
     if (chatBottomRef.current) autoGrow(chatBottomRef.current)
   }, [value])
 
-  const handleSubmitAudio = () => {}
-
   const handleSubmitText = (text: string) => {
     if (text.length < 5) return
     onSubmit({
@@ -64,7 +62,7 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
   const toggleChecked = useCallback(() => {
     setAudioOn(!audioOn)
     if (audioOn) {
-      handleSubmitAudio()
+      // where we need to vscode speech SDK output
     }
   }, [audioOn])
 

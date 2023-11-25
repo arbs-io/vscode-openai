@@ -18,7 +18,10 @@ import {
   onDidCreateDocument,
   onDidSaveMessages,
 } from './onDidFunctions'
-import { ConfigurationConversationColorService } from '@app/services/configurationServices'
+import {
+  ConfigurationConversationColorService,
+  ConfigurationConversationService,
+} from '@app/services/configurationServices'
 
 export class MessageViewerPanel {
   public static currentPanel: MessageViewerPanel | undefined
@@ -158,6 +161,7 @@ export class MessageViewerPanel {
 
     const panelTheme = this._isThemeDark() ? 'dark' : 'light'
     const cccs = ConfigurationConversationColorService.instance
+    const ccs = ConfigurationConversationService.instance
 
     this._setPanelIcon()
     const nonce = getNonce()
@@ -172,7 +176,7 @@ export class MessageViewerPanel {
           <title>Claimset</title>
         </head>
         <body style="margin:0;padding:0">
-          <div id="root" theme='${panelTheme}' assistantColor='${cccs.assistantColor}' assistantBackground='${cccs.assistantBackground}' userColor='${cccs.userColor}' userBackground='${cccs.userBackground}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />
+          <div id="root" theme='${panelTheme}' messageShortcuts='${ccs.messageShortcuts}' assistantColor='${cccs.assistantColor}' assistantBackground='${cccs.assistantBackground}' userColor='${cccs.userColor}' userBackground='${cccs.userBackground}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>

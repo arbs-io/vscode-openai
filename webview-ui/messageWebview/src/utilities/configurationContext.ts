@@ -5,6 +5,7 @@ import { IConfiguration } from '../interfaces'
 export function getConfigurationDefaults(): IConfiguration {
   const rootElement = document.getElementById('root') as HTMLElement
   const configuration: IConfiguration = {
+    messageShortcuts: rootElement.getAttribute('messageShortcuts') ?? 'true',
     assistantColor:
       rootElement.getAttribute('assistantColor') ??
       tokens.colorPaletteGreenForeground3,

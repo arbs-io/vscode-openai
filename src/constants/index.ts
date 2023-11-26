@@ -34,6 +34,7 @@ export const VSCODE_OPENAI_QUICK_PICK = {
   PROVIDER_OPENAI: '$(vscode-openai)  openai.com',
   PROVIDER_AZURE_OPENAI: '$(azure)  openai.azure.com',
   PROVIDER_CREDAL: '$(comment)  credal.ai',
+  PROVIDER_CUSTOM: '$(server-environment)  custom',
   MODEL_CHANGE: '$(extensions)  change models',
   CONFIGURATION_RESET: '$(workspace-untrusted)  reset...',
 }

@@ -10,6 +10,7 @@ import {
   quickPickSetupCredalOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
+  quickPickSetupCustomOpenai,
 } from '@app/utilities/quickPicks'
 import {
   VSCODE_OPENAI_EXTENSION,
@@ -43,6 +44,9 @@ export class ConfigurationQuickPickProvider {
     switch (selectedProvider.label) {
       case VSCODE_OPENAI_QUICK_PICK.PROVIDER_VSCODE_OPENAI:
         quickPickSetupVscodeOpenai(this.context)
+        break
+      case VSCODE_OPENAI_QUICK_PICK.PROVIDER_CUSTOM:
+        quickPickSetupCustomOpenai(this.context)
         break
 
       case VSCODE_OPENAI_QUICK_PICK.PROVIDER_OPENAI:
@@ -155,6 +159,11 @@ function BuildQuickPickServiceProviders(): QuickPickItem[] {
     {
       label: VSCODE_OPENAI_QUICK_PICK.PROVIDER_CREDAL,
       description: '(BYOK) Use your own Credal instance (credal.ai)',
+    },
+    {
+      label: VSCODE_OPENAI_QUICK_PICK.PROVIDER_CUSTOM,
+      description:
+        '(BYOI) Use your own instance LLM or SLM (openai-api support required)',
     },
   ]
   return quickPickItemTypes

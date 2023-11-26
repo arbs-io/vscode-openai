@@ -61,7 +61,7 @@ export async function quickPickSetupAzureOpenai(
       valueSelection:
         typeof state.openaiBaseUrl === 'string' ? undefined : [8, 16],
       prompt:
-        '$(globe)  Enter you instance name. Provide the base url for example "https://instance.openai.azure.com/openai"',
+        '$(globe)  Enter the instance name. Provide the base url for example "https://instance.openai.azure.com/openai"',
       placeholder: 'https://instance.openai.azure.com/openai',
       validate: validateOpenaiBaseUrl,
       shouldResume: shouldResume,
@@ -85,7 +85,7 @@ export async function quickPickSetupAzureOpenai(
       totalSteps: 4,
       ignoreFocusOut: true,
       value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
-      prompt: '$(key)  Enter you openai.com Api-Key',
+      prompt: '$(key)  Enter the openai.com Api-Key',
       placeholder: 'ed4af062d8567543ad104587ea4505ce',
       validate: validateAzureOpenaiApiKey,
       shouldResume: shouldResume,

@@ -61,7 +61,7 @@ export async function quickPickSetupOpenai(
       valueSelection:
         typeof state.openaiBaseUrl === 'string' ? undefined : [0, 25],
       prompt:
-        '$(globe)  Enter you instance name. Provide the base url default https://api.openai.com/v1"',
+        '$(globe)  Enter the instance name. Provide the base url default https://api.openai.com/v1"',
       placeholder: 'https://api.openai.com/v1',
       validate: validateOpenaiBaseUrl,
       shouldResume: shouldResume,
@@ -85,7 +85,7 @@ export async function quickPickSetupOpenai(
       totalSteps: 4,
       ignoreFocusOut: true,
       value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
-      prompt: `$(key)  Enter you openai.com Api-Key`,
+      prompt: `$(key)  Enter the openai.com Api-Key`,
       placeholder: 'sk-8i6055nAY3eAwARfHFjiT5BlbkFJAEFUvG5GwtAV2RiwP87h',
       validate: validateOpenaiApiKey,
       shouldResume: shouldResume,

@@ -380,6 +380,12 @@
           "markdownDescription": "Enable keyboard shortcuts in the message input window (`Shift`+`Enter` && `Ctrl`+`ArrowUp`). You must use the send button if disabled.",
           "order": 241
         },
+        "vscode-openai.conversation-configuration.assistant-rules": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Enable assistant rules for conversation. If disabled raw prompt will be sent to the LLM",
+          "order": 242
+        },
         "vscode-openai.editor.code.comment": {
           "type": "string",
           "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease add comments to the source code explaining what the code is doing.\nThe code to analyze is below:\n#{source_code}",

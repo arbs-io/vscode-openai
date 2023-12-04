@@ -4,6 +4,28 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.5.4]
+
+### What's Changed
+
+- fix: synchronization issue in compareFileToClipboard by @doradsoft in https://github.com/arbs-io/vscode-openai/pull/193
+- Feature/20231204 allow disable assistant rules by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/194
+
+### New Contributors
+
+- @doradsoft made their first contribution in https://github.com/arbs-io/vscode-openai/pull/193
+
+## [1.5.3]
+
+- Feature/20231125 move config to context by @arbs-io in #188
+- Added createErrorNotification import from @app/apis/node. by @arbs-io in #189
+- Added createInfoNotification import in generateComments.ts by @arbs-io in #190
+- Feature/20231126 add custom instance support by @arbs-io in #191
+
+## [1.5.2]
+
+- Feature/20231120 adding accessibility tts by @arbs-io in #186
+
 ## [1.5.1]
 
 - Added custom conversation colors

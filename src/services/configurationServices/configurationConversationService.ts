@@ -62,6 +62,12 @@ export default class ConfigurationConversationService
     )
   }
 
+  public get assistantRules(): boolean {
+    return this.getConfigValue<boolean>(
+      'conversation-configuration.assistant-rules'
+    )
+  }
+
   public static LogConfigurationService(): void {
     try {
       const cfg = this.instance

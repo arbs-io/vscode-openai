@@ -1,4 +1,4 @@
-import { makeStyles, tokens } from '@fluentui/react-components'
+import { makeStyles } from '@fluentui/react-components'
 import { CSSProperties, FC, useContext } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -11,35 +11,31 @@ import OpenSourceFileButton from '../Buttons/OpenSourceFileButton'
 import { ConfigurationContext } from '../../utilities'
 
 const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
-  if (!message) {
-    throw new Error('Invalid memory')
-  }
+  // Removed the error throwing as it's not a good practice to throw errors in a component render method
   const configuration = useContext(ConfigurationContext)
-  if (!configuration) {
-    throw new Error('Invalid ConfigurationContext')
-  }
+  // Removed the error throwing for configuration context as well
 
   const styleMessageHistory: CSSProperties = {
-    alignSelf: message.mine ? 'flex-end' : 'flex-start',
-    backgroundColor: message.mine
-      ? configuration.userBackground
-      : configuration.assistantBackground,
-    color: message.mine
-      ? configuration.userColor
-      : configuration.assistantColor,
-    borderRadius: tokens.borderRadiusXLarge,
+    alignSelf: message?.mine ? 'flex-end' : 'flex-start', // Used optional chaining to prevent accessing properties of undefined
+    backgroundColor: message?.mine
+      ? configuration?.userBackground // Used optional chaining for configuration
+      : configuration?.assistantBackground, // Used optional chaining for configuration
+    color: message?.mine
+      ? configuration?.userColor // Used optional chaining for configuration
+      : configuration?.assistantColor, // Used optional chaining for configuration
+    borderRadius: 'var(--borderRadiusXLarge)', // Replaced tokens with CSS variable
     margin: '1rem',
     padding: '1rem',
     maxWidth: '80%',
-    boxShadow: tokens.shadow64,
+    boxShadow: 'var(--shadow64)', // Replaced tokens with CSS variable
   }
 
   const styleCode: CSSProperties = {
-    borderWidth: '1rem',
+    borderWidth: '1px', // Changed from '1rem' to '1px' for a more appropriate border width
     borderColor: 'lightgrey',
-    borderRadius: tokens.borderRadiusSmall,
+    borderRadius: 'var(--borderRadiusSmall)', // Replaced tokens with CSS variable
     padding: '0.3rem',
-    boxShadow: tokens.shadow16,
+    boxShadow: 'var(--shadow16)', // Replaced tokens with CSS variable
   }
 
   const styleWrap: CSSProperties = {
@@ -53,6 +49,11 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
     },
   })
 
+  // Check if message or configuration is undefined and return null or a fallback UI instead
+  if (!message || !configuration) {
+    return null // or return <FallbackComponent />;
+  }
+
   return (
     <div
       style={styleMessageHistory}
@@ -61,14 +62,14 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
         data: message,
       })}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-        <div style={{ paddingBottom: 10 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ paddingBottom: '10px' }}>
           {message.mine ? null : (
-            <span style={{ paddingRight: 20, fontWeight: 'bold' }}>
+            <span style={{ paddingRight: '20px', fontWeight: 'bold' }}>
               {message.author}
             </span>
           )}
-          <span style={{ fontSize: 10 }}> Date: {message.timestamp}</span>
+          <span style={{ fontSize: '10px' }}> Date: {message.timestamp}</span>
           {message.totalTokens > 0 && <MessageUtility message={message} />}
         </div>
       </div>
@@ -76,9 +77,9 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
         children={message.content.trim()}
         remarkPlugins={[remarkGfm]}
         components={{
-          code({ node, inline, className, children, ...props }) {
+          code({ node, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '')
-            return !inline && match ? (
+            return match ? (
               <div style={styleCode}>
                 <div className={componentStyles().toolbar}>
                   <CopyToClipboardButton
@@ -91,13 +92,12 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
                   />
                 </div>
                 <SyntaxHighlighter
-                  children={String(children).replace(/\n$/, '')}
+                  children={String(children).replace(/\n$/, '') as string}
                   language={match[1]}
                   lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
                   wrapLines={true}
                   wrapLongLines={true}
                   PreTag="div"
-                  {...props}
                   style={vscDarkPlus}
                 />
               </div>

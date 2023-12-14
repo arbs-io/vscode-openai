@@ -28,7 +28,7 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
       renderCell: (item) => {
         return (
           <div id="personadiv">
-            <TableCell tabIndex={0} role="gridcell">
+            <TableCell tabIndex={0} role="td">
               <TableCellLayout
                 media={
                   <Avatar
@@ -54,7 +54,7 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
       },
       renderCell: (conversation) => {
         return (
-          <TableCell tabIndex={0} role="gridcell">
+          <TableCell tabIndex={0} role="td">
             <TableCellLayout
               description={conversation.summary}
               onClick={() => handleOpenConversation(conversation)}

@@ -84,11 +84,7 @@ export class MultiStepInput {
         ]
         disposables.push(
           input.onDidTriggerButton((item) => {
-            if (item === QuickInputButtons.Back) {
-              reject(InputFlowAction.back)
-            } else {
-              resolve(item as any)
-            }
+            if (item === QuickInputButtons.Back) reject(InputFlowAction.back)
           }),
           input.onDidChangeSelection((items) => resolve(items[0])),
           input.onDidHide(() => {
@@ -146,11 +142,7 @@ export class MultiStepInput {
         let validating = validate('')
         disposables.push(
           input.onDidTriggerButton((item) => {
-            if (item === QuickInputButtons.Back) {
-              reject(InputFlowAction.back)
-            } else {
-              resolve(item as any)
-            }
+            if (item === QuickInputButtons.Back) reject(InputFlowAction.back)
           }),
           input.onDidAccept(async () => {
             const value = input.value

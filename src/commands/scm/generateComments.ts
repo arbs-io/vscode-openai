@@ -1,6 +1,6 @@
 import { Command } from '../commandManager'
 import { GitService, getComments, getGitDifferences } from '@app/apis/git'
-import { createErrorNotification, createInfoNotification } from '@app/apis/node'
+import { createErrorNotification, createDebugNotification } from '@app/apis/node'
 
 export default class GenerateCommentsCommand implements Command {
   public readonly id = '_vscode-openai.scm.generate.comments'
@@ -16,7 +16,7 @@ export default class GenerateCommentsCommand implements Command {
     const diff = await getGitDifferences(gitService)
     if (diff) {
       const comments = await getComments(diff)
-      createInfoNotification(
+      createDebugNotification(
         `GitService: diff(${diff.length}) ~ comments(${comments.length})`
       )
       gitService.setSCMInputBoxMessage(comments)

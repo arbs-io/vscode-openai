@@ -43,7 +43,14 @@ export default class EmbeddingStorageService {
         const embedding = await this.get(
           key.replace(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-`, '')
         )
-        embeddings.push(embedding!)
+        //Check if data file can be loaded. If not then remove from key-storage
+        if (embedding === undefined) {
+          this._delete(
+            key.replace(`${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-`, '')
+          )
+          continue
+        }
+        embeddings.push(embedding)
       }
     }
 

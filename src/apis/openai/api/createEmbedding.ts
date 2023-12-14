@@ -29,6 +29,7 @@ export async function createEmbedding({
       defaultHeaders: { 'api-key': apiKey },
       baseURL: ConfigurationSettingService.instance.embeddingUrl,
       maxRetries: ConfigurationConversationService.instance.numOfAttempts,
+      timeout: 20 * 1000, // Embedding should be fast, forcing quick retry
     })
 
     const requestConfig =

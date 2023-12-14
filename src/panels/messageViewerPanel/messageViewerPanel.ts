@@ -172,8 +172,11 @@ export class MessageViewerPanel {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src * 'self' data: https:; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';">
-          <title>Claimset</title>
+          <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'none'; img-src * 'self' data: https:; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';"
+          />
+          <title>vscode-openai messages</title>
         </head>
         <body style="margin:0;padding:0">
           <div id="root" theme='${panelTheme}' messageShortcuts='${ccs.messageShortcuts}' assistantColor='${cccs.assistantColor}' assistantBackground='${cccs.assistantBackground}' userColor='${cccs.userColor}' userBackground='${cccs.userBackground}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />

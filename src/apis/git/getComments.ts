@@ -14,13 +14,12 @@ export const getComments = async (diff: string): Promise<string> => {
       await ConversationStorageService.instance.create(persona)
 
     const prompt = [
-      'Each line should be less than 72 characters.',
+      'Given the following git diff information, please provide a brief summary of the changes. Each line should be less than 50 characters. The summary should include important aspects of the modifications. Use the following format:',
       'Use the following format:',
-      'The changes made in this commit include:',
-      '- Added [file name]',
-      '- Modified [file name] to [brief description of change]',
-      '- Deleted [file name]',
-      'Please summarise the following git diff',
+      '🟢 [file name] for new files',
+      '🛠️ [file name] -> [brief description of change] for modified files',
+      '🔴 [file name] for deleted files',
+      'The Git diff to summarise is below:',
       diff,
     ].join('\n')
 

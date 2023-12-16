@@ -22,6 +22,7 @@ function getAssistantRule(): string {
       '- MUST ensure your response is factual and confident.',
       '- Avoid speculation and do not make up facts.',
       `- If you do not know the answer or are unsure, please respond with "I'm sorry, but I can't confidently answer this question".`,
+      '',
     ].join('\n')
   }
   return ''

@@ -388,35 +388,35 @@
         },
         "vscode-openai.editor.code.comment": {
           "type": "string",
-          "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease add comments to the source code explaining what the code is doing.\nThe code to analyze is below:\n#{source_code}",
+          "default": "I am working with a program written in #{language} and need assistance in understanding its functionality. Please analyze the following source code and add detailed comments in plain text format, explaining what each part of the code is doing. The comments should be comprehensive and should help users understand the logic and functionality of the code.\n\nEnsure that the explanations and comments adhere strictly to the syntax and conventions of #{language}, and that they are integrated into the source code. The final output should be in a format that can be directly compiled or run in an environment supporting #{language}.\n\nHere is the source code that needs analysis and comments:\n```#{language}\n#{source_code}\n```",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place inline comments into the `source code`\n- Author: **vscode-openai**",
           "order": 301
         },
         "vscode-openai.editor.code.explain": {
           "type": "string",
-          "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease provide headers comments in the source code for each function providing:\n- description, input and output parameters.\n- input parameters.\n- output parameters.\nThe code to analyze is below:\n#{source_code}",
+          "default": "I need assistance in documenting a source code written in #{language}. Please analyze the provided code and add detailed header comments in plain text format. These comments should include a brief description of each function, the input parameters with their types, and the output parameters with their types. The response should be in a format suitable for direct use as a source file, adhering to the syntax and conventions of #{language}. The comments should help in understanding the code's functionality and structure.\n\nEnsure that the comments are comprehensive and that the final output is a complete, valid #{language} source code with the added comments.\n\nHere is the source code that needs the header comments:\n```#{language}\n#{source_code}\n```",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place header comments for each class or function within the `source code`\n- Author: **Bryon Roscoe**",
           "order": 302
         },
         "vscode-openai.editor.code.bounty": {
           "type": "string",
-          "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease fix any bugs and include comments for the changed code explaining what was wrong with the original code.\nOnly provide the fixed source code with comments in #{language} explaining the corrected problem.\nThe code to analyze is below:\n#{source_code}",
+          "default": "I am experiencing issues with a segment of source code written in #{language} and require assistance in debugging and understanding it. Please analyze the provided code, identify any bugs, and provide fixes in a plain text format. Along with the corrections, add detailed comments explaining the nature of the original issues and how they were resolved.\n\nIt's important that the response adheres to the syntax and conventions of #{language} and that the final output is a complete, valid #{language} source code. The response should be suitable for direct compilation or execution in an environment supporting #{language}.\n\nHere is the source code that needs analysis, debugging, and commenting:\n```#{language}\n#{source_code}\n```",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find and fix bugs within the `source code`\n- Author: **Ed Linden**",
           "order": 303
         },
         "vscode-openai.editor.code.optimize": {
           "type": "string",
-          "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease optimize the source code by reducing the number of operations performed during execution.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
+          "default": "I am working with a program written in #{language} and need assistance in optimizing its performance. Please analyze the provided source code and suggest optimizations to reduce the number of operations during execution. The optimizations should maintain the original functionality of the code.\n\nThe response should be in plain text format, suitable for direct use as a source file. It must strictly adhere to the syntax and conventions of #{language} and only include valid #{language} source code. The optimized code should be complete and ready for compilation or execution in a suitable environment.\n\nHere is the source code that needs optimization:\n```#{language}\n#{source_code}\n```",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find inefficiencies and resolve them within the `source code`\n- Author: **vscode-openai**",
           "order": 304
         },
         "vscode-openai.editor.code.pattern": {
           "type": "string",
-          "default": "vscode-openai is a programming expert in #{language} programming language.\nvscode-openai response must only use valid source code for #{language} programming language.\nPlease rewrite the code using appropriate design patterns.\nThe design pattern should combine Concurrency, Behavioral, Structural and Creational design patterns.\nThe response should be a single solution using all the valuable patterns identified.\nDo not change the functionality of the code.\nThe code to analyze is below:\n#{source_code}",
+          "default": "I need assistance with programming in #{language}. Please analyze the provided source code and rewrite it to implement a combination of design patterns, including Concurrency, Behavioral, Structural, and Creational patterns. The rewritten code should be in plain text format, suitable for use as a source file, and should preserve the original functionality of the code. Adherence to #{language} syntax and conventions is essential, and the response should only include valid #{language} source code.\n\nHere is the source code for analysis and rewriting:\n```#{language}\n#{source_code}\n```",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to suggest design patterns to improve readability, maintainability, ... in the `source code`\n- Author: **vscode-openai**",
           "order": 305

@@ -6,6 +6,7 @@
  */
 
 import {
+  commands,
   QuickPickItem,
   ExtensionContext,
   QuickPickItemKind,
@@ -172,13 +173,21 @@ export async function quickPickCreateConversation(
     })
   }
 
-  //Start openai.com configuration processes
   const state = await collectInputs()
-  const persona = getSystemPersonas().find(
-    (a) => a.roleName === state.personaQuickPickItem.label
-  )!
-  const conversation: IConversation =
-    await ConversationStorageService.instance.create(persona)
-  ConversationStorageService.instance.update(conversation)
-  ConversationStorageService.instance.show(conversation.conversationId)
+  if (
+    state.personaQuickPickItem.label === VSCODE_OPENAI_QP_PERSONA.CONFIGURATION
+  ) {
+    commands.executeCommand(
+      'workbench.action.openSettings',
+      'vscode-openai.prompts.persona.'
+    )
+  } else {
+    const persona = getSystemPersonas().find(
+      (a) => a.roleName === state.personaQuickPickItem.label
+    )!
+    const conversation: IConversation =
+      await ConversationStorageService.instance.create(persona)
+    ConversationStorageService.instance.update(conversation)
+    ConversationStorageService.instance.show(conversation.conversationId)
+  }
 }

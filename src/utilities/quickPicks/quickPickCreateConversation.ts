@@ -5,11 +5,12 @@
  * 		Store and activate configuration
  */
 
-import { QuickPickItem, ExtensionContext } from 'vscode'
+import { QuickPickItem, ExtensionContext, QuickPickItemKind } from 'vscode'
 import { MultiStepInput } from '@app/apis/vscode'
 import { ConversationStorageService } from '@app/services'
 import { getSystemPersonas } from '@app/models'
 import { IConversation } from '@app/types'
+import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -61,84 +62,80 @@ export async function quickPickCreateConversation(
   function getAvailablePersonas(): QuickPickItem[] {
     const quickPickItemTypes: QuickPickItem[] = [
       {
-        label: 'Developer/Programmer',
-        detail:
-          'Assists with design, develop, and maintain of software applications and systems',
+        label: 'Configuration',
+        kind: QuickPickItemKind.Separator,
       },
       {
-        label: 'System Administrator',
-        detail:
-          'Assists with managing and maintain computer systems, networks, and servers',
+        label: VSCODE_OPENAI_QP_PERSONA.CONFIGURATION_PROMPTS_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.CONFIGURATION_PROMPTS_DESC,
       },
       {
-        label: 'Network Engineer',
-        detail:
-          'Assists with design, implement, and maintain computer networks for organizations',
+        label: 'Personas',
+        kind: QuickPickItemKind.Separator,
       },
       {
-        label: 'Database Administrator',
-        detail:
-          'Assists with managing and maintain databases for organizations',
+        label: VSCODE_OPENAI_QP_PERSONA.DEVELOPER_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.DEVELOPER_DESC,
       },
       {
-        label: 'IT Manager',
-        detail:
-          'Assists with technology infrastructure and operations of organizations',
+        label: VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMINISTRATOR_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMINISTRATOR_DESC,
       },
       {
-        label: 'Project Manager',
-        detail:
-          'Assists with planning, execute, and monitor projects related to technology products and services',
+        label: VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER_DESC,
       },
       {
-        label: 'Business Analysts',
-        detail:
-          'Assists with analyzing business processes and requirements related to technology products and services',
+        label: VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMINISTRATOR_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMINISTRATOR_DESC,
       },
       {
-        label: 'Quality Assurance Testers',
-        detail:
-          'Assists with testing software applications and systems to ensure quality control',
+        label: VSCODE_OPENAI_QP_PERSONA.IT_MANAGER_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.IT_MANAGER_DESC,
       },
       {
-        label: 'Technical Writer',
-        detail:
-          'Assists with creating technical documentation such as user manuals, online help, and training materials',
+        label: VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER_DESC,
       },
       {
-        label: 'User Experience Designers',
-        detail:
-          'Assists with designing and improve the user experience of software applications and systems',
+        label: VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYSTS_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYSTS_DESC,
       },
       {
-        label: 'Product Manager',
-        detail:
-          'Assists with overseeing the development and launch of software products and services',
+        label: VSCODE_OPENAI_QP_PERSONA.QUALITY_ASSURANCE_TESTERS_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.QUALITY_ASSURANCE_TESTERS_DESC,
       },
       {
-        label: 'Data Scientist',
-        detail:
-          'Assists with analyzing and interpret complex data sets to identify patterns and insights',
+        label: VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER_DESC,
       },
       {
-        label: 'Cyber Security Analysts',
-        detail:
-          'Assists with protecting computer systems and networks from cyber attacks and security breaches',
+        label: VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE_DESIGNERS_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE_DESIGNERS_DESC,
       },
       {
-        label: 'Cloud Architect',
-        detail:
-          'Assists with designing and implement cloud computing solutions for organizations',
+        label: VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER_DESC,
       },
       {
-        label: 'DevOps Engineers',
-        detail:
-          'Assists with bridging the gap between development and operations teams by automating software delivery processes',
+        label: VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST_DESC,
       },
       {
-        label: 'Enterprise Architect',
-        detail:
-          'Assists with designing and oversee the implementation of technology solutions that align with business goals and objectives',
+        label: VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY_ANALYSTS_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY_ANALYSTS_DESC,
+      },
+      {
+        label: VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT_DESC,
+      },
+      {
+        label: VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS_DESC,
+      },
+      {
+        label: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT_LABEL,
+        detail: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT_DESC,
       },
     ]
     return quickPickItemTypes

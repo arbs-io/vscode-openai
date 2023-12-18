@@ -12,7 +12,7 @@ import {
   quickPickSetupVscodeOpenai,
   quickPickSetupCustomOpenai,
 } from '@app/utilities/quickPicks'
-import { VSCODE_OPENAI_EXTENSION, VSCODE_OPENAI_SETUP_QP } from '@app/constants'
+import { VSCODE_OPENAI_EXTENSION, VSCODE_OPENAI_QP_SETUP } from '@app/constants'
 import { getFeatureFlag } from '@app/apis/vscode'
 import { ConfigurationSettingService } from '@app/services'
 
@@ -39,31 +39,31 @@ export class ConfigurationQuickPickProvider {
     const selectedProvider = await this.showQuickPick(quickPickItems)
 
     switch (selectedProvider.label) {
-      case VSCODE_OPENAI_SETUP_QP.PROVIDER_VSCODE_LABEL:
+      case VSCODE_OPENAI_QP_SETUP.PROVIDER_VSCODE_LABEL:
         quickPickSetupVscodeOpenai(this.context)
         break
 
-      case VSCODE_OPENAI_SETUP_QP.PROVIDER_OPENAI_LABEL:
+      case VSCODE_OPENAI_QP_SETUP.PROVIDER_OPENAI_LABEL:
         quickPickSetupOpenai(this.context)
         break
 
-      case VSCODE_OPENAI_SETUP_QP.PROVIDER_AZURE_LABEL:
+      case VSCODE_OPENAI_QP_SETUP.PROVIDER_AZURE_LABEL:
         quickPickSetupAzureOpenai(this.context)
         break
 
-      case VSCODE_OPENAI_SETUP_QP.PROVIDER_CREDAL_LABEL:
+      case VSCODE_OPENAI_QP_SETUP.PROVIDER_CREDAL_LABEL:
         quickPickSetupCredalOpenai(this.context)
         break
 
-      case VSCODE_OPENAI_SETUP_QP.PROVIDER_CUSTOM_LABEL:
+      case VSCODE_OPENAI_QP_SETUP.PROVIDER_CUSTOM_LABEL:
         quickPickSetupCustomOpenai(this.context)
         break
 
-      case VSCODE_OPENAI_SETUP_QP.MODEL_CHANGE_LABEL:
+      case VSCODE_OPENAI_QP_SETUP.MODEL_CHANGE_LABEL:
         quickPickChangeModel(this.context)
         break
 
-      case VSCODE_OPENAI_SETUP_QP.CONFIGURATION_RESET_LABEL: {
+      case VSCODE_OPENAI_QP_SETUP.CONFIGURATION_RESET_LABEL: {
         window
           .showInformationMessage(
             'Are you sure you want to RESET configuration?',
@@ -126,8 +126,8 @@ function BuildQuickPickModelSelection(): QuickPickItem[] {
         kind: QuickPickItemKind.Separator,
       },
       {
-        label: VSCODE_OPENAI_SETUP_QP.MODEL_CHANGE_LABEL,
-        description: VSCODE_OPENAI_SETUP_QP.MODEL_CHANGE_DESC,
+        label: VSCODE_OPENAI_QP_SETUP.MODEL_CHANGE_LABEL,
+        description: VSCODE_OPENAI_QP_SETUP.MODEL_CHANGE_DESC,
         alwaysShow: false,
       },
     ]
@@ -142,24 +142,24 @@ function BuildQuickPickServiceProviders(): QuickPickItem[] {
       kind: QuickPickItemKind.Separator,
     },
     {
-      label: VSCODE_OPENAI_SETUP_QP.PROVIDER_VSCODE_LABEL,
-      description: VSCODE_OPENAI_SETUP_QP.PROVIDER_VSCODE_DESC,
+      label: VSCODE_OPENAI_QP_SETUP.PROVIDER_VSCODE_LABEL,
+      description: VSCODE_OPENAI_QP_SETUP.PROVIDER_VSCODE_DESC,
     },
     {
-      label: VSCODE_OPENAI_SETUP_QP.PROVIDER_OPENAI_LABEL,
-      description: VSCODE_OPENAI_SETUP_QP.PROVIDER_OPENAI_DESC,
+      label: VSCODE_OPENAI_QP_SETUP.PROVIDER_OPENAI_LABEL,
+      description: VSCODE_OPENAI_QP_SETUP.PROVIDER_OPENAI_DESC,
     },
     {
-      label: VSCODE_OPENAI_SETUP_QP.PROVIDER_AZURE_LABEL,
-      description: VSCODE_OPENAI_SETUP_QP.PROVIDER_AZURE_DESC,
+      label: VSCODE_OPENAI_QP_SETUP.PROVIDER_AZURE_LABEL,
+      description: VSCODE_OPENAI_QP_SETUP.PROVIDER_AZURE_DESC,
     },
     {
-      label: VSCODE_OPENAI_SETUP_QP.PROVIDER_CREDAL_LABEL,
-      description: VSCODE_OPENAI_SETUP_QP.PROVIDER_CREDAL_DESC,
+      label: VSCODE_OPENAI_QP_SETUP.PROVIDER_CREDAL_LABEL,
+      description: VSCODE_OPENAI_QP_SETUP.PROVIDER_CREDAL_DESC,
     },
     {
-      label: VSCODE_OPENAI_SETUP_QP.PROVIDER_CUSTOM_LABEL,
-      description: VSCODE_OPENAI_SETUP_QP.PROVIDER_CUSTOM_DESC,
+      label: VSCODE_OPENAI_QP_SETUP.PROVIDER_CUSTOM_LABEL,
+      description: VSCODE_OPENAI_QP_SETUP.PROVIDER_CUSTOM_DESC,
     },
   ]
   return quickPickItemTypes
@@ -172,8 +172,8 @@ function BuildQuickPickConfiguration(): QuickPickItem[] {
       kind: QuickPickItemKind.Separator,
     },
     {
-      label: VSCODE_OPENAI_SETUP_QP.CONFIGURATION_RESET_LABEL,
-      description: VSCODE_OPENAI_SETUP_QP.CONFIGURATION_RESET_DESC,
+      label: VSCODE_OPENAI_QP_SETUP.CONFIGURATION_RESET_LABEL,
+      description: VSCODE_OPENAI_QP_SETUP.CONFIGURATION_RESET_DESC,
     },
   ]
   return quickPickItemTypes

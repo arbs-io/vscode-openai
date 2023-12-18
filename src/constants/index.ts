@@ -1,16 +1,8 @@
-// This file contains constants used throughout the vscode-openai extension.
-
-// VSCODE_OPENAI_EXTENSION: Contains the command ID for extension activation.
-// Input: None
-// Output: A string representing the command ID for registering the OpenAI service.
 export const VSCODE_OPENAI_EXTENSION = {
   INSTRUMENTATION_KEY: 'e01c0a97-9930-4885-b2e8-772176ced488',
   ENABLED_COMMAND_ID: 'vscode-openai.extension.enabled',
 }
 
-// VSCODE_OPENAI_EMBEDDING: Contains the command ID for deleting embedding results.
-// Input: None
-// Output: A string representing the command ID for commenting on a change in source control management.
 export const VSCODE_OPENAI_EMBEDDING = {
   ENABLED_COMMAND_ID: 'vscode-openai.embedding.enabled',
   SETUP_REQUIRED_COMMAND_ID: 'vscode-openai.embedding.setup-required',
@@ -19,22 +11,36 @@ export const VSCODE_OPENAI_EMBEDDING = {
   STORAGE_V2_ID: 'embedding.v2',
 }
 
-// VSCODE_OPENAI_EMBEDDING: Contains the command ID for deleting embedding results.
-// Input: None
-// Output: A string representing the command ID for commenting on a change in source control management.
 export const VSCODE_OPENAI_CONVERSATION = {
   STORAGE_V1_ID: 'conversation',
 }
 
-// VSCODE_OPENAI_SIDEBAR: Contains various command IDs for opening webviews in the sidebar of VS Code.
-// Input: None
-// Output: An object containing strings representing various command IDs for opening webviews in the sidebar of VS Code.
-export const VSCODE_OPENAI_QUICK_PICK = {
-  PROVIDER_VSCODE_OPENAI: '$(pulse)  vscode-openai',
-  PROVIDER_OPENAI: '$(vscode-openai)  openai.com',
-  PROVIDER_AZURE_OPENAI: '$(azure)  openai.azure.com',
-  PROVIDER_CREDAL: '$(comment)  credal.ai',
-  PROVIDER_CUSTOM: '$(server-environment)  custom',
-  MODEL_CHANGE: '$(extensions)  change models',
-  CONFIGURATION_RESET: '$(workspace-untrusted)  reset...',
+export const VSCODE_OPENAI_SETUP_QP = {
+  PROVIDER_VSCODE_LABEL: '$(pulse)  vscode-openai',
+  PROVIDER_VSCODE_DESC: '(Sponsored) Use vscode-openai service',
+
+  PROVIDER_OPENAI_LABEL: '$(vscode-openai)  openai.com',
+  PROVIDER_OPENAI_DESC:
+    '(BYOK) Use your own OpenAI subscription (api.openai.com)',
+
+  PROVIDER_AZURE_LABEL: '$(azure)  openai.azure.com',
+  PROVIDER_AZURE_DESC:
+    '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
+
+  PROVIDER_CREDAL_LABEL: '$(comment)  credal.ai',
+  PROVIDER_CREDAL_DESC: '(BYOK) Use your own Credal instance (credal.ai)',
+
+  PROVIDER_CUSTOM_LABEL: '$(server-environment)  custom',
+  PROVIDER_CUSTOM_DESC:
+    '(BYOI) Use your own instance LLM or SLM (openai-api support required)',
+
+  MODEL_CHANGE_LABEL: '$(extensions)  change models',
+  MODEL_CHANGE_DESC: 'change chat and embedding model',
+
+  CONFIGURATION_RESET_LABEL: '$(workspace-untrusted)  reset...',
+  CONFIGURATION_RESET_DESC: 'reset vscode-openai configuration',
+}
+
+export const VSCODE_OPENAI_PERSONA_QUICK_PICK = {
+  CONFIGURATION_PROMPTS: '$(tools) Customize Prompts...',
 }

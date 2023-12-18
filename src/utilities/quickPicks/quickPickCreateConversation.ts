@@ -5,11 +5,18 @@
  * 		Store and activate configuration
  */
 
-import { QuickPickItem, ExtensionContext } from 'vscode'
+import {
+  commands,
+  QuickPickItem,
+  ExtensionContext,
+  QuickPickItemKind,
+  ThemeIcon,
+} from 'vscode'
 import { MultiStepInput } from '@app/apis/vscode'
 import { ConversationStorageService } from '@app/services'
 import { getSystemPersonas } from '@app/models'
 import { IConversation } from '@app/types'
+import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -61,84 +68,99 @@ export async function quickPickCreateConversation(
   function getAvailablePersonas(): QuickPickItem[] {
     const quickPickItemTypes: QuickPickItem[] = [
       {
-        label: 'Developer/Programmer',
-        detail:
-          'Assists with design, develop, and maintain of software applications and systems',
+        label: 'Configuration',
+        kind: QuickPickItemKind.Separator,
       },
       {
-        label: 'System Administrator',
-        detail:
-          'Assists with managing and maintain computer systems, networks, and servers',
+        label: VSCODE_OPENAI_QP_PERSONA.CONFIGURATION,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.CONFIGURATION_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.CONFIGURATION_DESC,
       },
       {
-        label: 'Network Engineer',
-        detail:
-          'Assists with design, implement, and maintain computer networks for organizations',
+        label: 'Personas',
+        kind: QuickPickItemKind.Separator,
       },
       {
-        label: 'Database Administrator',
-        detail:
-          'Assists with managing and maintain databases for organizations',
+        label: VSCODE_OPENAI_QP_PERSONA.DEVELOPER,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.DEVELOPER_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.DEVELOPER_DESC,
       },
       {
-        label: 'IT Manager',
-        detail:
-          'Assists with technology infrastructure and operations of organizations',
+        label: VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMIN,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMIN_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMIN_DESC,
       },
       {
-        label: 'Project Manager',
-        detail:
-          'Assists with planning, execute, and monitor projects related to technology products and services',
+        label: VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER_DESC,
       },
       {
-        label: 'Business Analysts',
-        detail:
-          'Assists with analyzing business processes and requirements related to technology products and services',
+        label: VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMIN,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMIN_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMIN_DESC,
       },
       {
-        label: 'Quality Assurance Testers',
-        detail:
-          'Assists with testing software applications and systems to ensure quality control',
+        label: VSCODE_OPENAI_QP_PERSONA.IT_MANAGER,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.IT_MANAGER_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.IT_MANAGER_DESC,
       },
       {
-        label: 'Technical Writer',
-        detail:
-          'Assists with creating technical documentation such as user manuals, online help, and training materials',
+        label: VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER_DESC,
       },
       {
-        label: 'User Experience Designers',
-        detail:
-          'Assists with designing and improve the user experience of software applications and systems',
+        label: VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYST,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYST_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYST_DESC,
       },
       {
-        label: 'Product Manager',
-        detail:
-          'Assists with overseeing the development and launch of software products and services',
+        label: VSCODE_OPENAI_QP_PERSONA.QA_TESTER,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.QA_TESTER_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.QA_TESTER_DESC,
       },
       {
-        label: 'Data Scientist',
-        detail:
-          'Assists with analyzing and interpret complex data sets to identify patterns and insights',
+        label: VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER_DESC,
       },
       {
-        label: 'Cyber Security Analysts',
-        detail:
-          'Assists with protecting computer systems and networks from cyber attacks and security breaches',
+        label: VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE_DESC,
       },
       {
-        label: 'Cloud Architect',
-        detail:
-          'Assists with designing and implement cloud computing solutions for organizations',
+        label: VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER_DESC,
       },
       {
-        label: 'DevOps Engineers',
-        detail:
-          'Assists with bridging the gap between development and operations teams by automating software delivery processes',
+        label: VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST_DESC,
       },
       {
-        label: 'Enterprise Architect',
-        detail:
-          'Assists with designing and oversee the implementation of technology solutions that align with business goals and objectives',
+        label: VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY_DESC,
+      },
+      {
+        label: VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT_DESC,
+      },
+      {
+        label: VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS,
+        iconPath: new ThemeIcon(VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS_ICON),
+        detail: VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS_DESC,
+      },
+      {
+        label: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT,
+        iconPath: new ThemeIcon(
+          VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT_ICON
+        ),
+        detail: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT_DESC,
       },
     ]
     return quickPickItemTypes
@@ -151,13 +173,21 @@ export async function quickPickCreateConversation(
     })
   }
 
-  //Start openai.com configuration processes
   const state = await collectInputs()
-  const persona = getSystemPersonas().find(
-    (a) => a.roleName === state.personaQuickPickItem.label
-  )!
-  const conversation: IConversation =
-    await ConversationStorageService.instance.create(persona)
-  ConversationStorageService.instance.update(conversation)
-  ConversationStorageService.instance.show(conversation.conversationId)
+  if (
+    state.personaQuickPickItem.label === VSCODE_OPENAI_QP_PERSONA.CONFIGURATION
+  ) {
+    commands.executeCommand(
+      'workbench.action.openSettings',
+      'vscode-openai.prompts.persona.'
+    )
+  } else {
+    const persona = getSystemPersonas().find(
+      (a) => a.roleName === state.personaQuickPickItem.label
+    )!
+    const conversation: IConversation =
+      await ConversationStorageService.instance.create(persona)
+    ConversationStorageService.instance.update(conversation)
+    ConversationStorageService.instance.show(conversation.conversationId)
+  }
 }

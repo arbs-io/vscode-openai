@@ -4,9 +4,23 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
-## [1.5.4]
+## [1.5.6]
 
-### What's Changed
+- Feature/20231218 remove response format by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/204
+- Feature/20231218 add const descriptions by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/205
+- Feature/20231218 general chat const by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/206
+
+## [1.5.5]
+
+- Bump vite from 4.4.9 to 4.4.12 in /webview-ui/messageWebview by @dependabot in #197
+- Bump vite from 4.4.9 to 4.4.12 in /webview-ui/conversationsWebview by @dependabot in #196
+- Modified src/commands/scm/generateComments.ts to change import from… by @arbs-io in #199
+- Feature/20231214 package bump by @arbs-io in #200
+- Feature/20231214 code cleanup by @arbs-io in #201
+- Modified src/apis/git/getComments.ts: by @arbs-io in #202
+- Feature/20231216 improve prompts by @arbs-io in #203
+
+## [1.5.4]
 
 - fix: synchronization issue in compareFileToClipboard by @doradsoft in https://github.com/arbs-io/vscode-openai/pull/193
 - Feature/20231204 allow disable assistant rules by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/194

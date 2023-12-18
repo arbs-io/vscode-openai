@@ -42,8 +42,8 @@ function getPrompt(promptName: string): string {
 function getSystemPersonas(): IPersonaOpenAI[] {
   const SystemPersonas: IPersonaOpenAI[] = [
     {
-      roleId: '627026d2-8df7-4bd2-9fb8-7a478309f9bf',
-      roleName: 'General Chat',
+      roleId: VSCODE_OPENAI_QP_PERSONA.GENERAL_ID,
+      roleName: VSCODE_OPENAI_QP_PERSONA.GENERAL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -53,7 +53,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: 'ce0fa668-63b7-4183-a661-53025dfbb4a5',
+      roleId: VSCODE_OPENAI_QP_PERSONA.DEVELOPER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.DEVELOPER,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -64,7 +64,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: 'e0aa8407-76ed-446f-8619-73ea7b8cf624',
+      roleId: VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMIN_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMIN,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -75,7 +75,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '26947f1b-3fc5-46cb-8904-00b800838a31',
+      roleId: VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -86,7 +86,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '4f814c08-97bf-4880-8a44-e3ebddc4d209',
+      roleId: VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMIN_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMIN,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -97,7 +97,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: 'e7bdce53-2cf1-4299-8f5c-410819d4d387',
+      roleId: VSCODE_OPENAI_QP_PERSONA.IT_MANAGER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.IT_MANAGER,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -108,7 +108,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: 'bcd01ce6-2ec8-42b2-930a-48068cc24060',
+      roleId: VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -119,7 +119,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '45c31aeb-6bdc-49fc-9156-706228921a5a',
+      roleId: VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYST_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYST,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -130,7 +130,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '5c07c119-067d-4269-8335-388251c31856',
+      roleId: VSCODE_OPENAI_QP_PERSONA.QA_TESTER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.QA_TESTER,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -141,7 +141,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '5d7ce7cb-7b4c-45bd-9fb7-1a9a31d64c4d',
+      roleId: VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -152,7 +152,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '7e44178e-8c82-454e-94c5-e29e56a80002',
+      roleId: VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -163,7 +163,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: 'c181137e-7933-4ecb-9e4d-791d63ca21cd',
+      roleId: VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -174,7 +174,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: 'f9386175-d297-40e0-b47f-737fc4fd4d96',
+      roleId: VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -185,7 +185,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '12ea75a9-a811-4eca-8743-497faa7dbf76',
+      roleId: VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -196,7 +196,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '330770a0-2c91-45e6-baa5-e0efb7262894',
+      roleId: VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -207,7 +207,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '44dd92e1-ec09-48d4-8179-48aed19dabae',
+      roleId: VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS,
       configuration: {
         service: ConfigurationSettingService.instance.host,
@@ -218,7 +218,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       },
     },
     {
-      roleId: '3f66d0b2-b27d-48a0-89e7-1154b4213d5f',
+      roleId: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT,
       configuration: {
         service: ConfigurationSettingService.instance.host,

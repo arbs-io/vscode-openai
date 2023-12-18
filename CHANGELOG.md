@@ -4,6 +4,10 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.5.7]
+
+- ⚠️ Reduce min vscode engine dependancy from 1.85.0 to 1.78.0
+
 ## [1.5.6]
 
 - Feature/20231218 remove response format by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/204

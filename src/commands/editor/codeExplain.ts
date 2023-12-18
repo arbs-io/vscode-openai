@@ -4,6 +4,7 @@ import {
   compareResultsToClipboard,
   getEditorPrompt,
 } from '@app/utilities/editor'
+import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 
 export default class CodeExplainCommand implements Command {
   public readonly id = '_vscode-openai.editor.code.explain'
@@ -11,7 +12,7 @@ export default class CodeExplainCommand implements Command {
   public async execute() {
     const prompt = await getEditorPrompt('editor.code.explain')
     const persona = getSystemPersonas().find(
-      (a) => a.roleName === 'Developer/Programmer'
+      (a) => a.roleName === VSCODE_OPENAI_QP_PERSONA.DEVELOPER
     )
     compareResultsToClipboard(persona, prompt)
   }

@@ -3,6 +3,7 @@ import {
   ConfigurationConversationService,
   ConfigurationSettingService,
 } from '@app/services'
+import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 
 function getAssistantName(): string {
   if (ConfigurationConversationService.instance.assistantRules) {
@@ -43,7 +44,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: 'ce0fa668-63b7-4183-a661-53025dfbb4a5',
-      roleName: 'Developer/Programmer',
+      roleName: VSCODE_OPENAI_QP_PERSONA.DEVELOPER_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -54,7 +55,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: 'e0aa8407-76ed-446f-8619-73ea7b8cf624',
-      roleName: 'System Administrator',
+      roleName: VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMINISTRATOR_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -65,7 +66,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '26947f1b-3fc5-46cb-8904-00b800838a31',
-      roleName: 'Network Engineer',
+      roleName: VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -76,7 +77,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '4f814c08-97bf-4880-8a44-e3ebddc4d209',
-      roleName: 'Database Administrator',
+      roleName: VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMIN_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -87,7 +88,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: 'e7bdce53-2cf1-4299-8f5c-410819d4d387',
-      roleName: 'IT Manager',
+      roleName: VSCODE_OPENAI_QP_PERSONA.IT_MANAGER_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -98,7 +99,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: 'bcd01ce6-2ec8-42b2-930a-48068cc24060',
-      roleName: 'Project Manager',
+      roleName: VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -109,7 +110,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '45c31aeb-6bdc-49fc-9156-706228921a5a',
-      roleName: 'Business Analysts',
+      roleName: VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYSTS_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -120,7 +121,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '5c07c119-067d-4269-8335-388251c31856',
-      roleName: 'Quality Assurance Testers',
+      roleName: VSCODE_OPENAI_QP_PERSONA.QUALITY_ASSURANCE_TESTERS_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -131,7 +132,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '5d7ce7cb-7b4c-45bd-9fb7-1a9a31d64c4d',
-      roleName: 'Technical Writer',
+      roleName: VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -142,7 +143,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '7e44178e-8c82-454e-94c5-e29e56a80002',
-      roleName: 'User Experience Designers',
+      roleName: VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE_DESIGNERS_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -153,7 +154,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: 'c181137e-7933-4ecb-9e4d-791d63ca21cd',
-      roleName: 'Product Manager',
+      roleName: VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -164,7 +165,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: 'f9386175-d297-40e0-b47f-737fc4fd4d96',
-      roleName: 'Data Scientist',
+      roleName: VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -175,7 +176,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '12ea75a9-a811-4eca-8743-497faa7dbf76',
-      roleName: 'Cyber Security Analysts',
+      roleName: VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY_ANALYSTS_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -186,7 +187,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '330770a0-2c91-45e6-baa5-e0efb7262894',
-      roleName: 'Cloud Architect',
+      roleName: VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -197,7 +198,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '44dd92e1-ec09-48d4-8179-48aed19dabae',
-      roleName: 'DevOps Engineers',
+      roleName: VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,
@@ -208,7 +209,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
     },
     {
       roleId: '3f66d0b2-b27d-48a0-89e7-1154b4213d5f',
-      roleName: 'Enterprise Architect',
+      roleName: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT_LABEL,
       configuration: {
         service: ConfigurationSettingService.instance.host,
         model: ConfigurationSettingService.instance.defaultModel,

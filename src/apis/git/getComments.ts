@@ -2,12 +2,13 @@ import { IChatCompletion, IConversation } from '@app/types'
 import { getSystemPersonas } from '@app/models'
 import { ConversationStorageService } from '@app/services'
 import { createChatCompletion } from '@app/apis/openai'
+import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 
 // This function generates comments for the given git differences using OpenAI's chatbot API.
 // It takes a string representing the git differences as input and returns a Promise that resolves to a string.
 export const getComments = async (diff: string): Promise<string> => {
   const persona = getSystemPersonas().find(
-    (a) => a.roleName === 'Developer/Programmer'
+    (a) => a.roleName === VSCODE_OPENAI_QP_PERSONA.DEVELOPER
   )
   if (persona) {
     const conversation: IConversation =

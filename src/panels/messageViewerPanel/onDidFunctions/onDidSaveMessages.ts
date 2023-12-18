@@ -4,7 +4,7 @@ import {
   ConfigurationConversationService,
   ConversationStorageService,
 } from '@app/services'
-import { ResponseFormat, createChatCompletion } from '@app/apis/openai'
+import { createChatCompletion } from '@app/apis/openai'
 
 export const onDidSaveMessages = (
   conversation: IConversation,
@@ -36,7 +36,7 @@ export const onDidSaveMessages = (
         totalTokens: 0,
       }
       summary.chatMessages.push(chatCompletion)
-      createChatCompletion(summary, ResponseFormat.Markdown).then((result) => {
+      createChatCompletion(summary).then((result) => {
         if (!conversation) return
         if (result?.content) conversation.summary = result?.content
       })

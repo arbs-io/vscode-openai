@@ -1,10 +1,8 @@
 import { ConfigurationConversationService } from '@app/services'
 import { IConversation } from '@app/types'
-import { ResponseFormat } from '.'
 
 export async function ChatCompletionRequestMessageStandard(
-  conversation: IConversation,
-  responseFormat: ResponseFormat
+  conversation: IConversation
 ): Promise<
   Array<{ role: 'system' | 'user' | 'assistant' | 'function'; content: string }>
 > {
@@ -13,10 +11,7 @@ export async function ChatCompletionRequestMessageStandard(
     content: string
   }> = []
 
-  const content = [
-    `${conversation.persona.prompt.system}`,
-    responseFormat,
-  ].join('\n')
+  const content = [`${conversation.persona.prompt.system}`].join('\n')
 
   chatCompletion.push({
     role: 'system',

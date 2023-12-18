@@ -10,12 +10,10 @@ import {
   ChatCompletionRequestMessageEmbedding,
   ChatCompletionRequestMessageStandard,
   LogChatCompletion,
-  ResponseFormat,
 } from './chatCompletionMessages'
 
 export async function createChatCompletion(
-  conversation: IConversation,
-  responseFormat: ResponseFormat
+  conversation: IConversation
 ): Promise<IMessage | undefined> {
   try {
     StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -37,7 +35,7 @@ export async function createChatCompletion(
 
     const chatCompletionMessages = conversation.embeddingId
       ? await ChatCompletionRequestMessageEmbedding(conversation)
-      : await ChatCompletionRequestMessageStandard(conversation, responseFormat)
+      : await ChatCompletionRequestMessageStandard(conversation)
 
     const requestConfig =
       await ConfigurationSettingService.instance.getRequestConfig()

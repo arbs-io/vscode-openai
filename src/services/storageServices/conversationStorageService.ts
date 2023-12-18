@@ -16,9 +16,9 @@ import { EmbeddingStorageService } from '..'
 export default class ConversationStorageService {
   private static _emitterDidChange = new EventEmitter<void>()
   static readonly onDidChangeConversationStorage: Event<void> =
-    this._emitterDidChange.event
-
+    ConversationStorageService._emitterDidChange.event
   private static _instance: ConversationStorageService
+  private static readonly storagePrefix = `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`
 
   constructor(private _context: ExtensionContext) {}
 
@@ -36,8 +36,7 @@ export default class ConversationStorageService {
   private static houseKeeping() {
     const keys = GlobalStorageService.instance.keys()
     keys.forEach((key) => {
-      //Bugfix: 20230710 - Capture and remove all conversation bugs
-      if (key == `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-undefined`) {
+      if (key === ConversationStorageService.storagePrefix + 'undefined') {
         GlobalStorageService.instance.deleteKey(key)
       }
     })
@@ -52,71 +51,57 @@ export default class ConversationStorageService {
   }
 
   public getAll(): Array<IConversation> {
-    const conversations: Array<IConversation> = []
-    const keys = GlobalStorageService.instance.keys()
-    keys.forEach((key) => {
-      // If conversation found then added to cache
-      if (key.startsWith(`${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`)) {
-        const conversation =
-          GlobalStorageService.instance.getValue<IConversation>(key)
-        if (conversation !== undefined) {
-          conversations.push(conversation)
-        }
-      }
-    })
-    return conversations.sort((n1, n2) => n2.timestamp - n1.timestamp)
+    return GlobalStorageService.instance
+      .keys()
+      .filter((key) => key.startsWith(ConversationStorageService.storagePrefix))
+      .map((key) => GlobalStorageService.instance.getValue<IConversation>(key))
+      .filter(
+        (conversation): conversation is IConversation =>
+          conversation !== undefined
+      )
+      .sort((n1, n2) => n2.timestamp - n1.timestamp)
   }
 
   public show(conversationId: string) {
-    const conversation = GlobalStorageService.instance.getValue<IConversation>(
-      `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conversationId}`
-    )
+    const conversationKey =
+      ConversationStorageService.storagePrefix + conversationId
+    const conversation =
+      GlobalStorageService.instance.getValue<IConversation>(conversationKey)
     if (conversation)
       MessageViewerPanel.render(this._context.extensionUri, conversation)
   }
 
   public deleteAll() {
-    const keys = GlobalStorageService.instance.keys()
-    keys.forEach((key) => {
-      // If conversation found then added to cache
-      if (key.startsWith(`${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`)) {
-        const conversation =
-          GlobalStorageService.instance.getValue<IConversation>(key)
-        if (conversation !== undefined) {
-          GlobalStorageService.instance.deleteKey(
-            `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conversation.conversationId}`
-          )
-          createDebugNotification(
-            `Deleting conversation: ${conversation.conversationId}`
-          )
-        }
-      }
-    })
+    GlobalStorageService.instance
+      .keys()
+      .filter((key) => key.startsWith(ConversationStorageService.storagePrefix))
+      .forEach((key) => {
+        GlobalStorageService.instance.deleteKey(key)
+        createDebugNotification(
+          `Deleting conversation: ${key.substring(
+            ConversationStorageService.storagePrefix.length
+          )}`
+        )
+      })
     ConversationStorageService._emitterDidChange.fire()
   }
 
-  public delete(key: string) {
-    this._delete(key)
+  public delete(conversationId: string) {
+    const conversationKey =
+      ConversationStorageService.storagePrefix + conversationId
+    GlobalStorageService.instance.deleteKey(conversationKey)
     ConversationStorageService._emitterDidChange.fire()
-  }
-
-  private _delete(key: string) {
-    GlobalStorageService.instance.deleteKey(
-      `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${key}`
-    )
   }
 
   public update(conversation: IConversation) {
-    this._update(conversation)
-    ConversationStorageService._emitterDidChange.fire()
-  }
-
-  private _update(conversation: IConversation) {
-    this._delete(conversation.conversationId)
+    const conversationKey =
+      ConversationStorageService.storagePrefix + conversation.conversationId
+    GlobalStorageService.instance.deleteKey(conversationKey)
     GlobalStorageService.instance.setValue<IConversation>(
-      `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-${conversation.conversationId}`,
+      conversationKey,
       conversation
     )
+    ConversationStorageService._emitterDidChange.fire()
   }
 
   public async create(
@@ -124,29 +109,26 @@ export default class ConversationStorageService {
     embeddingId?: string
   ): Promise<IConversation> {
     const uuid4 = uuidv4()
+    const welcomeMessage = embeddingId
+      ? await this.getEmbeddingWelcomeMessage(embeddingId)
+      : await this.getWelcomeMessage()
+    const summary = embeddingId
+      ? `Query ${(await this.getEmbeddingSummary(embeddingId)).toUpperCase()}`
+      : '<New Conversation>'
 
-    let welcomeMessage = ''
-    let summary = '<New Conversation>'
+    const chatCompletion = [
+      {
+        content: welcomeMessage,
+        author: `${persona.roleName} (${persona.configuration.service})`,
+        timestamp: new Date().toLocaleString(),
+        mine: false,
+        completionTokens: 0,
+        promptTokens: 0,
+        totalTokens: 0,
+      },
+    ]
 
-    if (embeddingId) {
-      welcomeMessage = await this.getEmbeddingWelcomeMessage(embeddingId)
-
-      const embeddingSummary = await this.getEmbeddingSummary(embeddingId)
-      summary = `Query ${embeddingSummary.toUpperCase()}`
-    } else welcomeMessage = await this.getWelcomeMessage()
-
-    const chatCompletion: IChatCompletion[] = []
-    chatCompletion.push({
-      content: welcomeMessage,
-      author: `${persona.roleName} (${persona.configuration.service})`,
-      timestamp: new Date().toLocaleString(),
-      mine: false,
-      completionTokens: 0,
-      promptTokens: 0,
-      totalTokens: 0,
-    })
-
-    const conversation: IConversation = {
+    return {
       timestamp: new Date().getTime(),
       conversationId: uuid4,
       persona: persona,
@@ -154,11 +136,10 @@ export default class ConversationStorageService {
       summary: summary,
       chatMessages: chatCompletion,
     }
-    return conversation
   }
 
   private async getWelcomeMessage(): Promise<string> {
-    return `Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need.`
+    return "Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need."
   }
   private async getEmbeddingWelcomeMessage(
     embeddingId: string

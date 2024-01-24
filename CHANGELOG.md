@@ -4,6 +4,11 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.5.8]
+
+* Feature/20240124 allow custom scm prompt by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/219
+* Feature/20240124 remove character length limit by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/220
+
 ## [1.5.7]
 
 - ⚠️ Reduce min vscode engine dependancy from 1.85.0 to 1.78.0

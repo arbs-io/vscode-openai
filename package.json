@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -436,6 +436,13 @@
           "maximum": 1,
           "markdownDescription": "**Cosine similarity** measures the `cosine` of the angle between two vectors projected in a `multi-dimensional space`. Value must range between (0.5 - 1.0)",
           "order": 402
+        },
+        "vscode-openai.prompts.persona.scm": {
+          "type": "string",
+          "default": "Given the following git diff information, please provide a brief summary of the changes.\n- Each line MUST be LESS than 50 characters.\n- The summary MUST include important aspects of the modifications.\n- The comments MUST be in plain text format, suitable for human readable.\nUse the following format:\n🟢 [file name] for new files\n🛠️ [file name] -> [brief description of change] for modified files\n🔴 [file name] for deleted files\nThe Git diff to summarise is below:",
+          "editPresentation": "multilineText",
+          "markdownDescription": "This prompt is designed as **scm** helper for git comments",
+          "order": 500
         },
         "vscode-openai.prompts.persona.generalChat": {
           "type": "string",

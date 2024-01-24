@@ -34,10 +34,13 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
   }
 
   useEffect(() => {
-    if (chatBottomRef.current) autoGrow(chatBottomRef.current)
+    if (chatBottomRef.current) {
+      autoGrow(chatBottomRef.current)
+    }
   }, [value])
 
   const handleSubmitText = (text: string) => {
+    if (text.length < 1) return
     onSubmit({
       timestamp: new Date().toLocaleString(),
       mine: true,
@@ -58,9 +61,11 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
 
   const [audioOn, setAudioOn] = useState(false)
   const styles = useStyles()
+  // The useCallback hook should include all dependencies used inside the callback.
   const toggleChecked = useCallback(() => {
-    setAudioOn(!audioOn)
-    if (audioOn) {
+    const newAudioState = !audioOn
+    setAudioOn(newAudioState)
+    if (newAudioState) {
       // where we need to vscode speech SDK output
     }
   }, [audioOn])
@@ -68,7 +73,7 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
   let placeholder =
     'Type your message here. Press Shift+Enter for a new line. Press Ctrl+ArrowUp to restore previous message. Press Ctrl+F to search in the chat.'
   let enableSC = true
-  if (configuration.messageShortcuts == 'false') {
+  if (configuration.messageShortcuts === 'false') {
     placeholder =
       'Input shortcuts are disabled, please use the send button only. Press Ctrl+F to search in the chat.'
     enableSC = false

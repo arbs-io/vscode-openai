@@ -3,6 +3,7 @@ import { getSystemPersonas } from '@app/models'
 import { ConversationStorageService } from '@app/services'
 import { createChatCompletion } from '@app/apis/openai'
 import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
+import { workspace } from 'vscode'
 
 // This function generates comments for the given git differences using OpenAI's chatbot API.
 // It takes a string representing the git differences as input and returns a Promise that resolves to a string.
@@ -14,18 +15,11 @@ export const getComments = async (diff: string): Promise<string> => {
     const conversation: IConversation =
       await ConversationStorageService.instance.create(persona)
 
-    const prompt = [
-      'Given the following git diff information, please provide a brief summary of the changes.',
-      '- Each line MUST be LESS than 50 characters.',
-      '- The summary MUST include important aspects of the modifications.',
-      '- The comments MUST be in plain text format, suitable for human readable.',
-      'Use the following format:',
-      '🟢 [file name] for new files',
-      '🛠️ [file name] -> [brief description of change] for modified files',
-      '🔴 [file name] for deleted files',
-      'The Git diff to summarise is below:',
-      diff,
-    ].join('\n')
+    const personaPrompt = workspace
+      .getConfiguration('vscode-openai')
+      .get(`prompts.persona.scm`) as string
+
+    const prompt = [personaPrompt, diff].join('\n')
 
     const chatCompletion: IChatCompletion = {
       content: prompt,

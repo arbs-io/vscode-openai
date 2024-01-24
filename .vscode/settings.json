@@ -1,7 +1,0 @@
-{
-  "editor.insertSpaces": false,
-  "sonarlint.connectedMode.project": {
-    "connectionId": "arbs-io",
-    "projectKey": "arbs-io_vscode-openai"
-  }
-}

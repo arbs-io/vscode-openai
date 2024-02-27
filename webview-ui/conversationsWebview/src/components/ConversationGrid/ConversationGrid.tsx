@@ -13,8 +13,8 @@ import { ConversationGridColumnDefinition } from '../ConversationGridColumnDefin
 import { IConversation } from '../../interfaces'
 import { vscode } from '../../utilities'
 
-const componentStyles = makeStyles({
-  verticalPadding: {
+const useStyles = makeStyles({
+  conversations: {
     paddingTop: '0.5rem',
     paddingBottom: '0.5rem',
     cursor: 'context-menu',
@@ -22,6 +22,7 @@ const componentStyles = makeStyles({
 })
 
 const ConversationGrid: FC = () => {
+  const styles = useStyles()
   const [didInitialize, setDidInitialize] = useState<boolean>(false)
   const [state, setState] = useState<MessageEvent>()
   const [conversations, setConversations] = useState<IConversation[]>([])
@@ -79,7 +80,7 @@ const ConversationGrid: FC = () => {
         {({ item, rowId }) => (
           <DataGridRow<IConversation>
             key={rowId}
-            className={mergeClasses(componentStyles().verticalPadding)}
+            className={mergeClasses(styles.conversations)}
             data-vscode-context={JSON.stringify({
               webviewSection: 'conversation',
               data: item,

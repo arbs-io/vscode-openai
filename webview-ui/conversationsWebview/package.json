@@ -4,22 +4,23 @@
   "private": true,
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build --emptyOutDir",
+    "build-release": "tsc && vite build",
+    "build-debug": "tsc && vite build --mode 'development'",
     "preview": "vite preview",
     "test-compile": "tsc -p ./"
   },
   "dependencies": {
-    "@fluentui/react-components": "^9.27.0",
+    "@fluentui/react-components": "^9.46.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "vscode-openai": "file:../.."
   },
   "devDependencies": {
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
-    "@types/vscode-webview": "^1.57.2",
-    "@vitejs/plugin-react": "^4.0.4",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.12"
+    "@types/react": "^18.2.59",
+    "@types/react-dom": "^18.2.19",
+    "@types/vscode-webview": "^1.57.5",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.4"
   }
 }

@@ -12,10 +12,10 @@
   resolved "https://registry.npmjs.org/@arbs.io/asset-extractor-wasm/-/asset-extractor-wasm-0.1.2.tgz"
   integrity sha512-vZI0d6NtByzFB2+hV1DfsV0Z/mKyfStZt3lsobwWw706AzepP9QYUY9Wza8/orOZ5gz8DBgVYDEUI9Ny7vbe4w==
 
-"@esbuild/win32-x64@0.20.1":
-  version "0.20.1"
-  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.20.1.tgz"
-  integrity sha512-0MBh53o6XtI6ctDnRMeQ+xoCN8kD2qI1rY1KgF/xdWQwoFeKou7puvDfV8/Wv4Ctx2rRpET/gGdz3YlNtNACSA==
+"@esbuild/win32-x64@0.20.2":
+  version "0.20.2"
+  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.20.2.tgz"
+  integrity sha512-N49X4lJX27+l9jbLKSqZ6bKNjzQvHaT8IIFUy+YIqmXQdjYCToGWwOItDrfby14c78aDd5NHQl29xingXfCdLQ==
 
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
@@ -68,69 +68,59 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-2.0.2.tgz"
   integrity sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==
 
-"@microsoft/1ds-core-js@^4.0.3", "@microsoft/1ds-core-js@4.0.4":
-  version "4.0.4"
-  resolved "https://registry.npmjs.org/@microsoft/1ds-core-js/-/1ds-core-js-4.0.4.tgz"
-  integrity sha512-QOCE0fTDOMNptB791chnVlfnRvb7faDQTaUIO3DfPBkvjF3PUAJJCsqJKWitw7nwVn8L82TFx+K22UifIr0zkg==
+"@microsoft/1ds-core-js@^4.1.0", "@microsoft/1ds-core-js@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/@microsoft/1ds-core-js/-/1ds-core-js-4.1.1.tgz"
+  integrity sha512-xCIWuvyAmCCW7qZofnLKXjz6KInrtBfm21jjOXFTDq3UT9MrdWij1XwsWnK2Up3XOpDzJrNLkpn4A8H6Okls/g==
   dependencies:
-    "@microsoft/applicationinsights-core-js" "3.0.5"
+    "@microsoft/applicationinsights-core-js" "3.1.1"
     "@microsoft/applicationinsights-shims" "3.0.1"
-    "@microsoft/dynamicproto-js" "^2.0.2"
+    "@microsoft/dynamicproto-js" "^2.0.3"
     "@nevware21/ts-async" ">= 0.3.0 < 2.x"
-    "@nevware21/ts-utils" ">= 0.10.1 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
 
-"@microsoft/1ds-post-js@^4.0.3":
-  version "4.0.4"
-  resolved "https://registry.npmjs.org/@microsoft/1ds-post-js/-/1ds-post-js-4.0.4.tgz"
-  integrity sha512-jlPNL16iRXzmXfriGXv0INzrAl3AeDx+eCORjq8ZjRhIvohB6Q88m5E28nL6Drf5hJWE2ehoW4q8Vh612VoEHw==
+"@microsoft/1ds-post-js@^4.1.0":
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/@microsoft/1ds-post-js/-/1ds-post-js-4.1.1.tgz"
+  integrity sha512-yC7MOxJNibzMAyPr9TnBIS1+OLzqYj54Tr8p6Zje7tu9nb7cKh1a8KNyaIyxnuwPXKkWb+2YzTWLkC3clZCKiA==
   dependencies:
-    "@microsoft/1ds-core-js" "4.0.4"
+    "@microsoft/1ds-core-js" "4.1.1"
     "@microsoft/applicationinsights-shims" "3.0.1"
-    "@microsoft/dynamicproto-js" "^2.0.2"
+    "@microsoft/dynamicproto-js" "^2.0.3"
     "@nevware21/ts-async" ">= 0.3.0 < 2.x"
-    "@nevware21/ts-utils" ">= 0.10.1 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
 
-"@microsoft/applicationinsights-channel-js@3.0.6":
-  version "3.0.6"
-  resolved "https://registry.npmjs.org/@microsoft/applicationinsights-channel-js/-/applicationinsights-channel-js-3.0.6.tgz"
-  integrity sha512-nWcElBm7OKUv7w0xvegxrQFbMH2NSLBU8WBSaTaiqo48aXqWnKWrqEaGvCGKpOCH5G33of3XC7DUJ6f4gdOEcA==
+"@microsoft/applicationinsights-channel-js@3.1.1":
+  version "3.1.1"
+  resolved "https://registry.npmjs.org/@microsoft/applicationinsights-channel-js/-/applicationinsights-channel-js-3.1.1.tgz"
+  integrity sha512-HhEkcGAkXLoCCcNcpAomZiHYSjl6Y33l3oVqVRvwNj3E9T8e6zNFFtO3/iuqfuAOgDO3/adBFm5Tb5nIGPgu2g==
   dependencies:
-    "@microsoft/applicationinsights-common" "3.0.6"
-    "@microsoft/applicationinsights-core-js" "3.0.6"
+    "@microsoft/applicationinsights-common" "3.1.1"
+    "@microsoft/applicationinsights-core-js" "3.1.1"
     "@microsoft/applicationinsights-shims" "3.0.1"
-    "@microsoft/dynamicproto-js" "^2.0.2"
+    "@microsoft/dynamicproto-js" "^2.0.3"
     "@nevware21/ts-async" ">= 0.3.0 < 2.x"
-    "@nevware21/ts-utils" ">= 0.10.1 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
 
-"@microsoft/applicationinsights-common@3.0.6":
-  version "3.0.6"
-  resolved "https://registry.npmjs.org/@microsoft/applicationinsights-common/-/applicationinsights-common-3.0.6.tgz"
-  integrity sha512-GlmuaE+U1G7IbfGuElOYdKjmFMErI5b1iJpDfWXY6qpoL2a/sBIc1dviw7NP2/4CwFBkoFGPMDT/3aO3e7Yu3w==
+"@microsoft/applicationinsights-common@3.1.1":
+  version "3.1.1"
+  resolved "https://registry.npmjs.org/@microsoft/applicationinsights-common/-/applicationinsights-common-3.1.1.tgz"
+  integrity sha512-rhLP+l+y1b7K3fjIf9wUHOPjouzMdyOpFdQHntDiHewU7YMUOEzco5c5UUAnTGixOUh9cE/Xnf7F3/PWTtGyuw==
   dependencies:
-    "@microsoft/applicationinsights-core-js" "3.0.6"
+    "@microsoft/applicationinsights-core-js" "3.1.1"
     "@microsoft/applicationinsights-shims" "3.0.1"
-    "@microsoft/dynamicproto-js" "^2.0.2"
-    "@nevware21/ts-utils" ">= 0.10.1 < 2.x"
+    "@microsoft/dynamicproto-js" "^2.0.3"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
 
-"@microsoft/applicationinsights-core-js@3.0.5":
-  version "3.0.5"
-  resolved "https://registry.npmjs.org/@microsoft/applicationinsights-core-js/-/applicationinsights-core-js-3.0.5.tgz"
-  integrity sha512-/x+tkxsVALNWSvwGMyaLwFPdD3p156Pef9WHftXrzrKkJ+685nhrwm9MqHIyEHHpSW09ElOdpJ3rfFVqpKRQyQ==
+"@microsoft/applicationinsights-core-js@3.1.1":
+  version "3.1.1"
+  resolved "https://registry.npmjs.org/@microsoft/applicationinsights-core-js/-/applicationinsights-core-js-3.1.1.tgz"
+  integrity sha512-vLuTrqUgXmmNBWqrLsbhp9rdc9WZrJ1jInswA0ozPomKt32WIPO1WJ8OrG3qY8FQ+rJDsrjTIy4naHP0qZpDEA==
   dependencies:
     "@microsoft/applicationinsights-shims" "3.0.1"
-    "@microsoft/dynamicproto-js" "^2.0.2"
+    "@microsoft/dynamicproto-js" "^2.0.3"
     "@nevware21/ts-async" ">= 0.3.0 < 2.x"
-    "@nevware21/ts-utils" ">= 0.10.1 < 2.x"
-
-"@microsoft/applicationinsights-core-js@3.0.6":
-  version "3.0.6"
-  resolved "https://registry.npmjs.org/@microsoft/applicationinsights-core-js/-/applicationinsights-core-js-3.0.6.tgz"
-  integrity sha512-9OFBYckg/msyllE0NOwXgCvwHochKKUDbydl3LF3UcltGIE14pLYoXiWJd9+m+oRaf0k3CUYl2mVcyytWgPQZw==
-  dependencies:
-    "@microsoft/applicationinsights-shims" "3.0.1"
-    "@microsoft/dynamicproto-js" "^2.0.2"
-    "@nevware21/ts-async" ">= 0.3.0 < 2.x"
-    "@nevware21/ts-utils" ">= 0.10.1 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
 
 "@microsoft/applicationinsights-shims@3.0.1":
   version "3.0.1"
@@ -139,25 +129,25 @@
   dependencies:
     "@nevware21/ts-utils" ">= 0.9.4 < 2.x"
 
-"@microsoft/applicationinsights-web-basic@^3.0.6":
-  version "3.0.6"
-  resolved "https://registry.npmjs.org/@microsoft/applicationinsights-web-basic/-/applicationinsights-web-basic-3.0.6.tgz"
-  integrity sha512-HwhZha6c78BVrkgRX5OaZBCO4hX4FlikvVHMKAQHLv1Le9nN7sBnt5VNiV5ikjA3ir04vRXmrDCn0GomMiKZ0g==
+"@microsoft/applicationinsights-web-basic@^3.1.0":
+  version "3.1.1"
+  resolved "https://registry.npmjs.org/@microsoft/applicationinsights-web-basic/-/applicationinsights-web-basic-3.1.1.tgz"
+  integrity sha512-/3D0ggfrFEMzI8dw+qEHlAhDH9vT5Mdv655ztNgvX3aSn/TsRpYJmN23zvP7azCioBfhD8T9zWcotkDN2lvtDQ==
   dependencies:
-    "@microsoft/applicationinsights-channel-js" "3.0.6"
-    "@microsoft/applicationinsights-common" "3.0.6"
-    "@microsoft/applicationinsights-core-js" "3.0.6"
+    "@microsoft/applicationinsights-channel-js" "3.1.1"
+    "@microsoft/applicationinsights-common" "3.1.1"
+    "@microsoft/applicationinsights-core-js" "3.1.1"
     "@microsoft/applicationinsights-shims" "3.0.1"
-    "@microsoft/dynamicproto-js" "^2.0.2"
+    "@microsoft/dynamicproto-js" "^2.0.3"
     "@nevware21/ts-async" ">= 0.3.0 < 2.x"
-    "@nevware21/ts-utils" ">= 0.10.1 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
 
-"@microsoft/dynamicproto-js@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.npmjs.org/@microsoft/dynamicproto-js/-/dynamicproto-js-2.0.2.tgz"
-  integrity sha512-MB8trWaFREpmb037k/d0bB7T2BP7Ai24w1e1tbz3ASLB0/lwphsq3Nq8S9I5AsI5vs4zAQT+SB5nC5/dLYTiOg==
+"@microsoft/dynamicproto-js@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@microsoft/dynamicproto-js/-/dynamicproto-js-2.0.3.tgz"
+  integrity sha512-JTWTU80rMy3mdxOjjpaiDQsTLZ6YSGGqsjURsY6AUQtIj0udlF/jYmhdLZu8693ZIC0T1IwYnFa0+QeiMnziBA==
   dependencies:
-    "@nevware21/ts-utils" ">= 0.9.4 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.4 < 2.x"
 
 "@nevware21/ts-async@>= 0.3.0 < 2.x":
   version "0.4.0"
@@ -166,10 +156,10 @@
   dependencies:
     "@nevware21/ts-utils" ">= 0.10.0 < 2.x"
 
-"@nevware21/ts-utils@>= 0.10.0 < 2.x", "@nevware21/ts-utils@>= 0.10.1 < 2.x", "@nevware21/ts-utils@>= 0.9.4 < 2.x":
-  version "0.10.1"
-  resolved "https://registry.npmjs.org/@nevware21/ts-utils/-/ts-utils-0.10.1.tgz"
-  integrity sha512-pMny25NnF2/MJwdqC3Iyjm2pGIXNxni4AROpcqDeWa+td9JMUY4bUS9uU9XW+BoBRqTLUL+WURF9SOd/6OQzRg==
+"@nevware21/ts-utils@>= 0.10.0 < 2.x", "@nevware21/ts-utils@>= 0.10.4 < 2.x", "@nevware21/ts-utils@>= 0.10.5 < 2.x", "@nevware21/ts-utils@>= 0.9.4 < 2.x":
+  version "0.10.5"
+  resolved "https://registry.npmjs.org/@nevware21/ts-utils/-/ts-utils-0.10.5.tgz"
+  integrity sha512-+TEvP0+l/VBR5bJZoYFV+o6aQQ1O6y80uys5AVyyCKeWvrgWu/yNydqSBQNsk4BuEfkayg7R9+HCJRRRIvptTA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -210,10 +200,10 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@^20.11.20":
-  version "20.11.20"
-  resolved "https://registry.npmjs.org/@types/node/-/node-20.11.20.tgz"
-  integrity sha512-7/rR21OS+fq8IyHTgtLkDK949uzsa6n8BkziAKtPVpugIkO6D+/ooXMvzXxDnZrmtXVfjb1bKQafYpb8s89LOg==
+"@types/node@*", "@types/node@^20.11.28":
+  version "20.11.28"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.11.28.tgz"
+  integrity sha512-M/GPWVS2wLkSkNHVeLkrF2fD5Lx5UC4PxA0uZcKc6QqbIQUJyW1jVjueJYi1z8n0I5PxYrtpnPnWglE+y9A0KA==
   dependencies:
     undici-types "~5.26.4"
 
@@ -237,16 +227,16 @@
   resolved "https://registry.npmjs.org/@types/vscode/-/vscode-1.86.0.tgz"
   integrity sha512-DnIXf2ftWv+9LWOB5OJeIeaLigLHF7fdXF6atfc7X5g2w/wVZBgk0amP7b+ub5xAuW1q7qP5YcFvOcit/DtyCQ==
 
-"@typescript-eslint/eslint-plugin@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-7.1.0.tgz"
-  integrity sha512-j6vT/kCulhG5wBmGtstKeiVr1rdXE4nk+DT1k6trYkwlrvW9eOF5ZbgKnd/YR6PcM4uTEXa0h6Fcvf6X7Dxl0w==
+"@typescript-eslint/eslint-plugin@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-7.2.0.tgz"
+  integrity sha512-mdekAHOqS9UjlmyF/LSs6AIEvfceV749GFxoBAjwAv0nkevfKHWQFDMcBZWUiIC5ft6ePWivXoS36aKQ0Cy3sw==
   dependencies:
     "@eslint-community/regexpp" "^4.5.1"
-    "@typescript-eslint/scope-manager" "7.1.0"
-    "@typescript-eslint/type-utils" "7.1.0"
-    "@typescript-eslint/utils" "7.1.0"
-    "@typescript-eslint/visitor-keys" "7.1.0"
+    "@typescript-eslint/scope-manager" "7.2.0"
+    "@typescript-eslint/type-utils" "7.2.0"
+    "@typescript-eslint/utils" "7.2.0"
+    "@typescript-eslint/visitor-keys" "7.2.0"
     debug "^4.3.4"
     graphemer "^1.4.0"
     ignore "^5.2.4"
@@ -254,47 +244,47 @@
     semver "^7.5.4"
     ts-api-utils "^1.0.1"
 
-"@typescript-eslint/parser@^7.0.0", "@typescript-eslint/parser@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-7.1.0.tgz"
-  integrity sha512-V1EknKUubZ1gWFjiOZhDSNToOjs63/9O0puCgGS8aDOgpZY326fzFu15QAUjwaXzRZjf/qdsdBrckYdv9YxB8w==
+"@typescript-eslint/parser@^7.0.0", "@typescript-eslint/parser@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-7.2.0.tgz"
+  integrity sha512-5FKsVcHTk6TafQKQbuIVkXq58Fnbkd2wDL4LB7AURN7RUOu1utVP+G8+6u3ZhEroW3DF6hyo3ZEXxgKgp4KeCg==
   dependencies:
-    "@typescript-eslint/scope-manager" "7.1.0"
-    "@typescript-eslint/types" "7.1.0"
-    "@typescript-eslint/typescript-estree" "7.1.0"
-    "@typescript-eslint/visitor-keys" "7.1.0"
+    "@typescript-eslint/scope-manager" "7.2.0"
+    "@typescript-eslint/types" "7.2.0"
+    "@typescript-eslint/typescript-estree" "7.2.0"
+    "@typescript-eslint/visitor-keys" "7.2.0"
     debug "^4.3.4"
 
-"@typescript-eslint/scope-manager@7.1.0":
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-7.1.0.tgz"
-  integrity sha512-6TmN4OJiohHfoOdGZ3huuLhpiUgOGTpgXNUPJgeZOZR3DnIpdSgtt83RS35OYNNXxM4TScVlpVKC9jyQSETR1A==
+"@typescript-eslint/scope-manager@7.2.0":
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-7.2.0.tgz"
+  integrity sha512-Qh976RbQM/fYtjx9hs4XkayYujB/aPwglw2choHmf3zBjB4qOywWSdt9+KLRdHubGcoSwBnXUH2sR3hkyaERRg==
   dependencies:
-    "@typescript-eslint/types" "7.1.0"
-    "@typescript-eslint/visitor-keys" "7.1.0"
+    "@typescript-eslint/types" "7.2.0"
+    "@typescript-eslint/visitor-keys" "7.2.0"
 
-"@typescript-eslint/type-utils@7.1.0":
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/type-utils/-/type-utils-7.1.0.tgz"
-  integrity sha512-UZIhv8G+5b5skkcuhgvxYWHjk7FW7/JP5lPASMEUoliAPwIH/rxoUSQPia2cuOj9AmDZmwUl1usKm85t5VUMew==
+"@typescript-eslint/type-utils@7.2.0":
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/type-utils/-/type-utils-7.2.0.tgz"
+  integrity sha512-xHi51adBHo9O9330J8GQYQwrKBqbIPJGZZVQTHHmy200hvkLZFWJIFtAG/7IYTWUyun6DE6w5InDReePJYJlJA==
   dependencies:
-    "@typescript-eslint/typescript-estree" "7.1.0"
-    "@typescript-eslint/utils" "7.1.0"
+    "@typescript-eslint/typescript-estree" "7.2.0"
+    "@typescript-eslint/utils" "7.2.0"
     debug "^4.3.4"
     ts-api-utils "^1.0.1"
 
-"@typescript-eslint/types@7.1.0":
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/types/-/types-7.1.0.tgz"
-  integrity sha512-qTWjWieJ1tRJkxgZYXx6WUYtWlBc48YRxgY2JN1aGeVpkhmnopq+SUC8UEVGNXIvWH7XyuTjwALfG6bFEgCkQA==
+"@typescript-eslint/types@7.2.0":
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/types/-/types-7.2.0.tgz"
+  integrity sha512-XFtUHPI/abFhm4cbCDc5Ykc8npOKBSJePY3a3s+lwumt7XWJuzP5cZcfZ610MIPHjQjNsOLlYK8ASPaNG8UiyA==
 
-"@typescript-eslint/typescript-estree@7.1.0":
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-7.1.0.tgz"
-  integrity sha512-k7MyrbD6E463CBbSpcOnwa8oXRdHzH1WiVzOipK3L5KSML92ZKgUBrTlehdi7PEIMT8k0bQixHUGXggPAlKnOQ==
+"@typescript-eslint/typescript-estree@7.2.0":
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-7.2.0.tgz"
+  integrity sha512-cyxS5WQQCoBwSakpMrvMXuMDEbhOo9bNHHrNcEWis6XHx6KF518tkF1wBvKIn/tpq5ZpUYK7Bdklu8qY0MsFIA==
   dependencies:
-    "@typescript-eslint/types" "7.1.0"
-    "@typescript-eslint/visitor-keys" "7.1.0"
+    "@typescript-eslint/types" "7.2.0"
+    "@typescript-eslint/visitor-keys" "7.2.0"
     debug "^4.3.4"
     globby "^11.1.0"
     is-glob "^4.0.3"
@@ -302,25 +292,25 @@
     semver "^7.5.4"
     ts-api-utils "^1.0.1"
 
-"@typescript-eslint/utils@7.1.0":
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/utils/-/utils-7.1.0.tgz"
-  integrity sha512-WUFba6PZC5OCGEmbweGpnNJytJiLG7ZvDBJJoUcX4qZYf1mGZ97mO2Mps6O2efxJcJdRNpqweCistDbZMwIVHw==
+"@typescript-eslint/utils@7.2.0":
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/utils/-/utils-7.2.0.tgz"
+  integrity sha512-YfHpnMAGb1Eekpm3XRK8hcMwGLGsnT6L+7b2XyRv6ouDuJU1tZir1GS2i0+VXRatMwSI1/UfcyPe53ADkU+IuA==
   dependencies:
     "@eslint-community/eslint-utils" "^4.4.0"
     "@types/json-schema" "^7.0.12"
     "@types/semver" "^7.5.0"
-    "@typescript-eslint/scope-manager" "7.1.0"
-    "@typescript-eslint/types" "7.1.0"
-    "@typescript-eslint/typescript-estree" "7.1.0"
+    "@typescript-eslint/scope-manager" "7.2.0"
+    "@typescript-eslint/types" "7.2.0"
+    "@typescript-eslint/typescript-estree" "7.2.0"
     semver "^7.5.4"
 
-"@typescript-eslint/visitor-keys@7.1.0":
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-7.1.0.tgz"
-  integrity sha512-FhUqNWluiGNzlvnDZiXad4mZRhtghdoKW6e98GoEOYSu5cND+E39rG5KwJMUzeENwm1ztYBRqof8wMLP+wNPIA==
+"@typescript-eslint/visitor-keys@7.2.0":
+  version "7.2.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-7.2.0.tgz"
+  integrity sha512-c6EIQRHhcpl6+tO8EMR+kjkkV+ugUNXOmeASA1rlzkd8EPIriavpWoiEz1HR/VLhbVIdhqnV6E7JZm00cBDx2A==
   dependencies:
-    "@typescript-eslint/types" "7.1.0"
+    "@typescript-eslint/types" "7.2.0"
     eslint-visitor-keys "^3.4.1"
 
 "@ungap/structured-clone@^1.2.0":
@@ -328,14 +318,14 @@
   resolved "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@vscode/extension-telemetry@^0.9.2":
-  version "0.9.2"
-  resolved "https://registry.npmjs.org/@vscode/extension-telemetry/-/extension-telemetry-0.9.2.tgz"
-  integrity sha512-O6VMCDkzypjULhgy2l6fih3c3fExPmSj7aewtW5jBJYgXcIIjtkJOttIfnKOCP4S8sNfc6xc1Do4MbUDmhduEw==
+"@vscode/extension-telemetry@^0.9.3":
+  version "0.9.3"
+  resolved "https://registry.npmjs.org/@vscode/extension-telemetry/-/extension-telemetry-0.9.3.tgz"
+  integrity sha512-F1to8DhI5wP30/gqUDeX5LA/eyUuGbGgDMbSuVUJeER+7byehcpsYW2ySjVDHlfXqwGIvMd+QW9g+p0zWaFS3w==
   dependencies:
-    "@microsoft/1ds-core-js" "^4.0.3"
-    "@microsoft/1ds-post-js" "^4.0.3"
-    "@microsoft/applicationinsights-web-basic" "^3.0.6"
+    "@microsoft/1ds-core-js" "^4.1.0"
+    "@microsoft/1ds-post-js" "^4.1.0"
+    "@microsoft/applicationinsights-web-basic" "^3.1.0"
 
 "@vscode/vsce@^2.24.0":
   version "2.24.0"
@@ -846,34 +836,34 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-esbuild@^0.20.1:
-  version "0.20.1"
-  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.20.1.tgz"
-  integrity sha512-OJwEgrpWm/PCMsLVWXKqvcjme3bHNpOgN7Tb6cQnR5n0TPbQx1/Xrn7rqM+wn17bYeT6MGB5sn1Bh5YiGi70nA==
+esbuild@^0.20.2:
+  version "0.20.2"
+  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.20.2.tgz"
+  integrity sha512-WdOOppmUNU+IbZ0PaDiTst80zjnrOkyJNHoKupIcVyU8Lvla3Ugx94VzkQ32Ijqd7UhHJy75gNWDMUekcrSJ6g==
   optionalDependencies:
-    "@esbuild/aix-ppc64" "0.20.1"
-    "@esbuild/android-arm" "0.20.1"
-    "@esbuild/android-arm64" "0.20.1"
-    "@esbuild/android-x64" "0.20.1"
-    "@esbuild/darwin-arm64" "0.20.1"
-    "@esbuild/darwin-x64" "0.20.1"
-    "@esbuild/freebsd-arm64" "0.20.1"
-    "@esbuild/freebsd-x64" "0.20.1"
-    "@esbuild/linux-arm" "0.20.1"
-    "@esbuild/linux-arm64" "0.20.1"
-    "@esbuild/linux-ia32" "0.20.1"
-    "@esbuild/linux-loong64" "0.20.1"
-    "@esbuild/linux-mips64el" "0.20.1"
-    "@esbuild/linux-ppc64" "0.20.1"
-    "@esbuild/linux-riscv64" "0.20.1"
-    "@esbuild/linux-s390x" "0.20.1"
-    "@esbuild/linux-x64" "0.20.1"
-    "@esbuild/netbsd-x64" "0.20.1"
-    "@esbuild/openbsd-x64" "0.20.1"
-    "@esbuild/sunos-x64" "0.20.1"
-    "@esbuild/win32-arm64" "0.20.1"
-    "@esbuild/win32-ia32" "0.20.1"
-    "@esbuild/win32-x64" "0.20.1"
+    "@esbuild/aix-ppc64" "0.20.2"
+    "@esbuild/android-arm" "0.20.2"
+    "@esbuild/android-arm64" "0.20.2"
+    "@esbuild/android-x64" "0.20.2"
+    "@esbuild/darwin-arm64" "0.20.2"
+    "@esbuild/darwin-x64" "0.20.2"
+    "@esbuild/freebsd-arm64" "0.20.2"
+    "@esbuild/freebsd-x64" "0.20.2"
+    "@esbuild/linux-arm" "0.20.2"
+    "@esbuild/linux-arm64" "0.20.2"
+    "@esbuild/linux-ia32" "0.20.2"
+    "@esbuild/linux-loong64" "0.20.2"
+    "@esbuild/linux-mips64el" "0.20.2"
+    "@esbuild/linux-ppc64" "0.20.2"
+    "@esbuild/linux-riscv64" "0.20.2"
+    "@esbuild/linux-s390x" "0.20.2"
+    "@esbuild/linux-x64" "0.20.2"
+    "@esbuild/netbsd-x64" "0.20.2"
+    "@esbuild/openbsd-x64" "0.20.2"
+    "@esbuild/sunos-x64" "0.20.2"
+    "@esbuild/win32-arm64" "0.20.2"
+    "@esbuild/win32-ia32" "0.20.2"
+    "@esbuild/win32-x64" "0.20.2"
 
 escape-string-regexp@^1.0.5:
   version "1.0.5"
@@ -1768,10 +1758,10 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-openai@^4.28.0:
-  version "4.28.0"
-  resolved "https://registry.npmjs.org/openai/-/openai-4.28.0.tgz"
-  integrity sha512-JM8fhcpmpGN0vrUwGquYIzdcEQHtFuom6sRCbbCM6CfzZXNuRk33G7KfeRAIfnaCxSpzrP5iHtwJzIm6biUZ2Q==
+openai@^4.29.1:
+  version "4.29.1"
+  resolved "https://registry.npmjs.org/openai/-/openai-4.29.1.tgz"
+  integrity sha512-vvKRIgB4/7w48PGVbeR8OceH/PT6fRo4sTIjRC7+y7WoK7by1R0cXs2SZRx4KsEh0ZB8J0eqdVIdRgs8XzeoEg==
   dependencies:
     "@types/node" "^18.11.18"
     "@types/node-fetch" "^2.6.4"
@@ -2333,10 +2323,10 @@ typed-rest-client@^1.8.4:
     tunnel "0.0.6"
     underscore "^1.12.1"
 
-typescript@^5.3.3, typescript@>=4.2.0:
-  version "5.3.3"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-5.3.3.tgz"
-  integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
+typescript@^5.4.2, typescript@>=4.2.0:
+  version "5.4.2"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-5.4.2.tgz"
+  integrity sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"

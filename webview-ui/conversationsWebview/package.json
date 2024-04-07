@@ -10,17 +10,17 @@
     "test-compile": "tsc -p ./"
   },
   "dependencies": {
-    "@fluentui/react-components": "^9.47.1",
+    "@fluentui/react-components": "^9.47.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "vscode-openai": "file:../.."
   },
   "devDependencies": {
-    "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@types/react": "^18.2.74",
+    "@types/react-dom": "^18.2.24",
     "@types/vscode-webview": "^1.57.5",
     "@vitejs/plugin-react": "^4.2.1",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.2"
+    "typescript": "^5.4.4",
+    "vite": "^5.2.8"
   }
 }

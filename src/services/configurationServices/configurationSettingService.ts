@@ -49,6 +49,7 @@ export default class ConfigurationSettingService
     scmModel,
     embeddingModel,
     azureDeployment,
+    scmDeployment,
     embeddingsDeployment,
     azureApiVersion,
   }: {
@@ -58,6 +59,7 @@ export default class ConfigurationSettingService
     scmModel: string
     embeddingModel: string
     azureDeployment: string
+    scmDeployment: string
     embeddingsDeployment: string
     azureApiVersion: string
   }) {
@@ -68,9 +70,10 @@ export default class ConfigurationSettingService
     this.instance.serviceProvider = serviceProvider
     this.instance.baseUrl = baseUrl
     this.instance.defaultModel = defaultModel
-    this.instance.scmModel = scmModel
-    this.instance.embeddingModel = embeddingModel
     this.instance.azureDeployment = azureDeployment
+    this.instance.scmModel = scmModel
+    this.instance.scmDeployment = scmDeployment
+    this.instance.embeddingModel = embeddingModel
     this.instance.embeddingsDeployment = embeddingsDeployment
     this.instance.azureApiVersion = azureApiVersion
     //Force wait as we need the config to be written
@@ -102,14 +105,28 @@ export default class ConfigurationSettingService
     this.setConfigValue<string | undefined>('defaultModel', value)
   }
 
+  public get azureDeployment(): string {
+    return this.getConfigValue<string>('azureDeployment')
+  }
+  public set azureDeployment(value: string | undefined) {
+    this.setConfigValue<string | undefined>('azureDeployment', value)
+  }
+
   public get scmModel(): string {
-    return (
+    const model =
       this.getConfigValue<string>('scmModel') ??
       this.getConfigValue<string>('defaultModel')
-    )
+    return model
   }
   public set scmModel(value: string | undefined) {
     this.setConfigValue<string | undefined>('scmModel', value)
+  }
+
+  public get scmDeployment(): string {
+    return this.getConfigValue<string>('scmDeployment')
+  }
+  public set scmDeployment(value: string | undefined) {
+    this.setConfigValue<string | undefined>('scmDeployment', value)
   }
 
   public get embeddingModel(): string {
@@ -117,13 +134,6 @@ export default class ConfigurationSettingService
   }
   public set embeddingModel(value: string | undefined) {
     this.setConfigValue<string | undefined>('embeddingModel', value)
-  }
-
-  public get azureDeployment(): string {
-    return this.getConfigValue<string>('azureDeployment')
-  }
-  public set azureDeployment(value: string | undefined) {
-    this.setConfigValue<string | undefined>('azureDeployment', value)
   }
 
   public get embeddingsDeployment(): string {
@@ -168,6 +178,13 @@ export default class ConfigurationSettingService
   public get inferenceUrl(): string {
     if (this.azureDeployment !== 'setup-required') {
       return `${this.baseUrl}/deployments/${this.azureDeployment}`
+    }
+    return `${this.baseUrl}`
+  }
+
+  public get scmUrl(): string {
+    if (this.scmDeployment !== 'setup-required') {
+      return `${this.baseUrl}/deployments/${this.scmDeployment}`
     }
     return `${this.baseUrl}`
   }
@@ -235,6 +252,8 @@ export default class ConfigurationSettingService
     this.instance.baseUrl = undefined
     this.instance.defaultModel = undefined
     this.instance.azureDeployment = undefined
+    this.instance.scmModel = undefined
+    this.instance.scmDeployment = undefined
     this.instance.embeddingModel = undefined
     this.instance.embeddingsDeployment = undefined
     this.instance.azureApiVersion = undefined
@@ -252,6 +271,8 @@ export default class ConfigurationSettingService
       cfgMap.set('base_url', this.instance.baseUrl)
       cfgMap.set('inference_model', this.instance.defaultModel)
       cfgMap.set('inference_deploy', this.instance.azureDeployment)
+      cfgMap.set('scm_model', this.instance.scmModel)
+      cfgMap.set('scm_deploy', this.instance.scmDeployment)
       cfgMap.set('embeddings_model', this.instance.embeddingModel)
       cfgMap.set('embeddings_deploy', this.instance.embeddingsDeployment)
       cfgMap.set('az_api_version', this.instance.azureApiVersion)

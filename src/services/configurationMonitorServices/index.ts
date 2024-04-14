@@ -12,6 +12,7 @@ export function registerConfigurationMonitorService(
       'vscode-openai.authentication',
       'vscode-openai.baseUrl',
       'vscode-openai.defaultModel',
+      'vscode-openai.scmModel',
       'vscode-openai.azureDeployment',
       'vscode-openai.azureApiVersion',
     ]

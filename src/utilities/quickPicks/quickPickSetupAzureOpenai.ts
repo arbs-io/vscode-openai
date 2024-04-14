@@ -28,6 +28,7 @@ export async function quickPickSetupAzureOpenai(
     openaiBaseUrl: string
     openaiApiKey: string
     quickPickInferenceModel: QuickPickItem
+    quickPickScmModel: QuickPickItem
     quickPickEmbeddingModel: QuickPickItem
   }
 
@@ -52,7 +53,7 @@ export async function quickPickSetupAzureOpenai(
     state.openaiBaseUrl = await input.showInputBox({
       title,
       step: 1,
-      totalSteps: 4,
+      totalSteps: 5,
       ignoreFocusOut: true,
       value:
         typeof state.openaiBaseUrl === 'string'
@@ -82,7 +83,7 @@ export async function quickPickSetupAzureOpenai(
     state.openaiApiKey = await input.showInputBox({
       title,
       step: 2,
-      totalSteps: 4,
+      totalSteps: 5,
       ignoreFocusOut: true,
       value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
       prompt: '$(key)  Enter the openai.com Api-Key',
@@ -112,10 +113,41 @@ export async function quickPickSetupAzureOpenai(
     state.quickPickInferenceModel = await input.showQuickPick({
       title,
       step: 3,
-      totalSteps: 4,
+      totalSteps: 5,
       ignoreFocusOut: true,
       placeholder:
         'Selected chat completion deployment/model (if empty, no valid models found)',
+      items: models,
+      activeItem: state.quickPickInferenceModel,
+      shouldResume: shouldResume,
+    })
+
+    return (input: MultiStepInput) => selectScmModel(input, state)
+  }
+
+  /**
+   * This function displays a quick pick menu for selecting an OpenAI model and updates the application's state accordingly.
+   * @param input - The multi-step input object.
+   * @param state - The current state of the application.
+   */
+  async function selectScmModel(
+    input: MultiStepInput,
+    state: Partial<State>
+  ) {
+    const models = await getAvailableModelsAzure(
+      state.openaiApiKey!,
+      state.openaiBaseUrl!,
+      ModelCapabiliy.ChatCompletion
+    )
+    // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
+    // Return void since this is not used elsewhere in the code.
+    state.quickPickScmModel = await input.showQuickPick({
+      title,
+      step: 4,
+      totalSteps: 5,
+      ignoreFocusOut: true,
+      placeholder:
+        'Selected SCM (git) deployment/model (if empty, no valid models found)',
       items: models,
       activeItem: state.quickPickInferenceModel,
       shouldResume: shouldResume,
@@ -144,8 +176,8 @@ export async function quickPickSetupAzureOpenai(
       // Return void since this is not used elsewhere in the code.
       state.quickPickEmbeddingModel = await input.showQuickPick({
         title,
-        step: 4,
-        totalSteps: 4,
+        step: 5,
+        totalSteps: 5,
         ignoreFocusOut: true,
         placeholder: `Selected embedding deployment/model (if empty, no valid models found)`,
         items: models,
@@ -193,6 +225,8 @@ export async function quickPickSetupAzureOpenai(
   //Start openai.com configuration processes
   const state = await collectInputs()
   const inferenceModel = state.quickPickInferenceModel.description as string
+  const scmModel = state.quickPickScmModel.description as string
+
   const inferenceDeployment = state.quickPickInferenceModel.label.replace(
     `$(symbol-function)  `,
     ''
@@ -213,6 +247,7 @@ export async function quickPickSetupAzureOpenai(
     serviceProvider: 'Azure-OpenAI',
     baseUrl: state.openaiBaseUrl,
     defaultModel: inferenceModel,
+    scmModel: scmModel,
     embeddingModel: embeddingModel,
     azureDeployment: inferenceDeployment,
     embeddingsDeployment: embeddingDeployment,

@@ -46,6 +46,7 @@ export default class ConfigurationSettingService
     serviceProvider,
     baseUrl,
     defaultModel,
+    scmModel,
     embeddingModel,
     azureDeployment,
     embeddingsDeployment,
@@ -54,6 +55,7 @@ export default class ConfigurationSettingService
     serviceProvider: string
     baseUrl: string
     defaultModel: string
+    scmModel: string
     embeddingModel: string
     azureDeployment: string
     embeddingsDeployment: string
@@ -66,6 +68,7 @@ export default class ConfigurationSettingService
     this.instance.serviceProvider = serviceProvider
     this.instance.baseUrl = baseUrl
     this.instance.defaultModel = defaultModel
+    this.instance.scmModel = scmModel
     this.instance.embeddingModel = embeddingModel
     this.instance.azureDeployment = azureDeployment
     this.instance.embeddingsDeployment = embeddingsDeployment
@@ -97,6 +100,16 @@ export default class ConfigurationSettingService
   }
   public set defaultModel(value: string | undefined) {
     this.setConfigValue<string | undefined>('defaultModel', value)
+  }
+
+  public get scmModel(): string {
+    return (
+      this.getConfigValue<string>('scmModel') ??
+      this.getConfigValue<string>('defaultModel')
+    )
+  }
+  public set scmModel(value: string | undefined) {
+    this.setConfigValue<string | undefined>('scmModel', value)
   }
 
   public get embeddingModel(): string {

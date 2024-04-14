@@ -13,7 +13,9 @@ import {
 } from './chatCompletionMessages'
 
 export async function createChatCompletion(
-  conversation: IConversation
+  conversation: IConversation,
+  model?: string,
+  baseURL?: string
 ): Promise<IMessage | undefined> {
   try {
     StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -29,7 +31,7 @@ export async function createChatCompletion(
       apiKey: apiKey,
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
-      baseURL: ConfigurationSettingService.instance.inferenceUrl,
+      baseURL: baseURL ?? ConfigurationSettingService.instance.inferenceUrl,
       maxRetries: ConfigurationConversationService.instance.numOfAttempts,
     })
 
@@ -47,7 +49,7 @@ export async function createChatCompletion(
 
     const results = await openai.chat.completions.create(
       {
-        model: ConfigurationSettingService.instance.defaultModel,
+        model: model ?? ConfigurationSettingService.instance.defaultModel,
         messages: chatCompletionMessages,
         temperature: ConfigurationConversationService.instance.temperature,
         frequency_penalty:

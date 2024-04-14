@@ -1,6 +1,9 @@
 import { IChatCompletion, IConversation } from '@app/types'
 import { getSystemPersonas } from '@app/models'
-import { ConversationStorageService } from '@app/services'
+import {
+  ConfigurationSettingService,
+  ConversationStorageService,
+} from '@app/services'
 import { createChatCompletion } from '@app/apis/openai'
 import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 import { workspace } from 'vscode'
@@ -31,7 +34,12 @@ export const getComments = async (diff: string): Promise<string> => {
       totalTokens: 0,
     }
     conversation.chatMessages.push(chatCompletion)
-    const result = await createChatCompletion(conversation)
+
+    const result = await createChatCompletion(
+      conversation,
+      ConfigurationSettingService.instance.scmModel,
+      ConfigurationSettingService.instance.scmUrl
+    )
     return result?.content ? result?.content : ''
   }
   return ''

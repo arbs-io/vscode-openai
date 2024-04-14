@@ -138,15 +138,14 @@ export async function quickPickSetupOpenai(
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
-    state.quickPickInferenceModel = await input.showQuickPick({
+    state.quickPickScmModel = await input.showQuickPick({
       title,
       step: 4,
       totalSteps: 5,
       ignoreFocusOut: true,
-      placeholder:
-        'Selected chat completion model (if empty, no valid models found)',
+      placeholder: 'Selected SCM (git) model (if empty, no valid models found)',
       items: models,
-      activeItem: state.quickPickInferenceModel,
+      activeItem: state.quickPickScmModel,
       shouldResume: shouldResume,
     })
 
@@ -237,9 +236,10 @@ export async function quickPickSetupOpenai(
     serviceProvider: 'OpenAI',
     baseUrl: state.openaiBaseUrl,
     defaultModel: inferenceModel,
-    scmModel: scmModel,
-    embeddingModel: embeddingModel,
     azureDeployment: 'setup-required',
+    scmModel: scmModel,
+    scmDeployment: 'setup-required',
+    embeddingModel: embeddingModel,
     embeddingsDeployment: 'setup-required',
     azureApiVersion: '2023-05-15',
   })

@@ -130,10 +130,7 @@ export async function quickPickSetupAzureOpenai(
    * @param input - The multi-step input object.
    * @param state - The current state of the application.
    */
-  async function selectScmModel(
-    input: MultiStepInput,
-    state: Partial<State>
-  ) {
+  async function selectScmModel(input: MultiStepInput, state: Partial<State>) {
     const models = await getAvailableModelsAzure(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
@@ -221,25 +218,24 @@ export async function quickPickSetupAzureOpenai(
       /* noop */
     })
   }
+  function cleanQuickPick(label: string) {
+    return label.replace(`$(symbol-function)  `, '')
+  }
 
   //Start openai.com configuration processes
   const state = await collectInputs()
-  const inferenceModel = state.quickPickInferenceModel.description as string
-  const scmModel = state.quickPickScmModel.description as string
 
-  const inferenceDeployment = state.quickPickInferenceModel.label.replace(
-    `$(symbol-function)  `,
-    ''
-  )
+  const inferenceModel = state.quickPickInferenceModel.description as string
+  const inferenceDeploy = cleanQuickPick(state.quickPickInferenceModel.label)
+
+  const scmModel = state.quickPickScmModel.description as string
+  const scmDeploy = cleanQuickPick(state.quickPickScmModel.label)
 
   let embeddingModel = 'setup-required'
-  let embeddingDeployment = 'setup-required'
+  let embeddingDeploy = 'setup-required'
   if (state.quickPickEmbeddingModel) {
     embeddingModel = state.quickPickEmbeddingModel.description as string
-    embeddingDeployment = state.quickPickEmbeddingModel.label.replace(
-      `$(symbol-function)  `,
-      ''
-    )
+    embeddingDeploy = cleanQuickPick(state.quickPickEmbeddingModel.label)
   }
 
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
@@ -247,10 +243,11 @@ export async function quickPickSetupAzureOpenai(
     serviceProvider: 'Azure-OpenAI',
     baseUrl: state.openaiBaseUrl,
     defaultModel: inferenceModel,
+    azureDeployment: inferenceDeploy,
     scmModel: scmModel,
+    scmDeployment: scmDeploy,
     embeddingModel: embeddingModel,
-    azureDeployment: inferenceDeployment,
-    embeddingsDeployment: embeddingDeployment,
+    embeddingsDeployment: embeddingDeploy,
     azureApiVersion: '2023-05-15',
   })
 }

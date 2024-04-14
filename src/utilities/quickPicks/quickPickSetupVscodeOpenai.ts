@@ -109,8 +109,10 @@ export async function quickPickSetupVscodeOpenai(
     serviceProvider: 'VSCode-OpenAI',
     baseUrl: `https://api.arbs.io/openai/inference/v1`,
     defaultModel: 'gpt-35-turbo',
-    embeddingModel: 'text-embedding-ada-002',
     azureDeployment: 'gpt-35-turbo',
+    scmModel: 'gpt-35-turbo',
+    scmDeployment: 'gpt-35-turbo',
+    embeddingModel: 'text-embedding-ada-002',
     embeddingsDeployment: 'text-embedding-ada-002',
     azureApiVersion: '2023-05-15',
   })

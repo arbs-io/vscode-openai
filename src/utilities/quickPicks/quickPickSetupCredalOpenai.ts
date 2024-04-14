@@ -135,8 +135,10 @@ export async function quickPickSetupCredalOpenai(
     serviceProvider: 'CredalAI',
     baseUrl: 'https://app.credal.ai/api/openai',
     defaultModel: inferenceModel,
-    embeddingModel: 'setup-required',
     azureDeployment: 'setup-required',
+    scmModel: inferenceModel,
+    scmDeployment: 'setup-required',
+    embeddingModel: 'setup-required',
     embeddingsDeployment: 'setup-required',
     azureApiVersion: '2023-05-15',
   })

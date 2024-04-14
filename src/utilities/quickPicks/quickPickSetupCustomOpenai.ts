@@ -135,8 +135,10 @@ export async function quickPickSetupCustomOpenai(
     serviceProvider: 'Custom-OpenAI',
     baseUrl: state.openaiBaseUrl,
     defaultModel: state.inferenceModel,
-    embeddingModel: 'setup-required',
     azureDeployment: 'setup-required',
+    scmModel: state.inferenceModel,
+    scmDeployment: 'setup-required',
+    embeddingModel: 'setup-required',
     embeddingsDeployment: 'setup-required',
     azureApiVersion: '2023-05-15',
   })

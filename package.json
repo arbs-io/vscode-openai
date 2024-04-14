@@ -198,6 +198,12 @@
           "description": "Specifies the default openai model for embedding resources.",
           "order": 106
         },
+        "vscode-openai.scmModel": {
+          "type": "string",
+          "default": "setup-required",
+          "description": "Specifies the openai model for scm commit comments.",
+          "order": 106
+        },
         "vscode-openai.embeddingModel.show-welcome": {
           "type": "boolean",
           "default": true,
@@ -205,6 +211,14 @@
           "order": 107
         },
         "vscode-openai.embeddingsDeployment": {
+          "type": "string",
+          "default": "setup-required",
+          "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",
+          "format": "url",
+          "description": "Specifies the base url for the openai service.",
+          "order": 108
+        },
+        "vscode-openai.scmDeployment": {
           "type": "string",
           "default": "setup-required",
           "markdownDescription": "The name of the Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`.",

@@ -1,3 +1,4 @@
+import { OpenAI } from 'openai'
 import { EmbeddingStorageService } from '@app/services'
 import { IConversation, IEmbeddingFileLite } from '@app/types'
 import { searchFileChunks } from '@app/apis/embedding'
@@ -6,9 +7,7 @@ import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
 export async function ChatCompletionRequestMessageEmbedding(
   conversation: IConversation
-): Promise<
-  Array<{ role: 'system' | 'user' | 'assistant' | 'function'; content: string }>
-> {
+): Promise<Array<OpenAI.ChatCompletionMessageParam>> {
   const MAX_RESULTS = 10
 
   StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -16,10 +15,7 @@ export async function ChatCompletionRequestMessageEmbedding(
     `- search file chunks (${MAX_RESULTS})`
   )
 
-  const chatCompletion: Array<{
-    role: 'system' | 'user' | 'assistant' | 'function'
-    content: string
-  }> = []
+  const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = []
 
   chatCompletion.push({
     role: 'system',

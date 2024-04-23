@@ -1,4 +1,8 @@
-import { IChatCompletion, IConversation } from '@app/types'
+import {
+  IChatCompletion,
+  IChatCompletionConfig,
+  IConversation,
+} from '@app/types'
 import { getSystemPersonas } from '@app/models'
 import {
   ConfigurationSettingService,
@@ -35,10 +39,17 @@ export const getComments = async (diff: string): Promise<string> => {
     }
     conversation.chatMessages.push(chatCompletion)
 
+    const chatCompletionConfig: IChatCompletionConfig = {
+      azureApiVersion: ConfigurationSettingService.azureApiVersion,
+      apiKey: await ConfigurationSettingService.getApiKey(),
+      baseURL: ConfigurationSettingService.scmUrl,
+      model: ConfigurationSettingService.scmModel,
+      requestConfig: ConfigurationSettingService.getRequestConfig(),
+    }
+
     const result = await createChatCompletion(
       conversation,
-      ConfigurationSettingService.instance.scmModel,
-      ConfigurationSettingService.instance.scmUrl
+      chatCompletionConfig
     )
     return result?.content ? result?.content : ''
   }

@@ -1,10 +1,7 @@
 import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
-import {
-  ConfigurationConversationService,
-  ConfigurationSettingService,
-} from '@app/services'
-import { IConversation, IMessage } from '@app/types'
+import { ConfigurationConversationService } from '@app/services'
+import { IChatCompletionConfig, IConversation, IMessage } from '@app/types'
 import { errorHandler } from './errorHandler'
 import {
   ChatCompletionRequestMessageEmbedding,
@@ -14,8 +11,7 @@ import {
 
 export async function createChatCompletion(
   conversation: IConversation,
-  model?: string,
-  baseURL?: string
+  chatCompletionConfig: IChatCompletionConfig
 ): Promise<IMessage | undefined> {
   try {
     StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -23,15 +19,15 @@ export async function createChatCompletion(
       '- build-conversation'
     )
 
-    const azureApiVersion = ConfigurationSettingService.instance.azureApiVersion
-    const apiKey = await ConfigurationSettingService.instance.getApiKey()
+    const azureApiVersion = chatCompletionConfig.azureApiVersion
+    const apiKey = await chatCompletionConfig.apiKey
     if (!apiKey) return undefined
 
     const openai = new OpenAI({
       apiKey: apiKey,
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
-      baseURL: baseURL ?? ConfigurationSettingService.instance.inferenceUrl,
+      baseURL: chatCompletionConfig.baseURL,
       maxRetries: ConfigurationConversationService.instance.numOfAttempts,
     })
 
@@ -39,8 +35,7 @@ export async function createChatCompletion(
       ? await ChatCompletionRequestMessageEmbedding(conversation)
       : await ChatCompletionRequestMessageStandard(conversation)
 
-    const requestConfig =
-      await ConfigurationSettingService.instance.getRequestConfig()
+    const requestConfig = await chatCompletionConfig.requestConfig
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
@@ -49,7 +44,7 @@ export async function createChatCompletion(
 
     const results = await openai.chat.completions.create(
       {
-        model: model ?? ConfigurationSettingService.instance.defaultModel,
+        model: chatCompletionConfig.model,
         messages: chatCompletionMessages,
         temperature: ConfigurationConversationService.instance.temperature,
         frequency_penalty:

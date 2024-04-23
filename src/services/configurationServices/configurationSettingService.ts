@@ -25,12 +25,12 @@ class ConfigurationSettingService
 
   private constructor() {
     super()
-    this._upgradeV1()
   }
 
   public static getInstance(): ConfigurationSettingService {
     if (!ConfigurationSettingService.instance) {
       ConfigurationSettingService.instance = new ConfigurationSettingService()
+      ConfigurationSettingService._upgradeV1()
     }
     return ConfigurationSettingService.instance
   }
@@ -281,7 +281,7 @@ class ConfigurationSettingService
     }
   }
 
-  private _upgradeV1() {
+  private static _upgradeV1() {
     upgradeConfigProperty('prompt-editor.comment', 'editor.code.comment')
     upgradeConfigProperty('prompt-editor.explain', 'editor.code.explain')
     upgradeConfigProperty('prompt-editor.bounty', 'editor.code.bounty')

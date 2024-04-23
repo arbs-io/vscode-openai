@@ -1,6 +1,6 @@
 export interface IChatCompletionConfig {
   azureApiVersion: string
-  apiKey: string
+  apiKey: Promise<string>
   baseURL: string
   model: string
   requestConfig: any

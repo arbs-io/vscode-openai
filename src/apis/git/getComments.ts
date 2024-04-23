@@ -41,7 +41,7 @@ export const getComments = async (diff: string): Promise<string> => {
 
     const chatCompletionConfig: IChatCompletionConfig = {
       azureApiVersion: ConfigurationSettingService.azureApiVersion,
-      apiKey: await ConfigurationSettingService.getApiKey(),
+      apiKey: ConfigurationSettingService.getApiKey(),
       baseURL: ConfigurationSettingService.scmUrl,
       model: ConfigurationSettingService.scmModel,
       requestConfig: ConfigurationSettingService.getRequestConfig(),

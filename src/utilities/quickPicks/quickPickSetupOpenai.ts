@@ -232,15 +232,13 @@ export async function quickPickSetupOpenai(
   const scmModel = cleanQuickPick(state.quickPickScmModel.label)
   const embeddingModel = cleanQuickPick(state.quickPickEmbeddingModel.label)
 
-  await ConfigurationSettingService.loadConfigurationService({
-    serviceProvider: 'OpenAI',
-    baseUrl: state.openaiBaseUrl,
-    defaultModel: inferenceModel,
-    azureDeployment: 'setup-required',
-    scmModel: scmModel,
-    scmDeployment: 'setup-required',
-    embeddingModel: embeddingModel,
-    embeddingsDeployment: 'setup-required',
-    azureApiVersion: '2023-05-15',
-  })
+  ConfigurationSettingService.serviceProvider = 'OpenAI'
+  ConfigurationSettingService.baseUrl = state.openaiBaseUrl
+  ConfigurationSettingService.defaultModel = inferenceModel
+  ConfigurationSettingService.azureDeployment = 'setup-required'
+  ConfigurationSettingService.scmModel = scmModel
+  ConfigurationSettingService.scmDeployment = 'setup-required'
+  ConfigurationSettingService.embeddingModel = embeddingModel
+  ConfigurationSettingService.embeddingsDeployment = 'setup-required'
+  ConfigurationSettingService.azureApiVersion = '2023-05-15'
 }

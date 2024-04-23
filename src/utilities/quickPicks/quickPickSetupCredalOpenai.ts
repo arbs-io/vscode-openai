@@ -131,15 +131,13 @@ export async function quickPickSetupCredalOpenai(
   const inferenceModel = state.quickPickInferenceModel.label
 
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-  await ConfigurationSettingService.loadConfigurationService({
-    serviceProvider: 'CredalAI',
-    baseUrl: 'https://app.credal.ai/api/openai',
-    defaultModel: inferenceModel,
-    azureDeployment: 'setup-required',
-    scmModel: inferenceModel,
-    scmDeployment: 'setup-required',
-    embeddingModel: 'setup-required',
-    embeddingsDeployment: 'setup-required',
-    azureApiVersion: '2023-05-15',
-  })
+  ConfigurationSettingService.serviceProvider = 'CredalAI'
+  ConfigurationSettingService.baseUrl = 'https://app.credal.ai/api/openai'
+  ConfigurationSettingService.defaultModel = inferenceModel
+  ConfigurationSettingService.azureDeployment = 'setup-required'
+  ConfigurationSettingService.scmModel = inferenceModel
+  ConfigurationSettingService.scmDeployment = 'setup-required'
+  ConfigurationSettingService.embeddingModel = 'setup-required'
+  ConfigurationSettingService.embeddingsDeployment = 'setup-required'
+  ConfigurationSettingService.azureApiVersion = '2023-05-15'
 }

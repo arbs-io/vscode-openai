@@ -105,15 +105,13 @@ export async function quickPickSetupVscodeOpenai(
   if (!accessToken) return
 
   await SecretStorageService.instance.setAuthApiKey(accessToken)
-  await ConfigurationSettingService.loadConfigurationService({
-    serviceProvider: 'VSCode-OpenAI',
-    baseUrl: `https://api.arbs.io/openai/inference/v1`,
-    defaultModel: 'gpt-35-turbo',
-    azureDeployment: 'gpt-35-turbo',
-    scmModel: 'gpt-35-turbo',
-    scmDeployment: 'gpt-35-turbo',
-    embeddingModel: 'text-embedding-ada-002',
-    embeddingsDeployment: 'text-embedding-ada-002',
-    azureApiVersion: '2023-05-15',
-  })
+  ConfigurationSettingService.serviceProvider = 'VSCode-OpenAI'
+  ConfigurationSettingService.baseUrl = `https://api.arbs.io/openai/inference/v1`
+  ConfigurationSettingService.defaultModel = 'gpt-35-turbo'
+  ConfigurationSettingService.azureDeployment = 'gpt-35-turbo'
+  ConfigurationSettingService.scmModel = 'gpt-35-turbo'
+  ConfigurationSettingService.scmDeployment = 'gpt-35-turbo'
+  ConfigurationSettingService.embeddingModel = 'text-embedding-ada-002'
+  ConfigurationSettingService.embeddingsDeployment = 'text-embedding-ada-002'
+  ConfigurationSettingService.azureApiVersion = '2023-05-15'
 }

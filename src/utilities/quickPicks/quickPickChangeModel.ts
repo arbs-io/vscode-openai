@@ -118,18 +118,18 @@ export async function quickPickChangeModel(
     modelCapabiliy: ModelCapabiliy
   ): Promise<QuickPickItem[]> {
     let models: QuickPickItem[] = []
-    switch (ConfigurationSettingService.instance.serviceProvider) {
+    switch (ConfigurationSettingService.serviceProvider) {
       case 'OpenAI':
         models = await getAvailableModelsOpenai(
-          await ConfigurationSettingService.instance.getApiKey(),
-          ConfigurationSettingService.instance.baseUrl,
+          await ConfigurationSettingService.getApiKey(),
+          ConfigurationSettingService.baseUrl,
           modelCapabiliy
         )
         break
       case 'Azure-OpenAI':
         models = await getAvailableModelsAzure(
-          await ConfigurationSettingService.instance.getApiKey(),
-          ConfigurationSettingService.instance.baseUrl,
+          await ConfigurationSettingService.getApiKey(),
+          ConfigurationSettingService.baseUrl,
           modelCapabiliy
         )
         break
@@ -158,7 +158,7 @@ export async function quickPickChangeModel(
   const scmModel = cleanQuickPick(state.quickPickScmModel.label)
   const embeddingModel = cleanQuickPick(state.quickPickEmbeddingModel.label)
 
-  ConfigurationSettingService.instance.defaultModel = inferenceModel
-  ConfigurationSettingService.instance.scmModel = scmModel
-  ConfigurationSettingService.instance.embeddingModel = embeddingModel
+  ConfigurationSettingService.defaultModel = inferenceModel
+  ConfigurationSettingService.scmModel = scmModel
+  ConfigurationSettingService.embeddingModel = embeddingModel
 }

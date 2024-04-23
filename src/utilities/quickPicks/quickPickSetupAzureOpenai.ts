@@ -239,15 +239,13 @@ export async function quickPickSetupAzureOpenai(
   }
 
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-  await ConfigurationSettingService.loadConfigurationService({
-    serviceProvider: 'Azure-OpenAI',
-    baseUrl: state.openaiBaseUrl,
-    defaultModel: inferenceModel,
-    azureDeployment: inferenceDeploy,
-    scmModel: scmModel,
-    scmDeployment: scmDeploy,
-    embeddingModel: embeddingModel,
-    embeddingsDeployment: embeddingDeploy,
-    azureApiVersion: '2023-05-15',
-  })
+  ConfigurationSettingService.serviceProvider = 'Azure-OpenAI'
+  ConfigurationSettingService.baseUrl = state.openaiBaseUrl
+  ConfigurationSettingService.defaultModel = inferenceModel
+  ConfigurationSettingService.azureDeployment = inferenceDeploy
+  ConfigurationSettingService.scmModel = scmModel
+  ConfigurationSettingService.scmDeployment = scmDeploy
+  ConfigurationSettingService.embeddingModel = embeddingModel
+  ConfigurationSettingService.embeddingsDeployment = embeddingDeploy
+  ConfigurationSettingService.azureApiVersion = '2023-05-15'
 }

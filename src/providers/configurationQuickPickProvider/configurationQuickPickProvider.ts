@@ -116,9 +116,7 @@ function BuildQuickPickItems(): QuickPickItem[] {
 function BuildQuickPickModelSelection(): QuickPickItem[] {
   const isValidKey = getFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID)
   const validSP: string[] = ['OpenAI', 'Azure-OpenAI']
-  const allowed = validSP.includes(
-    ConfigurationSettingService.instance.serviceProvider
-  )
+  const allowed = validSP.includes(ConfigurationSettingService.serviceProvider)
   let quickPickItemTypes: QuickPickItem[] = []
   if (isValidKey && allowed) {
     quickPickItemTypes = [

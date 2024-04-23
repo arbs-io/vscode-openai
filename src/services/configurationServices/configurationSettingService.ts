@@ -23,12 +23,9 @@ class ConfigurationSettingService
 {
   private static instance: ConfigurationSettingService | null = null
 
-  static init(): void {
-    try {
-      ConfigurationSettingService._upgradeV1()
-    } catch (error) {
-      createErrorNotification(error)
-    }
+  private constructor() {
+    super()
+    this._upgradeV1()
   }
 
   public static getInstance(): ConfigurationSettingService {
@@ -245,39 +242,35 @@ class ConfigurationSettingService
     return ''
   }
 
-  public static ResetConfigurationService(): void {
-    if (this.instance) {
-      this.instance.serviceProvider = undefined
-      this.instance.baseUrl = undefined
-      this.instance.defaultModel = undefined
-      this.instance.azureDeployment = undefined
-      this.instance.scmModel = undefined
-      this.instance.scmDeployment = undefined
-      this.instance.embeddingModel = undefined
-      this.instance.embeddingsDeployment = undefined
-      this.instance.azureApiVersion = undefined
-    }
+  public ResetConfigurationService(): void {
+    this.serviceProvider = undefined
+    this.baseUrl = undefined
+    this.defaultModel = undefined
+    this.azureDeployment = undefined
+    this.scmModel = undefined
+    this.scmDeployment = undefined
+    this.embeddingModel = undefined
+    this.embeddingsDeployment = undefined
+    this.azureApiVersion = undefined
   }
 
-  public static LogConfigurationService(): void {
+  public LogConfigurationService(): void {
     try {
       const cfgMap = new Map<string, string>()
-      if (this.instance) {
-        cfgMap.set('vscode_version', this.instance.vscodeVersion)
-        cfgMap.set('vscode_ui_kind', this.instance.vscodeUiKind)
-        cfgMap.set('vscode_language', this.instance.vscodeLanguage)
-        cfgMap.set('extension_version', this.instance.extensionVersion)
-        cfgMap.set('service_provider', this.instance.serviceProvider)
-        cfgMap.set('host', this.instance.host)
-        cfgMap.set('base_url', this.instance.baseUrl)
-        cfgMap.set('inference_model', this.instance.defaultModel)
-        cfgMap.set('inference_deploy', this.instance.azureDeployment)
-        cfgMap.set('scm_model', this.instance.scmModel)
-        cfgMap.set('scm_deploy', this.instance.scmDeployment)
-        cfgMap.set('embeddings_model', this.instance.embeddingModel)
-        cfgMap.set('embeddings_deploy', this.instance.embeddingsDeployment)
-        cfgMap.set('az_api_version', this.instance.azureApiVersion)
-      }
+      cfgMap.set('vscode_version', this.vscodeVersion)
+      cfgMap.set('vscode_ui_kind', this.vscodeUiKind)
+      cfgMap.set('vscode_language', this.vscodeLanguage)
+      cfgMap.set('extension_version', this.extensionVersion)
+      cfgMap.set('service_provider', this.serviceProvider)
+      cfgMap.set('host', this.host)
+      cfgMap.set('base_url', this.baseUrl)
+      cfgMap.set('inference_model', this.defaultModel)
+      cfgMap.set('inference_deploy', this.azureDeployment)
+      cfgMap.set('scm_model', this.scmModel)
+      cfgMap.set('scm_deploy', this.scmDeployment)
+      cfgMap.set('embeddings_model', this.embeddingModel)
+      cfgMap.set('embeddings_deploy', this.embeddingsDeployment)
+      cfgMap.set('az_api_version', this.azureApiVersion)
 
       createInfoNotification(
         Object.fromEntries(cfgMap),
@@ -288,7 +281,7 @@ class ConfigurationSettingService
     }
   }
 
-  private static _upgradeV1() {
+  private _upgradeV1() {
     upgradeConfigProperty('prompt-editor.comment', 'editor.code.comment')
     upgradeConfigProperty('prompt-editor.explain', 'editor.code.explain')
     upgradeConfigProperty('prompt-editor.bounty', 'editor.code.bounty')

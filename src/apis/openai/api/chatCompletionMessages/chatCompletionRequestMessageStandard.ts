@@ -1,16 +1,11 @@
+import { OpenAI } from 'openai'
 import { ConfigurationConversationService } from '@app/services'
 import { IConversation } from '@app/types'
 
 export async function ChatCompletionRequestMessageStandard(
   conversation: IConversation
-): Promise<
-  Array<{ role: 'system' | 'user' | 'assistant' | 'function'; content: string }>
-> {
-  const chatCompletion: Array<{
-    role: 'system' | 'user' | 'assistant' | 'function'
-    content: string
-  }> = []
-
+): Promise<Array<OpenAI.ChatCompletionMessageParam>> {
+  const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = []
   const content = [`${conversation.persona.prompt.system}`].join('\n')
 
   chatCompletion.push({

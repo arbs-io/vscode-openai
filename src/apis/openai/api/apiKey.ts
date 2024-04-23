@@ -22,18 +22,18 @@ export async function verifyApiKey(): Promise<boolean> {
       '- verify authentication'
     )
 
-    const azureApiVersion = ConfigurationSettingService.instance.azureApiVersion
-    const apiKey = await ConfigurationSettingService.instance.getApiKey()
+    const azureApiVersion = ConfigurationSettingService.azureApiVersion
+    const apiKey = await ConfigurationSettingService.getApiKey()
 
     const openai = new OpenAI({
       apiKey: apiKey,
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
-      baseURL: ConfigurationSettingService.instance.baseUrl,
+      baseURL: ConfigurationSettingService.baseUrl,
     })
 
     const response = await openai.models.list(
-      await ConfigurationSettingService.instance.getRequestConfig()
+      await ConfigurationSettingService.getRequestConfig()
     )
 
     if (response) {

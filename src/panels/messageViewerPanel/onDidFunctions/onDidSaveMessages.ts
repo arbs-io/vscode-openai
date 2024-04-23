@@ -1,7 +1,12 @@
 import { window } from 'vscode'
-import { IChatCompletion, IConversation } from '@app/types'
+import {
+  IChatCompletion,
+  IChatCompletionConfig,
+  IConversation,
+} from '@app/types'
 import {
   ConfigurationConversationService,
+  ConfigurationSettingService,
   ConversationStorageService,
 } from '@app/services'
 import { createChatCompletion } from '@app/apis/openai'
@@ -12,6 +17,14 @@ export const onDidSaveMessages = (
 ): void => {
   try {
     if (!conversation) return
+
+    const chatCompletionConfig: IChatCompletionConfig = {
+      azureApiVersion: ConfigurationSettingService.azureApiVersion,
+      apiKey: ConfigurationSettingService.getApiKey(),
+      baseURL: ConfigurationSettingService.inferenceUrl,
+      model: ConfigurationSettingService.defaultModel,
+      requestConfig: ConfigurationSettingService.getRequestConfig(),
+    }
 
     const SUMMARY_THRESHOLD =
       ConfigurationConversationService.instance.summaryThreshold
@@ -36,7 +49,7 @@ export const onDidSaveMessages = (
         totalTokens: 0,
       }
       summary.chatMessages.push(chatCompletion)
-      createChatCompletion(summary).then((result) => {
+      createChatCompletion(summary, chatCompletionConfig).then((result) => {
         if (!conversation) return
         if (result?.content) conversation.summary = result?.content
       })

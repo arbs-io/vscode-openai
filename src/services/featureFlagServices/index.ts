@@ -15,26 +15,23 @@ export function disableServiceFeature() {
 }
 
 export function enableServiceFeature() {
-  const cfg = ConfigurationSettingService.instance
-
   setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, true)
 
   setFeatureFlag(VSCODE_OPENAI_EMBEDDING.ENABLED_COMMAND_ID, false)
-  if (SUPPORT_EMBEDDING.includes(cfg.serviceProvider)) {
+  if (SUPPORT_EMBEDDING.includes(ConfigurationSettingService.serviceProvider)) {
     setFeatureFlag(VSCODE_OPENAI_EMBEDDING.ENABLED_COMMAND_ID, true)
   }
 
   setFeatureFlag(VSCODE_OPENAI_EMBEDDING.SETUP_REQUIRED_COMMAND_ID, false)
-  if (
-    ConfigurationSettingService.instance.embeddingModel === 'setup-required'
-  ) {
+  if (ConfigurationSettingService.embeddingModel === 'setup-required') {
     setFeatureFlag(VSCODE_OPENAI_EMBEDDING.SETUP_REQUIRED_COMMAND_ID, true)
   }
 }
 
 export function featureVerifyApiKey(): boolean {
-  const cfg = ConfigurationSettingService.instance
-  if (SUPPORT_VERIFY_APIKEY.includes(cfg.serviceProvider)) {
+  if (
+    SUPPORT_VERIFY_APIKEY.includes(ConfigurationSettingService.serviceProvider)
+  ) {
     return true
   }
   return false

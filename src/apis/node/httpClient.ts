@@ -10,7 +10,7 @@ import { Uri } from 'vscode'
 export class HttpRequest {
   private _requestOptions: http.RequestOptions = {}
   constructor(method: string, apiKey: string, baseUrl: string) {
-    const headers = ConfigurationSettingService.instance.apiHeaders
+    const headers = ConfigurationSettingService.apiHeaders
     const uri = Uri.parse(baseUrl)
     this._requestOptions = {
       hostname: uri.authority,

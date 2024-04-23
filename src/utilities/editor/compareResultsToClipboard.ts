@@ -1,5 +1,13 @@
-import { ConversationStorageService } from '@app/services'
-import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/types'
+import {
+  ConfigurationSettingService,
+  ConversationStorageService,
+} from '@app/services'
+import {
+  IChatCompletion,
+  IChatCompletionConfig,
+  IConversation,
+  IPersonaOpenAI,
+} from '@app/types'
 import { createChatCompletion } from '@app/apis/openai'
 import { compareFileToClipboard } from '@app/apis/vscode'
 
@@ -20,10 +28,20 @@ export const compareResultsToClipboard = async (
       promptTokens: 0,
       totalTokens: 0,
     }
+
+    const chatCompletionConfig: IChatCompletionConfig = {
+      azureApiVersion: ConfigurationSettingService.azureApiVersion,
+      apiKey: ConfigurationSettingService.getApiKey(),
+      baseURL: ConfigurationSettingService.inferenceUrl,
+      model: ConfigurationSettingService.defaultModel,
+      requestConfig: ConfigurationSettingService.getRequestConfig(),
+    }
+
     conversation.chatMessages.splice(0) //clear welcome message
     conversation.chatMessages.push(chatCompletion)
     const result = await createChatCompletion(
-      conversation
+      conversation,
+      chatCompletionConfig
     )
     compareFileToClipboard(result?.content ? result?.content : '')
   }

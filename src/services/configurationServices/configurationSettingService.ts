@@ -17,45 +17,42 @@ type ApiHeader = {
   value: string
 }
 
-export default class ConfigurationSettingService
+class ConfigurationSettingService
   extends ConfigurationService
   implements IConfigurationSetting
 {
-  private static _instance: ConfigurationSettingService
+  private static instance: ConfigurationSettingService | null = null
 
-  static init(): void {
-    try {
-      ConfigurationSettingService._upgradeV1()
-    } catch (error) {
-      createErrorNotification(error)
-    }
+  private constructor() {
+    super()
   }
 
-  static get instance(): ConfigurationSettingService {
-    if (!this._instance) {
-      try {
-        this._instance = new ConfigurationSettingService()
-      } catch (error) {
-        createErrorNotification(error)
-      }
+  public static getInstance(): ConfigurationSettingService {
+    if (!ConfigurationSettingService.instance) {
+      ConfigurationSettingService.instance = new ConfigurationSettingService()
+      ConfigurationSettingService._upgradeV1()
     }
-    return this._instance
+    return ConfigurationSettingService.instance
   }
 
   static async loadConfigurationService({
     serviceProvider,
     baseUrl,
     defaultModel,
+    scmModel,
     embeddingModel,
     azureDeployment,
+    scmDeployment,
     embeddingsDeployment,
     azureApiVersion,
   }: {
     serviceProvider: string
     baseUrl: string
     defaultModel: string
+    scmModel: string
     embeddingModel: string
     azureDeployment: string
+    scmDeployment: string
     embeddingsDeployment: string
     azureApiVersion: string
   }) {
@@ -63,19 +60,23 @@ export default class ConfigurationSettingService
       'vscode-openai',
       'update-setting-configuration'
     )
-    this.instance.serviceProvider = serviceProvider
-    this.instance.baseUrl = baseUrl
-    this.instance.defaultModel = defaultModel
-    this.instance.embeddingModel = embeddingModel
-    this.instance.azureDeployment = azureDeployment
-    this.instance.embeddingsDeployment = embeddingsDeployment
-    this.instance.azureApiVersion = azureApiVersion
-    //Force wait as we need the config to be written
-    await waitFor(500, () => false)
-    StatusBarServiceProvider.instance.showStatusBarInformation(
-      'vscode-openai',
-      ''
-    )
+    if (this.instance) {
+      this.instance.serviceProvider = serviceProvider
+      this.instance.baseUrl = baseUrl
+      this.instance.defaultModel = defaultModel
+      this.instance.azureDeployment = azureDeployment
+      this.instance.scmModel = scmModel
+      this.instance.scmDeployment = scmDeployment
+      this.instance.embeddingModel = embeddingModel
+      this.instance.embeddingsDeployment = embeddingsDeployment
+      this.instance.azureApiVersion = azureApiVersion
+      //Force wait as we need the config to be written
+      await waitFor(500, () => false)
+      StatusBarServiceProvider.instance.showStatusBarInformation(
+        'vscode-openai',
+        ''
+      )
+    }
   }
 
   public get serviceProvider(): string {
@@ -99,18 +100,35 @@ export default class ConfigurationSettingService
     this.setConfigValue<string | undefined>('defaultModel', value)
   }
 
-  public get embeddingModel(): string {
-    return this.getConfigValue<string>('embeddingModel')
-  }
-  public set embeddingModel(value: string | undefined) {
-    this.setConfigValue<string | undefined>('embeddingModel', value)
-  }
-
   public get azureDeployment(): string {
     return this.getConfigValue<string>('azureDeployment')
   }
   public set azureDeployment(value: string | undefined) {
     this.setConfigValue<string | undefined>('azureDeployment', value)
+  }
+
+  public get scmModel(): string {
+    const model =
+      this.getConfigValue<string>('scmModel') ??
+      this.getConfigValue<string>('defaultModel')
+    return model
+  }
+  public set scmModel(value: string | undefined) {
+    this.setConfigValue<string | undefined>('scmModel', value)
+  }
+
+  public get scmDeployment(): string {
+    return this.getConfigValue<string>('scmDeployment')
+  }
+  public set scmDeployment(value: string | undefined) {
+    this.setConfigValue<string | undefined>('scmDeployment', value)
+  }
+
+  public get embeddingModel(): string {
+    return this.getConfigValue<string>('embeddingModel')
+  }
+  public set embeddingModel(value: string | undefined) {
+    this.setConfigValue<string | undefined>('embeddingModel', value)
   }
 
   public get embeddingsDeployment(): string {
@@ -155,6 +173,13 @@ export default class ConfigurationSettingService
   public get inferenceUrl(): string {
     if (this.azureDeployment !== 'setup-required') {
       return `${this.baseUrl}/deployments/${this.azureDeployment}`
+    }
+    return `${this.baseUrl}`
+  }
+
+  public get scmUrl(): string {
+    if (this.scmDeployment !== 'setup-required') {
+      return `${this.baseUrl}/deployments/${this.scmDeployment}`
     }
     return `${this.baseUrl}`
   }
@@ -217,31 +242,35 @@ export default class ConfigurationSettingService
     return ''
   }
 
-  public static ResetConfigurationService(): void {
-    this.instance.serviceProvider = undefined
-    this.instance.baseUrl = undefined
-    this.instance.defaultModel = undefined
-    this.instance.azureDeployment = undefined
-    this.instance.embeddingModel = undefined
-    this.instance.embeddingsDeployment = undefined
-    this.instance.azureApiVersion = undefined
+  public ResetConfigurationService(): void {
+    this.serviceProvider = undefined
+    this.baseUrl = undefined
+    this.defaultModel = undefined
+    this.azureDeployment = undefined
+    this.scmModel = undefined
+    this.scmDeployment = undefined
+    this.embeddingModel = undefined
+    this.embeddingsDeployment = undefined
+    this.azureApiVersion = undefined
   }
 
-  public static LogConfigurationService(): void {
+  public LogConfigurationService(): void {
     try {
       const cfgMap = new Map<string, string>()
-      cfgMap.set('vscode_version', this.instance.vscodeVersion)
-      cfgMap.set('vscode_ui_kind', this.instance.vscodeUiKind)
-      cfgMap.set('vscode_language', this.instance.vscodeLanguage)
-      cfgMap.set('extension_version', this.instance.extensionVersion)
-      cfgMap.set('service_provider', this.instance.serviceProvider)
-      cfgMap.set('host', this.instance.host)
-      cfgMap.set('base_url', this.instance.baseUrl)
-      cfgMap.set('inference_model', this.instance.defaultModel)
-      cfgMap.set('inference_deploy', this.instance.azureDeployment)
-      cfgMap.set('embeddings_model', this.instance.embeddingModel)
-      cfgMap.set('embeddings_deploy', this.instance.embeddingsDeployment)
-      cfgMap.set('az_api_version', this.instance.azureApiVersion)
+      cfgMap.set('vscode_version', this.vscodeVersion)
+      cfgMap.set('vscode_ui_kind', this.vscodeUiKind)
+      cfgMap.set('vscode_language', this.vscodeLanguage)
+      cfgMap.set('extension_version', this.extensionVersion)
+      cfgMap.set('service_provider', this.serviceProvider)
+      cfgMap.set('host', this.host)
+      cfgMap.set('base_url', this.baseUrl)
+      cfgMap.set('inference_model', this.defaultModel)
+      cfgMap.set('inference_deploy', this.azureDeployment)
+      cfgMap.set('scm_model', this.scmModel)
+      cfgMap.set('scm_deploy', this.scmDeployment)
+      cfgMap.set('embeddings_model', this.embeddingModel)
+      cfgMap.set('embeddings_deploy', this.embeddingsDeployment)
+      cfgMap.set('az_api_version', this.azureApiVersion)
 
       createInfoNotification(
         Object.fromEntries(cfgMap),
@@ -261,12 +290,17 @@ export default class ConfigurationSettingService
 
     function upgradeConfigProperty(oldProperty: string, newProperty: string) {
       const value =
-        ConfigurationSettingService.instance.getConfigValue<string>(oldProperty)
+        ConfigurationSettingService.getInstance().getConfigValue<string>(
+          oldProperty
+        )
       if (value) {
         // migrate new property
-        ConfigurationSettingService.instance.setConfigValue(newProperty, value)
+        ConfigurationSettingService.getInstance().setConfigValue(
+          newProperty,
+          value
+        )
         // remove old property
-        ConfigurationSettingService.instance.setConfigValue(
+        ConfigurationSettingService.getInstance().setConfigValue(
           oldProperty,
           undefined
         )
@@ -274,3 +308,5 @@ export default class ConfigurationSettingService
     }
   }
 }
+
+export default ConfigurationSettingService.getInstance()

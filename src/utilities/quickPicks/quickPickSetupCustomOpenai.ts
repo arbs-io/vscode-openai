@@ -130,14 +130,13 @@ export async function quickPickSetupCustomOpenai(
   const state = await collectInputs()
 
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-
-  await ConfigurationSettingService.loadConfigurationService({
-    serviceProvider: 'Custom-OpenAI',
-    baseUrl: state.openaiBaseUrl,
-    defaultModel: state.inferenceModel,
-    embeddingModel: 'setup-required',
-    azureDeployment: 'setup-required',
-    embeddingsDeployment: 'setup-required',
-    azureApiVersion: '2023-05-15',
-  })
+  ConfigurationSettingService.serviceProvider = 'Custom-OpenAI'
+  ConfigurationSettingService.baseUrl = state.openaiBaseUrl
+  ConfigurationSettingService.defaultModel = state.inferenceModel
+  ConfigurationSettingService.azureDeployment = 'setup-required'
+  ConfigurationSettingService.scmModel = state.inferenceModel
+  ConfigurationSettingService.scmDeployment = 'setup-required'
+  ConfigurationSettingService.embeddingModel = 'setup-required'
+  ConfigurationSettingService.embeddingsDeployment = 'setup-required'
+  ConfigurationSettingService.azureApiVersion = '2023-05-15'
 }

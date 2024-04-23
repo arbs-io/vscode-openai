@@ -8,9 +8,8 @@ export const LogChatCompletion = (message: IMessage) => {
     sessionToken = sessionToken + message.totalTokens
 
     const infoMap = new Map<string, string>()
-    const instance = ConfigurationSettingService.instance
-    infoMap.set('service_provider', instance.serviceProvider)
-    infoMap.set('default_model', instance.defaultModel)
+    infoMap.set('service_provider', ConfigurationSettingService.serviceProvider)
+    infoMap.set('default_model', ConfigurationSettingService.defaultModel)
     infoMap.set('tokens_prompt', message.promptTokens.toString())
     infoMap.set('tokens_completion', message.completionTokens.toString())
     infoMap.set('tokens_total', message.totalTokens.toString())

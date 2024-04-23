@@ -10,8 +10,8 @@ export async function listModelsOpenAI(
 ): Promise<Array<string>> {
   const models = new Array<string>()
   try {
-    const headers = ConfigurationSettingService.instance.apiHeaders
-    const azureApiVersion = ConfigurationSettingService.instance.azureApiVersion
+    const headers = ConfigurationSettingService.apiHeaders
+    const azureApiVersion = ConfigurationSettingService.azureApiVersion
 
     const openai = new OpenAI({
       apiKey: apiKey,

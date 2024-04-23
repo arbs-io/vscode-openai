@@ -40,7 +40,7 @@ export default class StatusBarServiceProvider {
     icon: string = 'vscode-openai',
     text: string = ''
   ) {
-    this.statusBarItem.text = `$(${icon}) ${ConfigurationSettingService.instance.host} ${text}`
+    this.statusBarItem.text = `$(${icon}) ${ConfigurationSettingService.host} ${text}`
     this.statusBarItem.backgroundColor = undefined
     this.statusBarItem.show()
   }
@@ -50,8 +50,7 @@ export default class StatusBarServiceProvider {
     text: string,
     hostname?: string
   ) {
-    if (hostname === undefined)
-      hostname = ConfigurationSettingService.instance.host
+    if (hostname === undefined) hostname = ConfigurationSettingService.host
 
     this.statusBarItem.text = `$(${icon}) ${hostname} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(
@@ -65,8 +64,7 @@ export default class StatusBarServiceProvider {
     text: string,
     hostname?: string
   ) {
-    if (hostname === undefined)
-      hostname = ConfigurationSettingService.instance.host
+    if (hostname === undefined) hostname = ConfigurationSettingService.host
 
     this.statusBarItem.text = `$(${icon}) ${hostname} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(

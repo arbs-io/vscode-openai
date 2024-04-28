@@ -154,11 +154,42 @@ export async function quickPickChangeModel(
   //Start openai.com configuration processes
   const state = await collectInputs()
 
-  const inferenceModel = cleanQuickPick(state.quickPickInferenceModel.label)
-  const scmModel = cleanQuickPick(state.quickPickScmModel.label)
-  const embeddingModel = cleanQuickPick(state.quickPickEmbeddingModel.label)
+  let inferenceModel = 'setup-required'
+  let inferenceDeploy = 'setup-required'
+  let scmModel = 'setup-required'
+  let scmDeploy = 'setup-required'
+  let embeddingModel = 'setup-required'
+  let embeddingDeploy = 'setup-required'
+
+  switch (ConfigurationSettingService.serviceProvider) {
+    case 'OpenAI': {
+      inferenceModel = cleanQuickPick(state.quickPickInferenceModel.label)
+      scmModel = cleanQuickPick(state.quickPickScmModel.label)
+      embeddingModel = cleanQuickPick(state.quickPickEmbeddingModel.label)
+      break
+    }
+    case 'Azure-OpenAI': {
+      inferenceModel = state.quickPickInferenceModel.description as string
+      inferenceDeploy = cleanQuickPick(state.quickPickInferenceModel.label)
+
+      scmModel = state.quickPickScmModel.description as string
+      scmDeploy = cleanQuickPick(state.quickPickScmModel.label)
+
+      if (state.quickPickEmbeddingModel) {
+        embeddingModel = state.quickPickEmbeddingModel.description as string
+        embeddingDeploy = cleanQuickPick(state.quickPickEmbeddingModel.label)
+      }
+      break
+    }
+
+    default:
+      break
+  }
 
   ConfigurationSettingService.defaultModel = inferenceModel
+  ConfigurationSettingService.azureDeployment = inferenceDeploy
   ConfigurationSettingService.scmModel = scmModel
+  ConfigurationSettingService.scmDeployment = scmDeploy
   ConfigurationSettingService.embeddingModel = embeddingModel
+  ConfigurationSettingService.embeddingsDeployment = embeddingDeploy
 }

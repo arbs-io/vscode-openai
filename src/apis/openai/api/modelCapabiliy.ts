@@ -1,4 +1,4 @@
-export enum ModelCapabiliy {
+export enum ModelCapability {
   ChatCompletion,
   Embedding,
 }

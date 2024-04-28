@@ -1,7 +1,7 @@
 import { OpenAI } from 'openai'
 import { errorHandler } from './errorHandler'
 import { HttpRequest, createErrorNotification } from '@app/apis/node'
-import { ModelCapabiliy } from './modelCapabiliy'
+import { ModelCapability } from './modelCapabiliy'
 import { ConfigurationSettingService } from '@app/services'
 
 export interface IDeploymentModel {
@@ -12,7 +12,7 @@ export interface IDeploymentModel {
 export async function listModelsAzureOpenAI(
   apiKey: string,
   baseUrl: string,
-  modelCapabiliy: ModelCapabiliy
+  modelCapabiliy: ModelCapability
 ): Promise<Array<IDeploymentModel> | undefined> {
   try {
     const headers = ConfigurationSettingService.apiHeaders
@@ -33,9 +33,9 @@ export async function listModelsAzureOpenAI(
     const models = new Array<string>()
     response.data.forEach((model: any) => {
       if (
-        (modelCapabiliy == ModelCapabiliy.ChatCompletion &&
+        (modelCapabiliy == ModelCapability.ChatCompletion &&
           model.capabilities.chat_completion) ||
-        (modelCapabiliy == ModelCapabiliy.Embedding &&
+        (modelCapabiliy == ModelCapability.Embedding &&
           model.capabilities.embeddings)
       ) {
         models.push(model.id)

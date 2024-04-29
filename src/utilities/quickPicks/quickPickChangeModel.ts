@@ -8,7 +8,7 @@
 import { QuickPickItem, ExtensionContext } from 'vscode'
 import { MultiStepInput } from '@app/apis/vscode'
 import { ConfigurationSettingService } from '@app/services'
-import { ModelCapabiliy } from '@app/apis/openai'
+import { ModelCapability } from '@app/apis/openai'
 import {
   getAvailableModelsAzure,
   getAvailableModelsOpenai,
@@ -31,7 +31,7 @@ export async function quickPickChangeModel(
     quickPickEmbeddingModel: QuickPickItem
   }
 
-  async function collectInputs() {
+  async function collectInputs(): Promise<State> {
     const state = {} as Partial<State>
     await MultiStepInput.run((input) => selectChatModel(input, state))
     return state as State
@@ -48,7 +48,7 @@ export async function quickPickChangeModel(
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
 
-    const models = await getAvailableModels(ModelCapabiliy.ChatCompletion)
+    const models = await fetchAvailableModels(ModelCapability.ChatCompletion)
     state.quickPickInferenceModel = await input.showQuickPick({
       title,
       step: 1,
@@ -73,7 +73,7 @@ export async function quickPickChangeModel(
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
 
-    const models = await getAvailableModels(ModelCapabiliy.ChatCompletion)
+    const models = await fetchAvailableModels(ModelCapability.ChatCompletion)
     state.quickPickScmModel = await input.showQuickPick({
       title,
       step: 2,
@@ -100,7 +100,7 @@ export async function quickPickChangeModel(
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
 
-    const models = await getAvailableModels(ModelCapabiliy.Embedding)
+    const models = await fetchAvailableModels(ModelCapability.Embedding)
     state.quickPickEmbeddingModel = await input.showQuickPick({
       title,
       step: 3,
@@ -114,8 +114,8 @@ export async function quickPickChangeModel(
     })
   }
 
-  async function getAvailableModels(
-    modelCapabiliy: ModelCapabiliy
+  async function fetchAvailableModels(
+    modelCapabiliy: ModelCapability
   ): Promise<QuickPickItem[]> {
     let models: QuickPickItem[] = []
     switch (ConfigurationSettingService.serviceProvider) {
@@ -135,16 +135,14 @@ export async function quickPickChangeModel(
         break
 
       default:
-        break
+        return []
     }
     return models
   }
 
-  function shouldResume() {
-    // Could show a notification with the option to resume.
-    return new Promise<boolean>((_resolve, _reject) => {
-      /* noop */
-    })
+  function shouldResume(): Promise<boolean> {
+    // Implementation to handle resuming the UI
+    return Promise.resolve(true)
   }
 
   function cleanQuickPick(label: string) {

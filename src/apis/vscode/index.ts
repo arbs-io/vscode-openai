@@ -1,4 +1,3 @@
-export { compareFileToClipboard } from './editorServices/compareFileToClipboard'
 export { getActiveTextEditorValue } from './editorServices/getActiveTextEditorValue'
 export { getActiveTextLanguageId } from './editorServices/getActiveTextLanguageId'
 export { insertActiveTextEditorValue } from './editorServices/insertActiveTextEditorValue'

@@ -28,15 +28,15 @@ export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
   const chatBottomRef = useRef<HTMLTextAreaElement>(null)
   const configuration = useContext(ConfigurationContext)
 
-  useEffect(() => {
-    if (!configuration) {
-      throw new Error('Invalid ConfigurationContext')
-    }
-  }, [configuration])
+  if (!configuration) {
+    console.error('Invalid ConfigurationContext')
+    return null // Gracefully handle missing context
+  }
 
   useEffect(() => {
     if (chatBottomRef.current) {
-      autoGrow(chatBottomRef.current)
+      chatBottomRef.current.style.height = '5px'
+      chatBottomRef.current.style.height = `${chatBottomRef.current.scrollHeight}px`
     }
   }, [value])
 
@@ -58,22 +58,11 @@ export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
     [onSubmit]
   )
 
-  const autoGrow = (element: HTMLTextAreaElement) => {
-    element.style.height = '5px'
-    element.style.height = `${element.scrollHeight}px`
-  }
-
   const [audioOn, setAudioOn] = useState(false)
   const styles = useStyles()
 
   const toggleChecked = useCallback(() => {
-    setAudioOn((prevAudioOn) => {
-      const newAudioState = !prevAudioOn
-      if (newAudioState) {
-        // Implement necessary actions when audio is turned on
-      }
-      return newAudioState
-    })
+    setAudioOn((prevAudioOn) => !prevAudioOn)
   }, [])
 
   let placeholder =
@@ -93,7 +82,7 @@ export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
         style={{ width: '100%' }}
         placeholder={placeholder}
         value={value}
-        onChange={(_e, d) => setValue(d.value)}
+        onChange={(e) => setValue(e.target.value)}
         onKeyDown={(event) => {
           if (enableSC && event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault()

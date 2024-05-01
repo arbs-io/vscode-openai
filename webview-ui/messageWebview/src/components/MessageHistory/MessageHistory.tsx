@@ -12,7 +12,6 @@ import { ConfigurationContext } from '../../utilities'
 const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   const configuration = useContext(ConfigurationContext)
 
-  // Define CSS styles using CSSProperties for better type safety and IntelliSense support in IDEs.
   const styleMessageHistory: CSSProperties = {
     alignSelf: message?.mine ? 'flex-end' : 'flex-start',
     backgroundColor: message?.mine

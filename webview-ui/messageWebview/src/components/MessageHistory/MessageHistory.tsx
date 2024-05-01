@@ -6,36 +6,34 @@ import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
 import { MessageUtility } from '../MessageUtility'
 import { IMessageHistoryProps } from '../../interfaces'
-import { CopyToClipboardButton } from '../Buttons'
-import OpenSourceFileButton from '../Buttons/OpenSourceFileButton'
+import { CopyToClipboardButton, OpenSourceFileButton } from '../Buttons'
 import { ConfigurationContext } from '../../utilities'
 
 const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
-  // Removed the error throwing as it's not a good practice to throw errors in a component render method
   const configuration = useContext(ConfigurationContext)
-  // Removed the error throwing for configuration context as well
 
+  // Define CSS styles using CSSProperties for better type safety and IntelliSense support in IDEs.
   const styleMessageHistory: CSSProperties = {
-    alignSelf: message?.mine ? 'flex-end' : 'flex-start', // Used optional chaining to prevent accessing properties of undefined
+    alignSelf: message?.mine ? 'flex-end' : 'flex-start',
     backgroundColor: message?.mine
-      ? configuration?.userBackground // Used optional chaining for configuration
-      : configuration?.assistantBackground, // Used optional chaining for configuration
+      ? configuration?.userBackground
+      : configuration?.assistantBackground,
     color: message?.mine
-      ? configuration?.userColor // Used optional chaining for configuration
-      : configuration?.assistantColor, // Used optional chaining for configuration
-    borderRadius: 'var(--borderRadiusXLarge)', // Replaced tokens with CSS variable
+      ? configuration?.userColor
+      : configuration?.assistantColor,
+    borderRadius: 'var(--borderRadiusXLarge)',
     margin: '1rem',
     padding: '1rem',
     maxWidth: '80%',
-    boxShadow: 'var(--shadow64)', // Replaced tokens with CSS variable
+    boxShadow: 'var(--shadow64)',
   }
 
   const styleCode: CSSProperties = {
-    borderWidth: '1px', // Changed from '1rem' to '1px' for a more appropriate border width
+    borderWidth: '1px',
     borderColor: 'lightgrey',
-    borderRadius: 'var(--borderRadiusSmall)', // Replaced tokens with CSS variable
+    borderRadius: 'var(--borderRadiusSmall)',
     padding: '0.3rem',
-    boxShadow: 'var(--shadow16)', // Replaced tokens with CSS variable
+    boxShadow: 'var(--shadow16)',
   }
 
   const styleWrap: CSSProperties = {
@@ -49,9 +47,9 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
     },
   })
 
-  // Check if message or configuration is undefined and return null or a fallback UI instead
+  // Early return for undefined message or configuration to handle potential null values gracefully.
   if (!message || !configuration) {
-    return null // or return <FallbackComponent />;
+    return null // Optionally, you could return a fallback UI component here.
   }
 
   return (

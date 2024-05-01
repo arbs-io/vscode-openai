@@ -22,16 +22,17 @@ const useStyles = makeStyles({
   },
 })
 
-export const MessageInput: FC<IMessageInputProps> = (props) => {
-  const { onSubmit } = props
+export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
   const [value, setValue] = useState<string>('')
   const [previousValue, setPreviousValue] = useState<string>('')
   const chatBottomRef = useRef<HTMLTextAreaElement>(null)
-
   const configuration = useContext(ConfigurationContext)
-  if (!configuration) {
-    throw new Error('Invalid ConfigurationContext')
-  }
+
+  useEffect(() => {
+    if (!configuration) {
+      throw new Error('Invalid ConfigurationContext')
+    }
+  }, [configuration])
 
   useEffect(() => {
     if (chatBottomRef.current) {
@@ -39,41 +40,46 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
     }
   }, [value])
 
-  const handleSubmitText = (text: string) => {
-    if (text.length < 1) return
-    onSubmit({
-      timestamp: new Date().toLocaleString(),
-      mine: true,
-      author: '',
-      content: text.replace(/\n/g, '\n\n'),
-      completionTokens: 0,
-      promptTokens: 0,
-      totalTokens: 0,
-    })
-    setPreviousValue(text)
-    setValue('')
-  }
+  const handleSubmitText = useCallback(
+    (text: string) => {
+      if (text.length < 1) return
+      onSubmit({
+        timestamp: new Date().toLocaleString(),
+        mine: true,
+        author: '',
+        content: text.replace(/\n/g, '\n\n'),
+        completionTokens: 0,
+        promptTokens: 0,
+        totalTokens: 0,
+      })
+      setPreviousValue(text)
+      setValue('')
+    },
+    [onSubmit]
+  )
 
   const autoGrow = (element: HTMLTextAreaElement) => {
     element.style.height = '5px'
-    element.style.height = element.scrollHeight + 'px'
+    element.style.height = `${element.scrollHeight}px`
   }
 
   const [audioOn, setAudioOn] = useState(false)
   const styles = useStyles()
-  // The useCallback hook should include all dependencies used inside the callback.
+
   const toggleChecked = useCallback(() => {
-    const newAudioState = !audioOn
-    setAudioOn(newAudioState)
-    if (newAudioState) {
-      // where we need to vscode speech SDK output
-    }
-  }, [audioOn])
+    setAudioOn((prevAudioOn) => {
+      const newAudioState = !prevAudioOn
+      if (newAudioState) {
+        // Implement necessary actions when audio is turned on
+      }
+      return newAudioState
+    })
+  }, [])
 
   let placeholder =
     'Type your message here. Press Shift+Enter for a new line. Press Ctrl+ArrowUp to restore previous message. Press Ctrl+F to search in the chat.'
   let enableSC = true
-  if (configuration.messageShortcuts === 'false') {
+  if (configuration?.messageShortcuts === 'false') {
     placeholder =
       'Input shortcuts are disabled, please use the send button only. Press Ctrl+F to search in the chat.'
     enableSC = false
@@ -87,9 +93,7 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
         style={{ width: '100%' }}
         placeholder={placeholder}
         value={value}
-        onChange={(_e, d) => {
-          setValue(d.value)
-        }}
+        onChange={(_e, d) => setValue(d.value)}
         onKeyDown={(event) => {
           if (enableSC && event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault()
@@ -106,14 +110,12 @@ export const MessageInput: FC<IMessageInputProps> = (props) => {
           appearance="transparent"
           checked={audioOn}
           icon={audioOn ? <Mic24Filled /> : <Mic24Regular />}
-          onClick={() => toggleChecked()}
+          onClick={toggleChecked}
         />
         <Button
           appearance="transparent"
           icon={<Send16Regular />}
-          onClick={() => {
-            handleSubmitText(value)
-          }}
+          onClick={() => handleSubmitText(value)}
         />
       </div>
     </div>

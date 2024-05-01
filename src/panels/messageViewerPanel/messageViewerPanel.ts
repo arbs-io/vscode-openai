@@ -11,12 +11,7 @@ import {
   Event,
 } from 'vscode'
 import { getUri, getNonce } from '@app/apis/vscode'
-import {
-  IChatCompletion,
-  IChatCompletionConfig,
-  ICodeDocument,
-  IConversation,
-} from '@app/types'
+import { IChatCompletion, ICodeDocument, IConversation } from '@app/types'
 import { createChatCompletion } from '@app/apis/openai'
 import {
   onDidCopyClipboardCode,
@@ -24,9 +19,9 @@ import {
   onDidSaveMessages,
 } from './onDidFunctions'
 import {
+  ChatCompletionConfigFactory,
   ConfigurationConversationColorService,
   ConfigurationConversationService,
-  ConfigurationSettingService,
 } from '@app/services/configurationServices'
 
 export class MessageViewerPanel {
@@ -255,34 +250,26 @@ export class MessageViewerPanel {
   private _askQuestion() {
     if (!this._conversation) return
 
-    const chatCompletionConfig: IChatCompletionConfig = {
-      azureApiVersion: ConfigurationSettingService.azureApiVersion,
-      apiKey: ConfigurationSettingService.getApiKey(),
-      baseURL: ConfigurationSettingService.inferenceUrl,
-      model: ConfigurationSettingService.defaultModel,
-      requestConfig: ConfigurationSettingService.getRequestConfig(),
-    }
+    const cfg = ChatCompletionConfigFactory.createConfig('inference_model')
 
     //Note: onDidSaveMessages has added the new question
-    createChatCompletion(this._conversation, chatCompletionConfig).then(
-      (result) => {
-        if (!result) return
+    createChatCompletion(this._conversation, cfg).then((result) => {
+      if (!result) return
 
-        const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
-        const chatCompletion: IChatCompletion = {
-          content: result.content,
-          author: author,
-          timestamp: new Date().toLocaleString(),
-          mine: false,
-          completionTokens: result.completionTokens,
-          promptTokens: result.promptTokens,
-          totalTokens: result.totalTokens,
-        }
-        MessageViewerPanel.currentPanel?._panel.webview.postMessage({
-          command: 'onWillAnswerMessage',
-          text: JSON.stringify(chatCompletion),
-        })
+      const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
+      const chatCompletion: IChatCompletion = {
+        content: result.content,
+        author: author,
+        timestamp: new Date().toLocaleString(),
+        mine: false,
+        completionTokens: result.completionTokens,
+        promptTokens: result.promptTokens,
+        totalTokens: result.totalTokens,
       }
-    )
+      MessageViewerPanel.currentPanel?._panel.webview.postMessage({
+        command: 'onWillAnswerMessage',
+        text: JSON.stringify(chatCompletion),
+      })
+    })
   }
 }

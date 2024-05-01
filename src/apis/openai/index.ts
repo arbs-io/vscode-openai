@@ -12,6 +12,6 @@ export { createChatCompletion } from './api/createChatCompletion'
 
 export { createEmbedding } from './api/createEmbedding'
 
-export { ModelCapabiliy } from './api/modelCapabiliy'
+export { ModelCapability } from './api/modelCapabiliy'
 export { listModelsAzureOpenAI } from './api/listModelsAzureOpenAI'
 export { listModelsOpenAI } from './api/listModelsOpenAI'

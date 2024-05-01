@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
   textLayer: {
-    height: 'auto',
+    height: '100%',
   },
   hidden: {
     visibility: 'hidden',

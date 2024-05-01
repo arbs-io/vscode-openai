@@ -1,6 +1,6 @@
 import { CancellationToken, QuickPickItem } from 'vscode'
 import {
-  ModelCapabiliy,
+  ModelCapability,
   listModelsAzureOpenAI,
   listModelsOpenAI,
 } from '@app/apis/openai'
@@ -14,7 +14,7 @@ import {
 export async function getAvailableModelsOpenai(
   apiKey: string,
   baseUrl: string,
-  modelCapabiliy: ModelCapabiliy,
+  modelCapabiliy: ModelCapability,
   _token?: CancellationToken
 ): Promise<QuickPickItem[]> {
   const chatCompletionModels = await listModelsOpenAI(
@@ -38,7 +38,7 @@ export async function getAvailableModelsOpenai(
 export async function getAvailableModelsAzure(
   openapiAPIKey: string,
   openapiBaseUrl: string,
-  modelCapabiliy: ModelCapabiliy,
+  modelCapabiliy: ModelCapability,
   _token?: CancellationToken
 ): Promise<QuickPickItem[]> {
   const chatCompletionModels = await listModelsAzureOpenAI(

@@ -9,7 +9,7 @@
 
 import { QuickPickItem, ExtensionContext, Uri } from 'vscode'
 import { ConfigurationSettingService } from '@app/services'
-import { ModelCapabiliy } from '@app/apis/openai'
+import { ModelCapability } from '@app/apis/openai'
 import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
 import { getAvailableModelsAzure } from './getAvailableModels'
 
@@ -106,7 +106,7 @@ export async function quickPickSetupAzureOpenai(
     const models = await getAvailableModelsAzure(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
-      ModelCapabiliy.ChatCompletion
+      ModelCapability.ChatCompletion
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
@@ -134,7 +134,7 @@ export async function quickPickSetupAzureOpenai(
     const models = await getAvailableModelsAzure(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
-      ModelCapabiliy.ChatCompletion
+      ModelCapability.ChatCompletion
     )
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
@@ -165,7 +165,7 @@ export async function quickPickSetupAzureOpenai(
     const models = await getAvailableModelsAzure(
       state.openaiApiKey!,
       state.openaiBaseUrl!,
-      ModelCapabiliy.Embedding
+      ModelCapability.Embedding
     )
 
     if (models.length > 0) {

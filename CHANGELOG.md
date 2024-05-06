@@ -4,10 +4,20 @@ All notable changes to the "vscode-openai" extension will be documented in this 
 
 <!-- Check [Keep a Changelog](https://keepachangelog.com/) for recommendations on how to structure this file. -->
 
+## [1.6.1]
+
+- Feature/20240227 package bump by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/227
+- Bump vite from 5.1.4 to 5.1.7 in /webview-ui/conversationsWebview by @dependabot in https://github.com/arbs-io/vscode-openai/pull/234
+- Bump vite from 5.1.4 to 5.1.7 in /webview-ui/messageWebview by @dependabot in https://github.com/arbs-io/vscode-openai/pull/235
+- Feature/20240309 add custom scm model by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/238
+- Feature/20240428-AddingChatCompletionConfigFactory by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/241
+- Feature/20240501-CleanupReactComponents by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/242
+- Feature/20240506-CodeCleanup by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/243
+
 ## [1.5.8]
 
-* Feature/20240124 allow custom scm prompt by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/219
-* Feature/20240124 remove character length limit by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/220
+- Feature/20240124 allow custom scm prompt by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/219
+- Feature/20240124 remove character length limit by @arbs-io in https://github.com/arbs-io/vscode-openai/pull/220
 
 ## [1.5.7]
 

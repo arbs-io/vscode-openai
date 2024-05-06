@@ -28,11 +28,6 @@ export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
   const chatBottomRef = useRef<HTMLTextAreaElement>(null)
   const configuration = useContext(ConfigurationContext)
 
-  if (!configuration) {
-    console.error('Invalid ConfigurationContext')
-    return null // Gracefully handle missing context
-  }
-
   useEffect(() => {
     if (chatBottomRef.current) {
       chatBottomRef.current.style.height = '5px'

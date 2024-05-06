@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.5.9",
+  "version": "1.6.1",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -326,6 +326,14 @@
           "minimum": 0,
           "maximum": 2,
           "markdownDescription": "Positive values `penalize new tokens` based on whether they **appear in the text so far**, increasing the model's likelihood to talk about new topics. Value must range between (0.0 - 2.0)",
+          "order": 212
+        },
+        "vscode-openai.conversation-configuration.top-p": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "maximum": 1,
+          "markdownDescription": "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.",
           "order": 212
         },
         "vscode-openai.conversation-configuration.frequency-penalty": {

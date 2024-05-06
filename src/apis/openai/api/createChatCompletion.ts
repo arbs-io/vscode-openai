@@ -51,6 +51,7 @@ export async function createChatCompletion(
           ConfigurationConversationService.instance.frequencyPenalty,
         presence_penalty:
           ConfigurationConversationService.instance.presencePenalty,
+        top_p: ConfigurationConversationService.instance.topP,
       },
       requestConfig
     )

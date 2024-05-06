@@ -1,5 +1,5 @@
 import { makeStyles, mergeClasses } from '@fluentui/react-components'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState, useCallback } from 'react'
 import { MessageHistory } from '../MessageHistory'
 import { MessageInput } from '../MessageInput'
 import { vscode } from '../../utilities/vscode'
@@ -9,7 +9,6 @@ const MessageInteraction: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)
   const [chatHistory, setChatHistory] = useState<IChatCompletion[]>([])
   const [autoSaveThreshold, setAutoSaveThreshold] = useState<number>(0)
-  const [forceRefresh, setForceRefresh] = useState<boolean>()
   const messageStyles = useMessageStyles()
 
   useEffect(() => {
@@ -20,29 +19,31 @@ const MessageInteraction: FC = () => {
         text: JSON.stringify(chatHistory),
       })
     }
-  }, [chatHistory, forceRefresh])
+  }, [chatHistory, autoSaveThreshold])
 
-  window.addEventListener('message', (event) => {
-    console.log(event.origin)
+  const handleMessageEvent = useCallback((event: MessageEvent) => {
     if (!event.origin.startsWith('vscode-webview://')) return
 
-    const message = event.data // The JSON data our extension sent
+    const message = event.data
     switch (message.command) {
-      case 'onWillRenderMessages': {
+      case 'onWillRenderMessages':
         const chatMessages: IChatCompletion[] = JSON.parse(message.text)
         setAutoSaveThreshold(chatMessages.length)
         setChatHistory(chatMessages)
         break
-      }
-
-      case 'onWillAnswerMessage': {
+      case 'onWillAnswerMessage':
         const chatMessage: IChatCompletion = JSON.parse(message.text)
-        chatHistory.push(chatMessage)
-        setForceRefresh(!forceRefresh)
+        setChatHistory((prevHistory) => [...prevHistory, chatMessage])
         break
-      }
     }
-  })
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('message', handleMessageEvent)
+    return () => {
+      window.removeEventListener('message', handleMessageEvent)
+    }
+  }, [handleMessageEvent])
 
   return (
     <div className={mergeClasses(messageStyles.container)}>
@@ -58,7 +59,7 @@ const MessageInteraction: FC = () => {
       <div className={mergeClasses(messageStyles.input)}>
         <MessageInput
           onSubmit={(m) => {
-            setChatHistory([...chatHistory, m])
+            setChatHistory((prevHistory) => [...prevHistory, m])
           }}
         />
       </div>

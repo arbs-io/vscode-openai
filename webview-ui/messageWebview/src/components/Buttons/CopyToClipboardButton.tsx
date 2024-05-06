@@ -10,8 +10,8 @@ import { vscode } from '../../utilities/vscode'
 
 const handleCopyToClipboard = (language: string, content: string) => {
   const codeDocument: ICodeDocument = {
-    language: language,
-    content: content,
+    language,
+    content,
   }
   vscode.postMessage({
     command: 'onDidCopyClipboardCode',
@@ -19,16 +19,19 @@ const handleCopyToClipboard = (language: string, content: string) => {
   })
 }
 
+// Creating a bundled icon for the clipboard
 const ClipboardIcon = bundleIcon(Clipboard24Filled, Clipboard24Regular)
 
+// Defining the component with explicit props type
 const CopyToClipboardButton: FC<ICodeDocument> = ({ language, content }) => {
   return (
-    <Tooltip content="Copy to clipboard" relationship="label">
+    <Tooltip content="Copy to clipboard" relationship={'label'}>
       <Button
         size="small"
         appearance="transparent"
         icon={<ClipboardIcon />}
         onClick={() => handleCopyToClipboard(language, content)}
+        aria-label="Copy code to clipboard" // Enhancing accessibility
       >
         Copy
       </Button>

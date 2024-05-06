@@ -28,6 +28,10 @@ export default class ConfigurationConversationService
     )
   }
 
+  public get topP(): number {
+    return this.getConfigValue<number>('conversation-configuration.top-p')
+  }
+
   public get frequencyPenalty(): number {
     return this.getConfigValue<number>(
       'conversation-configuration.frequency-penalty'
@@ -74,6 +78,7 @@ export default class ConfigurationConversationService
       const cfgMap = new Map<string, string>()
       cfgMap.set('temperature', cfg.temperature.toString())
       cfgMap.set('presence_penalty', cfg.presencePenalty.toString())
+      cfgMap.set('top_p', cfg.topP.toString())
       cfgMap.set('frequency_penalty', cfg.frequencyPenalty.toString())
       cfgMap.set('number_of_attempts', cfg.numOfAttempts.toString())
       cfgMap.set('conversation_history', cfg.conversationHistory.toString())

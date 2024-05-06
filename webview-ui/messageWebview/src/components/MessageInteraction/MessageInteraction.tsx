@@ -26,15 +26,18 @@ const MessageInteraction: FC = () => {
 
     const message = event.data
     switch (message.command) {
-      case 'onWillRenderMessages':
+      case 'onWillRenderMessages': {
         const chatMessages: IChatCompletion[] = JSON.parse(message.text)
         setAutoSaveThreshold(chatMessages.length)
         setChatHistory(chatMessages)
         break
-      case 'onWillAnswerMessage':
+      }
+
+      case 'onWillAnswerMessage': {
         const chatMessage: IChatCompletion = JSON.parse(message.text)
         setChatHistory((prevHistory) => [...prevHistory, chatMessage])
         break
+      }
     }
   }, [])
 

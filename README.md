@@ -121,7 +121,7 @@ To configure your azure openai instance, you need to enter the following configu
 
 - **Base URL:** The instance name. For example `https://<instance-name>.openai.azure.com/openai`
 - **Deployment Name:** The name of the azure deployment. This will be used within inference calls
-- **API Version:** The version of the azure api. Note that `2023-05-15` onward is required for chat conversations
+- **API Version:** The version of the azure api. Note that `2024-02-01` onward is required for chat conversations
 
 ![vscode-openai-configuration.png](images/vscode-openai-configuration.png)
 

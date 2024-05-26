@@ -139,5 +139,5 @@ export async function quickPickSetupCredalOpenai(
   ConfigurationSettingService.scmDeployment = 'setup-required'
   ConfigurationSettingService.embeddingModel = 'setup-required'
   ConfigurationSettingService.embeddingsDeployment = 'setup-required'
-  ConfigurationSettingService.azureApiVersion = '2023-05-15'
+  ConfigurationSettingService.azureApiVersion = '2024-02-01'
 }

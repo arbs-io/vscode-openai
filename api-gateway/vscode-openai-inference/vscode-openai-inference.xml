@@ -36,7 +36,7 @@
             <value>{{azure-openai-apikey}}</value>
         </set-header>
         <set-query-parameter name="api-version" exists-action="override">
-            <value>2023-05-15</value>
+            <value>2024-02-01</value>
         </set-query-parameter>
     </inbound>
     <backend>

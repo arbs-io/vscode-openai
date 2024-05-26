@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -228,10 +228,10 @@
         },
         "vscode-openai.azureApiVersion": {
           "type": "string",
-          "default": "2023-05-15",
+          "default": "2024-02-01",
           "markdownDescription": "The api version used by Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`. Note: limited to versions that support chat completion.",
           "enum": [
-            "2023-05-15"
+            "2024-02-01"
           ],
           "enumDescriptions": [
             "The initial azure api that support chat completion."

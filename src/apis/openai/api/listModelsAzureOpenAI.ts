@@ -25,13 +25,13 @@ export async function listModelsAzureOpenAI(
       baseURL: baseUrl,
     })
 
-    const response = await openai.models.list({
+    const respModels = await openai.models.list({
       headers: { ...headers, 'api-key': apiKey },
-      query: { 'api-version': '2023-05-15' },
+      query: { 'api-version': '2024-02-01' },
     })
 
     const models = new Array<string>()
-    response.data.forEach((model: any) => {
+    respModels.data.forEach((model: any) => {
       if (
         (modelCapabiliy == ModelCapability.ChatCompletion &&
           model.capabilities.chat_completion) ||
@@ -42,16 +42,19 @@ export async function listModelsAzureOpenAI(
       }
     })
 
+    // ms has ended support for model/deployment api, post gpt-4o. This is a hack/fix
+    if (modelCapabiliy == ModelCapability.ChatCompletion) models.push('gpt-4o')
+
     //Get all deployments
     const request = new HttpRequest(
       'GET',
       apiKey,
       `${baseUrl}/deployments?api-version=2022-12-01`
     )
-    const resp = await request.send()
+    const respDeployments = await request.send()
 
     const deployments = new Array<IDeploymentModel>()
-    resp.data.forEach((deployment: any) => {
+    respDeployments.data.forEach((deployment: any) => {
       if (models.includes(deployment.model)) {
         const deploymentModel: IDeploymentModel = {
           deployment: deployment.id,

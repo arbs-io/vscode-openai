@@ -1,1 +1,1 @@
-export { vscode } from './vscode'
+export { vscode } from '../../../common/vscode'

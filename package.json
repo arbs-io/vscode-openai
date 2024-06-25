@@ -24,16 +24,11 @@
     "Data Science",
     "Testing"
   ],
-  "workspaces": {
-    "packages": [
-      "webview/conversations",
-      "webview/message"
-    ]
-  },
+  "workspaces": [
+    "webview/conversations",
+    "webview/message"
+  ],
   "scripts": {
-    "install:all": "npm install && npm-run-all --parallel install:all:*",
-    "install:all:message": "npm --prefix ./webview/message install",
-    "install:all:conversations": "npm --prefix ./webview/conversations install",
     "build:all": "npm-run-all --parallel build:module:* build-release:module:*",
     "build-debug:all": "npm-run-all --parallel build:module:* build-debug:module:*",
     "build-debug:module:webview-message": "npm --prefix ./webview/message run build-debug",

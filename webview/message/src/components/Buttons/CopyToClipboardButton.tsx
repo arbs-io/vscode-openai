@@ -6,7 +6,7 @@ import {
   Clipboard24Regular,
 } from '@fluentui/react-icons'
 import { ICodeDocument } from '../../interfaces'
-import { vscode } from '../../utilities/vscode'
+import { vscode } from '../../utilities'
 
 const handleCopyToClipboard = (language: string, content: string) => {
   const codeDocument: ICodeDocument = {

@@ -155,8 +155,8 @@ export class MessageViewerPanel {
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
-      'webview-ui',
-      'messageWebview',
+      'webview',
+      'message',
       'index.js',
     ])
 

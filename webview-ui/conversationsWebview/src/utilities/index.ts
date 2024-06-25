@@ -1,1 +1,0 @@
-export { vscode } from './vscode'

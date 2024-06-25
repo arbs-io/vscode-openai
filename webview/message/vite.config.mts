@@ -9,7 +9,7 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [react()],
     build: {
-      outDir: '../../out/webview-ui/messageWebview',
+      outDir: '../../out/webview/message',
       chunkSizeWarningLimit: 2048,
       emptyOutDir: true,
       minify: minify,

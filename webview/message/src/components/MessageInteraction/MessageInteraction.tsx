@@ -2,7 +2,7 @@ import { makeStyles, mergeClasses } from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState, useCallback } from 'react'
 import { MessageHistory } from '../MessageHistory'
 import { MessageInput } from '../MessageInput'
-import { vscode } from '../../utilities/vscode'
+import { vscode } from '../../utilities'
 import { IChatCompletion } from '../../interfaces'
 
 const MessageInteraction: FC = () => {

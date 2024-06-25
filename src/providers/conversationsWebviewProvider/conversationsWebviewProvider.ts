@@ -64,8 +64,8 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
   private _getHtmlForWebview(webview: Webview, extensionUri: Uri) {
     const scriptUri = getUri(webview, extensionUri, [
       'out',
-      'webview-ui',
-      'conversationsWebview',
+      'webview',
+      'conversations',
       'index.js',
     ])
 

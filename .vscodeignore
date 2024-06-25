@@ -15,4 +15,4 @@ tsconfig.json
 vsc-extension-quickstart.md
 vscode-openai-version.json
 tslint.json
-webview-ui
+webview

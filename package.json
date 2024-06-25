@@ -24,16 +24,22 @@
     "Data Science",
     "Testing"
   ],
+  "workspaces": {
+    "packages": [
+      "webview/conversations",
+      "webview/message"
+    ]
+  },
   "scripts": {
     "install:all": "npm install && npm-run-all --parallel install:all:*",
-    "install:all:messageWebview": "npm --prefix ./webview-ui/messageWebview install",
-    "install:all:conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview install",
+    "install:all:message": "npm --prefix ./webview/message install",
+    "install:all:conversations": "npm --prefix ./webview/conversations install",
     "build:all": "npm-run-all --parallel build:module:* build-release:module:*",
     "build-debug:all": "npm-run-all --parallel build:module:* build-debug:module:*",
-    "build-debug:module:webview-messageWebview": "npm --prefix ./webview-ui/messageWebview run build-debug",
-    "build-debug:module:webview-conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview run build-debug",
-    "build-release:module:webview-messageWebview": "npm --prefix ./webview-ui/messageWebview run build-release",
-    "build-release:module:webview-conversationsWebview": "npm --prefix ./webview-ui/conversationsWebview run build-release",
+    "build-debug:module:webview-message": "npm --prefix ./webview/message run build-debug",
+    "build-debug:module:webview-conversations": "npm --prefix ./webview/conversations run build-debug",
+    "build-release:module:webview-message": "npm --prefix ./webview/message run build-release",
+    "build-release:module:webview-conversations": "npm --prefix ./webview/conversations run build-release",
     "build:module:wasm": "node ./utilities/scripts/copy-wasm.js",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --target=es2020",

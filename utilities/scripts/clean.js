@@ -5,8 +5,8 @@ const folders = [
   '../../dist',
   '../../out',
   '../../node_modules',
-  '../../webview-ui/conversationsWebview/node_modules',
-  '../../webview-ui/messageWebview/node_modules',
+  '../../webview/conversations/node_modules',
+  '../../webview/message/node_modules',
 ]
 
 folders.forEach((folder) => {

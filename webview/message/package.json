@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "vite",
-    "build-release": "tsc && vite build",
-    "build-debug": "tsc && vite build --mode 'development'",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "test-compile": "tsc -p ./"
   },

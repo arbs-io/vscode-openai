@@ -1,4 +1,9 @@
-import { makeStyles, mergeClasses } from '@fluentui/react-components'
+import {
+  Field,
+  ProgressBar,
+  makeStyles,
+  mergeClasses,
+} from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState, useCallback } from 'react'
 import { MessageHistory } from '../MessageHistory'
 import { MessageInput } from '../MessageInput'
@@ -9,6 +14,7 @@ const MessageInteraction: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)
   const [chatHistory, setChatHistory] = useState<IChatCompletion[]>([])
   const [autoSaveThreshold, setAutoSaveThreshold] = useState<number>(0)
+  const [showField, setShowField] = useState(false)
   const messageStyles = useMessageStyles()
 
   useEffect(() => {
@@ -36,6 +42,7 @@ const MessageInteraction: FC = () => {
       case 'onWillAnswerMessage': {
         const chatMessage: IChatCompletion = JSON.parse(message.text)
         setChatHistory((prevHistory) => [...prevHistory, chatMessage])
+        setShowField(false)
         break
       }
     }
@@ -59,9 +66,19 @@ const MessageInteraction: FC = () => {
         ))}
         <div ref={bottomAnchorRef} />
       </div>
+
       <div className={mergeClasses(messageStyles.input)}>
+        {showField && (
+          <Field
+            validationMessage="waiting for response"
+            validationState="warning"
+          >
+            <ProgressBar />
+          </Field>
+        )}
         <MessageInput
           onSubmit={(m) => {
+            setShowField(true)
             setChatHistory((prevHistory) => [...prevHistory, m])
           }}
         />

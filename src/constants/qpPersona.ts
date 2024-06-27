@@ -16,7 +16,7 @@ export const VSCODE_OPENAI_QP_PERSONA = {
 
   SYSTEM_ADMIN: 'System Administrator',
   SYSTEM_ADMIN_ID: 'e0aa8407-76ed-446f-8619-73ea7b8cf624',
-  SYSTEM_ADMIN_ICON: 'console',
+  SYSTEM_ADMIN_ICON: 'terminal-cmd',
   SYSTEM_ADMIN_DESC:
     'Assists with managing and maintain computer systems, networks, and servers',
 

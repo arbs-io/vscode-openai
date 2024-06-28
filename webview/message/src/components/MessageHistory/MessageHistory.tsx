@@ -7,7 +7,7 @@ import remarkGfm from 'remark-gfm'
 import { MessageUtility } from '../MessageUtility'
 import { IMessageHistoryProps } from '../../interfaces'
 import { CopyToClipboardButton, OpenSourceFileButton } from '../Buttons'
-import { ConfigurationContext } from '../../utilities'
+import { ConfigurationContext } from '../../context'
 
 const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   const configuration = useContext(ConfigurationContext)

@@ -3,10 +3,10 @@ import {
   TableColumnDefinition,
   createTableColumn,
   TableCell,
-  Avatar,
 } from '@fluentui/react-components'
 import { IConversation } from '../../interfaces'
 import { vscode } from '../../utilities'
+import useConversationAvatar from './useConversationAvatar'
 
 const handleOpenConversation = (conversation: IConversation) => {
   vscode.postMessage({
@@ -26,19 +26,11 @@ const ConversationGridColumnDefinition: TableColumnDefinition<IConversation>[] =
         return ''
       },
       renderCell: (item) => {
+        const avatarComponent = useConversationAvatar(item) // Call the getStatus function to get the Avatar component
         return (
           <div id="personadiv">
             <TableCell tabIndex={0}>
-              <TableCellLayout
-                media={
-                  <Avatar
-                    badge={{ status: 'available', outOfOffice: true }}
-                    name={item.persona.roleName}
-                    size={32}
-                    color="colorful"
-                  />
-                }
-              />
+              <TableCellLayout media={avatarComponent} />
             </TableCell>
           </div>
         )

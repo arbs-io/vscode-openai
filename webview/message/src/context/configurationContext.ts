@@ -1,10 +1,10 @@
 import { tokens } from '@fluentui/react-components'
 import React from 'react'
-import { IConfiguration } from '../interfaces'
+import { IContextConfiguration } from '../interfaces'
 
-export function getConfigurationDefaults(): IConfiguration {
+export function createContextConfiguration(): IContextConfiguration {
   const rootElement = document.getElementById('root') as HTMLElement
-  const configuration: IConfiguration = {
+  const configuration: IContextConfiguration = {
     messageShortcuts: rootElement.getAttribute('messageShortcuts') ?? 'true',
     assistantColor:
       rootElement.getAttribute('assistantColor') ??
@@ -22,6 +22,5 @@ export function getConfigurationDefaults(): IConfiguration {
   return configuration
 }
 
-export const ConfigurationContext = React.createContext<IConfiguration | null>(
-  null
-)
+export const ConfigurationContext =
+  React.createContext<IContextConfiguration | null>(null)

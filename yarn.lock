@@ -4337,7 +4337,7 @@ vite@^5.2.8:
     fsevents "~2.3.3"
 
 "vscode-openai@file:.":
-  version "1.6.2"
+  version "1.6.3"
   dependencies:
     "@arbs.io/asset-extractor-wasm" "^0.1.2"
     "@vscode/extension-telemetry" "^0.9.6"

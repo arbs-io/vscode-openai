@@ -1,21 +1,39 @@
-import { useContext } from 'react'
 import { Avatar, PresenceBadgeStatus } from '@fluentui/react-components'
-import { BriefcaseRegular } from '@fluentui/react-icons'
 import { IConversation } from '../../interfaces'
-import { iconAccount } from '../../assets'
+import {
+  ProjectManagerIcon,
+  GeneralChatIcon,
+  DeveloperProgrammerIcon,
+  NetworkEngineerIcon,
+  DatabaseAdministratorIcon,
+  BusinessAnalystsIcon,
+  ITManagerIcon,
+  QualityAssuranceTestersIcon,
+  TechnicalWriterIcon,
+  UserExperienceDesignersIcon,
+  ProductManagerIcon,
+  DataScientistIcon,
+  CyberSecurityAnalystsIcon,
+  CloudArchitectIcon,
+  DevOpsEngineersIcon,
+  EnterpriseArchitectIcon,
+  SystemAdministratorIcon,
+} from '../../assets'
+import { useContext } from 'react'
 import { ThemeContext } from '../../context'
 
 function createConversationAvatar(item: IConversation): JSX.Element {
-  const theme = useContext(ThemeContext)
-  console.log(theme?.isDarkMode, item.persona.roleName)
-
   const oneDayInMilliseconds = 24 * 60 * 60 * 1000 // 1 day in milliseconds
   const oneWeekInMilliseconds = 7 * oneDayInMilliseconds // 1 week in milliseconds
   const oneMonthInMilliseconds = 30 * oneDayInMilliseconds // 1 month in milliseconds
   const currentTimestamp = new Date().getTime() // Current timestamp
   const timeDifference = currentTimestamp - item.timestamp
-  const size = 36
+
+  const size = 28
   let status: PresenceBadgeStatus = 'away'
+
+  const personaIcon = getPersonaIcon(item.persona.roleName)
+
   let outOfOffice = true
   switch (true) {
     case timeDifference > oneMonthInMilliseconds:
@@ -40,54 +58,56 @@ function createConversationAvatar(item: IConversation): JSX.Element {
       badge={{
         status: status,
         outOfOffice: outOfOffice,
-        icon: <BriefcaseRegular />,
       }}
       size={size}
       shape="square"
-      image={{ as: 'img', src: iconAccount() }}
+      image={{ as: 'img', src: personaIcon }}
     />
   )
 }
 
 export default createConversationAvatar
 
-// function getIcon(abc: string): string {
-//   switch (abc) {
-//     case 'General Chat':
-//       return 'comment'
-//     case 'Developer/Programmer':
-//       return 'debug-console'
-//     case 'System Administrator':
-//       return 'console'
-//     case 'Network Engineer':
-//       return 'type-hierarchy'
-//     case 'Database Administrator':
-//       return 'database'
-//     case 'IT Manager':
-//       return 'coffee'
-//     case 'Project Manager':
-//       return 'account'
-//     case 'Business Analysts':
-//       return 'telescope'
-//     case 'Quality Assurance Testers':
-//       return 'bug'
-//     case 'Technical Writer':
-//       return 'word-wrap'
-//     case 'User Experience Designers':
-//       return 'tag'
-//     case 'Product Manager':
-//       return 'folder-active'
-//     case 'Data Scientist':
-//       return 'combine'
-//     case 'Cyber Security Analysts':
-//       return 'workspace-trusted'
-//     case 'Cloud Architect':
-//       return 'cloud'
-//     case 'DevOps Engineers':
-//       return 'circuit-board'
-//     case 'Enterprise Architect':
-//       return 'organization'
-//     default:
-//       return ''
-//   }
-// }
+function getPersonaIcon(personaRoleName: string): string {
+  const theme = useContext(ThemeContext)
+  const fillColor: string = theme?.isDarkMode ? '#ffffff' : '#000000'
+
+  switch (personaRoleName) {
+    case 'General Chat':
+      return GeneralChatIcon(fillColor)
+    case 'Developer/Programmer':
+      return DeveloperProgrammerIcon(fillColor)
+    case 'System Administrator':
+      return SystemAdministratorIcon(fillColor)
+    case 'Network Engineer':
+      return NetworkEngineerIcon(fillColor)
+    case 'Database Administrator':
+      return DatabaseAdministratorIcon(fillColor)
+    case 'IT Manager':
+      return ITManagerIcon(fillColor)
+    case 'Project Manager':
+      return ProjectManagerIcon(fillColor)
+    case 'Business Analysts':
+      return BusinessAnalystsIcon(fillColor)
+    case 'Quality Assurance Testers':
+      return QualityAssuranceTestersIcon(fillColor)
+    case 'Technical Writer':
+      return TechnicalWriterIcon(fillColor)
+    case 'User Experience Designers':
+      return UserExperienceDesignersIcon(fillColor)
+    case 'Product Manager':
+      return ProductManagerIcon(fillColor)
+    case 'Data Scientist':
+      return DataScientistIcon(fillColor)
+    case 'Cyber Security Analysts':
+      return CyberSecurityAnalystsIcon(fillColor)
+    case 'Cloud Architect':
+      return CloudArchitectIcon(fillColor)
+    case 'DevOps Engineers':
+      return DevOpsEngineersIcon(fillColor)
+    case 'Enterprise Architect':
+      return EnterpriseArchitectIcon(fillColor)
+    default:
+      return ProjectManagerIcon(fillColor)
+  }
+}

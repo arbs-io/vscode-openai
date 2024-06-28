@@ -49,6 +49,8 @@ function useConversationAvatar(item: IConversation): JSX.Element {
       break
 
     default:
+      status = 'available'
+      outOfOffice = false
       break
   }
   return (

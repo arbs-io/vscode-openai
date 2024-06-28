@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,

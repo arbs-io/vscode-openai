@@ -108,6 +108,6 @@ function getPersonaIcon(personaRoleName: string): string {
     case 'Enterprise Architect':
       return EnterpriseArchitectIcon(fillColor)
     default:
-      return ProjectManagerIcon(fillColor)
+      return GeneralChatIcon(fillColor)
   }
 }

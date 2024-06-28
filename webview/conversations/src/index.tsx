@@ -6,7 +6,7 @@ import {
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { ThemeContext, createIContextTheme } from './context'
+import { ThemeContext, createContextTheme } from './context'
 
 const ele = document.getElementById('root') as HTMLElement
 const isDarkMode = ele.getAttribute('theme') === 'dark'
@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(ele)
 
 root.render(
   <React.StrictMode>
-    <ThemeContext.Provider value={createIContextTheme(isDarkMode)}>
+    <ThemeContext.Provider value={createContextTheme(isDarkMode)}>
       <FluentProvider theme={themeFluentUI}>
         <App />
       </FluentProvider>

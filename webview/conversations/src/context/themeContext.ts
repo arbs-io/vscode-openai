@@ -1,7 +1,7 @@
 import React from 'react'
 import { IContextTheme } from '../interfaces'
 
-export function createIContextTheme(isDarkMode: boolean): IContextTheme {
+export function createContextTheme(isDarkMode: boolean): IContextTheme {
   const configuration: IContextTheme = {
     isDarkMode: isDarkMode,
   }

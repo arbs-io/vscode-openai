@@ -6,8 +6,7 @@ import {
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { ConfigurationContext } from './utilities'
-import { getConfigurationDefaults } from './utilities/configurationContext'
+import { ConfigurationContext, createContextConfiguration } from './context'
 
 const rootElement = document.getElementById('root') as HTMLElement
 const theme =
@@ -16,7 +15,7 @@ const root = ReactDOM.createRoot(rootElement)
 
 root.render(
   <React.StrictMode>
-    <ConfigurationContext.Provider value={getConfigurationDefaults()}>
+    <ConfigurationContext.Provider value={createContextConfiguration()}>
       <FluentProvider theme={theme}>
         <App />
       </FluentProvider>

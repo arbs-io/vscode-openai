@@ -1,1 +1,1 @@
-export { ThemeContext, createIContextTheme } from './themeContext'
+export { ThemeContext, createContextTheme } from './themeContext'

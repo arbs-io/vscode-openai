@@ -1,4 +1,4 @@
-export interface IConfiguration {
+export interface IContextConfiguration {
   messageShortcuts: string
   assistantColor: string
   assistantBackground: string

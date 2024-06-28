@@ -6,16 +6,19 @@ import {
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import { ThemeContext, createIContextTheme } from './context'
 
-const rootElement = document.getElementById('root') as HTMLElement
-const theme =
-  rootElement.getAttribute('theme') === 'dark' ? webDarkTheme : webLightTheme
-const root = ReactDOM.createRoot(rootElement)
+const ele = document.getElementById('root') as HTMLElement
+const isDarkMode = ele.getAttribute('theme') === 'dark'
+const themeFluentUI = isDarkMode ? webDarkTheme : webLightTheme
+const root = ReactDOM.createRoot(ele)
 
 root.render(
   <React.StrictMode>
-    <FluentProvider theme={theme}>
-      <App />
-    </FluentProvider>
+    <ThemeContext.Provider value={createIContextTheme(isDarkMode)}>
+      <FluentProvider theme={themeFluentUI}>
+        <App />
+      </FluentProvider>
+    </ThemeContext.Provider>
   </React.StrictMode>
 )

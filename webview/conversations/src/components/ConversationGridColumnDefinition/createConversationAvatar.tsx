@@ -1,12 +1,13 @@
+import { useContext } from 'react'
 import { Avatar, PresenceBadgeStatus } from '@fluentui/react-components'
-import { useTheme } from '@fluentui/react'
 import { BriefcaseRegular } from '@fluentui/react-icons'
 import { IConversation } from '../../interfaces'
-import { icoAccount } from '../../assets'
+import { iconAccount } from '../../assets'
+import { ThemeContext } from '../../context'
 
 function createConversationAvatar(item: IConversation): JSX.Element {
-  const theme = useTheme()
-  console.log(theme.palette.themePrimary, item.persona.roleName)
+  const theme = useContext(ThemeContext)
+  console.log(theme?.isDarkMode, item.persona.roleName)
 
   const oneDayInMilliseconds = 24 * 60 * 60 * 1000 // 1 day in milliseconds
   const oneWeekInMilliseconds = 7 * oneDayInMilliseconds // 1 week in milliseconds
@@ -43,7 +44,7 @@ function createConversationAvatar(item: IConversation): JSX.Element {
       }}
       size={size}
       shape="square"
-      image={icoAccount}
+      image={{ as: 'img', src: iconAccount() }}
     />
   )
 }

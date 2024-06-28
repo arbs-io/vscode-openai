@@ -1,1 +1,1 @@
-export { default as icoAccount } from './account'
+export { default as iconAccount } from './account'

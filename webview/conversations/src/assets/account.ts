@@ -1,4 +1,4 @@
-function getImage() {
+function iconAccount() {
   return (
     'data:image/svg+xml;base64,' +
     btoa(`
@@ -11,4 +11,4 @@ function getImage() {
   )
 }
 
-export default getImage
+export default iconAccount

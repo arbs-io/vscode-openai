@@ -23,6 +23,8 @@ import { useContext } from 'react'
 import { ThemeContext } from '../../context'
 
 function createConversationAvatar(item: IConversation): JSX.Element {
+  const theme = useContext(ThemeContext)
+  const fillColor: string = theme?.isDarkMode ? '#ffffff' : '#000000'
   const oneDayInMilliseconds = 24 * 60 * 60 * 1000 // 1 day in milliseconds
   const oneWeekInMilliseconds = 7 * oneDayInMilliseconds // 1 week in milliseconds
   const oneMonthInMilliseconds = 30 * oneDayInMilliseconds // 1 month in milliseconds
@@ -30,27 +32,23 @@ function createConversationAvatar(item: IConversation): JSX.Element {
   const timeDifference = currentTimestamp - item.timestamp
 
   const size = 28
+  const personaIcon = getPersonaIcon(item.persona.roleName, fillColor)
   let status: PresenceBadgeStatus = 'away'
-
-  const personaIcon = getPersonaIcon(item.persona.roleName)
-
   let outOfOffice = true
+
   switch (true) {
     case timeDifference > oneMonthInMilliseconds:
-      status = 'away'
-      outOfOffice = true
       break
+
     case timeDifference > oneWeekInMilliseconds:
-      status = 'away'
       outOfOffice = false
       break
+
     case timeDifference > oneDayInMilliseconds:
       status = 'available'
-      outOfOffice = true
       break
+
     default:
-      status = 'available'
-      outOfOffice = false
       break
   }
   return (
@@ -68,10 +66,7 @@ function createConversationAvatar(item: IConversation): JSX.Element {
 
 export default createConversationAvatar
 
-function getPersonaIcon(personaRoleName: string): string {
-  const theme = useContext(ThemeContext)
-  const fillColor: string = theme?.isDarkMode ? '#ffffff' : '#000000'
-
+function getPersonaIcon(personaRoleName: string, fillColor: string): string {
   switch (personaRoleName) {
     case 'General Chat':
       return GeneralChatIcon(fillColor)

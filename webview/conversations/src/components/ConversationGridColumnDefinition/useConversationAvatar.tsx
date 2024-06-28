@@ -22,7 +22,7 @@ import {
 import { useContext } from 'react'
 import { ThemeContext } from '../../context'
 
-function createConversationAvatar(item: IConversation): JSX.Element {
+function useConversationAvatar(item: IConversation): JSX.Element {
   const theme = useContext(ThemeContext)
   const fillColor: string = theme?.isDarkMode ? '#ffffff' : '#000000'
   const oneDayInMilliseconds = 24 * 60 * 60 * 1000 // 1 day in milliseconds
@@ -64,7 +64,7 @@ function createConversationAvatar(item: IConversation): JSX.Element {
   )
 }
 
-export default createConversationAvatar
+export default useConversationAvatar
 
 function getPersonaIcon(personaRoleName: string, fillColor: string): string {
   switch (personaRoleName) {

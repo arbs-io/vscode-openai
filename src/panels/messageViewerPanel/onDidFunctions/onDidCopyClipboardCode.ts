@@ -1,6 +1,6 @@
 import { env } from 'vscode'
 import { showMessageWithTimeout } from '@app/apis/vscode'
-import { ICodeDocument } from '@app/types'
+import { ICodeDocument } from '@app/interfaces'
 
 export const onDidCopyClipboardCode = (codeDocument: ICodeDocument): void => {
   env.clipboard.writeText(codeDocument.content)

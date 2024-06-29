@@ -1,5 +1,5 @@
 import { window } from 'vscode'
-import { IChatCompletion, IConversation } from '@app/types'
+import { IChatCompletion, IConversation } from '@app/interfaces'
 import {
   ConfigurationConversationService,
   ConversationStorageService,

@@ -1,5 +1,5 @@
 import { StatusBarServiceProvider } from '@app/apis/vscode'
-import { IEmbeddingFileChunk, IEmbeddingFileLite } from '@app/types'
+import { IEmbeddingFileChunk, IEmbeddingFileLite } from '@app/interfaces'
 import { createDebugNotification } from '@app/apis/node'
 import { createEmbedding } from '@app/apis/openai'
 import { ConfigurationEmbeddingService } from '@app/services'

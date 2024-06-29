@@ -1,5 +1,5 @@
 import { ConfigurationSettingService } from '@app/services'
-import { IPersonaOpenAI } from '@app/types'
+import { IPersonaOpenAI } from '@app/interfaces'
 
 function getQueryResourcePersona(): IPersonaOpenAI {
   const getQueryResourcePersona: IPersonaOpenAI = {

@@ -1,7 +1,7 @@
 import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { ConfigurationConversationService } from '@app/services'
-import { IChatCompletionConfig, IConversation, IMessage } from '@app/types'
+import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 import {
   ChatCompletionRequestMessageEmbedding,

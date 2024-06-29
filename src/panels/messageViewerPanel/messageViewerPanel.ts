@@ -11,7 +11,7 @@ import {
   Event,
 } from 'vscode'
 import { getUri, getNonce } from '@app/apis/vscode'
-import { IChatCompletion, ICodeDocument, IConversation } from '@app/types'
+import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
 import { createChatCompletion } from '@app/apis/openai'
 import {
   onDidCopyClipboardCode,

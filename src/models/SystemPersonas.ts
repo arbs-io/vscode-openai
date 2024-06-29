@@ -1,5 +1,5 @@
 import { workspace } from 'vscode'
-import { IPersonaOpenAI } from '@app/types/IPersonaOpenAI'
+import { IPersonaOpenAI } from '@app/interfaces/IPersonaOpenAI'
 import {
   ConfigurationConversationService,
   ConfigurationSettingService,

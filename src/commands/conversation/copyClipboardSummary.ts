@@ -1,7 +1,7 @@
 import { env } from 'vscode'
 import { Command } from '../commandManager'
 import { showMessageWithTimeout } from '@app/apis/vscode'
-import { IConversation } from '@app/types'
+import { IConversation } from '@app/interfaces'
 
 export default class ClipboardCopyConversationSummaryCommand
   implements Command

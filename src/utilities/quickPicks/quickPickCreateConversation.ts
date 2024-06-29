@@ -15,7 +15,7 @@ import {
 import { MultiStepInput } from '@app/apis/vscode'
 import { ConversationStorageService } from '@app/services'
 import { getSystemPersonas } from '@app/models'
-import { IConversation } from '@app/types'
+import { IConversation } from '@app/interfaces'
 import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 
 /**

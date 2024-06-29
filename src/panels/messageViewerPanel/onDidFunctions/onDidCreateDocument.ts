@@ -1,5 +1,5 @@
 import { ViewColumn, window, workspace } from 'vscode'
-import { ICodeDocument } from '@app/types'
+import { ICodeDocument } from '@app/interfaces'
 
 export const onDidCreateDocument = (codeDocument: ICodeDocument): void => {
   workspace

@@ -1,4 +1,4 @@
-import { IChatCompletionConfig } from '@app/types'
+import { IChatCompletionConfig } from '@app/interfaces'
 import { ConfigurationSettingService } from '.'
 
 export default class ChatCompletionConfigFactory {

@@ -1,6 +1,6 @@
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
 import ConfigurationService from './configurationService'
-import { IConfigurationConversation } from '@app/types'
+import { IConfigurationConversation } from '@app/interfaces'
 
 export default class ConfigurationConversationService
   extends ConfigurationService

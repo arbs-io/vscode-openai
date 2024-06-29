@@ -1,4 +1,4 @@
-import { IChatCompletion, IConversation } from '@app/types'
+import { IChatCompletion, IConversation } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
 import { ConversationStorageService } from '@app/services'
 import { createChatCompletion } from '@app/apis/openai'

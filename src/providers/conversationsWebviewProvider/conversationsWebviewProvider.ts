@@ -10,7 +10,7 @@ import {
   CancellationToken,
   ColorTheme,
 } from 'vscode'
-import { IConversation } from '@app/types'
+import { IConversation } from '@app/interfaces'
 import { getNonce, getUri } from '@app/apis/vscode'
 import { ConversationStorageService } from '@app/services'
 import { onDidInitialize, onDidOpenConversationWebview } from './onDidFunctions'

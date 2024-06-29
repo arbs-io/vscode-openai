@@ -1,6 +1,6 @@
 import { Disposable, Extension, extensions } from 'vscode'
 import { IRepositoryChangeCallback } from '.'
-import { GitExtension, API, Repository } from '@app/typings/git'
+import { GitExtension, API, Repository } from '@app/types/git'
 
 class GitService {
   private isGitAvailable = false

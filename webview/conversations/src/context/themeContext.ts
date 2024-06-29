@@ -1,5 +1,5 @@
 import React from 'react'
-import { IContextTheme } from '../interfaces'
+import { IContextTheme } from '@app/interfaces'
 
 export function createContextTheme(isDarkMode: boolean): IContextTheme {
   const configuration: IContextTheme = {

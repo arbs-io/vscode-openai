@@ -5,10 +5,10 @@ import {
   mergeClasses,
 } from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState, useCallback } from 'react'
-import { MessageHistory } from '../MessageHistory'
-import { MessageInput } from '../MessageInput'
-import { vscode } from '../../utilities'
-import { IChatCompletion } from '../../interfaces'
+import { MessageHistory } from '@app/components/MessageHistory'
+import { MessageInput } from '@app/components/MessageInput'
+import { vscode } from '@app/utilities'
+import { IChatCompletion } from '@app/interfaces'
 
 const MessageInteraction: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)

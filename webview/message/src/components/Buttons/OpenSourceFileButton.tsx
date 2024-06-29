@@ -1,8 +1,8 @@
 import { FC, ReactElement } from 'react'
 import { Button, Tooltip } from '@fluentui/react-components'
 import { bundleIcon, Open24Filled, Open24Regular } from '@fluentui/react-icons'
-import { ICodeDocument } from '../../interfaces'
-import { vscode } from '../../utilities'
+import { ICodeDocument } from '@app/interfaces'
+import { vscode } from '@app/utilities'
 
 // Function to handle the creation of a code document
 const handleCreateCodeDocument = (language: string, content: string) => {

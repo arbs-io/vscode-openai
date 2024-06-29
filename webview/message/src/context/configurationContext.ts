@@ -1,6 +1,6 @@
 import { tokens } from '@fluentui/react-components'
 import React from 'react'
-import { IContextConfiguration } from '../interfaces'
+import { IContextConfiguration } from '@app/interfaces'
 
 export function createContextConfiguration(): IContextConfiguration {
   const rootElement = document.getElementById('root') as HTMLElement

@@ -4,10 +4,13 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
-import { MessageUtility } from '../MessageUtility'
-import { IMessageHistoryProps } from '../../interfaces'
-import { CopyToClipboardButton, OpenSourceFileButton } from '../Buttons'
-import { ConfigurationContext } from '../../context'
+import { MessageUtility } from '@app/components/MessageUtility'
+import { IMessageHistoryProps } from '@app/interfaces'
+import {
+  CopyToClipboardButton,
+  OpenSourceFileButton,
+} from '@app/components/Buttons'
+import { ConfigurationContext } from '@app/context'
 
 const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   const configuration = useContext(ConfigurationContext)

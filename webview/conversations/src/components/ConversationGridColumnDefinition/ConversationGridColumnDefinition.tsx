@@ -4,8 +4,8 @@ import {
   createTableColumn,
   TableCell,
 } from '@fluentui/react-components'
-import { IConversation } from '../../interfaces'
-import { vscode } from '../../utilities'
+import { IConversation } from '@app/interfaces'
+import { vscode } from '@app/utilities'
 import useConversationAvatar from './useConversationAvatar'
 
 const handleOpenConversation = (conversation: IConversation) => {

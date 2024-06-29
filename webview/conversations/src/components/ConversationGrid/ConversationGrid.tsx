@@ -9,9 +9,9 @@ import {
   mergeClasses,
   makeStyles,
 } from '@fluentui/react-components'
-import { ConversationGridColumnDefinition } from '../ConversationGridColumnDefinition'
-import { IConversation } from '../../interfaces'
-import { vscode } from '../../utilities'
+import { ConversationGridColumnDefinition } from '@app/components/ConversationGridColumnDefinition'
+import { IConversation } from '@app/interfaces'
+import { vscode } from '@app/utilities'
 
 const useStyles = makeStyles({
   conversations: {

@@ -23,6 +23,7 @@
     "@types/react-syntax-highlighter": "^15.5.11",
     "@types/vscode-webview": "^1.57.5",
     "@vitejs/plugin-react": "^4.2.1",
+    "vite-tsconfig-paths": "^4.3.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.8"
   }

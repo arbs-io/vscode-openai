@@ -1,6 +1,6 @@
 import { commands, env, window } from 'vscode'
 import { ConversationStorageService } from '@app/services'
-import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/types'
+import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { createChatCompletion } from '@app/apis/openai'
 import { ChatCompletionConfigFactory } from '@app/services/configurationServices'
 
@@ -43,7 +43,7 @@ export const compareResultsToClipboard = async (
     const result = await createChatCompletion(conversation, cfg)
     const originalValue = await env.clipboard.readText()
 
-    await env.clipboard.writeText(result?.content || '')
+    await env.clipboard.writeText(result?.content ?? '')
     await commands.executeCommand(
       'workbench.files.action.compareWithClipboard',
       documentUri

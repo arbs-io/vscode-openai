@@ -1,4 +1,4 @@
-import { IEmbeddingFileLite } from '@app/types'
+import { IEmbeddingFileLite } from '@app/interfaces'
 import { TreeItem, TreeItemCollapsibleState, Uri, ThemeIcon } from 'vscode'
 
 export class EmbeddingTreeItem extends TreeItem {

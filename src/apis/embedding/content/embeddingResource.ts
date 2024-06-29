@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Uri, workspace } from 'vscode'
 import { createDebugNotification, createInfoNotification } from '@app/apis/node'
 import { getEmbeddingsForText } from '@app/apis/embedding'
-import { IEmbeddingFileLite } from '@app/types'
+import { IEmbeddingFileLite } from '@app/interfaces'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { createDocumentParser } from '@arbs.io/asset-extractor-wasm'
 

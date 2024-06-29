@@ -1,5 +1,5 @@
 import { window } from 'vscode'
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { ConversationStorageService } from '@app/services'
 
 export default class DeleteAllConversationsCommand implements Command {

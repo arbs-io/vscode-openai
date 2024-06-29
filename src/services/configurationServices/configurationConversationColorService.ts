@@ -1,7 +1,7 @@
 import { window, ColorThemeKind } from 'vscode'
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
 import ConfigurationService from './configurationService'
-import { IConfigurationConversationColor } from '@app/types'
+import { IConfigurationConversationColor } from '@app/interfaces'
 
 export default class ConfigurationConversationColorService
   extends ConfigurationService

@@ -1,5 +1,5 @@
-import { Command } from '../commandManager'
-import { IConversation } from '@app/types'
+import { Command } from '@app/commands'
+import { IConversation } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
 import { ConversationStorageService } from '@app/services'
 import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'

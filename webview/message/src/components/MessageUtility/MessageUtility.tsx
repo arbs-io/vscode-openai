@@ -14,9 +14,9 @@ import {
   CommentArrowRight16Regular,
   Speaker216Regular,
 } from '@fluentui/react-icons'
-import { IMessageUtilityProps } from '../../interfaces'
+import { IMessageUtilityProps } from '@app/interfaces'
 import { FC, MouseEvent } from 'react'
-import { TextToSpeech } from '../../utilities'
+import { TextToSpeech } from '@app/utilities'
 
 const useStyles = makeStyles({
   container: {

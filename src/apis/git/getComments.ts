@@ -1,4 +1,4 @@
-import { IChatCompletion, IConversation } from '@app/types'
+import { IChatCompletion, IConversation } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
 import { ConversationStorageService } from '@app/services'
 import { createChatCompletion } from '@app/apis/openai'
@@ -40,7 +40,7 @@ export const getComments = async (diff: string): Promise<string> => {
     const cfg = ChatCompletionConfigFactory.createConfig('scm_model')
 
     const result = await createChatCompletion(conversation, cfg)
-    return result?.content || ''
+    return result?.content ?? ''
   } catch (error) {
     console.error('Failed to generate comments:', error)
     return '' // Return empty string in case of error

@@ -1,4 +1,4 @@
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { getSystemPersonas } from '@app/models'
 import {
   compareResultsToClipboard,

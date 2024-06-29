@@ -1,5 +1,5 @@
 import { commands } from 'vscode'
-import { IConversation } from '@app/types'
+import { IConversation } from '@app/interfaces'
 
 export const onDidOpenConversationWebview = (
   conversation: IConversation

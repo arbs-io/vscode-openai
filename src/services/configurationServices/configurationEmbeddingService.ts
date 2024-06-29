@@ -1,6 +1,6 @@
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
 import ConfigurationService from './configurationService'
-import { IConfigurationEmbedding } from '@app/types'
+import { IConfigurationEmbedding } from '@app/interfaces'
 
 export default class ConfigurationEmbeddingService
   extends ConfigurationService

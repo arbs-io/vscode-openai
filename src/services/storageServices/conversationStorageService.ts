@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { EventEmitter, Event, ExtensionContext } from 'vscode'
 import { GlobalStorageService } from '@app/apis/vscode'
-import { IConversation, IPersonaOpenAI } from '@app/types'
+import { IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { MessageViewerPanel } from '@app/panels'
 import {
   createDebugNotification,

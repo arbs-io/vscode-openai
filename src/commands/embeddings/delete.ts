@@ -1,6 +1,6 @@
 import { window } from 'vscode'
 import { EmbeddingTreeDataProvider, EmbeddingTreeItem } from '@app/providers'
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { EmbeddingStorageService } from '@app/services'
 
 export default class RefreshCommand implements Command {

@@ -1,5 +1,5 @@
 import { Avatar, PresenceBadgeStatus } from '@fluentui/react-components'
-import { IConversation } from '../../interfaces'
+import { IConversation } from '@app/interfaces'
 import {
   ProjectManagerIcon,
   GeneralChatIcon,
@@ -18,9 +18,9 @@ import {
   DevOpsEngineersIcon,
   EnterpriseArchitectIcon,
   SystemAdministratorIcon,
-} from '../../assets'
+} from '@app/assets'
 import { useContext } from 'react'
-import { ThemeContext } from '../../context'
+import { ThemeContext } from '@app/context'
 
 function useConversationAvatar(item: IConversation): JSX.Element {
   const theme = useContext(ThemeContext)

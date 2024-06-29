@@ -7,7 +7,7 @@ import {
 } from 'vscode'
 import { EmbeddingStorageService } from '@app/services'
 import { EmbeddingTreeDragAndDropController, EmbeddingTreeItem } from '.'
-import { IEmbeddingFileLite } from '@app/types'
+import { IEmbeddingFileLite } from '@app/interfaces'
 
 export class EmbeddingTreeDataProvider
   implements TreeDataProvider<EmbeddingTreeItem>

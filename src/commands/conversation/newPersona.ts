@@ -1,5 +1,5 @@
 import { ExtensionContext } from 'vscode'
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { quickPickCreateConversation } from '@app/utilities/quickPicks'
 
 export default class NewConversationPersonaCommand implements Command {

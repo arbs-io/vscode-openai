@@ -1,5 +1,5 @@
 import { OpenDialogOptions, Uri, window, workspace } from 'vscode'
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { EmbeddingStorageService } from '@app/services'
 import { createDebugNotification } from '@app/apis/node'
 import { embeddingResource } from '@app/apis/embedding'

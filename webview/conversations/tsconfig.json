@@ -17,7 +17,12 @@
     "noUnusedParameters": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "typeRoots": ["./node_modules/@types", "./src/typings"]
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["./src/*"],
+      "@common/*": ["../common/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": ["./src", "../common/vscode.ts"]
 }

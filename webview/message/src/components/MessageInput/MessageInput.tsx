@@ -6,8 +6,8 @@ import {
 } from '@fluentui/react-components'
 import { Send16Regular, Mic24Regular, Mic24Filled } from '@fluentui/react-icons'
 import { FC, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { IMessageInputProps } from '../../interfaces'
-import { ConfigurationContext } from '../../context'
+import { IMessageInputProps } from '@app/interfaces'
+import { ConfigurationContext } from '@app/context'
 
 const useStyles = makeStyles({
   outerWrapper: {

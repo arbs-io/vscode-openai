@@ -1,5 +1,5 @@
 import { ConfigurationSettingService } from '@app/services'
-import { IMessage } from '@app/types'
+import { IMessage } from '@app/interfaces'
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
 
 let sessionToken = 0

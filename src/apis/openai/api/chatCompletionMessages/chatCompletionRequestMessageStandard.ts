@@ -1,6 +1,6 @@
 import { OpenAI } from 'openai'
 import { ConfigurationConversationService } from '@app/services'
-import { IConversation } from '@app/types'
+import { IConversation } from '@app/interfaces'
 
 export async function ChatCompletionRequestMessageStandard(
   conversation: IConversation

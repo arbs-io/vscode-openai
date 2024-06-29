@@ -1,6 +1,6 @@
 import { OpenAI } from 'openai'
 import { EmbeddingStorageService } from '@app/services'
-import { IConversation, IEmbeddingFileLite } from '@app/types'
+import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { searchFileChunks } from '@app/apis/embedding'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'

@@ -1,7 +1,7 @@
 import { createEmbedding } from '@app/apis/openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
-import { chunkText } from '../'
-import { IEmbeddingText } from '@app/types'
+import { chunkText } from '@app/apis/embedding'
+import { IEmbeddingText } from '@app/interfaces'
 import { ConfigurationEmbeddingService } from '@app/services'
 
 // This function takes a text and returns an array of embeddings for each chunk of the text

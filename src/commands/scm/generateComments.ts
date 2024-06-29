@@ -1,6 +1,9 @@
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { GitService, getComments, getGitDifferences } from '@app/apis/git'
-import { createErrorNotification, createDebugNotification } from '@app/apis/node'
+import {
+  createErrorNotification,
+  createDebugNotification,
+} from '@app/apis/node'
 
 export default class GenerateCommentsCommand implements Command {
   public readonly id = '_vscode-openai.scm.generate.comments'

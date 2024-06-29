@@ -1,5 +1,5 @@
-import { Command } from '../commandManager'
-import { IConversation } from '@app/types'
+import { Command } from '@app/commands'
+import { IConversation } from '@app/interfaces'
 import { ConversationStorageService } from '@app/services'
 import { EmbeddingTreeItem } from '@app/providers'
 import { getQueryResourcePersona } from '@app/models'

@@ -11,7 +11,7 @@ import {
   Event,
 } from 'vscode'
 import { getUri, getNonce } from '@app/apis/vscode'
-import { IChatCompletion, ICodeDocument, IConversation } from '@app/types'
+import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
 import { createChatCompletion } from '@app/apis/openai'
 import {
   onDidCopyClipboardCode,
@@ -25,7 +25,7 @@ import {
 } from '@app/services/configurationServices'
 
 export class MessageViewerPanel {
-  public static currentPanel: MessageViewerPanel | undefined
+  public static readonly currentPanel: MessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
   private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []

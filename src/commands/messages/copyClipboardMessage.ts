@@ -1,5 +1,5 @@
 import { env } from 'vscode'
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { showMessageWithTimeout } from '@app/apis/vscode'
 import { IChatCompletion } from '@app/interfaces'
 

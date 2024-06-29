@@ -1,6 +1,6 @@
 import { createEmbedding } from '@app/apis/openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
-import { chunkText } from '../'
+import { chunkText } from '@app/apis/embedding'
 import { IEmbeddingText } from '@app/interfaces'
 import { ConfigurationEmbeddingService } from '@app/services'
 

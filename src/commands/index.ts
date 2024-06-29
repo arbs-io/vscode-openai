@@ -37,7 +37,7 @@ import {
 } from './editor'
 import { ClipboardCopyMessagesMessageCommand } from './messages'
 
-export { CommandManager }
+export { Command, CommandManager } from './commandManager'
 export function registerVscodeOpenAICommands(
   context: ExtensionContext,
   commandManager: CommandManager,

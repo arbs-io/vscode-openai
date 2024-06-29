@@ -1,5 +1,5 @@
 import { EmbeddingTreeDataProvider } from '@app/providers'
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 
 export default class RefreshCommand implements Command {
   public readonly id = '_vscode-openai.embeddings.refresh'

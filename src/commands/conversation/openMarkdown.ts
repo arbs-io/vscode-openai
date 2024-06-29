@@ -1,5 +1,5 @@
 import { ViewColumn, window, workspace } from 'vscode'
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { IConversation } from '@app/interfaces'
 
 export default class ShowConversationMarkdownCommand implements Command {

@@ -1,4 +1,4 @@
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { IConversation } from '@app/interfaces'
 import { ConversationStorageService } from '@app/services'
 

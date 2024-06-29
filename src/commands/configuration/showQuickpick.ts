@@ -1,5 +1,5 @@
 import { ExtensionContext } from 'vscode'
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { ConfigurationQuickPickProvider } from '@app/providers'
 
 export default class SettingsCommand implements Command {

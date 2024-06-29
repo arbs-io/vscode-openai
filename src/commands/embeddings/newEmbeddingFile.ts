@@ -1,5 +1,5 @@
 import { OpenDialogOptions, window } from 'vscode'
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { EmbeddingStorageService } from '@app/services'
 import {
   createDebugNotification,

@@ -1,4 +1,4 @@
-import { Command } from '../commandManager'
+import { Command } from '@app/commands'
 import { ConversationStorageService } from '@app/services'
 
 export default class RefreshConversationsCommand implements Command {

@@ -4,7 +4,7 @@ import {
   logError,
   logInfo,
   logWarning,
-} from '../vscode'
+} from '@app/apis/vscode'
 
 function ensureError(value: unknown): Error {
   if (value instanceof Error) return value

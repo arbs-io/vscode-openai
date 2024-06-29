@@ -35,7 +35,7 @@ export class HttpRequest {
         })
 
         res.on('error', (err) => {
-          reject(err)
+          reject(new Error('Network send'))
         })
 
         res.on('end', () => {
@@ -49,7 +49,7 @@ export class HttpRequest {
 
             resolve(body)
           } catch (err) {
-            reject(err)
+            reject(new Error('parse failure'))
           }
         })
       })
@@ -58,7 +58,7 @@ export class HttpRequest {
        * handles the errors on the request
        */
       req.on('error', (err) => {
-        reject(err)
+        reject(new Error('errors on the request'))
       })
 
       /***

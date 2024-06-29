@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react'
 import { makeStyles, mergeClasses } from '@fluentui/react-components'
 import { MessageInteraction } from './components/MessageInteraction'
-import { vscode } from './utilities'
+import { vscode } from '@app/utilities'
 
 const useStyles = makeStyles({
   container: {

@@ -42,20 +42,36 @@ export async function createChatCompletion(
       '- completion'
     )
 
-    const results = await openai.chat.completions.create(
-      {
-        model: chatCompletionConfig.model,
-        messages: chatCompletionMessages,
-        temperature: ConfigurationConversationService.instance.temperature,
-        frequency_penalty:
-          ConfigurationConversationService.instance.frequencyPenalty,
-        presence_penalty:
-          ConfigurationConversationService.instance.presencePenalty,
-        top_p: ConfigurationConversationService.instance.topP,
-        max_tokens: ConfigurationConversationService.instance.maxTokens,
-      },
-      requestConfig
-    )
+    // const results = await openai.chat.completions.create(
+    //   {
+    //     model: chatCompletionConfig.model,
+    //     messages: chatCompletionMessages,
+    //     temperature: ConfigurationConversationService.instance.temperature,
+    //     frequency_penalty:
+    //       ConfigurationConversationService.instance.frequencyPenalty,
+    //     presence_penalty:
+    //       ConfigurationConversationService.instance.presencePenalty,
+    //     top_p: ConfigurationConversationService.instance.topP,
+    //     max_tokens: ConfigurationConversationService.instance.maxTokens,
+    //   },
+    //   requestConfig
+    // )
+
+    const cfg: any = {
+      model: chatCompletionConfig.model,
+      messages: chatCompletionMessages,
+    }
+
+    const ccs = ConfigurationConversationService.instance
+
+    // Conditionally add presence_penalty if it's not 0
+    if (ccs.presencePenalty !== 0) cfg.presence_penalty = ccs.presencePenalty
+    if (ccs.frequencyPenalty !== 0) cfg.frequency_penalty = ccs.frequencyPenalty
+    if (ccs.temperature !== 0.2) cfg.temperature = ccs.temperature
+    if (ccs.topP !== 1) cfg.top_p = ccs.topP
+    if (ccs.maxTokens !== 0) cfg.max_tokens = ccs.maxTokens
+
+    const results = await openai.chat.completions.create(cfg, requestConfig)
 
     const content = results.choices[0].message.content
     if (!content) return undefined

@@ -7,7 +7,7 @@
 
 import { QuickPickItem, ExtensionContext } from 'vscode'
 import { MultiStepInput } from '@app/apis/vscode'
-import { SettingConfig } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 import { ModelCapability } from '@app/apis/openai'
 import {
   getAvailableModelsAzure,
@@ -118,18 +118,18 @@ export async function quickPickChangeModel(
     modelCapabiliy: ModelCapability
   ): Promise<QuickPickItem[]> {
     let models: QuickPickItem[] = []
-    switch (SettingConfig.serviceProvider) {
+    switch (settingCfg.serviceProvider) {
       case 'OpenAI':
         models = await getAvailableModelsOpenai(
-          await SettingConfig.getApiKey(),
-          SettingConfig.baseUrl,
+          await settingCfg.getApiKey(),
+          settingCfg.baseUrl,
           modelCapabiliy
         )
         break
       case 'Azure-OpenAI':
         models = await getAvailableModelsAzure(
-          await SettingConfig.getApiKey(),
-          SettingConfig.baseUrl,
+          await settingCfg.getApiKey(),
+          settingCfg.baseUrl,
           modelCapabiliy
         )
         break
@@ -159,7 +159,7 @@ export async function quickPickChangeModel(
   let embeddingModel = 'setup-required'
   let embeddingDeploy = 'setup-required'
 
-  switch (SettingConfig.serviceProvider) {
+  switch (settingCfg.serviceProvider) {
     case 'OpenAI': {
       inferenceModel = cleanQuickPick(state.quickPickInferenceModel.label)
       scmModel = cleanQuickPick(state.quickPickScmModel.label)
@@ -184,10 +184,10 @@ export async function quickPickChangeModel(
       break
   }
 
-  SettingConfig.defaultModel = inferenceModel
-  SettingConfig.azureDeployment = inferenceDeploy
-  SettingConfig.scmModel = scmModel
-  SettingConfig.scmDeployment = scmDeploy
-  SettingConfig.embeddingModel = embeddingModel
-  SettingConfig.embeddingsDeployment = embeddingDeploy
+  settingCfg.defaultModel = inferenceModel
+  settingCfg.azureDeployment = inferenceDeploy
+  settingCfg.scmModel = scmModel
+  settingCfg.scmDeployment = scmDeploy
+  settingCfg.embeddingModel = embeddingModel
+  settingCfg.embeddingsDeployment = embeddingDeploy
 }

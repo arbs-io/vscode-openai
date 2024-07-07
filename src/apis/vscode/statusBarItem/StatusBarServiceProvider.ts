@@ -5,7 +5,7 @@ import {
   ThemeColor,
   window,
 } from 'vscode'
-import { SettingConfig } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 import { createErrorNotification } from '@app/apis/node'
 
 export default class StatusBarServiceProvider {
@@ -40,7 +40,7 @@ export default class StatusBarServiceProvider {
     icon: string = 'vscode-openai',
     text: string = ''
   ) {
-    this.statusBarItem.text = `$(${icon}) ${SettingConfig.host} ${text}`
+    this.statusBarItem.text = `$(${icon}) ${settingCfg.host} ${text}`
     this.statusBarItem.backgroundColor = undefined
     this.statusBarItem.show()
   }
@@ -50,7 +50,7 @@ export default class StatusBarServiceProvider {
     text: string,
     hostname?: string
   ) {
-    if (hostname === undefined) hostname = SettingConfig.host
+    if (hostname === undefined) hostname = settingCfg.host
 
     this.statusBarItem.text = `$(${icon}) ${hostname} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(
@@ -64,7 +64,7 @@ export default class StatusBarServiceProvider {
     text: string,
     hostname?: string
   ) {
-    if (hostname === undefined) hostname = SettingConfig.host
+    if (hostname === undefined) hostname = settingCfg.host
 
     this.statusBarItem.text = `$(${icon}) ${hostname} ${text}`
     this.statusBarItem.backgroundColor = new ThemeColor(

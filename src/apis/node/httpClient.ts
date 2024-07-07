@@ -1,4 +1,4 @@
-import { SettingConfig } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 import { ClientRequest } from 'http'
 import http = require('https')
 import { Uri } from 'vscode'
@@ -10,7 +10,7 @@ import { Uri } from 'vscode'
 export class HttpRequest {
   private _requestOptions: http.RequestOptions = {}
   constructor(method: string, apiKey: string, baseUrl: string) {
-    const headers = SettingConfig.apiHeaders
+    const headers = settingCfg.apiHeaders
     const uri = Uri.parse(baseUrl)
     this._requestOptions = {
       hostname: uri.authority,
@@ -34,7 +34,7 @@ export class HttpRequest {
           result += chunk
         })
 
-        res.on('error', (err) => {
+        res.on('error', (_err) => {
           reject(new Error('Network send'))
         })
 
@@ -57,7 +57,7 @@ export class HttpRequest {
       /***
        * handles the errors on the request
        */
-      req.on('error', (err) => {
+      req.on('error', (_err) => {
         reject(new Error('errors on the request'))
       })
 

@@ -1,4 +1,4 @@
-import { SettingConfig } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 import { IPersonaOpenAI } from '@app/interfaces'
 
 function getQueryResourcePersona(): IPersonaOpenAI {
@@ -6,8 +6,8 @@ function getQueryResourcePersona(): IPersonaOpenAI {
     roleId: 'f84b3895-255a-495a-ba84-c296bf3609ab',
     roleName: 'Query Resource',
     configuration: {
-      service: SettingConfig.host,
-      model: SettingConfig.defaultModel,
+      service: settingCfg.host,
+      model: settingCfg.defaultModel,
     },
     prompt: {
       system:

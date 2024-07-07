@@ -1,6 +1,9 @@
 import { workspace } from 'vscode'
 import { IPersonaOpenAI } from '@app/interfaces/IPersonaOpenAI'
-import { ConversationConfig as convCfg, SettingConfig } from '@app/services'
+import {
+  ConversationConfig as convCfg,
+  SettingConfig as settingCfg,
+} from '@app/services'
 import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 import assert from 'assert'
 
@@ -42,8 +45,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.GENERAL_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.GENERAL,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('generalChat'),
@@ -53,8 +56,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.DEVELOPER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.DEVELOPER,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('developer'),
@@ -64,8 +67,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMIN_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.SYSTEM_ADMIN,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('systemAdmin'),
@@ -75,8 +78,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.NETWORK_ENGINEER,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('networkEngineer'),
@@ -86,8 +89,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMIN_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.DATABASE_ADMIN,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('databaseAdmin'),
@@ -97,8 +100,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.IT_MANAGER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.IT_MANAGER,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('itManager'),
@@ -108,8 +111,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.PROJECT_MANAGER,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('projectManager'),
@@ -119,8 +122,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYST_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.BUSINESS_ANALYST,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('businessAnalyst'),
@@ -130,8 +133,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.QA_TESTER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.QA_TESTER,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('qaTester'),
@@ -141,8 +144,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.TECHNICAL_WRITER,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('technicalWriter'),
@@ -152,8 +155,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.USER_EXPERIENCE,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('userExperience'),
@@ -163,8 +166,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.PRODUCT_MANAGER,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('productManager'),
@@ -174,8 +177,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.DATA_SCIENTIST,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('dataScientist'),
@@ -185,8 +188,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.CYBER_SECURITY,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('cyberSecurity'),
@@ -196,8 +199,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.CLOUD_ARCHITECT,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('cloudArchitect'),
@@ -207,8 +210,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.DEVOPS_ENGINEERS,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('devOpsEngineers'),
@@ -218,8 +221,8 @@ function getSystemPersonas(): IPersonaOpenAI[] {
       roleId: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT_ID,
       roleName: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT,
       configuration: {
-        service: SettingConfig.host,
-        model: SettingConfig.defaultModel,
+        service: settingCfg.host,
+        model: settingCfg.defaultModel,
       },
       prompt: {
         system: getPrompt('enterpriseArchitect'),

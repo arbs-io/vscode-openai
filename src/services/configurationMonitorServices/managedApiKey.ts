@@ -23,7 +23,7 @@ export class ManagedApiKey {
     await waitFor(500, () => false)
     await verifyApiKey()
     enableServiceFeature()
-    ConfigurationSettingService.LogConfigurationService()
+    ConfigurationSettingService.LogConfigValue()
     this._isQueued = false
   }
 }

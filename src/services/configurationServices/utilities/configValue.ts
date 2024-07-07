@@ -4,7 +4,7 @@ import {
   createErrorNotification,
 } from '@app/apis/node'
 
-export default class ConfigurationService {
+export default class ConfigValue {
   protected getConfigValue<T>(configName: string): T {
     const ws = workspace.getConfiguration('vscode-openai')
     return ws.get(configName) as T

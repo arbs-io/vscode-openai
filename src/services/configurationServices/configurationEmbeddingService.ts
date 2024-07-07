@@ -1,9 +1,9 @@
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
-import ConfigurationService from './configurationService'
+import ConfigValue from './utilities/configValue'
 import { IConfigurationEmbedding } from '@app/interfaces'
 
 export default class ConfigurationEmbeddingService
-  extends ConfigurationService
+  extends ConfigValue
   implements IConfigurationEmbedding
 {
   private static _instance: ConfigurationEmbeddingService
@@ -30,7 +30,7 @@ export default class ConfigurationEmbeddingService
     )
   }
 
-  public static LogConfigurationService(): void {
+  public static LogConfigValue(): void {
     try {
       const cfgMap = new Map<string, string>()
       cfgMap.set(

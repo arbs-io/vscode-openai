@@ -1,23 +1,20 @@
 import { window, ColorThemeKind } from 'vscode'
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
-import ConfigurationService from './configurationService'
+import ConfigValue from './utilities/configValue'
 import { IConfigurationConversationColor } from '@app/interfaces'
 
-export default class ConfigurationConversationColorService
-  extends ConfigurationService
+class ConversationColorConfig
+  extends ConfigValue
   implements IConfigurationConversationColor
 {
-  private static _instance: ConfigurationConversationColorService
   private readonly _cfg = 'conversation-configuration.colors.'
-  static get instance(): ConfigurationConversationColorService {
-    if (!this._instance) {
-      try {
-        this._instance = new ConfigurationConversationColorService()
-      } catch (error) {
-        createErrorNotification(error)
-      }
+  private static instance: ConversationColorConfig | null = null
+
+  public static getInstance(): ConversationColorConfig {
+    if (!ConversationColorConfig.instance) {
+      ConversationColorConfig.instance = new ConversationColorConfig()
     }
-    return this._instance
+    return ConversationColorConfig.instance
   }
 
   public get userColor(): string {
@@ -53,14 +50,13 @@ export default class ConfigurationConversationColorService
     }[window.activeColorTheme.kind]
   }
 
-  public static LogConfigurationService(): void {
+  public log(): void {
     try {
-      const cfg = this.instance
       const cfgMap = new Map<string, string>()
-      cfgMap.set('userColor', cfg.userColor)
-      cfgMap.set('userBackground', cfg.userBackground)
-      cfgMap.set('assistantColor', cfg.assistantColor)
-      cfgMap.set('assistantBackground', cfg.assistantBackground)
+      cfgMap.set('userColor', this.userColor)
+      cfgMap.set('userBackground', this.userBackground)
+      cfgMap.set('assistantColor', this.assistantColor)
+      cfgMap.set('assistantBackground', this.assistantBackground)
 
       createInfoNotification(Object.fromEntries(cfgMap), 'conversation_color')
     } catch (error) {
@@ -68,3 +64,4 @@ export default class ConfigurationConversationColorService
     }
   }
 }
+export default ConversationColorConfig.getInstance()

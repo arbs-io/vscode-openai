@@ -73,7 +73,7 @@ export class ConfigurationQuickPickProvider {
           )
           .then((answer) => {
             if (answer === 'Yes') {
-              ConfigurationSettingService.ResetConfigurationService()
+              ConfigurationSettingService.ResetConfigValue()
             }
           })
         break

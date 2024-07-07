@@ -1,9 +1,9 @@
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
-import ConfigurationService from './configurationService'
+import ConfigValue from './utilities/configValue'
 import { IConfigurationConversation } from '@app/interfaces'
 
 class ConversationConfig
-  extends ConfigurationService
+  extends ConfigValue
   implements IConfigurationConversation
 {
   private static instance: ConversationConfig | null = null

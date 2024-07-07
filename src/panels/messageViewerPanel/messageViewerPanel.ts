@@ -20,7 +20,7 @@ import {
 } from './onDidFunctions'
 import {
   ChatCompletionConfigFactory,
-  ConfigurationConversationColorService,
+  ConversationColorConfig as cccs,
   ConversationConfig as ccs,
 } from '@app/services/configurationServices'
 
@@ -161,7 +161,6 @@ export class MessageViewerPanel {
     ])
 
     const panelTheme = this._isThemeDark() ? 'dark' : 'light'
-    const cccs = ConfigurationConversationColorService.instance
 
     this._setPanelIcon()
     const nonce = getNonce()

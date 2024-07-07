@@ -1,6 +1,6 @@
 import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
-import { ConfigurationConversationService } from '@app/services'
+import { ConversationConfig as ccs } from '@app/services'
 import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 import {
@@ -28,7 +28,7 @@ export async function createChatCompletion(
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
       baseURL: chatCompletionConfig.baseURL,
-      maxRetries: ConfigurationConversationService.instance.numOfAttempts,
+      maxRetries: ccs.numOfAttempts,
     })
 
     const chatCompletionMessages = conversation.embeddingId
@@ -47,7 +47,6 @@ export async function createChatCompletion(
       messages: chatCompletionMessages,
     }
 
-    const ccs = ConfigurationConversationService.instance
     if (ccs.presencePenalty !== 0) cfg.presence_penalty = ccs.presencePenalty
     if (ccs.frequencyPenalty !== 0) cfg.frequency_penalty = ccs.frequencyPenalty
     if (ccs.temperature !== 0.2) cfg.temperature = ccs.temperature

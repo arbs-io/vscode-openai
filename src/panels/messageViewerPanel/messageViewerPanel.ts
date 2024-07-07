@@ -21,11 +21,11 @@ import {
 import {
   ChatCompletionConfigFactory,
   ConfigurationConversationColorService,
-  ConfigurationConversationService,
+  ConversationConfig as ccs,
 } from '@app/services/configurationServices'
 
 export class MessageViewerPanel {
-  public static readonly currentPanel: MessageViewerPanel | undefined
+  public static currentPanel: MessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
   private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
@@ -162,7 +162,6 @@ export class MessageViewerPanel {
 
     const panelTheme = this._isThemeDark() ? 'dark' : 'light'
     const cccs = ConfigurationConversationColorService.instance
-    const ccs = ConfigurationConversationService.instance
 
     this._setPanelIcon()
     const nonce = getNonce()

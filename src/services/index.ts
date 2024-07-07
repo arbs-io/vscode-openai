@@ -10,7 +10,7 @@ import {
 
 import { registerConfigurationMonitorService } from './configurationMonitorServices'
 import {
-  ConfigurationConversationService,
+  ConversationConfig,
   ConfigurationConversationColorService,
   ConfigurationEmbeddingService,
   ConfigurationSettingService,
@@ -20,7 +20,7 @@ import { enableServiceFeature } from './featureFlagServices'
 
 export {
   ConfigurationSettingService,
-  ConfigurationConversationService,
+  ConversationConfig,
   ConfigurationEmbeddingService,
 } from './configurationServices'
 
@@ -48,7 +48,7 @@ export function registerVscodeOpenAIServices(context: ExtensionContext) {
   //load configuration
   createDebugNotification('log configuration service')
   ConfigurationSettingService.LogConfigurationService()
-  ConfigurationConversationService.LogConfigurationService()
+  ConversationConfig.log()
   ConfigurationEmbeddingService.LogConfigurationService()
   ConfigurationConversationColorService.LogConfigurationService()
 

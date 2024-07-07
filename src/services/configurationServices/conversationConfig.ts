@@ -2,20 +2,17 @@ import { createErrorNotification, createInfoNotification } from '@app/apis/node'
 import ConfigurationService from './configurationService'
 import { IConfigurationConversation } from '@app/interfaces'
 
-export default class ConfigurationConversationService
+class ConversationConfig
   extends ConfigurationService
   implements IConfigurationConversation
 {
-  private static _instance: ConfigurationConversationService
-  static get instance(): ConfigurationConversationService {
-    if (!this._instance) {
-      try {
-        this._instance = new ConfigurationConversationService()
-      } catch (error) {
-        createErrorNotification(error)
-      }
+  private static instance: ConversationConfig | null = null
+
+  public static getInstance(): ConversationConfig {
+    if (!ConversationConfig.instance) {
+      ConversationConfig.instance = new ConversationConfig()
     }
-    return this._instance
+    return ConversationConfig.instance
   }
 
   public get temperature(): number {
@@ -79,19 +76,18 @@ export default class ConfigurationConversationService
     )
   }
 
-  public static LogConfigurationService(): void {
+  public log(): void {
     try {
-      const cfg = this.instance
       const cfgMap = new Map<string, string>()
-      cfgMap.set('temperature', cfg.temperature.toString())
-      cfgMap.set('presence_penalty', cfg.presencePenalty.toString())
-      cfgMap.set('top_p', cfg.topP.toString())
-      cfgMap.set('max_tokens', cfg.maxTokens?.toString() ?? 'maximum')
-      cfgMap.set('frequency_penalty', cfg.frequencyPenalty.toString())
-      cfgMap.set('number_of_attempts', cfg.numOfAttempts.toString())
-      cfgMap.set('conversation_history', cfg.conversationHistory.toString())
-      cfgMap.set('summary_max_length', cfg.summaryMaxLength.toString())
-      cfgMap.set('summary_threshold', cfg.summaryThreshold.toString())
+      cfgMap.set('temperature', this.temperature.toString())
+      cfgMap.set('presence_penalty', this.presencePenalty.toString())
+      cfgMap.set('top_p', this.topP.toString())
+      cfgMap.set('max_tokens', this.maxTokens?.toString() ?? 'maximum')
+      cfgMap.set('frequency_penalty', this.frequencyPenalty.toString())
+      cfgMap.set('number_of_attempts', this.numOfAttempts.toString())
+      cfgMap.set('conversation_history', this.conversationHistory.toString())
+      cfgMap.set('summary_max_length', this.summaryMaxLength.toString())
+      cfgMap.set('summary_threshold', this.summaryThreshold.toString())
 
       createInfoNotification(
         Object.fromEntries(cfgMap),
@@ -102,3 +98,4 @@ export default class ConfigurationConversationService
     }
   }
 }
+export default ConversationConfig.getInstance()

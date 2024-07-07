@@ -13,13 +13,13 @@ import {
   ConversationConfig as convCfg,
   ConversationColorConfig as convColorCfg,
   EmbeddingConfig,
-  ConfigurationSettingService,
+  SettingConfig,
 } from './configuration'
 import { GlobalStorageService, SecretStorageService } from '@app/apis/vscode'
 import { enableServiceFeature } from './featureFlagServices'
 
 export {
-  ConfigurationSettingService,
+  SettingConfig,
   ConversationConfig,
   EmbeddingConfig,
 } from './configuration'
@@ -47,7 +47,7 @@ export function registerVscodeOpenAIServices(context: ExtensionContext) {
 
   //load configuration
   createDebugNotification('log configuration service')
-  ConfigurationSettingService.LogConfigValue()
+  SettingConfig.log()
   convCfg.log()
   convColorCfg.log()
   EmbeddingConfig.log()

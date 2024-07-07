@@ -17,22 +17,19 @@ type ApiHeader = {
   value: string
 }
 
-class ConfigurationSettingService
-  extends ConfigValue
-  implements IConfigurationSetting
-{
-  private static instance: ConfigurationSettingService | null = null
+class SettingConfig extends ConfigValue implements IConfigurationSetting {
+  private static instance: SettingConfig | null = null
 
   private constructor() {
     super()
   }
 
-  public static getInstance(): ConfigurationSettingService {
-    if (!ConfigurationSettingService.instance) {
-      ConfigurationSettingService.instance = new ConfigurationSettingService()
-      ConfigurationSettingService._upgradeV1()
+  public static getInstance(): SettingConfig {
+    if (!SettingConfig.instance) {
+      SettingConfig.instance = new SettingConfig()
+      SettingConfig._upgradeV1()
     }
-    return ConfigurationSettingService.instance
+    return SettingConfig.instance
   }
 
   static async loadConfigValue({
@@ -254,7 +251,7 @@ class ConfigurationSettingService
     this.azureApiVersion = undefined
   }
 
-  public LogConfigValue(): void {
+  public log(): void {
     try {
       const cfgMap = new Map<string, string>()
       cfgMap.set('vscode_version', this.vscodeVersion)
@@ -290,23 +287,15 @@ class ConfigurationSettingService
 
     function upgradeConfigProperty(oldProperty: string, newProperty: string) {
       const value =
-        ConfigurationSettingService.getInstance().getConfigValue<string>(
-          oldProperty
-        )
+        SettingConfig.getInstance().getConfigValue<string>(oldProperty)
       if (value) {
         // migrate new property
-        ConfigurationSettingService.getInstance().setConfigValue(
-          newProperty,
-          value
-        )
+        SettingConfig.getInstance().setConfigValue(newProperty, value)
         // remove old property
-        ConfigurationSettingService.getInstance().setConfigValue(
-          oldProperty,
-          undefined
-        )
+        SettingConfig.getInstance().setConfigValue(oldProperty, undefined)
       }
     }
   }
 }
 
-export default ConfigurationSettingService.getInstance()
+export default SettingConfig.getInstance()

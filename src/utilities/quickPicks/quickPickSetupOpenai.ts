@@ -8,7 +8,7 @@
  */
 
 import { QuickPickItem, ExtensionContext, Uri } from 'vscode'
-import { ConfigurationSettingService } from '@app/services'
+import { SettingConfig } from '@app/services'
 import { ModelCapability } from '@app/apis/openai'
 import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
 import { getAvailableModelsOpenai } from './getAvailableModels'
@@ -232,13 +232,13 @@ export async function quickPickSetupOpenai(
   const scmModel = cleanQuickPick(state.quickPickScmModel.label)
   const embeddingModel = cleanQuickPick(state.quickPickEmbeddingModel.label)
 
-  ConfigurationSettingService.serviceProvider = 'OpenAI'
-  ConfigurationSettingService.baseUrl = state.openaiBaseUrl
-  ConfigurationSettingService.defaultModel = inferenceModel
-  ConfigurationSettingService.azureDeployment = 'setup-required'
-  ConfigurationSettingService.scmModel = scmModel
-  ConfigurationSettingService.scmDeployment = 'setup-required'
-  ConfigurationSettingService.embeddingModel = embeddingModel
-  ConfigurationSettingService.embeddingsDeployment = 'setup-required'
-  ConfigurationSettingService.azureApiVersion = '2024-02-01'
+  SettingConfig.serviceProvider = 'OpenAI'
+  SettingConfig.baseUrl = state.openaiBaseUrl
+  SettingConfig.defaultModel = inferenceModel
+  SettingConfig.azureDeployment = 'setup-required'
+  SettingConfig.scmModel = scmModel
+  SettingConfig.scmDeployment = 'setup-required'
+  SettingConfig.embeddingModel = embeddingModel
+  SettingConfig.embeddingsDeployment = 'setup-required'
+  SettingConfig.azureApiVersion = '2024-02-01'
 }

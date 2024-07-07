@@ -1,5 +1,5 @@
 import OpenAI from 'openai'
-import { ConfigurationSettingService, featureVerifyApiKey } from '@app/services'
+import { SettingConfig, featureVerifyApiKey } from '@app/services'
 import { StatusBarServiceProvider, setFeatureFlag } from '@app/apis/vscode'
 import { errorHandler } from './errorHandler'
 import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
@@ -22,18 +22,18 @@ export async function verifyApiKey(): Promise<boolean> {
       '- verify authentication'
     )
 
-    const azureApiVersion = ConfigurationSettingService.azureApiVersion
-    const apiKey = await ConfigurationSettingService.getApiKey()
+    const azureApiVersion = SettingConfig.azureApiVersion
+    const apiKey = await SettingConfig.getApiKey()
 
     const openai = new OpenAI({
       apiKey: apiKey,
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
-      baseURL: ConfigurationSettingService.baseUrl,
+      baseURL: SettingConfig.baseUrl,
     })
 
     const response = await openai.models.list(
-      await ConfigurationSettingService.getRequestConfig()
+      await SettingConfig.getRequestConfig()
     )
 
     if (response) {

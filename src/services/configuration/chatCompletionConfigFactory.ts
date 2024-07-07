@@ -1,5 +1,5 @@
 import { IChatCompletionConfig } from '@app/interfaces'
-import { ConfigurationSettingService } from '.'
+import { SettingConfig } from '.'
 
 export default class ChatCompletionConfigFactory {
   /**
@@ -13,23 +13,23 @@ export default class ChatCompletionConfigFactory {
   ): IChatCompletionConfig {
     // Using a common method to reduce redundancy and improve maintainability.
     const getCommonConfig = () => ({
-      azureApiVersion: ConfigurationSettingService.azureApiVersion,
-      apiKey: ConfigurationSettingService.getApiKey(),
-      requestConfig: ConfigurationSettingService.getRequestConfig(),
+      azureApiVersion: SettingConfig.azureApiVersion,
+      apiKey: SettingConfig.getApiKey(),
+      requestConfig: SettingConfig.getRequestConfig(),
     })
 
     switch (type) {
       case 'inference_model':
         return {
           ...getCommonConfig(),
-          baseURL: ConfigurationSettingService.inferenceUrl,
-          model: ConfigurationSettingService.defaultModel,
+          baseURL: SettingConfig.inferenceUrl,
+          model: SettingConfig.defaultModel,
         }
       case 'scm_model':
         return {
           ...getCommonConfig(),
-          baseURL: ConfigurationSettingService.scmUrl,
-          model: ConfigurationSettingService.scmModel,
+          baseURL: SettingConfig.scmUrl,
+          model: SettingConfig.scmModel,
         }
       default:
         // Providing a more descriptive error message.

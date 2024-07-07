@@ -5,7 +5,7 @@ import {
   ConversationStorageService,
 } from '@app/services'
 import { createChatCompletion } from '@app/apis/openai'
-import { ChatCompletionConfigFactory } from '@app/services/configurationServices'
+import { ChatCompletionConfigFactory } from '@app/services/configuration'
 
 export const onDidSaveMessages = async (
   conversation: IConversation,

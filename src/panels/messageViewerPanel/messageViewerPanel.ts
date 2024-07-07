@@ -22,7 +22,7 @@ import {
   ChatCompletionConfigFactory,
   ConversationColorConfig as convColorCfg,
   ConversationConfig as convCfg,
-} from '@app/services/configurationServices'
+} from '@app/services/configuration'
 
 export class MessageViewerPanel {
   public static currentPanel: MessageViewerPanel | undefined

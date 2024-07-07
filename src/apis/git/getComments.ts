@@ -4,7 +4,7 @@ import { ConversationStorageService } from '@app/services'
 import { createChatCompletion } from '@app/apis/openai'
 import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 import { workspace } from 'vscode'
-import { ChatCompletionConfigFactory } from '@app/services/configurationServices'
+import { ChatCompletionConfigFactory } from '@app/services/configuration'
 
 // This function generates comments for the given git differences using OpenAI's chatbot API.
 // It takes a string representing the git differences as input and returns a Promise that resolves to a string.

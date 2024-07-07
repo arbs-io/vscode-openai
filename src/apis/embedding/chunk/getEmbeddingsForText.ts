@@ -2,7 +2,7 @@ import { createEmbedding } from '@app/apis/openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { chunkText } from '@app/apis/embedding'
 import { IEmbeddingText } from '@app/interfaces'
-import { ConfigurationEmbeddingService } from '@app/services'
+import { EmbeddingConfig as embedCfg } from '@app/services'
 
 // This function takes a text and returns an array of embeddings for each chunk of the text
 // The text is split into chunks of a given maximum charcter length
@@ -16,8 +16,7 @@ export async function getEmbeddingsForText(
   )
 
   const batchSize = 1
-  const MAX_CHAR_LENGTH =
-    ConfigurationEmbeddingService.instance.maxCharacterLength
+  const MAX_CHAR_LENGTH = embedCfg.maxCharacterLength
   const textChunks = chunkText({ content, maxCharLength: MAX_CHAR_LENGTH })
 
   let chunkCounter = 1

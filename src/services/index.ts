@@ -12,17 +12,17 @@ import { registerConfigurationMonitorService } from './configurationMonitorServi
 import {
   ConversationConfig as convCfg,
   ConversationColorConfig as convColorCfg,
-  ConfigurationEmbeddingService,
+  EmbeddingConfig,
   ConfigurationSettingService,
-} from './configurationServices'
+} from './configuration'
 import { GlobalStorageService, SecretStorageService } from '@app/apis/vscode'
 import { enableServiceFeature } from './featureFlagServices'
 
 export {
   ConfigurationSettingService,
   ConversationConfig,
-  ConfigurationEmbeddingService,
-} from './configurationServices'
+  EmbeddingConfig,
+} from './configuration'
 
 export {
   ConversationStorageService,
@@ -50,7 +50,7 @@ export function registerVscodeOpenAIServices(context: ExtensionContext) {
   ConfigurationSettingService.LogConfigValue()
   convCfg.log()
   convColorCfg.log()
-  ConfigurationEmbeddingService.LogConfigValue()
+  EmbeddingConfig.log()
 
   createDebugNotification('verifying service authentication')
   validateApiKey() //On activation check if the api key is valid

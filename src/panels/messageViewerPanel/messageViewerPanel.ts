@@ -20,12 +20,12 @@ import {
 } from './onDidFunctions'
 import {
   ChatCompletionConfigFactory,
-  ConfigurationConversationColorService,
-  ConfigurationConversationService,
-} from '@app/services/configurationServices'
+  ConversationColorConfig as convColorCfg,
+  ConversationConfig as convCfg,
+} from '@app/services/configuration'
 
 export class MessageViewerPanel {
-  public static readonly currentPanel: MessageViewerPanel | undefined
+  public static currentPanel: MessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
   private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
@@ -161,8 +161,6 @@ export class MessageViewerPanel {
     ])
 
     const panelTheme = this._isThemeDark() ? 'dark' : 'light'
-    const cccs = ConfigurationConversationColorService.instance
-    const ccs = ConfigurationConversationService.instance
 
     this._setPanelIcon()
     const nonce = getNonce()
@@ -180,7 +178,7 @@ export class MessageViewerPanel {
           <title>vscode-openai messages</title>
         </head>
         <body style="margin:0;padding:0">
-          <div id="root" theme='${panelTheme}' messageShortcuts='${ccs.messageShortcuts}' assistantColor='${cccs.assistantColor}' assistantBackground='${cccs.assistantBackground}' userColor='${cccs.userColor}' userBackground='${cccs.userBackground}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />
+          <div id="root" theme='${panelTheme}' messageShortcuts='${convCfg.messageShortcuts}' assistantColor='${convColorCfg.assistantColor}' assistantBackground='${convColorCfg.assistantBackground}' userColor='${convColorCfg.userColor}' userBackground='${convColorCfg.userBackground}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>

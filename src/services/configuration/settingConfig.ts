@@ -9,7 +9,7 @@ import {
   createInfoNotification,
   waitFor,
 } from '@app/apis/node'
-import ConfigurationService from './configurationService'
+import ConfigValue from './utilities/configValue'
 import { IConfigurationSetting, IDynamicLooseObject } from '@app/interfaces'
 
 type ApiHeader = {
@@ -17,25 +17,22 @@ type ApiHeader = {
   value: string
 }
 
-class ConfigurationSettingService
-  extends ConfigurationService
-  implements IConfigurationSetting
-{
-  private static instance: ConfigurationSettingService | null = null
+class SettingConfig extends ConfigValue implements IConfigurationSetting {
+  private static instance: SettingConfig | null = null
 
   private constructor() {
     super()
   }
 
-  public static getInstance(): ConfigurationSettingService {
-    if (!ConfigurationSettingService.instance) {
-      ConfigurationSettingService.instance = new ConfigurationSettingService()
-      ConfigurationSettingService._upgradeV1()
+  public static getInstance(): SettingConfig {
+    if (!SettingConfig.instance) {
+      SettingConfig.instance = new SettingConfig()
+      SettingConfig._upgradeV1()
     }
-    return ConfigurationSettingService.instance
+    return SettingConfig.instance
   }
 
-  static async loadConfigurationService({
+  static async loadConfigValue({
     serviceProvider,
     baseUrl,
     defaultModel,
@@ -242,7 +239,7 @@ class ConfigurationSettingService
     return ''
   }
 
-  public ResetConfigurationService(): void {
+  public ResetConfigValue(): void {
     this.serviceProvider = undefined
     this.baseUrl = undefined
     this.defaultModel = undefined
@@ -254,7 +251,7 @@ class ConfigurationSettingService
     this.azureApiVersion = undefined
   }
 
-  public LogConfigurationService(): void {
+  public log(): void {
     try {
       const cfgMap = new Map<string, string>()
       cfgMap.set('vscode_version', this.vscodeVersion)
@@ -290,23 +287,15 @@ class ConfigurationSettingService
 
     function upgradeConfigProperty(oldProperty: string, newProperty: string) {
       const value =
-        ConfigurationSettingService.getInstance().getConfigValue<string>(
-          oldProperty
-        )
+        SettingConfig.getInstance().getConfigValue<string>(oldProperty)
       if (value) {
         // migrate new property
-        ConfigurationSettingService.getInstance().setConfigValue(
-          newProperty,
-          value
-        )
+        SettingConfig.getInstance().setConfigValue(newProperty, value)
         // remove old property
-        ConfigurationSettingService.getInstance().setConfigValue(
-          oldProperty,
-          undefined
-        )
+        SettingConfig.getInstance().setConfigValue(oldProperty, undefined)
       }
     }
   }
 }
 
-export default ConfigurationSettingService.getInstance()
+export default SettingConfig.getInstance()

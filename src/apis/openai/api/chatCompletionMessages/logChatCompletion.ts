@@ -1,4 +1,4 @@
-import { ConfigurationSettingService } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 import { IMessage } from '@app/interfaces'
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
 
@@ -8,8 +8,8 @@ export const LogChatCompletion = (message: IMessage) => {
     sessionToken = sessionToken + message.totalTokens
 
     const infoMap = new Map<string, string>()
-    infoMap.set('service_provider', ConfigurationSettingService.serviceProvider)
-    infoMap.set('default_model', ConfigurationSettingService.defaultModel)
+    infoMap.set('service_provider', settingCfg.serviceProvider)
+    infoMap.set('default_model', settingCfg.defaultModel)
     infoMap.set('tokens_prompt', message.promptTokens.toString())
     infoMap.set('tokens_completion', message.completionTokens.toString())
     infoMap.set('tokens_total', message.totalTokens.toString())

@@ -109,24 +109,24 @@ export default class ConversationStorageService {
     embeddingId?: string
   ): Promise<IConversation> {
     const uuid4 = uuidv4()
-    const welcomeMessage = embeddingId
-      ? await this.getEmbeddingWelcomeMessage(embeddingId)
-      : await this.getWelcomeMessage()
+
     const summary = embeddingId
       ? `Query ${(await this.getEmbeddingSummary(embeddingId)).toUpperCase()}`
       : '<New Conversation>'
 
-    const chatCompletion = [
-      {
-        content: welcomeMessage,
-        author: `${persona.roleName} (${persona.configuration.service})`,
-        timestamp: new Date().toLocaleString(),
-        mine: false,
-        completionTokens: 0,
-        promptTokens: 0,
-        totalTokens: 0,
-      },
-    ]
+    const chatCompletion = embeddingId
+      ? [
+          {
+            content: await this.getEmbeddingWelcomeMessage(embeddingId),
+            author: `${persona.roleName} (${persona.configuration.service})`,
+            timestamp: new Date().toLocaleString(),
+            mine: false,
+            completionTokens: 0,
+            promptTokens: 0,
+            totalTokens: 0,
+          },
+        ]
+      : []
 
     return {
       timestamp: new Date().getTime(),
@@ -138,9 +138,6 @@ export default class ConversationStorageService {
     }
   }
 
-  private async getWelcomeMessage(): Promise<string> {
-    return "Welcome! I'm vscode-openai, an AI language model based on OpenAI. I have been designed to assist you with all your technology needs. Whether you're looking for help with programming, troubleshooting technical issues, or just want to stay up-to-date with the latest developments in the industry, I'm here to provide the information you need."
-  }
   private async getEmbeddingWelcomeMessage(
     embeddingId: string
   ): Promise<string> {

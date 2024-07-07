@@ -1,8 +1,8 @@
 import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import {
-  ConfigurationConversationService,
-  ConfigurationSettingService,
+  ConversationConfig as convCfg,
+  SettingConfig as settingCfg,
 } from '@app/services'
 import { errorHandler } from './errorHandler'
 
@@ -18,21 +18,21 @@ export async function createEmbedding({
   batchLength,
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
-    const model = ConfigurationSettingService.embeddingModel
-    const azureApiVersion = ConfigurationSettingService.azureApiVersion
-    const apiKey = await ConfigurationSettingService.getApiKey()
+    const model = settingCfg.embeddingModel
+    const azureApiVersion = settingCfg.azureApiVersion
+    const apiKey = await settingCfg.getApiKey()
     if (!apiKey) throw new Error('Invalid Api Key')
 
     const openai = new OpenAI({
       apiKey: apiKey,
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
-      baseURL: ConfigurationSettingService.embeddingUrl,
-      maxRetries: ConfigurationConversationService.instance.numOfAttempts,
+      baseURL: settingCfg.embeddingUrl,
+      maxRetries: convCfg.numOfAttempts,
       timeout: 20 * 1000, // Embedding should be fast, forcing quick retry
     })
 
-    const requestConfig = await ConfigurationSettingService.getRequestConfig()
+    const requestConfig = await settingCfg.getRequestConfig()
 
     const results = await openai.embeddings.create(
       {

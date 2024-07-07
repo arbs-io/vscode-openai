@@ -1,7 +1,7 @@
 import { OpenAI } from 'openai'
 import { errorHandler } from './errorHandler'
 import { ModelCapability } from './modelCapabiliy'
-import { ConfigurationSettingService } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 
 export async function listModelsOpenAI(
   apiKey: string,
@@ -10,8 +10,8 @@ export async function listModelsOpenAI(
 ): Promise<Array<string>> {
   const models = new Array<string>()
   try {
-    const headers = ConfigurationSettingService.apiHeaders
-    const azureApiVersion = ConfigurationSettingService.azureApiVersion
+    const headers = settingCfg.apiHeaders
+    const azureApiVersion = settingCfg.azureApiVersion
 
     const openai = new OpenAI({
       apiKey: apiKey,

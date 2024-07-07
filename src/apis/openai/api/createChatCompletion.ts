@@ -1,6 +1,6 @@
 import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
-import { ConfigurationConversationService } from '@app/services'
+import { ConversationConfig as convCfg } from '@app/services'
 import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 import {
@@ -28,7 +28,7 @@ export async function createChatCompletion(
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
       baseURL: chatCompletionConfig.baseURL,
-      maxRetries: ConfigurationConversationService.instance.numOfAttempts,
+      maxRetries: convCfg.numOfAttempts,
     })
 
     const chatCompletionMessages = conversation.embeddingId
@@ -42,20 +42,20 @@ export async function createChatCompletion(
       '- completion'
     )
 
-    const results = await openai.chat.completions.create(
-      {
-        model: chatCompletionConfig.model,
-        messages: chatCompletionMessages,
-        temperature: ConfigurationConversationService.instance.temperature,
-        frequency_penalty:
-          ConfigurationConversationService.instance.frequencyPenalty,
-        presence_penalty:
-          ConfigurationConversationService.instance.presencePenalty,
-        top_p: ConfigurationConversationService.instance.topP,
-        max_tokens: ConfigurationConversationService.instance.maxTokens,
-      },
-      requestConfig
-    )
+    const cfg: any = {
+      model: chatCompletionConfig.model,
+      messages: chatCompletionMessages,
+    }
+
+    if (convCfg.presencePenalty !== 0)
+      cfg.presence_penalty = convCfg.presencePenalty
+    if (convCfg.frequencyPenalty !== 0)
+      cfg.frequency_penalty = convCfg.frequencyPenalty
+    if (convCfg.temperature !== 0.2) cfg.temperature = convCfg.temperature
+    if (convCfg.topP !== 1) cfg.top_p = convCfg.topP
+    if (convCfg.maxTokens !== undefined) cfg.max_tokens = convCfg.maxTokens
+
+    const results = await openai.chat.completions.create(cfg, requestConfig)
 
     const content = results.choices[0].message.content
     if (!content) return undefined

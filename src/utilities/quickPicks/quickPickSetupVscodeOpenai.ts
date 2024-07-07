@@ -11,7 +11,7 @@ import {
   SecretStorageService,
   getGitAccessToken,
 } from '@app/apis/vscode'
-import { ConfigurationSettingService } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 import { HttpRequest, createErrorNotification } from '@app/apis/node'
 
 /**
@@ -105,13 +105,13 @@ export async function quickPickSetupVscodeOpenai(
   if (!accessToken) return
 
   await SecretStorageService.instance.setAuthApiKey(accessToken)
-  ConfigurationSettingService.serviceProvider = 'VSCode-OpenAI'
-  ConfigurationSettingService.baseUrl = `https://api.arbs.io/openai/inference/v1`
-  ConfigurationSettingService.defaultModel = 'gpt-4o'
-  ConfigurationSettingService.azureDeployment = 'gpt-4o'
-  ConfigurationSettingService.scmModel = 'gpt-4o'
-  ConfigurationSettingService.scmDeployment = 'gpt-4o'
-  ConfigurationSettingService.embeddingModel = 'text-embedding-ada-002'
-  ConfigurationSettingService.embeddingsDeployment = 'text-embedding-ada-002'
-  ConfigurationSettingService.azureApiVersion = '2024-02-01'
+  settingCfg.serviceProvider = 'VSCode-OpenAI'
+  settingCfg.baseUrl = `https://api.arbs.io/openai/inference/v1`
+  settingCfg.defaultModel = 'gpt-4o'
+  settingCfg.azureDeployment = 'gpt-4o'
+  settingCfg.scmModel = 'gpt-4o'
+  settingCfg.scmDeployment = 'gpt-4o'
+  settingCfg.embeddingModel = 'text-embedding-ada-002'
+  settingCfg.embeddingsDeployment = 'text-embedding-ada-002'
+  settingCfg.azureApiVersion = '2024-02-01'
 }

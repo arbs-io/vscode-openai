@@ -8,7 +8,7 @@
  */
 
 import { QuickPickItem, CancellationToken, ExtensionContext } from 'vscode'
-import { ConfigurationSettingService } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
 
 /**
@@ -131,13 +131,13 @@ export async function quickPickSetupCredalOpenai(
   const inferenceModel = state.quickPickInferenceModel.label
 
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-  ConfigurationSettingService.serviceProvider = 'CredalAI'
-  ConfigurationSettingService.baseUrl = 'https://app.credal.ai/api/openai'
-  ConfigurationSettingService.defaultModel = inferenceModel
-  ConfigurationSettingService.azureDeployment = 'setup-required'
-  ConfigurationSettingService.scmModel = inferenceModel
-  ConfigurationSettingService.scmDeployment = 'setup-required'
-  ConfigurationSettingService.embeddingModel = 'setup-required'
-  ConfigurationSettingService.embeddingsDeployment = 'setup-required'
-  ConfigurationSettingService.azureApiVersion = '2024-02-01'
+  settingCfg.serviceProvider = 'CredalAI'
+  settingCfg.baseUrl = 'https://app.credal.ai/api/openai'
+  settingCfg.defaultModel = inferenceModel
+  settingCfg.azureDeployment = 'setup-required'
+  settingCfg.scmModel = inferenceModel
+  settingCfg.scmDeployment = 'setup-required'
+  settingCfg.embeddingModel = 'setup-required'
+  settingCfg.embeddingsDeployment = 'setup-required'
+  settingCfg.azureApiVersion = '2024-02-01'
 }

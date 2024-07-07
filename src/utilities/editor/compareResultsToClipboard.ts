@@ -2,7 +2,7 @@ import { commands, env, window } from 'vscode'
 import { ConversationStorageService } from '@app/services'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
 import { createChatCompletion } from '@app/apis/openai'
-import { ChatCompletionConfigFactory } from '@app/services/configurationServices'
+import { ChatCompletionConfigFactory } from '@app/services/configuration'
 
 export const compareResultsToClipboard = async (
   persona: IPersonaOpenAI | undefined,

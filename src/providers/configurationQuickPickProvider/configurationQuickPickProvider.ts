@@ -15,7 +15,7 @@ import {
 } from '@app/utilities/quickPicks'
 import { VSCODE_OPENAI_EXTENSION, VSCODE_OPENAI_QP_SETUP } from '@app/constants'
 import { getFeatureFlag } from '@app/apis/vscode'
-import { ConfigurationSettingService } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 
 export class ConfigurationQuickPickProvider {
   private static instance: ConfigurationQuickPickProvider
@@ -73,7 +73,7 @@ export class ConfigurationQuickPickProvider {
           )
           .then((answer) => {
             if (answer === 'Yes') {
-              ConfigurationSettingService.ResetConfigurationService()
+              settingCfg.ResetConfigValue()
             }
           })
         break
@@ -116,7 +116,7 @@ function BuildQuickPickItems(): QuickPickItem[] {
 function BuildQuickPickModelSelection(): QuickPickItem[] {
   const isValidKey = getFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID)
   const validSP: string[] = ['OpenAI', 'Azure-OpenAI']
-  const allowed = validSP.includes(ConfigurationSettingService.serviceProvider)
+  const allowed = validSP.includes(settingCfg.serviceProvider)
   let quickPickItemTypes: QuickPickItem[] = []
   if (isValidKey && allowed) {
     quickPickItemTypes = [

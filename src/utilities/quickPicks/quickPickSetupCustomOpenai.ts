@@ -1,5 +1,5 @@
 import { ExtensionContext, Uri } from 'vscode'
-import { ConfigurationSettingService } from '@app/services'
+import { SettingConfig as settingCfg } from '@app/services'
 import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
 
 /**
@@ -130,13 +130,13 @@ export async function quickPickSetupCustomOpenai(
   const state = await collectInputs()
 
   await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-  ConfigurationSettingService.serviceProvider = 'Custom-OpenAI'
-  ConfigurationSettingService.baseUrl = state.openaiBaseUrl
-  ConfigurationSettingService.defaultModel = state.inferenceModel
-  ConfigurationSettingService.azureDeployment = 'setup-required'
-  ConfigurationSettingService.scmModel = state.inferenceModel
-  ConfigurationSettingService.scmDeployment = 'setup-required'
-  ConfigurationSettingService.embeddingModel = 'setup-required'
-  ConfigurationSettingService.embeddingsDeployment = 'setup-required'
-  ConfigurationSettingService.azureApiVersion = '2024-02-01'
+  settingCfg.serviceProvider = 'Custom-OpenAI'
+  settingCfg.baseUrl = state.openaiBaseUrl
+  settingCfg.defaultModel = state.inferenceModel
+  settingCfg.azureDeployment = 'setup-required'
+  settingCfg.scmModel = state.inferenceModel
+  settingCfg.scmDeployment = 'setup-required'
+  settingCfg.embeddingModel = 'setup-required'
+  settingCfg.embeddingsDeployment = 'setup-required'
+  settingCfg.azureApiVersion = '2024-02-01'
 }

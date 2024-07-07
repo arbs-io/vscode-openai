@@ -1,7 +1,7 @@
 import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import {
-  ConversationConfig as ccs,
+  ConversationConfig as convCfg,
   ConfigurationSettingService,
 } from '@app/services'
 import { errorHandler } from './errorHandler'
@@ -28,7 +28,7 @@ export async function createEmbedding({
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
       baseURL: ConfigurationSettingService.embeddingUrl,
-      maxRetries: ccs.numOfAttempts,
+      maxRetries: convCfg.numOfAttempts,
       timeout: 20 * 1000, // Embedding should be fast, forcing quick retry
     })
 

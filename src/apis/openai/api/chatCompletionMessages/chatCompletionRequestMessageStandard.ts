@@ -1,5 +1,5 @@
 import { OpenAI } from 'openai'
-import { ConversationConfig as ccs } from '@app/services'
+import { ConversationConfig as convCfg } from '@app/services'
 import { IConversation } from '@app/interfaces'
 
 export async function ChatCompletionRequestMessageStandard(
@@ -13,7 +13,7 @@ export async function ChatCompletionRequestMessageStandard(
     content: content,
   })
 
-  const conversationHistory = ccs.conversationHistory
+  const conversationHistory = convCfg.conversationHistory
   conversation.chatMessages
     .splice(conversationHistory * -1)
     .forEach((chatMessage) => {

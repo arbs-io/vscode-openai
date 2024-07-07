@@ -10,8 +10,8 @@ import {
 
 import { registerConfigurationMonitorService } from './configurationMonitorServices'
 import {
-  ConversationConfig as ccs,
-  ConversationColorConfig as cccs,
+  ConversationConfig as convCfg,
+  ConversationColorConfig as convColorCfg,
   ConfigurationEmbeddingService,
   ConfigurationSettingService,
 } from './configurationServices'
@@ -48,8 +48,8 @@ export function registerVscodeOpenAIServices(context: ExtensionContext) {
   //load configuration
   createDebugNotification('log configuration service')
   ConfigurationSettingService.LogConfigValue()
-  ccs.log()
-  cccs.log()
+  convCfg.log()
+  convColorCfg.log()
   ConfigurationEmbeddingService.LogConfigValue()
 
   createDebugNotification('verifying service authentication')

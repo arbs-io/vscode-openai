@@ -1,6 +1,6 @@
 import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
-import { ConversationConfig as ccs } from '@app/services'
+import { ConversationConfig as convCfg } from '@app/services'
 import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
 import { errorHandler } from './errorHandler'
 import {
@@ -28,7 +28,7 @@ export async function createChatCompletion(
       defaultQuery: { 'api-version': azureApiVersion },
       defaultHeaders: { 'api-key': apiKey },
       baseURL: chatCompletionConfig.baseURL,
-      maxRetries: ccs.numOfAttempts,
+      maxRetries: convCfg.numOfAttempts,
     })
 
     const chatCompletionMessages = conversation.embeddingId
@@ -47,11 +47,13 @@ export async function createChatCompletion(
       messages: chatCompletionMessages,
     }
 
-    if (ccs.presencePenalty !== 0) cfg.presence_penalty = ccs.presencePenalty
-    if (ccs.frequencyPenalty !== 0) cfg.frequency_penalty = ccs.frequencyPenalty
-    if (ccs.temperature !== 0.2) cfg.temperature = ccs.temperature
-    if (ccs.topP !== 1) cfg.top_p = ccs.topP
-    if (ccs.maxTokens !== undefined) cfg.max_tokens = ccs.maxTokens
+    if (convCfg.presencePenalty !== 0)
+      cfg.presence_penalty = convCfg.presencePenalty
+    if (convCfg.frequencyPenalty !== 0)
+      cfg.frequency_penalty = convCfg.frequencyPenalty
+    if (convCfg.temperature !== 0.2) cfg.temperature = convCfg.temperature
+    if (convCfg.topP !== 1) cfg.top_p = convCfg.topP
+    if (convCfg.maxTokens !== undefined) cfg.max_tokens = convCfg.maxTokens
 
     const results = await openai.chat.completions.create(cfg, requestConfig)
 

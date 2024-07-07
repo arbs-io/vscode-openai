@@ -20,8 +20,8 @@ import {
 } from './onDidFunctions'
 import {
   ChatCompletionConfigFactory,
-  ConversationColorConfig as cccs,
-  ConversationConfig as ccs,
+  ConversationColorConfig as convColorCfg,
+  ConversationConfig as convCfg,
 } from '@app/services/configurationServices'
 
 export class MessageViewerPanel {
@@ -178,7 +178,7 @@ export class MessageViewerPanel {
           <title>vscode-openai messages</title>
         </head>
         <body style="margin:0;padding:0">
-          <div id="root" theme='${panelTheme}' messageShortcuts='${ccs.messageShortcuts}' assistantColor='${cccs.assistantColor}' assistantBackground='${cccs.assistantBackground}' userColor='${cccs.userColor}' userBackground='${cccs.userBackground}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />
+          <div id="root" theme='${panelTheme}' messageShortcuts='${convCfg.messageShortcuts}' assistantColor='${convColorCfg.assistantColor}' assistantBackground='${convColorCfg.assistantBackground}' userColor='${convColorCfg.userColor}' userBackground='${convColorCfg.userBackground}' data-vscode-context='{"webviewSection": "main", "preventDefaultContextMenuItems": true}' />
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>

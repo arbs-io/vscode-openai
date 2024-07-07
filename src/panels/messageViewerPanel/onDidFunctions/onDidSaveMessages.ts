@@ -1,7 +1,7 @@
 import { window } from 'vscode'
 import { IChatCompletion, IConversation } from '@app/interfaces'
 import {
-  ConversationConfig as ccs,
+  ConversationConfig as convCfg,
   ConversationStorageService,
 } from '@app/services'
 import { createChatCompletion } from '@app/apis/openai'
@@ -16,8 +16,8 @@ export const onDidSaveMessages = async (
 
     const cfg = ChatCompletionConfigFactory.createConfig('inference_model')
 
-    const SUMMARY_THRESHOLD = ccs.summaryThreshold
-    const SUMMARY_MAX_LENGTH = ccs.summaryMaxLength
+    const SUMMARY_THRESHOLD = convCfg.summaryThreshold
+    const SUMMARY_MAX_LENGTH = convCfg.summaryMaxLength
 
     conversation.chatMessages = chatMessages
     ConversationStorageService.instance.update(conversation)

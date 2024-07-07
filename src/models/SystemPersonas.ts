@@ -1,21 +1,21 @@
 import { workspace } from 'vscode'
 import { IPersonaOpenAI } from '@app/interfaces/IPersonaOpenAI'
 import {
-  ConversationConfig as ccs,
+  ConversationConfig as convCfg,
   ConfigurationSettingService,
 } from '@app/services'
 import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 import assert from 'assert'
 
 function getAssistantName(): string {
-  if (ccs.assistantRules) {
+  if (convCfg.assistantRules) {
     return 'You are an AI assistant called vscode-openai. '
   }
   return ''
 }
 
 function getAssistantRule(): string {
-  if (ccs.assistantRules) {
+  if (convCfg.assistantRules) {
     const currentDate = new Date()
     return [
       'Your response should adhere to the following rules:',

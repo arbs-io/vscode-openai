@@ -1,14 +1,10 @@
-import {
-  Field,
-  ProgressBar,
-  makeStyles,
-  mergeClasses,
-} from '@fluentui/react-components'
+import { Field, ProgressBar, mergeClasses } from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState, useCallback } from 'react'
 import { MessageHistory } from '@app/components/MessageHistory'
 import { MessageInput } from '@app/components/MessageInput'
 import { vscode } from '@app/utilities'
 import { IChatCompletion } from '@app/interfaces'
+import { useMessageStyles } from './useMessageStyles'
 
 const MessageInteraction: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)
@@ -87,33 +83,3 @@ const MessageInteraction: FC = () => {
   )
 }
 export default MessageInteraction
-
-const useMessageStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'nowrap',
-    width: 'auto',
-    height: 'auto',
-  },
-  history: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    rowGap: '2px',
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    paddingBottom: '7rem',
-    overflowY: 'auto',
-  },
-  input: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingBottom: '2rem',
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    paddingTop: '2rem',
-  },
-})

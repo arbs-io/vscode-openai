@@ -1,6 +1,6 @@
 export type { IChatCompletion } from './IChatCompletion'
 export type { ICodeDocument } from './ICodeDocument'
-export type { IMessageHistoryProps } from './IMessageHistoryProps'
+export type { IMessageItemProps } from './IMessageItemProps'
 export type { IMessageUtilityProps } from './IMessageUtilityProps'
 export type { IMessageInputProps } from './IMessageInputProps'
 export type { IContextConfiguration } from './IContextConfiguration'

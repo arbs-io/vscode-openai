@@ -1,17 +1,17 @@
 import { Field, ProgressBar, mergeClasses } from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState, useCallback } from 'react'
-import { MessageHistory } from '@app/components/MessageHistory'
+import { MessageItem } from '@app/components/MessageItem'
 import { MessageInput } from '@app/components/MessageInput'
 import { vscode } from '@app/utilities'
 import { IChatCompletion } from '@app/interfaces'
-import { useMessageStyles } from './useMessageStyles'
+import { useMessageListStyles } from './styles/useMessageListStyles'
 
-const MessageInteraction: FC = () => {
+export const MessageList: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)
   const [chatHistory, setChatHistory] = useState<IChatCompletion[]>([])
   const [autoSaveThreshold, setAutoSaveThreshold] = useState<number>(0)
   const [showField, setShowField] = useState(false)
-  const messageStyles = useMessageStyles()
+  const messageListStyles = useMessageListStyles()
 
   useEffect(() => {
     bottomAnchorRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -52,10 +52,10 @@ const MessageInteraction: FC = () => {
   }, [handleMessageEvent])
 
   return (
-    <div className={mergeClasses(messageStyles.container)}>
-      <div className={mergeClasses(messageStyles.history)}>
+    <div className={mergeClasses(messageListStyles.container)}>
+      <div className={mergeClasses(messageListStyles.history)}>
         {chatHistory.map((chatCompletion) => (
-          <MessageHistory
+          <MessageItem
             key={chatCompletion.timestamp}
             message={chatCompletion}
           />
@@ -63,7 +63,7 @@ const MessageInteraction: FC = () => {
         <div ref={bottomAnchorRef} />
       </div>
 
-      <div className={mergeClasses(messageStyles.input)}>
+      <div className={mergeClasses(messageListStyles.input)}>
         {showField && (
           <Field
             validationMessage="waiting for response"
@@ -82,4 +82,3 @@ const MessageInteraction: FC = () => {
     </div>
   )
 }
-export default MessageInteraction

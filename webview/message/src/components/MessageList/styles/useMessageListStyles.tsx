@@ -1,6 +1,6 @@
 import { makeStyles } from '@fluentui/react-components'
 
-export const useMessageStyles = makeStyles({
+export const useMessageListStyles = makeStyles({
   container: {
     display: 'flex',
     flexDirection: 'column',

@@ -3,25 +3,25 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
-import { MessageUtility } from '@app/components/MessageUtility'
-import { IMessageHistoryProps } from '@app/interfaces'
+import { IMessageItemProps } from '@app/interfaces'
 import {
   CopyToClipboardButton,
   OpenSourceFileButton,
 } from '@app/components/Buttons'
 import { ConfigurationContext } from '@app/context'
-import { useMessageHistoryStyles } from './useMessageHistoryStyles'
+import { useMessageItemStyles } from './styles/useMessageItemStyles'
+import MessageItemToolbar from './components/MessageItemToolbar'
 
-const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
+export const MessageItem: FC<IMessageItemProps> = ({ message }) => {
   const configuration = useContext(ConfigurationContext)
 
   if (!message || !configuration) {
     return null
   }
 
-  const messageHistoryStyles = useMessageHistoryStyles()
+  const MessageItemStyles = useMessageItemStyles()
 
-  const dynamicMessageHistoryStyle = {
+  const dynamicMessageItemStyle = {
     alignSelf: message.mine ? 'flex-end' : 'flex-start',
     backgroundColor: message.mine
       ? configuration.userBackground
@@ -33,27 +33,25 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
 
   return (
     <div
-      className={messageHistoryStyles.messageHistory}
-      style={dynamicMessageHistoryStyle}
+      className={MessageItemStyles.messageItem}
+      style={dynamicMessageItemStyle}
       data-vscode-context={JSON.stringify({
         webviewSection: 'message',
         data: message,
       })}
     >
-      <div className={messageHistoryStyles.messageWrapper}>
-        <div className={messageHistoryStyles.messageHeader}>
+      <div className={MessageItemStyles.messageWrapper}>
+        <div className={MessageItemStyles.messageHeader}>
           {/* Conditionally render author if the message is not from the user */}
           {message.mine ? null : (
-            <span className={messageHistoryStyles.author}>
-              {message.author}
-            </span>
+            <span className={MessageItemStyles.author}>{message.author}</span>
           )}
-          <span className={messageHistoryStyles.timestamp}>
+          <span className={MessageItemStyles.timestamp}>
             {' '}
             Date: {message.timestamp}
           </span>
           {/* Render MessageUtility component if totalTokens is greater than 0 */}
-          {message.totalTokens > 0 && <MessageUtility message={message} />}
+          {message.totalTokens > 0 && <MessageItemToolbar message={message} />}
         </div>
       </div>
       <ReactMarkdown
@@ -63,8 +61,8 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
           code({ node, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '')
             return match ? (
-              <div className={messageHistoryStyles.codeContainer}>
-                <div className={messageHistoryStyles.toolbar}>
+              <div className={MessageItemStyles.codeContainer}>
+                <div className={MessageItemStyles.toolbar}>
                   <CopyToClipboardButton
                     language={match[1]}
                     content={String(children).replace(/\n$/, '')}
@@ -87,7 +85,7 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
               </div>
             ) : (
               <code
-                className={`${className} ${messageHistoryStyles.codeBlock}`}
+                className={`${className} ${MessageItemStyles.codeBlock}`}
                 {...props}
               >
                 {children}
@@ -99,5 +97,3 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
     </div>
   )
 }
-
-export default MessageHistory

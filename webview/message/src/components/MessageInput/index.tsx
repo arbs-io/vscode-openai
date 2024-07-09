@@ -3,7 +3,7 @@ import { Send16Regular, Mic24Regular, Mic24Filled } from '@fluentui/react-icons'
 import { FC, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { IMessageInputProps } from '@app/interfaces'
 import { ConfigurationContext } from '@app/context'
-import { useMessageInputStyles } from './useMessageInputStyles'
+import { useMessageInputStyles } from './styles/useMessageInputStyles'
 
 export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
   const [value, setValue] = useState<string>('')

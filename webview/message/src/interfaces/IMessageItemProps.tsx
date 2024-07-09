@@ -1,5 +1,5 @@
 import { IChatCompletion } from '.'
 
-export interface IMessageHistoryProps {
+export interface IMessageItemProps {
   message: IChatCompletion
 }

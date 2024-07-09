@@ -1,7 +1,7 @@
 import { makeStyles, shorthands } from '@fluentui/react-components'
 
-export const useMessageHistoryStyles = makeStyles({
-  messageHistory: {
+export const useMessageItemStyles = makeStyles({
+  messageItem: {
     borderRadius: 'var(--borderRadiusXLarge)',
     margin: '1rem',
     padding: '1rem',

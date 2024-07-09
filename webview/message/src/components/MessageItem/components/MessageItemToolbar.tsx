@@ -9,7 +9,7 @@ import {
 import { Info16Regular, Speaker216Regular } from '@fluentui/react-icons'
 import { IMessageUtilityProps } from '@app/interfaces'
 import { TextToSpeech } from '@app/utilities'
-import TokenPopover from './TokenPopover'
+import MessageItemTokenInfo from './MessageItemTokenInfo'
 
 const handleSpeech = (
   _e: MouseEvent<HTMLButtonElement>,
@@ -19,14 +19,14 @@ const handleSpeech = (
   textToSpeech.activateTextToSpeech(speechText)
 }
 
-export const useMessageUtilityStyles = makeStyles({
+const useMessageItemToolbarStyles = makeStyles({
   infoButton: {
     float: 'right',
   },
 })
 
-export const MessageUtility: FC<IMessageUtilityProps> = ({ message }) => {
-  const styles = useMessageUtilityStyles()
+const MessageItemToolbar: FC<IMessageUtilityProps> = ({ message }) => {
+  const styles = useMessageItemToolbarStyles()
   return (
     <span className={styles.infoButton}>
       <Button
@@ -45,11 +45,11 @@ export const MessageUtility: FC<IMessageUtilityProps> = ({ message }) => {
         </PopoverTrigger>
 
         <PopoverSurface>
-          <TokenPopover message={message} />
+          <MessageItemTokenInfo message={message} />
         </PopoverSurface>
       </Popover>
     </span>
   )
 }
 
-export default MessageUtility
+export default MessageItemToolbar

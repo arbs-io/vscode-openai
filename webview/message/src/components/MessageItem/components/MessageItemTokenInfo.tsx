@@ -7,7 +7,7 @@ import {
 import { Caption1, makeStyles, shorthands } from '@fluentui/react-components'
 import { IMessageUtilityProps } from '@app/interfaces'
 
-export const useTokenPopoverStyles = makeStyles({
+const useMessageItemTokenInfoStyles = makeStyles({
   container: {
     ...shorthands.gap('5px'),
     display: 'flex',
@@ -16,8 +16,8 @@ export const useTokenPopoverStyles = makeStyles({
   },
 })
 
-const TokenPopover: FC<IMessageUtilityProps> = ({ message }) => {
-  const styles = useTokenPopoverStyles()
+const MessageItemTokenInfo: FC<IMessageUtilityProps> = ({ message }) => {
+  const styles = useMessageItemTokenInfoStyles()
   return (
     <div className={styles.container}>
       <Caption1>
@@ -33,4 +33,4 @@ const TokenPopover: FC<IMessageUtilityProps> = ({ message }) => {
   )
 }
 
-export default TokenPopover
+export default MessageItemTokenInfo

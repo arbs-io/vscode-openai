@@ -21,10 +21,10 @@ const handleCreateCodeDocument = (language: string, content: string) => {
 const OpenIcon = bundleIcon(Open24Filled, Open24Regular)
 
 // Defining props specifically for this component for clarity and future-proofing
-interface OpenSourceFileButtonProps extends ICodeDocument {}
+interface ButtonOpenSourceFileProps extends ICodeDocument {}
 
 // Functional component for opening a source file
-const OpenSourceFileButton: FC<OpenSourceFileButtonProps> = ({
+export const ButtonOpenSourceFile: FC<ButtonOpenSourceFileProps> = ({
   language,
   content,
 }): ReactElement => {
@@ -41,5 +41,3 @@ const OpenSourceFileButton: FC<OpenSourceFileButtonProps> = ({
     </Tooltip>
   )
 }
-
-export default OpenSourceFileButton

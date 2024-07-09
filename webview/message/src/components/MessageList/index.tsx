@@ -1,31 +1,30 @@
-import {
-  Field,
-  ProgressBar,
-  makeStyles,
-  mergeClasses,
-} from '@fluentui/react-components'
+import { Field, ProgressBar, mergeClasses } from '@fluentui/react-components'
 import { FC, useEffect, useRef, useState, useCallback } from 'react'
-import { MessageHistory } from '@app/components/MessageHistory'
+import { MessageItem } from '@app/components/MessageItem'
 import { MessageInput } from '@app/components/MessageInput'
 import { vscode } from '@app/utilities'
 import { IChatCompletion } from '@app/interfaces'
+import { useMessageListStyles } from './styles/useMessageListStyles'
+import { WelcomeMessageBar } from './components/WelcomeMessageBar'
 
-const MessageInteraction: FC = () => {
+export const MessageList: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)
-  const [chatHistory, setChatHistory] = useState<IChatCompletion[]>([])
+  const [chatCompletionList, setChatCompletionList] = useState<
+    IChatCompletion[]
+  >([])
   const [autoSaveThreshold, setAutoSaveThreshold] = useState<number>(0)
   const [showField, setShowField] = useState(false)
-  const messageStyles = useMessageStyles()
+  const messageListStyles = useMessageListStyles()
 
   useEffect(() => {
     bottomAnchorRef.current?.scrollIntoView({ behavior: 'smooth' })
-    if (chatHistory.length > autoSaveThreshold) {
+    if (chatCompletionList.length > autoSaveThreshold) {
       vscode.postMessage({
         command: 'onDidSaveMessages',
-        text: JSON.stringify(chatHistory),
+        text: JSON.stringify(chatCompletionList),
       })
     }
-  }, [chatHistory, autoSaveThreshold])
+  }, [chatCompletionList, autoSaveThreshold])
 
   const handleMessageEvent = useCallback((event: MessageEvent) => {
     if (!event.origin.startsWith('vscode-webview://')) return
@@ -35,13 +34,13 @@ const MessageInteraction: FC = () => {
       case 'onWillRenderMessages': {
         const chatMessages: IChatCompletion[] = JSON.parse(message.text)
         setAutoSaveThreshold(chatMessages.length)
-        setChatHistory(chatMessages)
+        setChatCompletionList(chatMessages)
         break
       }
 
       case 'onWillAnswerMessage': {
         const chatMessage: IChatCompletion = JSON.parse(message.text)
-        setChatHistory((prevHistory) => [...prevHistory, chatMessage])
+        setChatCompletionList((prevHistory) => [...prevHistory, chatMessage])
         setShowField(false)
         break
       }
@@ -56,18 +55,19 @@ const MessageInteraction: FC = () => {
   }, [handleMessageEvent])
 
   return (
-    <div className={mergeClasses(messageStyles.container)}>
-      <div className={mergeClasses(messageStyles.history)}>
-        {chatHistory.map((chatCompletion) => (
-          <MessageHistory
+    <div className={mergeClasses(messageListStyles.container)}>
+      <WelcomeMessageBar chatCompletionList={chatCompletionList} />
+      <div className={mergeClasses(messageListStyles.history)}>
+        {chatCompletionList.map((chatCompletion) => (
+          <MessageItem
             key={chatCompletion.timestamp}
-            message={chatCompletion}
+            chatCompletion={chatCompletion}
           />
         ))}
         <div ref={bottomAnchorRef} />
       </div>
 
-      <div className={mergeClasses(messageStyles.input)}>
+      <div className={mergeClasses(messageListStyles.input)}>
         {showField && (
           <Field
             validationMessage="waiting for response"
@@ -79,41 +79,10 @@ const MessageInteraction: FC = () => {
         <MessageInput
           onSubmit={(m) => {
             setShowField(true)
-            setChatHistory((prevHistory) => [...prevHistory, m])
+            setChatCompletionList((prevHistory) => [...prevHistory, m])
           }}
         />
       </div>
     </div>
   )
 }
-export default MessageInteraction
-
-const useMessageStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'nowrap',
-    width: 'auto',
-    height: 'auto',
-  },
-  history: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-    rowGap: '2px',
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    paddingBottom: '7rem',
-    overflowY: 'auto',
-  },
-  input: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingBottom: '2rem',
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    paddingTop: '2rem',
-  },
-})

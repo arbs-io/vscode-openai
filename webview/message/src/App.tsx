@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react'
 import { makeStyles, mergeClasses } from '@fluentui/react-components'
-import { MessageInteraction } from './components/MessageInteraction'
+import { MessageList } from './components/MessageList'
 import { vscode } from '@app/utilities'
 
 const useStyles = makeStyles({
@@ -27,7 +27,7 @@ const App: FC = () => {
 
   return (
     <div className={mergeClasses(styles.container)}>
-      <MessageInteraction />
+      <MessageList />
     </div>
   )
 }

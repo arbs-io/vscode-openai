@@ -23,7 +23,10 @@ const handleCopyToClipboard = (language: string, content: string) => {
 const ClipboardIcon = bundleIcon(Clipboard24Filled, Clipboard24Regular)
 
 // Defining the component with explicit props type
-const CopyToClipboardButton: FC<ICodeDocument> = ({ language, content }) => {
+export const ButtonCopyToClipboard: FC<ICodeDocument> = ({
+  language,
+  content,
+}) => {
   return (
     <Tooltip content="Copy to clipboard" relationship={'label'}>
       <Button
@@ -38,5 +41,3 @@ const CopyToClipboardButton: FC<ICodeDocument> = ({ language, content }) => {
     </Tooltip>
   )
 }
-
-export default CopyToClipboardButton

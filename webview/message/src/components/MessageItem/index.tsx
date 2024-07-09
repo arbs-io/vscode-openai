@@ -12,12 +12,11 @@ import MessageItemToolbar from './components/MessageItemToolbar'
 
 export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
   const configuration = useContext(ConfigurationContext)
+  const MessageItemStyles = useMessageItemStyles()
 
   if (!chatCompletion || !configuration) {
     return null
   }
-
-  const MessageItemStyles = useMessageItemStyles()
 
   const dynamicMessageItemStyle = {
     alignSelf: chatCompletion.mine ? 'flex-end' : 'flex-start',

@@ -8,7 +8,7 @@ import { ButtonCopyToClipboard } from '@app/components/ButtonCopyToClipboard'
 import { ButtonOpenSourceFile } from '@app/components/ButtonOpenSourceFile'
 import { ConfigurationContext } from '@app/context'
 import { useMessageItemStyles } from './styles/useMessageItemStyles'
-import MessageItemToolbar from './components/MessageItemToolbar'
+import { CodeBlock, MessageItemToolbar } from './components'
 
 export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
   const configuration = useContext(ConfigurationContext)
@@ -85,12 +85,7 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
                 </SyntaxHighlighter>
               </div>
             ) : (
-              <code
-                className={`${className} ${MessageItemStyles.codeBlock}`}
-                {...props}
-              >
-                {children}
-              </code>
+              <CodeBlock {...props}>{children}</CodeBlock>
             )
           },
         }}

@@ -9,7 +9,7 @@ import {
 import { Info16Regular, Speaker216Regular } from '@fluentui/react-icons'
 import { IChatCompletionProps } from '@app/interfaces'
 import { TextToSpeech } from '@app/utilities'
-import MessageItemTokenInfo from './MessageItemTokenInfo'
+import { MessageItemTokenInfo } from '.'
 
 const handleSpeech = (
   _e: MouseEvent<HTMLButtonElement>,

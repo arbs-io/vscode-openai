@@ -7,7 +7,7 @@ import {
   PopoverSurface,
 } from '@fluentui/react-components'
 import { Info16Regular, Speaker216Regular } from '@fluentui/react-icons'
-import { IMessageUtilityProps } from '@app/interfaces'
+import { IChatCompletionProps } from '@app/interfaces'
 import { TextToSpeech } from '@app/utilities'
 import MessageItemTokenInfo from './MessageItemTokenInfo'
 
@@ -25,7 +25,7 @@ const useMessageItemToolbarStyles = makeStyles({
   },
 })
 
-const MessageItemToolbar: FC<IMessageUtilityProps> = ({ message }) => {
+const MessageItemToolbar: FC<IChatCompletionProps> = ({ chatCompletion }) => {
   const styles = useMessageItemToolbarStyles()
   return (
     <span className={styles.infoButton}>
@@ -33,7 +33,7 @@ const MessageItemToolbar: FC<IMessageUtilityProps> = ({ message }) => {
         appearance="transparent"
         size="small"
         icon={<Speaker216Regular />}
-        onClick={(e) => handleSpeech(e, message.content)}
+        onClick={(e) => handleSpeech(e, chatCompletion.content)}
       />
       <Popover withArrow>
         <PopoverTrigger disableButtonEnhancement>
@@ -45,7 +45,7 @@ const MessageItemToolbar: FC<IMessageUtilityProps> = ({ message }) => {
         </PopoverTrigger>
 
         <PopoverSurface>
-          <MessageItemTokenInfo message={message} />
+          <MessageItemTokenInfo chatCompletion={chatCompletion} />
         </PopoverSurface>
       </Popover>
     </span>

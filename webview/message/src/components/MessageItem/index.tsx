@@ -3,30 +3,28 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
-import { IMessageItemProps } from '@app/interfaces'
-import {
-  CopyToClipboardButton,
-  OpenSourceFileButton,
-} from '@app/components/Buttons'
+import { IChatCompletionProps } from '@app/interfaces'
+import { ButtonCopyToClipboard } from '@app/components/ButtonCopyToClipboard'
+import { ButtonOpenSourceFile } from '@app/components/ButtonOpenSourceFile'
 import { ConfigurationContext } from '@app/context'
 import { useMessageItemStyles } from './styles/useMessageItemStyles'
 import MessageItemToolbar from './components/MessageItemToolbar'
 
-export const MessageItem: FC<IMessageItemProps> = ({ message }) => {
+export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
   const configuration = useContext(ConfigurationContext)
 
-  if (!message || !configuration) {
+  if (!chatCompletion || !configuration) {
     return null
   }
 
   const MessageItemStyles = useMessageItemStyles()
 
   const dynamicMessageItemStyle = {
-    alignSelf: message.mine ? 'flex-end' : 'flex-start',
-    backgroundColor: message.mine
+    alignSelf: chatCompletion.mine ? 'flex-end' : 'flex-start',
+    backgroundColor: chatCompletion.mine
       ? configuration.userBackground
       : configuration.assistantBackground,
-    color: message.mine
+    color: chatCompletion.mine
       ? configuration.userColor
       : configuration.assistantColor,
   }
@@ -37,25 +35,29 @@ export const MessageItem: FC<IMessageItemProps> = ({ message }) => {
       style={dynamicMessageItemStyle}
       data-vscode-context={JSON.stringify({
         webviewSection: 'message',
-        data: message,
+        data: chatCompletion,
       })}
     >
       <div className={MessageItemStyles.messageWrapper}>
         <div className={MessageItemStyles.messageHeader}>
           {/* Conditionally render author if the message is not from the user */}
-          {message.mine ? null : (
-            <span className={MessageItemStyles.author}>{message.author}</span>
+          {chatCompletion.mine ? null : (
+            <span className={MessageItemStyles.author}>
+              {chatCompletion.author}
+            </span>
           )}
           <span className={MessageItemStyles.timestamp}>
             {' '}
-            Date: {message.timestamp}
+            Date: {chatCompletion.timestamp}
           </span>
           {/* Render MessageUtility component if totalTokens is greater than 0 */}
-          {message.totalTokens > 0 && <MessageItemToolbar message={message} />}
+          {chatCompletion.totalTokens > 0 && (
+            <MessageItemToolbar chatCompletion={chatCompletion} />
+          )}
         </div>
       </div>
       <ReactMarkdown
-        children={message.content.trim()}
+        children={chatCompletion.content.trim()}
         remarkPlugins={[remarkGfm]}
         components={{
           code({ node, className, children, ...props }) {
@@ -63,11 +65,11 @@ export const MessageItem: FC<IMessageItemProps> = ({ message }) => {
             return match ? (
               <div className={MessageItemStyles.codeContainer}>
                 <div className={MessageItemStyles.toolbar}>
-                  <CopyToClipboardButton
+                  <ButtonCopyToClipboard
                     language={match[1]}
                     content={String(children).replace(/\n$/, '')}
                   />
-                  <OpenSourceFileButton
+                  <ButtonOpenSourceFile
                     language={match[1]}
                     content={String(children).replace(/\n$/, '')}
                   />

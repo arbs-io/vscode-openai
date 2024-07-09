@@ -5,7 +5,7 @@ import {
   CommentArrowRight16Regular,
 } from '@fluentui/react-icons'
 import { Caption1, makeStyles, shorthands } from '@fluentui/react-components'
-import { IMessageUtilityProps } from '@app/interfaces'
+import { IChatCompletionProps } from '@app/interfaces'
 
 const useMessageItemTokenInfoStyles = makeStyles({
   container: {
@@ -16,18 +16,18 @@ const useMessageItemTokenInfoStyles = makeStyles({
   },
 })
 
-const MessageItemTokenInfo: FC<IMessageUtilityProps> = ({ message }) => {
+const MessageItemTokenInfo: FC<IChatCompletionProps> = ({ chatCompletion }) => {
   const styles = useMessageItemTokenInfoStyles()
   return (
     <div className={styles.container}>
       <Caption1>
-        {<Pen16Regular />} Completion: {message.completionTokens}
+        {<Pen16Regular />} Completion: {chatCompletion.completionTokens}
       </Caption1>
       <Caption1>
-        {<Notebook16Regular />} Prompt: {message.promptTokens}
+        {<Notebook16Regular />} Prompt: {chatCompletion.promptTokens}
       </Caption1>
       <Caption1>
-        {<CommentArrowRight16Regular />} Total: {message.totalTokens}
+        {<CommentArrowRight16Regular />} Total: {chatCompletion.totalTokens}
       </Caption1>
     </div>
   )

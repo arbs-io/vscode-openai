@@ -5,23 +5,26 @@ import { MessageInput } from '@app/components/MessageInput'
 import { vscode } from '@app/utilities'
 import { IChatCompletion } from '@app/interfaces'
 import { useMessageListStyles } from './styles/useMessageListStyles'
+import { WelcomeMessageBar } from './components/WelcomeMessageBar'
 
 export const MessageList: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)
-  const [chatHistory, setChatHistory] = useState<IChatCompletion[]>([])
+  const [chatCompletionList, setChatCompletionList] = useState<
+    IChatCompletion[]
+  >([])
   const [autoSaveThreshold, setAutoSaveThreshold] = useState<number>(0)
   const [showField, setShowField] = useState(false)
   const messageListStyles = useMessageListStyles()
 
   useEffect(() => {
     bottomAnchorRef.current?.scrollIntoView({ behavior: 'smooth' })
-    if (chatHistory.length > autoSaveThreshold) {
+    if (chatCompletionList.length > autoSaveThreshold) {
       vscode.postMessage({
         command: 'onDidSaveMessages',
-        text: JSON.stringify(chatHistory),
+        text: JSON.stringify(chatCompletionList),
       })
     }
-  }, [chatHistory, autoSaveThreshold])
+  }, [chatCompletionList, autoSaveThreshold])
 
   const handleMessageEvent = useCallback((event: MessageEvent) => {
     if (!event.origin.startsWith('vscode-webview://')) return
@@ -31,13 +34,13 @@ export const MessageList: FC = () => {
       case 'onWillRenderMessages': {
         const chatMessages: IChatCompletion[] = JSON.parse(message.text)
         setAutoSaveThreshold(chatMessages.length)
-        setChatHistory(chatMessages)
+        setChatCompletionList(chatMessages)
         break
       }
 
       case 'onWillAnswerMessage': {
         const chatMessage: IChatCompletion = JSON.parse(message.text)
-        setChatHistory((prevHistory) => [...prevHistory, chatMessage])
+        setChatCompletionList((prevHistory) => [...prevHistory, chatMessage])
         setShowField(false)
         break
       }
@@ -53,11 +56,12 @@ export const MessageList: FC = () => {
 
   return (
     <div className={mergeClasses(messageListStyles.container)}>
+      <WelcomeMessageBar chatCompletionList={chatCompletionList} />
       <div className={mergeClasses(messageListStyles.history)}>
-        {chatHistory.map((chatCompletion) => (
+        {chatCompletionList.map((chatCompletion) => (
           <MessageItem
             key={chatCompletion.timestamp}
-            message={chatCompletion}
+            chatCompletion={chatCompletion}
           />
         ))}
         <div ref={bottomAnchorRef} />
@@ -75,7 +79,7 @@ export const MessageList: FC = () => {
         <MessageInput
           onSubmit={(m) => {
             setShowField(true)
-            setChatHistory((prevHistory) => [...prevHistory, m])
+            setChatCompletionList((prevHistory) => [...prevHistory, m])
           }}
         />
       </div>

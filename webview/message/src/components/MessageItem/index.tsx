@@ -59,7 +59,8 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
         children={chatCompletion.content.trim()}
         remarkPlugins={[remarkGfm]}
         components={{
-          code({ node, className, children, ...props }) {
+          code(props) {
+            const { children, className, node, ...rest } = props
             const match = /language-(\w+)/.exec(className || '')
             return match ? (
               <div className={MessageItemStyles.codeContainer}>
@@ -85,7 +86,7 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
                 </SyntaxHighlighter>
               </div>
             ) : (
-              <CodeBlock {...props}>{children}</CodeBlock>
+              <CodeBlock {...rest}>{children}</CodeBlock>
             )
           },
         }}

@@ -1,26 +1,9 @@
-import {
-  Button,
-  Textarea,
-  ToggleButton,
-  makeStyles,
-} from '@fluentui/react-components'
+import { Button, Textarea, ToggleButton } from '@fluentui/react-components'
 import { Send16Regular, Mic24Regular, Mic24Filled } from '@fluentui/react-icons'
 import { FC, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { IMessageInputProps } from '@app/interfaces'
 import { ConfigurationContext } from '@app/context'
-
-const useStyles = makeStyles({
-  outerWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  textLayer: {
-    height: '100%',
-  },
-  hidden: {
-    visibility: 'hidden',
-  },
-})
+import { useMessageInputStyles } from './useMessageInputStyles'
 
 export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
   const [value, setValue] = useState<string>('')
@@ -54,7 +37,7 @@ export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
   )
 
   const [audioOn, setAudioOn] = useState(false)
-  const styles = useStyles()
+  const messageInputStyles = useMessageInputStyles()
 
   const toggleChecked = useCallback(() => {
     setAudioOn((prevAudioOn) => !prevAudioOn)
@@ -72,7 +55,7 @@ export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <Textarea
-        className={styles.textLayer}
+        className={messageInputStyles.textLayer}
         ref={chatBottomRef}
         style={{ width: '100%' }}
         placeholder={placeholder}
@@ -88,9 +71,9 @@ export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
           }
         }}
       />
-      <div className={styles.outerWrapper}>
+      <div className={messageInputStyles.outerWrapper}>
         <ToggleButton
-          className={styles.hidden}
+          className={messageInputStyles.hidden}
           appearance="transparent"
           checked={audioOn}
           icon={audioOn ? <Mic24Filled /> : <Mic24Regular />}

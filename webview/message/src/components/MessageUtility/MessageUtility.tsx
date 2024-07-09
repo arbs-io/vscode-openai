@@ -1,34 +1,15 @@
+import { FC, MouseEvent } from 'react'
 import {
   makeStyles,
   Button,
   Popover,
   PopoverTrigger,
   PopoverSurface,
-  shorthands,
-  Caption1,
 } from '@fluentui/react-components'
-import {
-  Info16Regular,
-  Pen16Regular,
-  Notebook16Regular,
-  CommentArrowRight16Regular,
-  Speaker216Regular,
-} from '@fluentui/react-icons'
+import { Info16Regular, Speaker216Regular } from '@fluentui/react-icons'
 import { IMessageUtilityProps } from '@app/interfaces'
-import { FC, MouseEvent } from 'react'
 import { TextToSpeech } from '@app/utilities'
-
-const useStyles = makeStyles({
-  container: {
-    ...shorthands.gap('5px'),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'baseline',
-  },
-  infoButton: {
-    float: 'right',
-  },
-})
+import TokenPopover from './TokenPopover'
 
 const handleSpeech = (
   _e: MouseEvent<HTMLButtonElement>,
@@ -38,24 +19,14 @@ const handleSpeech = (
   textToSpeech.activateTextToSpeech(speechText)
 }
 
-const TokenPopover: FC<IMessageUtilityProps> = ({ message }) => {
-  const styles = useStyles()
-  return (
-    <div className={styles.container}>
-      <Caption1>
-        {<Pen16Regular />} Completion: {message.completionTokens}
-      </Caption1>
-      <Caption1>
-        {<Notebook16Regular />} Prompt: {message.promptTokens}
-      </Caption1>
-      <Caption1>
-        {<CommentArrowRight16Regular />} Total: {message.totalTokens}
-      </Caption1>
-    </div>
-  )
-}
+export const useMessageUtilityStyles = makeStyles({
+  infoButton: {
+    float: 'right',
+  },
+})
+
 export const MessageUtility: FC<IMessageUtilityProps> = ({ message }) => {
-  const styles = useStyles()
+  const styles = useMessageUtilityStyles()
   return (
     <span className={styles.infoButton}>
       <Button

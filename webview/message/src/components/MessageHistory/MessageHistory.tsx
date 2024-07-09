@@ -1,5 +1,4 @@
-import { makeStyles } from '@fluentui/react-components'
-import { CSSProperties, FC, useContext } from 'react'
+import { FC, useContext } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -11,65 +10,49 @@ import {
   OpenSourceFileButton,
 } from '@app/components/Buttons'
 import { ConfigurationContext } from '@app/context'
+import { useMessageHistoryStyles } from './useMessageHistoryStyles'
 
 const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
   const configuration = useContext(ConfigurationContext)
 
-  const styleMessageHistory: CSSProperties = {
-    alignSelf: message?.mine ? 'flex-end' : 'flex-start',
-    backgroundColor: message?.mine
-      ? configuration?.userBackground
-      : configuration?.assistantBackground,
-    color: message?.mine
-      ? configuration?.userColor
-      : configuration?.assistantColor,
-    borderRadius: 'var(--borderRadiusXLarge)',
-    margin: '1rem',
-    padding: '1rem',
-    maxWidth: '80%',
-    boxShadow: 'var(--shadow64)',
-  }
-
-  const styleCode: CSSProperties = {
-    borderWidth: '1px',
-    borderColor: 'lightgrey',
-    borderRadius: 'var(--borderRadiusSmall)',
-    padding: '0.3rem',
-    boxShadow: 'var(--shadow16)',
-  }
-
-  const styleWrap: CSSProperties = {
-    whiteSpace: 'pre-wrap',
-  }
-
-  const componentStyles = makeStyles({
-    toolbar: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-    },
-  })
-
-  // Early return for undefined message or configuration to handle potential null values gracefully.
   if (!message || !configuration) {
-    return null // Optionally, you could return a fallback UI component here.
+    return null
+  }
+
+  const messageHistoryStyles = useMessageHistoryStyles()
+
+  const dynamicMessageHistoryStyle = {
+    alignSelf: message.mine ? 'flex-end' : 'flex-start',
+    backgroundColor: message.mine
+      ? configuration.userBackground
+      : configuration.assistantBackground,
+    color: message.mine
+      ? configuration.userColor
+      : configuration.assistantColor,
   }
 
   return (
     <div
-      style={styleMessageHistory}
+      className={messageHistoryStyles.messageHistory}
+      style={dynamicMessageHistoryStyle}
       data-vscode-context={JSON.stringify({
         webviewSection: 'message',
         data: message,
       })}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        <div style={{ paddingBottom: '10px' }}>
+      <div className={messageHistoryStyles.messageWrapper}>
+        <div className={messageHistoryStyles.messageHeader}>
+          {/* Conditionally render author if the message is not from the user */}
           {message.mine ? null : (
-            <span style={{ paddingRight: '20px', fontWeight: 'bold' }}>
+            <span className={messageHistoryStyles.author}>
               {message.author}
             </span>
           )}
-          <span style={{ fontSize: '10px' }}> Date: {message.timestamp}</span>
+          <span className={messageHistoryStyles.timestamp}>
+            {' '}
+            Date: {message.timestamp}
+          </span>
+          {/* Render MessageUtility component if totalTokens is greater than 0 */}
           {message.totalTokens > 0 && <MessageUtility message={message} />}
         </div>
       </div>
@@ -80,8 +63,8 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
           code({ node, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '')
             return match ? (
-              <div style={styleCode}>
-                <div className={componentStyles().toolbar}>
+              <div className={messageHistoryStyles.codeContainer}>
+                <div className={messageHistoryStyles.toolbar}>
                   <CopyToClipboardButton
                     language={match[1]}
                     content={String(children).replace(/\n$/, '')}
@@ -92,17 +75,21 @@ const MessageHistory: FC<IMessageHistoryProps> = ({ message }) => {
                   />
                 </div>
                 <SyntaxHighlighter
-                  children={String(children).replace(/\n$/, '')}
                   language={match[1]}
                   lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
                   wrapLines={true}
                   wrapLongLines={true}
                   PreTag="div"
                   style={atomDark}
-                />
+                >
+                  {String(children).replace(/\n$/, '')}
+                </SyntaxHighlighter>
               </div>
             ) : (
-              <code className={className} style={styleWrap} {...props}>
+              <code
+                className={`${className} ${messageHistoryStyles.codeBlock}`}
+                {...props}
+              >
                 {children}
               </code>
             )

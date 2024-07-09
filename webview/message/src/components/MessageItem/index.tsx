@@ -1,14 +1,14 @@
 import { FC, useContext } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import remarkGfm from 'remark-gfm'
 import { IChatCompletionProps } from '@app/interfaces'
-import { ButtonCopyToClipboard } from '@app/components/ButtonCopyToClipboard'
-import { ButtonOpenSourceFile } from '@app/components/ButtonOpenSourceFile'
 import { ConfigurationContext } from '@app/context'
 import { useMessageItemStyles } from './styles/useMessageItemStyles'
-import { CodeBlock, MessageItemToolbar } from './components'
+import {
+  CodeBlockMatched,
+  CodeBlockUnmatched,
+  MessageItemToolbar,
+} from './components'
 
 export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
   const configuration = useContext(ConfigurationContext)
@@ -63,30 +63,12 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
             const { children, className, node, ...rest } = props
             const match = /language-(\w+)/.exec(className || '')
             return match ? (
-              <div className={MessageItemStyles.codeContainer}>
-                <div className={MessageItemStyles.toolbar}>
-                  <ButtonCopyToClipboard
-                    language={match[1]}
-                    content={String(children).replace(/\n$/, '')}
-                  />
-                  <ButtonOpenSourceFile
-                    language={match[1]}
-                    content={String(children).replace(/\n$/, '')}
-                  />
-                </div>
-                <SyntaxHighlighter
-                  language={match[1]}
-                  lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
-                  wrapLines={true}
-                  wrapLongLines={true}
-                  PreTag="div"
-                  style={atomDark}
-                >
-                  {String(children).replace(/\n$/, '')}
-                </SyntaxHighlighter>
-              </div>
+              <CodeBlockMatched
+                language={match[1]}
+                content={String(children).replace(/\n$/, '')}
+              />
             ) : (
-              <CodeBlock {...rest}>{children}</CodeBlock>
+              <CodeBlockUnmatched {...rest}>{children}</CodeBlockUnmatched>
             )
           },
         }}

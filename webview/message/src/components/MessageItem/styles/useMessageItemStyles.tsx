@@ -1,4 +1,4 @@
-import { makeStyles, shorthands } from '@fluentui/react-components'
+import { makeStyles } from '@fluentui/react-components'
 
 export const useMessageItemStyles = makeStyles({
   messageItem: {
@@ -8,19 +8,8 @@ export const useMessageItemStyles = makeStyles({
     maxWidth: '80%',
     boxShadow: 'var(--shadow64)',
   },
-  codeContainer: {
-    ...shorthands.borderWidth('1px'),
-    ...shorthands.borderColor('lightgrey'),
-    borderRadius: 'var(--borderRadiusSmall)',
-    padding: '0.3rem',
-    boxShadow: 'var(--shadow16)',
-  },
   codeBlock: {
     whiteSpace: 'pre-wrap',
-  },
-  toolbar: {
-    display: 'flex',
-    justifyContent: 'flex-end',
   },
   messageWrapper: {
     display: 'flex',

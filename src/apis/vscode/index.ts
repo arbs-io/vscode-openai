@@ -14,7 +14,7 @@ export { showMessageWithTimeout } from './showMessage/showMessageWithTimeout'
 
 export { MultiStepInput } from './multiStepInput/multiStepInput'
 
-export { getAzureADAccessToken } from './authentication/getAzureADAccessToken'
+export { getAzureOpenAIAccessToken } from './authentication/getAzureOpenAIAccessToken'
 export { getGitAccessToken } from './authentication/getGitAccessToken'
 
 export * from './outputChannel/outputChannel'

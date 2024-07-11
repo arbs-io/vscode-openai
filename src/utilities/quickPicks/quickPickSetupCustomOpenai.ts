@@ -1,6 +1,12 @@
 import { ExtensionContext, Uri } from 'vscode'
 import { SettingConfig as settingCfg } from '@app/services'
 import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
+import { IQuickPickSetup } from './interface'
+import {
+  showInputBoxCustomApiKey,
+  showInputBoxCustomBaseUrl,
+  showInputBoxCustomInferenceModel,
+} from './commands'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -10,131 +16,42 @@ import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
 export async function quickPickSetupCustomOpenai(
   _context: ExtensionContext
 ): Promise<void> {
-  interface State {
-    title: string
-    step: number
-    totalSteps: number
-    openaiBaseUrl: string
-    openaiApiKey: string
-    inferenceModel: string
-  }
+  // async function collectInputs() {
+  //   const state = {} as Partial<IQuickPickSetup>
+  //   await MultiStepInput.run((input) => inputOpenaiBaseUrl(input, state))
+  //   return state as IQuickPickSetup
+  // }
 
-  async function collectInputs() {
-    const state = {} as Partial<State>
-    await MultiStepInput.run((input) => inputOpenaiBaseUrl(input, state))
-    return state as State
-  }
+  async function collectInputs(): Promise<IQuickPickSetup> {
+    let state = {} as Partial<IQuickPickSetup>
+    state.serviceProvider = 'Azure-OpenAI'
+    state.title = 'Configure Service Provider (openai.com)'
+    state.step = 1
+    const steps = [
+      (input: MultiStepInput) => showInputBoxCustomBaseUrl(input, state),
+      (input: MultiStepInput) => showInputBoxCustomApiKey(input, state),
+      (input: MultiStepInput) => showInputBoxCustomInferenceModel(input, state),
+    ]
+    state.totalSteps = steps.length
 
-  const title = 'Configure Service Provider (openai.com)'
-
-  /**
-   * This function collects user input for the service baseurl and returns it as a state object.
-   * @param input - The multi-step input object.
-   * @param state - The current state of the application.
-   * @returns A function that prompts the user to select an OpenAI model.
-   */
-  async function inputOpenaiBaseUrl(
-    input: MultiStepInput,
-    state: Partial<State>
-  ) {
-    state.openaiBaseUrl = await input.showInputBox({
-      title,
-      step: 1,
-      totalSteps: 3,
-      ignoreFocusOut: true,
-      value: typeof state.openaiBaseUrl === 'string' ? state.openaiBaseUrl : '',
-      prompt:
-        '$(globe)  Enter the instance name. Provide the base url default https://localhost/v1"',
-      placeholder: 'https://localhost/v1',
-      validate: validateOpenaiBaseUrl,
-      shouldResume: shouldResume,
+    await MultiStepInput.run(async (input) => {
+      for (const step of steps) {
+        await step(input)
+      }
     })
-    return (input: MultiStepInput) => inputOpenaiApiKey(input, state)
-  }
 
-  /**
-   * This function collects user input for the OpenAI API key and returns it as a state object.
-   * @param input - The multi-step input object.
-   * @param state - The current state of the application.
-   * @returns A function that prompts the user to select an OpenAI model.
-   */
-  async function inputOpenaiApiKey(
-    input: MultiStepInput,
-    state: Partial<State>
-  ) {
-    state.openaiApiKey = await input.showInputBox({
-      title,
-      step: 2,
-      totalSteps: 3,
-      ignoreFocusOut: true,
-      value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
-      prompt: `$(key)  Enter the openai.com Api-Key`,
-      placeholder: '25c1f091-bbec-4e4c-bb87-200efa145446',
-      validate: validateIgnored,
-      shouldResume: shouldResume,
-    })
-    return (input: MultiStepInput) => inputChatCompletionModel(input, state)
-  }
-
-  /**
-   * This function displays a quick pick menu for selecting an OpenAI model and updates the application's state accordingly.
-   * @param input - The multi-step input object.
-   * @param state - The current state of the application.
-   */
-  async function inputChatCompletionModel(
-    input: MultiStepInput,
-    state: Partial<State>
-  ) {
-    state.inferenceModel = await input.showInputBox({
-      title,
-      step: 3,
-      totalSteps: 3,
-      ignoreFocusOut: true,
-      value:
-        typeof state.inferenceModel === 'string' ? state.inferenceModel : '',
-      prompt: `$(symbol-function)  Enter the model name`,
-      placeholder: ' Llama-2-70B',
-      validate: validateIgnored,
-      shouldResume: shouldResume,
-    })
-  }
-
-  /**
-   * This function validates whether an API key is valid or not based on its length and prefix.
-   * @param _name - The name of the API key to be validated.
-   * @returns An error message if validation fails or undefined if validation passes.
-   */
-  async function validateIgnored(_name: string): Promise<string | undefined> {
-    return undefined
-  }
-
-  /**
-   * This function validates whether an instance name is valid or not based on resolving the host.
-   * @param name - The name of the API key to be validated.
-   * @returns An error message if validation fails or undefined if validation passes.
-   */
-  async function validateOpenaiBaseUrl(
-    baseUrl: string
-  ): Promise<string | undefined> {
-    return Uri.parse(baseUrl) ? undefined : 'Invalid Uri'
-  }
-
-  function shouldResume() {
-    // Could show a notification with the option to resume.
-    return new Promise<boolean>((_resolve, _reject) => {
-      /* noop */
-    })
+    return state as IQuickPickSetup
   }
 
   //Start openai.com configuration processes
   const state = await collectInputs()
 
-  await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
+  await SecretStorageService.instance.setAuthApiKey(state.authApiKey)
   settingCfg.serviceProvider = 'Custom-OpenAI'
-  settingCfg.baseUrl = state.openaiBaseUrl
-  settingCfg.defaultModel = state.inferenceModel
+  settingCfg.baseUrl = state.baseUrl
+  settingCfg.defaultModel = state.modelInferenceCustom
   settingCfg.azureDeployment = 'setup-required'
-  settingCfg.scmModel = state.inferenceModel
+  settingCfg.scmModel = state.modelInferenceCustom
   settingCfg.scmDeployment = 'setup-required'
   settingCfg.embeddingModel = 'setup-required'
   settingCfg.embeddingsDeployment = 'setup-required'

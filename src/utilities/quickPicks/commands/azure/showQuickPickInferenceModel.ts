@@ -15,8 +15,8 @@ export async function showQuickPickInferenceModel(
   )
   state.modelInference = await input.showQuickPick({
     title: state.title!,
-    step: 4,
-    totalSteps: 6,
+    step: state.step! + 1,
+    totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     placeholder:
       'Selected chat completion deployment/model (if empty, no valid models found)',

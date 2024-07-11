@@ -7,9 +7,10 @@ export async function showInputBoxInferenceModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ) {
+  state.step = (state.step ?? 0) + 1
   state.modelInferenceCustom = await input.showInputBox({
     title: state.title!,
-    step: state.step! + 1,
+    step: state.step!,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     value:

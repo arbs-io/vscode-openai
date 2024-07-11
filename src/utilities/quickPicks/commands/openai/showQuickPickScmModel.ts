@@ -8,6 +8,7 @@ export async function showQuickPickScmModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
+  state.step = (state.step ?? 0) + 1
   const models = await getAvailableModelsOpenai(
     state.authApiKey!,
     state.baseUrl!,
@@ -15,7 +16,7 @@ export async function showQuickPickScmModel(
   )
   state.modelScm = await input.showQuickPick({
     title: state.title!,
-    step: state.step! + 1,
+    step: state.step!,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     placeholder: 'Selected SCM (git) model (if empty, no valid models found)',

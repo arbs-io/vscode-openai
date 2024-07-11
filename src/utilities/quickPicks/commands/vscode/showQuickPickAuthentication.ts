@@ -7,6 +7,7 @@ export async function showQuickPickAuthentication(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
+  state.step = (state.step ?? 0) + 1
   const getAvailableRuntimes: QuickPickItem[] = [
     {
       label: '$(github)  GitHub',
@@ -15,11 +16,9 @@ export async function showQuickPickAuthentication(
     },
   ]
 
-  // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
-  // Return void since this is not used elsewhere in the code.
   state.authenticationType = await input.showQuickPick({
     title: state.title!,
-    step: state.step! + 1,
+    step: state.step!,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     placeholder: 'Selected OpenAI Model',

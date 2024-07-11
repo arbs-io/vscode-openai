@@ -6,9 +6,10 @@ export async function showInputBoxBaseUrl(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
+  state.step = (state.step ?? 0) + 1
   state.baseUrl = await input.showInputBox({
     title: state.title!,
-    step: state.step! + 1,
+    step: state.step!,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     value: typeof state.baseUrl === 'string' ? state.baseUrl : '',

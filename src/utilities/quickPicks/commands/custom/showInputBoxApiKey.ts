@@ -7,9 +7,10 @@ export async function showInputBoxApiKey(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
+  state.step = (state.step ?? 0) + 1
   state.authApiKey = await input.showInputBox({
     title: state.title!,
-    step: state.step! + 1,
+    step: state.step!,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     value: typeof state.authApiKey === 'string' ? state.authApiKey : '',

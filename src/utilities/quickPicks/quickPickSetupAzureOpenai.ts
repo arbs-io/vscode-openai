@@ -18,7 +18,7 @@ export async function quickPickSetupAzureOpenai(
     let state = {} as Partial<IQuickPickSetup>
     state.serviceProvider = 'Azure-OpenAI'
     state.title = 'Configure Service Provider (openai.azure.com)'
-    state.step = 1
+    state.step = 0
     const steps = [
       (input: MultiStepInput) => showInputBoxBaseUrl(input, state),
       (input: MultiStepInput) => showQuickPickAuthentication(input, state),

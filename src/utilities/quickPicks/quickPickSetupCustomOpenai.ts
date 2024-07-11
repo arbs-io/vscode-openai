@@ -16,15 +16,9 @@ import {
 export async function quickPickSetupCustomOpenai(
   _context: ExtensionContext
 ): Promise<void> {
-  // async function collectInputs() {
-  //   const state = {} as Partial<IQuickPickSetup>
-  //   await MultiStepInput.run((input) => inputOpenaiBaseUrl(input, state))
-  //   return state as IQuickPickSetup
-  // }
-
   async function collectInputs(): Promise<IQuickPickSetup> {
     let state = {} as Partial<IQuickPickSetup>
-    state.serviceProvider = 'Azure-OpenAI'
+    state.serviceProvider = 'Custom-OpenAI'
     state.title = 'Configure Service Provider (openai.com)'
     state.step = 1
     const steps = [
@@ -47,7 +41,7 @@ export async function quickPickSetupCustomOpenai(
   const state = await collectInputs()
 
   await SecretStorageService.instance.setAuthApiKey(state.authApiKey)
-  settingCfg.serviceProvider = 'Custom-OpenAI'
+  settingCfg.serviceProvider = state.serviceProvider
   settingCfg.baseUrl = state.baseUrl
   settingCfg.defaultModel = state.modelInferenceCustom
   settingCfg.azureDeployment = 'setup-required'

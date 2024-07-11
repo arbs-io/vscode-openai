@@ -1,223 +1,42 @@
-/**
- * This function runs a multistep configuration for vscode-openai
- * 	Steps:
- * 		1 - Base Url (openai.com/v1)
- * 		2 - ApiKey for openai.com service
- * 		3 - Select availible openai model that support chat completion
- * 		Store and activate configuration
- */
-
-import { QuickPickItem, ExtensionContext, Uri } from 'vscode'
+import { ExtensionContext } from 'vscode'
 import { SettingConfig as settingCfg } from '@app/services'
-import { ModelCapability } from '@app/apis/openai'
 import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
-import { getAvailableModelsOpenai } from './getAvailableModels'
+import { IQuickPickSetup } from './interface'
+import {
+  showInputBoxOpenAIApiKey,
+  showInputBoxOpenAIBaseUrl,
+  showQuickPickOpenAIEmbeddingModel,
+  showQuickPickOpenAIInferenceModel,
+  showQuickPickOpenAIScmModel,
+} from './commands'
 
-/**
- * This function sets up a quick pick menu for configuring the OpenAI service provider.
- * @param _context - The extension context.
- * @returns void
- */
 export async function quickPickSetupOpenai(
   _context: ExtensionContext
 ): Promise<void> {
-  interface State {
-    title: string
-    step: number
-    totalSteps: number
-    openaiBaseUrl: string
-    openaiApiKey: string
-    quickPickInferenceModel: QuickPickItem
-    quickPickScmModel: QuickPickItem
-    quickPickEmbeddingModel: QuickPickItem
-  }
+  async function collectInputs(): Promise<IQuickPickSetup> {
+    let state = {} as Partial<IQuickPickSetup>
+    state.serviceProvider = 'OpenAI'
+    state.title = 'Configure Service Provider (openai.com)'
+    state.baseUrl = 'https://api.openai.com/v1'
+    state.step = 1
+    const steps = [
+      (input: MultiStepInput) => showInputBoxOpenAIBaseUrl(input, state),
+      (input: MultiStepInput) => showInputBoxOpenAIApiKey(input, state),
+      (input: MultiStepInput) =>
+        showQuickPickOpenAIInferenceModel(input, state),
+      (input: MultiStepInput) => showQuickPickOpenAIScmModel(input, state),
+      (input: MultiStepInput) =>
+        showQuickPickOpenAIEmbeddingModel(input, state),
+    ]
+    state.totalSteps = steps.length
 
-  async function collectInputs() {
-    const state = {} as Partial<State>
-    await MultiStepInput.run((input) => inputOpenaiBaseUrl(input, state))
-    return state as State
-  }
-
-  const title = 'Configure Service Provider (openai.com)'
-
-  /**
-   * This function collects user input for the service baseurl and returns it as a state object.
-   * @param input - The multi-step input object.
-   * @param state - The current state of the application.
-   * @returns A function that prompts the user to select an OpenAI model.
-   */
-  async function inputOpenaiBaseUrl(
-    input: MultiStepInput,
-    state: Partial<State>
-  ) {
-    state.openaiBaseUrl = await input.showInputBox({
-      title,
-      step: 1,
-      totalSteps: 5,
-      ignoreFocusOut: true,
-      value:
-        typeof state.openaiBaseUrl === 'string'
-          ? state.openaiBaseUrl
-          : 'https://api.openai.com/v1',
-      valueSelection:
-        typeof state.openaiBaseUrl === 'string' ? undefined : [0, 25],
-      prompt:
-        '$(globe)  Enter the instance name. Provide the base url default https://api.openai.com/v1"',
-      placeholder: 'https://api.openai.com/v1',
-      validate: validateOpenaiBaseUrl,
-      shouldResume: shouldResume,
-    })
-    return (input: MultiStepInput) => inputOpenaiApiKey(input, state)
-  }
-
-  /**
-   * This function collects user input for the OpenAI API key and returns it as a state object.
-   * @param input - The multi-step input object.
-   * @param state - The current state of the application.
-   * @returns A function that prompts the user to select an OpenAI model.
-   */
-  async function inputOpenaiApiKey(
-    input: MultiStepInput,
-    state: Partial<State>
-  ) {
-    state.openaiApiKey = await input.showInputBox({
-      title,
-      step: 2,
-      totalSteps: 5,
-      ignoreFocusOut: true,
-      value: typeof state.openaiApiKey === 'string' ? state.openaiApiKey : '',
-      prompt: `$(key)  Enter the openai.com Api-Key`,
-      placeholder: 'sk-8i6055nAY3eAwARfHFjiT5BlbkFJAEFUvG5GwtAV2RiwP87h',
-      validate: validateOpenaiApiKey,
-      shouldResume: shouldResume,
-    })
-    return (input: MultiStepInput) => selectChatCompletionModel(input, state)
-  }
-
-  /**
-   * This function displays a quick pick menu for selecting an OpenAI model and updates the application's state accordingly.
-   * @param input - The multi-step input object.
-   * @param state - The current state of the application.
-   */
-  async function selectChatCompletionModel(
-    input: MultiStepInput,
-    state: Partial<State>
-  ) {
-    const models = await getAvailableModelsOpenai(
-      state.openaiApiKey!,
-      state.openaiBaseUrl!,
-      ModelCapability.ChatCompletion
-    )
-    // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
-    // Return void since this is not used elsewhere in the code.
-    state.quickPickInferenceModel = await input.showQuickPick({
-      title,
-      step: 3,
-      totalSteps: 5,
-      ignoreFocusOut: true,
-      placeholder:
-        'Selected chat completion model (if empty, no valid models found)',
-      items: models,
-      activeItem: state.quickPickInferenceModel,
-      shouldResume: shouldResume,
+    await MultiStepInput.run(async (input) => {
+      for (const step of steps) {
+        await step(input)
+      }
     })
 
-    return (input: MultiStepInput) => selectScmModel(input, state)
-  }
-
-  /**
-   * This function displays a quick pick menu for selecting an OpenAI model and updates the application's state accordingly.
-   * @param input - The multi-step input object.
-   * @param state - The current state of the application.
-   */
-  async function selectScmModel(input: MultiStepInput, state: Partial<State>) {
-    const models = await getAvailableModelsOpenai(
-      state.openaiApiKey!,
-      state.openaiBaseUrl!,
-      ModelCapability.ChatCompletion
-    )
-    // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
-    // Return void since this is not used elsewhere in the code.
-    state.quickPickScmModel = await input.showQuickPick({
-      title,
-      step: 4,
-      totalSteps: 5,
-      ignoreFocusOut: true,
-      placeholder: 'Selected SCM (git) model (if empty, no valid models found)',
-      items: models,
-      activeItem: state.quickPickScmModel,
-      shouldResume: shouldResume,
-    })
-
-    return (input: MultiStepInput) => selectEmbeddingModel(input, state)
-  }
-
-  /**
-   * This function displays a quick pick menu for selecting an OpenAI model and updates the application's state accordingly.
-   * @param input - The multi-step input object.
-   * @param state - The current state of the application.
-   */
-  async function selectEmbeddingModel(
-    input: MultiStepInput,
-    state: Partial<State>
-  ): Promise<void> {
-    const models = await getAvailableModelsOpenai(
-      state.openaiApiKey!,
-      state.openaiBaseUrl!,
-      ModelCapability.Embedding
-    )
-    // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
-    // Return void since this is not used elsewhere in the code.
-    state.quickPickEmbeddingModel = await input.showQuickPick({
-      title,
-      step: 5,
-      totalSteps: 5,
-      ignoreFocusOut: true,
-      placeholder: 'Selected embedding model (if empty, no valid models found)',
-      items: models,
-      activeItem: state.quickPickEmbeddingModel,
-      shouldResume: shouldResume,
-    })
-  }
-
-  /**
-   * This function validates whether an API key is valid or not based on its length and prefix.
-   * @param name - The name of the API key to be validated.
-   * @returns An error message if validation fails or undefined if validation passes.
-   */
-  async function validateOpenaiApiKey(
-    name: string
-  ): Promise<string | undefined> {
-    const OPENAI_APIKEY_MIN_LENGTH = 1
-    const OPENAI_APIKEY_STARTSWITH = 'sk-'
-    const OPENAI_OAUTH2_BEARER_STARTSWITH = 'Bearer'
-    const OPENAI_OAUTH2_TOKEN_STARTSWITH = 'ey'
-
-    // Native openai service key or oauth2 token
-    return name.length >= OPENAI_APIKEY_MIN_LENGTH &&
-      (name.startsWith(OPENAI_APIKEY_STARTSWITH) ||
-        name.startsWith(OPENAI_OAUTH2_BEARER_STARTSWITH) ||
-        name.startsWith(OPENAI_OAUTH2_TOKEN_STARTSWITH))
-      ? undefined
-      : 'Invalid Api-Key or Token'
-  }
-
-  /**
-   * This function validates whether an instance name is valid or not based on resolving the host.
-   * @param name - The name of the API key to be validated.
-   * @returns An error message if validation fails or undefined if validation passes.
-   */
-  async function validateOpenaiBaseUrl(
-    baseUrl: string
-  ): Promise<string | undefined> {
-    return Uri.parse(baseUrl) ? undefined : 'Invalid Uri'
-  }
-
-  function shouldResume() {
-    // Could show a notification with the option to resume.
-    return new Promise<boolean>((_resolve, _reject) => {
-      /* noop */
-    })
+    return state as IQuickPickSetup
   }
 
   function cleanQuickPick(label: string) {
@@ -227,13 +46,13 @@ export async function quickPickSetupOpenai(
   //Start openai.com configuration processes
   const state = await collectInputs()
 
-  await SecretStorageService.instance.setAuthApiKey(state.openaiApiKey)
-  const inferenceModel = cleanQuickPick(state.quickPickInferenceModel.label)
-  const scmModel = cleanQuickPick(state.quickPickScmModel.label)
-  const embeddingModel = cleanQuickPick(state.quickPickEmbeddingModel.label)
+  await SecretStorageService.instance.setAuthApiKey(state.authApiKey)
+  const inferenceModel = cleanQuickPick(state.modelInference.label)
+  const scmModel = cleanQuickPick(state.modelScm.label)
+  const embeddingModel = cleanQuickPick(state.modelEmbedding.label)
 
-  settingCfg.serviceProvider = 'OpenAI'
-  settingCfg.baseUrl = state.openaiBaseUrl
+  settingCfg.serviceProvider = state.serviceProvider
+  settingCfg.baseUrl = state.baseUrl
   settingCfg.defaultModel = inferenceModel
   settingCfg.azureDeployment = 'setup-required'
   settingCfg.scmModel = scmModel

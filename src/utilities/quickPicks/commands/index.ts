@@ -8,11 +8,15 @@ export { showQuickPickVscodeOpenAIAuthentication } from './showQuickPickVscodeOp
 export { showInputBoxCustomInferenceModel } from './showInputBoxCustomInferenceModel'
 export { showInputBoxCustomBaseUrl } from './showInputBoxCustomBaseUrl'
 export { showInputBoxCustomApiKey } from './showInputBoxCustomApiKey'
+export { showInputBoxOpenAIBaseUrl } from './showInputBoxOpenAIBaseUrl'
+export { showInputBoxOpenAIApiKey } from './showInputBoxOpenAIApiKey'
+export { showQuickPickOpenAIInferenceModel } from './showQuickPickOpenAIInferenceModel'
+export { showQuickPickOpenAIScmModel } from './showQuickPickOpenAIScmModel'
+export { showQuickPickOpenAIEmbeddingModel } from './showQuickPickOpenAIEmbeddingModel'
 
 //features
 export { getVscodeOpenAccessToken } from './getVscodeOpenAccessToken'
 export { shouldResume } from './shouldResume'
 //validators
 export { validateUrl } from './validateUrl'
-export { validateAzureApiKey } from './validateAzureApiKey'
 export { validateIgnored } from './validateIgnored'

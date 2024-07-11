@@ -1,10 +1,10 @@
 import { MultiStepInput } from '@app/apis/vscode'
 import { ModelCapability } from '@app/apis/openai'
-import { getAvailableModelsOpenai } from '../getAvailableModels'
-import { IQuickPickSetup } from '../interface'
-import { shouldResume } from './shouldResume'
+import { getAvailableModelsOpenai } from '../../getAvailableModels'
+import { IQuickPickSetup } from '../../interface'
+import { shouldResume } from '../shouldResume'
 
-export async function showQuickPickOpenAIScmModel(
+export async function showQuickPickScmModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {

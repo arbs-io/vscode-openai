@@ -1,9 +1,9 @@
 import { MultiStepInput } from '@app/apis/vscode'
-import { IQuickPickSetup } from '../interface'
-import { shouldResume } from './shouldResume'
-import { validateIgnored } from '.'
+import { IQuickPickSetup } from '../../interface'
+import { shouldResume } from '../shouldResume'
+import { validateIgnored } from '..'
 
-export async function showInputBoxCustomInferenceModel(
+export async function showInputBoxInferenceModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ) {

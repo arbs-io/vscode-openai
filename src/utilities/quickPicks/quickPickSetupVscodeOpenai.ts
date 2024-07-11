@@ -4,8 +4,8 @@ import { SettingConfig as settingCfg } from '@app/services'
 import { IQuickPickSetup } from './interface'
 import {
   getVscodeOpenAccessToken,
-  showQuickPickVscodeOpenAIAuthentication,
-} from './commands'
+  showQuickPickAuthentication,
+} from './commands/vscode'
 
 export async function quickPickSetupVscodeOpenai(
   _context: ExtensionContext
@@ -17,8 +17,7 @@ export async function quickPickSetupVscodeOpenai(
     state.baseUrl = `https://api.arbs.io/openai/inference/v1`
     state.step = 1
     const steps = [
-      (input: MultiStepInput) =>
-        showQuickPickVscodeOpenAIAuthentication(input, state),
+      (input: MultiStepInput) => showQuickPickAuthentication(input, state),
     ]
     state.totalSteps = steps.length
 

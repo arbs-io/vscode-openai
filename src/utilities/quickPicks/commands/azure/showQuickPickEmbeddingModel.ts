@@ -1,10 +1,10 @@
 import { ModelCapability } from '@app/apis/openai'
 import { MultiStepInput } from '@app/apis/vscode'
-import { getAvailableModelsAzure } from '../getAvailableModels'
-import { IQuickPickSetup } from '../interface'
-import { shouldResume } from './shouldResume'
+import { getAvailableModelsAzure } from '../../getAvailableModels'
+import { IQuickPickSetup } from '../../interface'
+import { shouldResume } from '../shouldResume'
 
-export async function showQuickPickAzureEmbeddingModel(
+export async function showQuickPickEmbeddingModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {

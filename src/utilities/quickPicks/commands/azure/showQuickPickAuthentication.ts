@@ -1,9 +1,9 @@
 import { QuickPickItem } from 'vscode'
 import { MultiStepInput } from '@app/apis/vscode'
-import { IQuickPickSetup } from '../interface'
-import { shouldResume } from './shouldResume'
+import { IQuickPickSetup } from '../../interface'
+import { shouldResume } from '../shouldResume'
 
-export async function showQuickPickAzureAuthentication(
+export async function showQuickPickAuthentication(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {

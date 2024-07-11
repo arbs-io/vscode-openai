@@ -1,12 +1,12 @@
-import { ExtensionContext, Uri } from 'vscode'
+import { ExtensionContext } from 'vscode'
 import { SettingConfig as settingCfg } from '@app/services'
 import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
 import { IQuickPickSetup } from './interface'
 import {
-  showInputBoxCustomApiKey,
-  showInputBoxCustomBaseUrl,
-  showInputBoxCustomInferenceModel,
-} from './commands'
+  showInputBoxApiKey,
+  showInputBoxBaseUrl,
+  showInputBoxInferenceModel,
+} from './commands/custom'
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -22,9 +22,9 @@ export async function quickPickSetupCustomOpenai(
     state.title = 'Configure Service Provider (openai.com)'
     state.step = 1
     const steps = [
-      (input: MultiStepInput) => showInputBoxCustomBaseUrl(input, state),
-      (input: MultiStepInput) => showInputBoxCustomApiKey(input, state),
-      (input: MultiStepInput) => showInputBoxCustomInferenceModel(input, state),
+      (input: MultiStepInput) => showInputBoxBaseUrl(input, state),
+      (input: MultiStepInput) => showInputBoxApiKey(input, state),
+      (input: MultiStepInput) => showInputBoxInferenceModel(input, state),
     ]
     state.totalSteps = steps.length
 

@@ -1,8 +1,8 @@
 import { MultiStepInput } from '@app/apis/vscode'
-import { IQuickPickSetup } from '../interface'
-import { shouldResume } from './shouldResume'
-import { validateUrl } from './validateUrl'
-export async function showInputBoxAzureBaseUrl(
+import { IQuickPickSetup } from '../../interface'
+import { shouldResume } from '../shouldResume'
+import { validateUrl } from '../validateUrl'
+export async function showInputBoxBaseUrl(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {

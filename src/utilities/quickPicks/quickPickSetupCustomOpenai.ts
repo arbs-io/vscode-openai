@@ -20,7 +20,7 @@ export async function quickPickSetupCustomOpenai(
     let state = {} as Partial<IQuickPickSetup>
     state.serviceProvider = 'Custom-OpenAI'
     state.title = 'Configure Service Provider (openai.com)'
-    state.step = 1
+    state.step = 0
     const steps = [
       (input: MultiStepInput) => showInputBoxBaseUrl(input, state),
       (input: MultiStepInput) => showInputBoxApiKey(input, state),

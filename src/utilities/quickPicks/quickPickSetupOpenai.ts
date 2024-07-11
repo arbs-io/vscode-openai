@@ -18,7 +18,7 @@ export async function quickPickSetupOpenai(
     state.serviceProvider = 'OpenAI'
     state.title = 'Configure Service Provider (openai.com)'
     state.baseUrl = 'https://api.openai.com/v1'
-    state.step = 1
+    state.step = 0
     const steps = [
       (input: MultiStepInput) => showInputBoxBaseUrl(input, state),
       (input: MultiStepInput) => showInputBoxApiKey(input, state),

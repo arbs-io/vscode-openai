@@ -15,7 +15,7 @@ export async function quickPickSetupVscodeOpenai(
     state.serviceProvider = 'VSCode-OpenAI'
     state.title = 'Configure Service Provider (openai.azure.com)'
     state.baseUrl = `https://api.arbs.io/openai/inference/v1`
-    state.step = 1
+    state.step = 0
     const steps = [
       (input: MultiStepInput) => showQuickPickAuthentication(input, state),
     ]

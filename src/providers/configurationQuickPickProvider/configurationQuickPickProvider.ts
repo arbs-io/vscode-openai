@@ -8,7 +8,6 @@ import {
 import {
   quickPickChangeModel,
   quickPickSetupAzureOpenai,
-  quickPickSetupCredalOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
   quickPickSetupCustomOpenai,
@@ -50,10 +49,6 @@ export class ConfigurationQuickPickProvider {
 
       case VSCODE_OPENAI_QP_SETUP.PROVIDER_AZURE:
         quickPickSetupAzureOpenai(this.context)
-        break
-
-      case VSCODE_OPENAI_QP_SETUP.PROVIDER_CREDAL:
-        quickPickSetupCredalOpenai(this.context)
         break
 
       case VSCODE_OPENAI_QP_SETUP.PROVIDER_CUSTOM:
@@ -155,11 +150,6 @@ function BuildQuickPickServiceProviders(): QuickPickItem[] {
       label: VSCODE_OPENAI_QP_SETUP.PROVIDER_AZURE,
       iconPath: new ThemeIcon(VSCODE_OPENAI_QP_SETUP.PROVIDER_AZURE_ICON),
       description: VSCODE_OPENAI_QP_SETUP.PROVIDER_AZURE_DESC,
-    },
-    {
-      label: VSCODE_OPENAI_QP_SETUP.PROVIDER_CREDAL,
-      iconPath: new ThemeIcon(VSCODE_OPENAI_QP_SETUP.PROVIDER_CREDAL_ICON),
-      description: VSCODE_OPENAI_QP_SETUP.PROVIDER_CREDAL_DESC,
     },
     {
       label: VSCODE_OPENAI_QP_SETUP.PROVIDER_CUSTOM,

@@ -10,7 +10,7 @@ export async function showInputBoxApiKey(
   state.step = (state.step ?? 0) + 1
   state.authApiKey = await input.showInputBox({
     title: state.title!,
-    step: state.step!,
+    step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     value: typeof state.authApiKey === 'string' ? state.authApiKey : '',

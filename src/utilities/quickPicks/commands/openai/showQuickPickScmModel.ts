@@ -16,7 +16,7 @@ export async function showQuickPickScmModel(
   )
   state.modelScm = await input.showQuickPick({
     title: state.title!,
-    step: state.step!,
+    step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     placeholder: 'Selected SCM (git) model (if empty, no valid models found)',

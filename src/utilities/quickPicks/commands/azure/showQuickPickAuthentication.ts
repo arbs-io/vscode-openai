@@ -21,7 +21,7 @@ export async function showQuickPickAuthentication(
 
   state.authenticationType = await input.showQuickPick({
     title: state.title!,
-    step: state.step!,
+    step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     placeholder: 'Selected OpenAI Model',

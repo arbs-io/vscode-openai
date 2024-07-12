@@ -10,7 +10,7 @@ export async function showInputBoxInferenceModel(
   state.step = (state.step ?? 0) + 1
   state.modelInferenceCustom = await input.showInputBox({
     title: state.title!,
-    step: state.step!,
+    step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     value:

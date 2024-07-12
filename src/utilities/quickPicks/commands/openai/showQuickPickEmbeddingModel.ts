@@ -16,7 +16,7 @@ export async function showQuickPickEmbeddingModel(
   )
   state.modelEmbedding = await input.showQuickPick({
     title: state.title!,
-    step: state.step!,
+    step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     placeholder: 'Selected embedding model (if empty, no valid models found)',

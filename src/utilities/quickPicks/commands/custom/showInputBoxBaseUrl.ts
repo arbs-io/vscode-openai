@@ -9,7 +9,7 @@ export async function showInputBoxBaseUrl(
   state.step = (state.step ?? 0) + 1
   state.baseUrl = await input.showInputBox({
     title: state.title!,
-    step: state.step!,
+    step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     value: typeof state.baseUrl === 'string' ? state.baseUrl : '',

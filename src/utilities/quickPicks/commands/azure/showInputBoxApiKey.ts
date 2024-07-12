@@ -7,7 +7,7 @@ export async function showInputBoxApiKey(
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
   state.step = (state.step ?? 0) + 1
-  if (state.authenticationType?.label === '') {
+  if (state.authenticationType?.label === '$(azure)  Microsoft') {
     const accessToken = await getAzureOpenAIAccessToken()
     state.authApiKey = `Bearer ${accessToken}`
   } else {

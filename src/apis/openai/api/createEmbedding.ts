@@ -26,7 +26,7 @@ export async function createEmbedding({
     const openai = new OpenAI({
       apiKey: apiKey,
       defaultQuery: { 'api-version': azureApiVersion },
-      defaultHeaders: { 'api-key': apiKey },
+      defaultHeaders: { Authorization: apiKey, 'api-key': apiKey },
       baseURL: settingCfg.embeddingUrl,
       maxRetries: convCfg.numOfAttempts,
       timeout: 20 * 1000, // Embedding should be fast, forcing quick retry

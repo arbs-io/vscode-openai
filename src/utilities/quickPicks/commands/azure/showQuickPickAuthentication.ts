@@ -10,9 +10,8 @@ export async function showQuickPickAuthentication(
   state.step = (state.step ?? 0) + 1
   const getAvailableRuntimes: QuickPickItem[] = [
     {
-      label: '$(github)  GitHub',
-      description:
-        'Use your github.com profile to sign into to vscode-openai service',
+      label: '$(key)  Enter your Api-Key',
+      description: 'Use your openai.azure.com API key',
     },
     {
       label: '$(azure)  Microsoft',

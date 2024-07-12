@@ -26,7 +26,7 @@ export async function createChatCompletion(
     const openai = new OpenAI({
       apiKey: apiKey,
       defaultQuery: { 'api-version': azureApiVersion },
-      defaultHeaders: { 'api-key': apiKey },
+      defaultHeaders: { Authorization: apiKey, 'api-key': apiKey },
       baseURL: chatCompletionConfig.baseURL,
       maxRetries: convCfg.numOfAttempts,
     })

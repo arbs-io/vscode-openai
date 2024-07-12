@@ -21,12 +21,12 @@ export async function listModelsAzureOpenAI(
     const openai = new OpenAI({
       apiKey: apiKey,
       defaultQuery: { 'api-version': azureApiVersion },
-      defaultHeaders: { 'api-key': apiKey },
+      defaultHeaders: { Authorization: apiKey, 'api-key': apiKey },
       baseURL: baseUrl,
     })
 
     const respModels = await openai.models.list({
-      headers: { ...headers, 'api-key': apiKey },
+      headers: { ...headers, Authorization: apiKey, 'api-key': apiKey },
       query: { 'api-version': '2024-02-01' },
     })
 

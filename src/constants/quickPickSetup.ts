@@ -13,10 +13,6 @@ export const VSCODE_OPENAI_QP_SETUP = {
   PROVIDER_AZURE_DESC:
     '(BYOK) Use your own Azure OpenAI instance (instance.openai.azure.com)',
 
-  PROVIDER_CREDAL: 'credal.ai',
-  PROVIDER_CREDAL_ICON: 'comment',
-  PROVIDER_CREDAL_DESC: '(BYOK) Use your own Credal instance (credal.ai)',
-
   PROVIDER_CUSTOM: 'custom',
   PROVIDER_CUSTOM_ICON: 'server-environment',
   PROVIDER_CUSTOM_DESC:

@@ -139,6 +139,6 @@ We look forward to your contributions and to working together to improve and exp
 
 ## **Copyright**
 
-Copyright © 2023 Andrew Butson
+Copyright © 2024 Andrew Butson
 
 Licensed under the MIT License

@@ -28,7 +28,7 @@ export async function verifyApiKey(): Promise<boolean> {
     const openai = new OpenAI({
       apiKey: apiKey,
       defaultQuery: { 'api-version': azureApiVersion },
-      defaultHeaders: { 'api-key': apiKey },
+      defaultHeaders: { Authorization: apiKey, 'api-key': apiKey },
       baseURL: settingCfg.baseUrl,
     })
 

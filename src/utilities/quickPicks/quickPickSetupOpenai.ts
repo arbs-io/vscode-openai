@@ -3,12 +3,12 @@ import { SettingConfig as settingCfg } from '@app/services'
 import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
 import { IQuickPickSetup } from './interface'
 import {
-  showInputBoxApiKey,
-  showInputBoxBaseUrl,
-  showQuickPickEmbeddingModel,
-  showQuickPickInferenceModel,
-  showQuickPickScmModel,
-} from './commands/openai'
+  showInputBoxOpenAIBaseUrl,
+  showInputBoxOpenAIApiKey,
+  showQuickPickOpenAIInferenceModel,
+  showQuickPickOpenAIScmModel,
+  showQuickPickOpenAIEmbeddingModel,
+} from './commands'
 
 export async function quickPickSetupOpenai(
   _context: ExtensionContext
@@ -20,11 +20,13 @@ export async function quickPickSetupOpenai(
     state.baseUrl = 'https://api.openai.com/v1'
     state.step = 0
     const steps = [
-      (input: MultiStepInput) => showInputBoxBaseUrl(input, state),
-      (input: MultiStepInput) => showInputBoxApiKey(input, state),
-      (input: MultiStepInput) => showQuickPickInferenceModel(input, state),
-      (input: MultiStepInput) => showQuickPickScmModel(input, state),
-      (input: MultiStepInput) => showQuickPickEmbeddingModel(input, state),
+      (input: MultiStepInput) => showInputBoxOpenAIBaseUrl(input, state),
+      (input: MultiStepInput) => showInputBoxOpenAIApiKey(input, state),
+      (input: MultiStepInput) =>
+        showQuickPickOpenAIInferenceModel(input, state),
+      (input: MultiStepInput) => showQuickPickOpenAIScmModel(input, state),
+      (input: MultiStepInput) =>
+        showQuickPickOpenAIEmbeddingModel(input, state),
     ]
     state.totalSteps = steps.length
 

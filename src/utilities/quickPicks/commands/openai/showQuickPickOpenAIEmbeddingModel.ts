@@ -4,7 +4,7 @@ import { getAvailableModelsOpenai } from '../../getAvailableModels'
 import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
 
-export async function showQuickPickInferenceModel(
+export async function showQuickPickOpenAIEmbeddingModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
@@ -12,17 +12,16 @@ export async function showQuickPickInferenceModel(
   const models = await getAvailableModelsOpenai(
     state.authApiKey!,
     state.baseUrl!,
-    ModelCapability.ChatCompletion
+    ModelCapability.Embedding
   )
-  state.modelInference = await input.showQuickPick({
+  state.modelEmbedding = await input.showQuickPick({
     title: state.title!,
     step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
-    placeholder:
-      'Selected chat completion model (if empty, no valid models found)',
+    placeholder: 'Selected embedding model (if empty, no valid models found)',
     items: models,
-    activeItem: state.modelInference,
+    activeItem: state.modelEmbedding,
     shouldResume: shouldResume,
   })
 }

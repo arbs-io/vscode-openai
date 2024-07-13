@@ -2,7 +2,7 @@ import { MultiStepInput } from '@app/apis/vscode'
 import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
 import { validateUrl } from '../validateUrl'
-export async function showInputBoxBaseUrl(
+export async function showInputBoxOpenAIBaseUrl(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
@@ -12,10 +12,14 @@ export async function showInputBoxBaseUrl(
     step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
-    value: typeof state.baseUrl === 'string' ? state.baseUrl : '',
+    value:
+      typeof state.baseUrl === 'string'
+        ? state.baseUrl
+        : 'https://api.openai.com/v1',
+    valueSelection: typeof state.baseUrl === 'string' ? undefined : [0, 25],
     prompt:
-      '$(globe)  Enter the instance name. Provide the base url default https://localhost/v1"',
-    placeholder: 'https://localhost/v1',
+      '$(globe)  Enter the instance name. Provide the base url default https://api.openai.com/v1"',
+    placeholder: 'https://api.openai.com/v1',
     validate: validateUrl,
     shouldResume: shouldResume,
   })

@@ -2,7 +2,7 @@ import { getAzureOpenAIAccessToken, MultiStepInput } from '@app/apis/vscode'
 import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
 
-export async function showInputBoxApiKey(
+export async function showInputBoxAzureApiKey(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {

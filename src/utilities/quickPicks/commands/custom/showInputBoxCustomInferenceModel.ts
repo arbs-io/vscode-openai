@@ -3,7 +3,7 @@ import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
 import { validateIgnored } from '..'
 
-export async function showInputBoxInferenceModel(
+export async function showInputBoxCustomInferenceModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ) {

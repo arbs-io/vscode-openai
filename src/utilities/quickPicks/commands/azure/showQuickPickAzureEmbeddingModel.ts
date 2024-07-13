@@ -4,7 +4,7 @@ import { getAvailableModelsAzure } from '../../getAvailableModels'
 import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
 
-export async function showQuickPickEmbeddingModel(
+export async function showQuickPickAzureEmbeddingModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {

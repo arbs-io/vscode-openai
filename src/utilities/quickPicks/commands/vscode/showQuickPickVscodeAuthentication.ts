@@ -3,7 +3,7 @@ import { MultiStepInput } from '@app/apis/vscode'
 import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
 
-export async function showQuickPickAuthentication(
+export async function showQuickPickVscodeAuthentication(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {

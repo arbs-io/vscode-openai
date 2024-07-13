@@ -2,7 +2,7 @@ import { MultiStepInput } from '@app/apis/vscode'
 import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
 
-export async function showInputBoxApiKey(
+export async function showInputBoxOpenAIApiKey(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {

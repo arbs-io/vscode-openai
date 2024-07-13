@@ -1,22 +1,22 @@
 import { MultiStepInput } from '@app/apis/vscode'
 import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
-import { validateIgnored } from '..'
-
-export async function showInputBoxApiKey(
+import { validateUrl } from '../validateUrl'
+export async function showInputBoxCustomBaseUrl(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
   state.step = (state.step ?? 0) + 1
-  state.authApiKey = await input.showInputBox({
+  state.baseUrl = await input.showInputBox({
     title: state.title!,
     step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
-    value: typeof state.authApiKey === 'string' ? state.authApiKey : '',
-    prompt: '$(key)  Enter your Api-Key',
-    placeholder: 'ed4af062d8567543ad104587ea4505ce',
-    validate: validateIgnored,
+    value: typeof state.baseUrl === 'string' ? state.baseUrl : '',
+    prompt:
+      '$(globe)  Enter the instance name. Provide the base url default https://localhost/v1"',
+    placeholder: 'https://localhost/v1',
+    validate: validateUrl,
     shouldResume: shouldResume,
   })
 }

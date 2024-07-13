@@ -4,7 +4,7 @@ import { getAvailableModelsOpenai } from '../../getAvailableModels'
 import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
 
-export async function showQuickPickScmModel(
+export async function showQuickPickOpenAIInferenceModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
@@ -14,14 +14,15 @@ export async function showQuickPickScmModel(
     state.baseUrl!,
     ModelCapability.ChatCompletion
   )
-  state.modelScm = await input.showQuickPick({
+  state.modelInference = await input.showQuickPick({
     title: state.title!,
     step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
-    placeholder: 'Selected SCM (git) model (if empty, no valid models found)',
+    placeholder:
+      'Selected chat completion model (if empty, no valid models found)',
     items: models,
-    activeItem: state.modelScm,
+    activeItem: state.modelInference,
     shouldResume: shouldResume,
   })
 }

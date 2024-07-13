@@ -1,15 +1,15 @@
-import { ModelCapability } from '@app/apis/openai'
 import { MultiStepInput } from '@app/apis/vscode'
-import { getAvailableModelsAzure } from '../../getAvailableModels'
+import { ModelCapability } from '@app/apis/openai'
+import { getAvailableModelsOpenai } from '../../getAvailableModels'
 import { IQuickPickSetup } from '../../interface'
 import { shouldResume } from '../shouldResume'
 
-export async function showQuickPickScmModel(
+export async function showQuickPickOpenAIScmModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
   state.step = (state.step ?? 0) + 1
-  const models = await getAvailableModelsAzure(
+  const models = await getAvailableModelsOpenai(
     state.authApiKey!,
     state.baseUrl!,
     ModelCapability.ChatCompletion
@@ -19,8 +19,7 @@ export async function showQuickPickScmModel(
     step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
-    placeholder:
-      'Selected SCM (git) deployment/model (if empty, no valid models found)',
+    placeholder: 'Selected SCM (git) model (if empty, no valid models found)',
     items: models,
     activeItem: state.modelScm,
     shouldResume: shouldResume,

@@ -16,6 +16,7 @@ export { MultiStepInput } from './multiStepInput/multiStepInput'
 
 export { getAzureOpenAIAccessToken } from './authentication/getAzureOpenAIAccessToken'
 export { getGitAccessToken } from './authentication/getGitAccessToken'
+export { getVscodeOpenAccessToken } from './authentication/getVscodeOpenAccessToken'
 
 export * from './outputChannel/outputChannel'
 export { default as TelemetryService } from './outputChannel/telemetryService'

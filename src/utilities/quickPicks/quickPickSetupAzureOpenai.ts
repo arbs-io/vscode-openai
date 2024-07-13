@@ -3,13 +3,13 @@ import { SettingConfig as settingCfg } from '@app/services'
 import { SecretStorageService, MultiStepInput } from '@app/apis/vscode'
 import { IQuickPickSetup } from './interface'
 import {
-  showInputBoxBaseUrl,
-  showQuickPickAuthentication,
-  showInputBoxApiKey,
-  showQuickPickInferenceModel,
-  showQuickPickScmModel,
-  showQuickPickEmbeddingModel,
-} from './commands/azure'
+  showInputBoxAzureBaseUrl,
+  showQuickPickAzureAuthentication,
+  showInputBoxAzureApiKey,
+  showQuickPickAzureInferenceModel,
+  showQuickPickAzureScmModel,
+  showQuickPickAzureEmbeddingModel,
+} from './commands'
 
 export async function quickPickSetupAzureOpenai(
   _context: ExtensionContext
@@ -20,12 +20,12 @@ export async function quickPickSetupAzureOpenai(
     state.title = 'Configure Service Provider (openai.azure.com)'
     state.step = 0
     const steps = [
-      (input: MultiStepInput) => showInputBoxBaseUrl(input, state),
-      (input: MultiStepInput) => showQuickPickAuthentication(input, state),
-      (input: MultiStepInput) => showInputBoxApiKey(input, state),
-      (input: MultiStepInput) => showQuickPickInferenceModel(input, state),
-      (input: MultiStepInput) => showQuickPickScmModel(input, state),
-      (input: MultiStepInput) => showQuickPickEmbeddingModel(input, state),
+      (input: MultiStepInput) => showInputBoxAzureBaseUrl(input, state),
+      (input: MultiStepInput) => showQuickPickAzureAuthentication(input, state),
+      (input: MultiStepInput) => showInputBoxAzureApiKey(input, state),
+      (input: MultiStepInput) => showQuickPickAzureInferenceModel(input, state),
+      (input: MultiStepInput) => showQuickPickAzureScmModel(input, state),
+      (input: MultiStepInput) => showQuickPickAzureEmbeddingModel(input, state),
     ]
     state.totalSteps = steps.length
 

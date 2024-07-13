@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     marginTop: '10px',
     gap: '10px',
-    height: '60px',
+    flex: 1,
     overflow: 'auto',
   },
   buttonGroup: {

@@ -207,11 +207,13 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
       const hash = CryptoJS.SHA512(`vscode-openai::${this.extensionVersion}`)
       return { headers: { ...headers, 'vscode-openai': hash } }
     } else if (this.serviceProvider === 'Azure-OpenAI') {
+      const authKey =
+        (await SecretStorageService.instance.getAuthApiKey()) as string
       return {
         headers: {
           ...headers,
-          'api-key':
-            (await SecretStorageService.instance.getAuthApiKey()) as string,
+          'api-key': authKey,
+          Authorization: authKey,
         },
         params: { 'api-version': this.azureApiVersion },
       }

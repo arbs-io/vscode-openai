@@ -14,4 +14,7 @@ export { createEmbedding } from './api/createEmbedding'
 
 export { ModelCapability } from './api/modelCapabiliy'
 export { listModelsAzureOpenAI } from './api/listModelsAzureOpenAI'
-export { listModelsOpenAI } from './api/listModelsOpenAI'
+export { listModelsOpenAI } from "./api/listModelsOpenAI";
+export { createOpenAI } from "./api/createOpenAI";
+export { errorHandler } from "./api/errorHandler";
+

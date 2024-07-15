@@ -1,5 +1,5 @@
 import { SettingConfig as settingCfg } from '@app/services'
-import { createOpenAI, errorHandler, ModelCapability } from "@app/apis/openai";
+import { createOpenAI, errorHandler, ModelCapability } from '@app/apis/openai'
 
 export async function listModelsOpenAI(
   apiKey: string,
@@ -7,9 +7,9 @@ export async function listModelsOpenAI(
   modelCapabiliy: ModelCapability
 ): Promise<Array<string>> {
   const models = new Array<string>()
-  try {    
-    const openai = await createOpenAI(baseUrl, "OpenAI", apiKey);
-    const headers = settingCfg.apiHeaders;
+  try {
+    const openai = await createOpenAI(baseUrl, 'OpenAI', apiKey)
+    const headers = settingCfg.apiHeaders
     const response = await openai.models.list({
       headers: { ...headers },
     })

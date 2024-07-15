@@ -1,9 +1,6 @@
-import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
-import {
-  SettingConfig as settingCfg,
-} from '@app/services'
-import { createOpenAI, errorHandler } from "@app/apis/openai";
+import { SettingConfig as settingCfg } from '@app/services'
+import { createOpenAI, errorHandler } from '@app/apis/openai'
 
 type EmbeddingOptions = {
   input: string | string[]
@@ -18,7 +15,7 @@ export async function createEmbedding({
 }: EmbeddingOptions): Promise<number[][] | undefined> {
   try {
     const model = settingCfg.embeddingModel
-    const openai = await createOpenAI(settingCfg.embeddingUrl);
+    const openai = await createOpenAI(settingCfg.embeddingUrl)
     const requestConfig = await settingCfg.getRequestConfig()
 
     const results = await openai.embeddings.create(

@@ -1,6 +1,6 @@
 import { HttpRequest, createErrorNotification } from '@app/apis/node'
 import { SettingConfig as settingCfg } from '@app/services'
-import { createOpenAI, errorHandler, ModelCapability } from "@app/apis/openai";
+import { createOpenAI, errorHandler, ModelCapability } from '@app/apis/openai'
 
 export interface IDeploymentModel {
   deployment: string
@@ -13,10 +13,10 @@ export async function listModelsAzureOpenAI(
   modelCapabiliy: ModelCapability
 ): Promise<Array<IDeploymentModel> | undefined> {
   try {
-    const openai = await createOpenAI(baseUrl, "Azure-OpenAI", apiKey);
-    const headers = settingCfg.apiHeaders;
+    const openai = await createOpenAI(baseUrl, 'Azure-OpenAI', apiKey)
+    const headers = settingCfg.apiHeaders
     const respModels = await openai.models.list({
-      headers: { ...headers},
+      headers: { ...headers },
     })
 
     const models = new Array<string>()

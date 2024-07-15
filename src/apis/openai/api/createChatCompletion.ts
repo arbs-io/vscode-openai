@@ -2,12 +2,12 @@ import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { ConversationConfig as convCfg } from '@app/services'
 import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
 
-import { createOpenAI, errorHandler } from "@app/apis/openai";
+import { createOpenAI, errorHandler } from '@app/apis/openai'
 import {
   ChatCompletionRequestMessageEmbedding,
   ChatCompletionRequestMessageStandard,
   LogChatCompletion,
-} from "@app/apis/openai/api/chatCompletionMessages"
+} from '@app/apis/openai/api/chatCompletionMessages'
 
 export async function createChatCompletion(
   conversation: IConversation,
@@ -19,7 +19,7 @@ export async function createChatCompletion(
       '- build-conversation'
     )
 
-    const openai = await createOpenAI(chatCompletionConfig.baseURL);
+    const openai = await createOpenAI(chatCompletionConfig.baseURL)
     const chatCompletionMessages = conversation.embeddingId
       ? await ChatCompletionRequestMessageEmbedding(conversation)
       : await ChatCompletionRequestMessageStandard(conversation)

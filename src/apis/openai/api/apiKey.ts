@@ -1,9 +1,8 @@
-import OpenAI from 'openai'
 import { SettingConfig as settingCfg, featureVerifyApiKey } from '@app/services'
 import { StatusBarServiceProvider, setFeatureFlag } from '@app/apis/vscode'
-import { errorHandler } from './errorHandler'
 import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
 import { createErrorNotification, createInfoNotification } from '@app/apis/node'
+import { createOpenAI, errorHandler } from "@app/apis/openai";
 
 export async function validateApiKey() {
   try {
@@ -22,29 +21,19 @@ export async function verifyApiKey(): Promise<boolean> {
       '- verify authentication'
     )
 
-    const azureApiVersion = settingCfg.azureApiVersion
-    const apiKey = await settingCfg.getApiKey()
-
-    const openai = new OpenAI({
-      apiKey: apiKey,
-      defaultQuery: { 'api-version': azureApiVersion },
-      defaultHeaders: { Authorization: apiKey, 'api-key': apiKey },
-      baseURL: settingCfg.baseUrl,
-    })
-
-    const response = await openai.models.list(
+    const openai = await createOpenAI(settingCfg.baseUrl);
+    await openai.models.list(
       await settingCfg.getRequestConfig()
     )
 
-    if (response) {
-      setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, true)
-      createInfoNotification('verifyApiKey success')
-      StatusBarServiceProvider.instance.showStatusBarInformation(
-        'vscode-openai',
-        ''
-      )
-      return true
-    }
+    setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, true)
+    createInfoNotification('verifyApiKey success')
+    StatusBarServiceProvider.instance.showStatusBarInformation(
+      'vscode-openai',
+      ''
+    )
+    return true
+    
   } catch (error: any) {
     errorHandler(error)
     setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, false)

@@ -1,13 +1,13 @@
-import { OpenAI } from 'openai'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { ConversationConfig as convCfg } from '@app/services'
 import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
-import { errorHandler } from './errorHandler'
+
+import { createOpenAI, errorHandler } from "@app/apis/openai";
 import {
   ChatCompletionRequestMessageEmbedding,
   ChatCompletionRequestMessageStandard,
   LogChatCompletion,
-} from './chatCompletionMessages'
+} from "@app/apis/openai/api/chatCompletionMessages"
 
 export async function createChatCompletion(
   conversation: IConversation,
@@ -19,18 +19,7 @@ export async function createChatCompletion(
       '- build-conversation'
     )
 
-    const azureApiVersion = chatCompletionConfig.azureApiVersion
-    const apiKey = await chatCompletionConfig.apiKey
-    if (!apiKey) return undefined
-
-    const openai = new OpenAI({
-      apiKey: apiKey,
-      defaultQuery: { 'api-version': azureApiVersion },
-      defaultHeaders: { Authorization: apiKey, 'api-key': apiKey },
-      baseURL: chatCompletionConfig.baseURL,
-      maxRetries: convCfg.numOfAttempts,
-    })
-
+    const openai = await createOpenAI(chatCompletionConfig.baseURL);
     const chatCompletionMessages = conversation.embeddingId
       ? await ChatCompletionRequestMessageEmbedding(conversation)
       : await ChatCompletionRequestMessageStandard(conversation)

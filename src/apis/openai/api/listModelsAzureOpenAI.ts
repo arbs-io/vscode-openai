@@ -1,8 +1,6 @@
-import { OpenAI } from 'openai'
-import { errorHandler } from './errorHandler'
 import { HttpRequest, createErrorNotification } from '@app/apis/node'
-import { ModelCapability } from './modelCapabiliy'
 import { SettingConfig as settingCfg } from '@app/services'
+import { createOpenAI, errorHandler, ModelCapability } from '@app/apis/openai'
 
 export interface IDeploymentModel {
   deployment: string
@@ -15,19 +13,10 @@ export async function listModelsAzureOpenAI(
   modelCapabiliy: ModelCapability
 ): Promise<Array<IDeploymentModel> | undefined> {
   try {
+    const openai = await createOpenAI(baseUrl, 'Azure-OpenAI', apiKey)
     const headers = settingCfg.apiHeaders
-    const azureApiVersion = settingCfg.azureApiVersion
-
-    const openai = new OpenAI({
-      apiKey: apiKey,
-      defaultQuery: { 'api-version': azureApiVersion },
-      defaultHeaders: { Authorization: apiKey, 'api-key': apiKey },
-      baseURL: baseUrl,
-    })
-
     const respModels = await openai.models.list({
-      headers: { ...headers, Authorization: apiKey, 'api-key': apiKey },
-      query: { 'api-version': '2024-02-01' },
+      headers: { ...headers },
     })
 
     const models = new Array<string>()

@@ -8,9 +8,6 @@ export const useMessageItemStyles = makeStyles({
     maxWidth: '80%',
     boxShadow: 'var(--shadow64)',
   },
-  codeBlock: {
-    whiteSpace: 'pre-wrap',
-  },
   messageWrapper: {
     display: 'flex',
     flexDirection: 'column',

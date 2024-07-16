@@ -8,7 +8,7 @@ interface ICodeBlockUnmatchedProps {
 
 const useCodeBlockUnmatchedStyles = makeStyles({
   CodeBlockUnmatched: {
-    whiteSpace: 'pre-wrap',
+    // whiteSpace: 'pre-wrap',
   },
 })
 

@@ -25,7 +25,7 @@ export const MessageInput: FC<IMessageInputProps> = ({ onSubmit }) => {
         timestamp: new Date().toLocaleString(),
         mine: true,
         author: '',
-        content: text.replace(/\n/g, '\n\n'),
+        content: text,
         completionTokens: 0,
         promptTokens: 0,
         totalTokens: 0,

@@ -5,6 +5,7 @@ import { IEmbeddingFileLite } from '@app/interfaces'
 import {
   createDebugNotification,
   createErrorNotification,
+  waitFor,
 } from '@app/apis/node'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
@@ -62,8 +63,9 @@ export default class EmbeddingStorageService {
   ): Promise<IEmbeddingFileLite | undefined> {
     try {
       const key = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-${embeddingId}`
-      const keyPath = Uri.joinPath(this._context.globalStorageUri, key)
+      const keyPath = await Uri.joinPath(this._context.globalStorageUri, key)
 
+      await waitFor(100, () => fs.existsSync(keyPath.fsPath))
       const readData = await workspace.fs.readFile(keyPath)
       const readStr = Buffer.from(readData).toString('utf8')
       const embeddingFileLite: IEmbeddingFileLite = JSON.parse(readStr)

@@ -42,7 +42,7 @@
     "@types/crypto-js": "^4.2.2",
     "@types/node": "^20.14.10",
     "@types/uuid": "^10.0.0",
-    "@types/vscode": "^1.91.0",
+    "@types/vscode": "^1.88.0",
     "@vscode/vsce": "^2.30.0",
     "esbuild": "^0.23.0",
     "typescript": "^5.5.3"

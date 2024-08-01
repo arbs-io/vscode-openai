@@ -11,7 +11,7 @@ const useCodeBlockUnmatchedStyles = makeStyles({
     ...shorthands.borderWidth('1px'),
     ...shorthands.borderColor('lightgrey'),
     borderRadius: 'var(--borderRadiusSmall)',
-    background: 'rgb(50, 50, 50)',
+    background: 'rgb(0, 0, 0, 0.3)',
     padding: '0.3rem',
     boxShadow: 'var(--shadow16)',
   },

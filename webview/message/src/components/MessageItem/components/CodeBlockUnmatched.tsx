@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { makeStyles } from '@fluentui/react-components'
+import { makeStyles, shorthands } from '@fluentui/react-components'
 
 interface ICodeBlockUnmatchedProps {
   children: React.ReactNode
@@ -7,8 +7,13 @@ interface ICodeBlockUnmatchedProps {
 }
 
 const useCodeBlockUnmatchedStyles = makeStyles({
-  CodeBlockUnmatched: {
-    // whiteSpace: 'pre-wrap',
+  codeContainer: {
+    ...shorthands.borderWidth('1px'),
+    ...shorthands.borderColor('lightgrey'),
+    borderRadius: 'var(--borderRadiusSmall)',
+    background: 'rgb(50, 50, 50)',
+    padding: '0.3rem',
+    boxShadow: 'var(--shadow16)',
   },
 })
 
@@ -19,7 +24,7 @@ const CodeBlockUnmatched: FC<ICodeBlockUnmatchedProps> = ({
   const MessageItemStyles = useCodeBlockUnmatchedStyles()
 
   return (
-    <code className={`${MessageItemStyles.CodeBlockUnmatched}`} {...props}>
+    <code className={`${MessageItemStyles.codeContainer}`} {...props}>
       {children}
     </code>
   )

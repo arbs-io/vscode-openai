@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { makeStyles, shorthands } from '@fluentui/react-components'
+import { makeStyles, shorthands, tokens } from '@fluentui/react-components'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { ButtonCopyToClipboard } from '@app/components/ButtonCopyToClipboard'
@@ -12,12 +12,11 @@ interface ICodeBlockMatchedProps {
 
 export const useCodeBlockMatchedStyles = makeStyles({
   codeContainer: {
-    ...shorthands.borderWidth('1px'),
-    ...shorthands.borderColor('lightgrey'),
-    borderRadius: 'var(--borderRadiusSmall)',
-    background: 'rgb(0, 0, 0, 0.3)',
-    padding: '0.3rem',
-    boxShadow: 'var(--shadow16)',
+    ...shorthands.borderWidth('3px'),
+    ...shorthands.borderColor('grey'),
+    borderRadius: 'var(--borderRadiusLarge)',
+    background: tokens.colorBackgroundOverlay,
+    padding: '0.5rem',
   },
   toolbar: {
     display: 'flex',

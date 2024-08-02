@@ -1,9 +1,6 @@
 import { ExtensionContext, SecretStorage } from 'vscode'
 import { createErrorNotification } from '@app/apis/node'
-import {
-  getAzureOpenAIAccessToken,
-  getVscodeOpenAccessToken,
-} from '@app/apis/vscode'
+import { getAzureOpenAIAccessToken } from '@app/apis/vscode'
 import { SettingConfig as settingCfg } from '@app/services'
 
 export default class SecretStorageService {

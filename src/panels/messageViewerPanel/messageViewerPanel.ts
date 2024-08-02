@@ -25,7 +25,7 @@ import {
 } from '@app/services/configuration'
 
 export class MessageViewerPanel {
-  public static currentPanel: MessageViewerPanel | undefined
+  public static readonly currentPanel: MessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
   private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []

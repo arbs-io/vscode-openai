@@ -84,15 +84,18 @@ export class MultiStepInput {
         ]
         disposables.push(
           input.onDidTriggerButton((item) => {
-            if (item === QuickInputButtons.Back) reject(InputFlowAction.back)
+            if (item === QuickInputButtons.Back)
+              reject(new Error(InputFlowAction.back))
           }),
           input.onDidChangeSelection((items) => resolve(items[0])),
           input.onDidHide(() => {
             ;(async () => {
               reject(
-                shouldResume && (await shouldResume())
-                  ? InputFlowAction.resume
-                  : InputFlowAction.cancel
+                new Error(
+                  shouldResume && (await shouldResume())
+                    ? InputFlowAction.resume
+                    : InputFlowAction.cancel
+                )
               )
             })().catch(reject)
           })
@@ -142,7 +145,8 @@ export class MultiStepInput {
         let validating = validate('')
         disposables.push(
           input.onDidTriggerButton((item) => {
-            if (item === QuickInputButtons.Back) reject(InputFlowAction.back)
+            if (item === QuickInputButtons.Back)
+              reject(new Error(InputFlowAction.back))
           }),
           input.onDidAccept(async () => {
             const value = input.value
@@ -165,9 +169,11 @@ export class MultiStepInput {
           input.onDidHide(() => {
             ;(async () => {
               reject(
-                shouldResume && (await shouldResume())
-                  ? InputFlowAction.resume
-                  : InputFlowAction.cancel
+                new Error(
+                  shouldResume && (await shouldResume())
+                    ? InputFlowAction.resume
+                    : InputFlowAction.cancel
+                )
               )
             })().catch(reject)
           })

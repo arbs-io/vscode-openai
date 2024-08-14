@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { makeStyles, shorthands, tokens } from '@fluentui/react-components'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { ButtonCopyToClipboard } from '@app/components/ButtonCopyToClipboard'
 import { ButtonOpenSourceFile } from '@app/components/ButtonOpenSourceFile'
 
@@ -38,10 +38,11 @@ const CodeBlockMatched: FC<ICodeBlockMatchedProps> = ({
       </div>
       <SyntaxHighlighter
         language={language}
+        showLineNumbers={true}
         wrapLines={true}
         wrapLongLines={true}
         PreTag="div"
-        style={vscDarkPlus}
+        style={tomorrow}
       >
         {content}
       </SyntaxHighlighter>

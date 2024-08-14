@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "^22.0.2",
+    "@types/node": "^22.2.0",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.81.0",
     "@vscode/vsce": "^2.31.1",
@@ -49,9 +49,9 @@
   },
   "dependencies": {
     "@arbs.io/asset-extractor-wasm": "^0.1.2",
-    "@vscode/extension-telemetry": "^0.9.6",
+    "@vscode/extension-telemetry": "^0.9.7",
     "crypto-js": "^4.2.0",
-    "openai": "^4.53.2",
+    "openai": "^4.55.7",
     "uuid": "^10.0.0"
   },
   "keywords": [
@@ -222,10 +222,10 @@
         },
         "vscode-openai.azureApiVersion": {
           "type": "string",
-          "default": "2024-02-01",
+          "default": "2024-06-01",
           "markdownDescription": "The api version used by Azure deployment (model). Only applies when `#vscode-openai.serviceProvider#` is `Azure-OpenAI`. Note: limited to versions that support chat completion.",
           "enum": [
-            "2024-02-01"
+            "2024-06-01"
           ],
           "enumDescriptions": [
             "The initial azure api that support chat completion."

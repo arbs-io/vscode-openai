@@ -32,7 +32,7 @@ export async function listModelsAzureOpenAI(
     })
 
     // ms has ended support for model/deployment api, post gpt-4o. This is a hack/fix
-    if (modelCapabiliy == ModelCapability.ChatCompletion) models.push('gpt-4o')
+    // if (modelCapabiliy == ModelCapability.ChatCompletion) models.push('gpt-4o')
 
     //Get all deployments
     const request = new HttpRequest(
@@ -44,10 +44,11 @@ export async function listModelsAzureOpenAI(
 
     const deployments = new Array<IDeploymentModel>()
     respDeployments.data.forEach((deployment: any) => {
-      if (models.includes(deployment.model)) {
+      const closestModel = findClosestModel(deployment.model, models)
+      if (closestModel) {
         const deploymentModel: IDeploymentModel = {
           deployment: deployment.id,
-          model: deployment.model,
+          model: closestModel,
         }
         deployments.push(deploymentModel)
       }
@@ -62,4 +63,8 @@ export async function listModelsAzureOpenAI(
     errorHandler(error)
     return undefined
   }
+}
+
+function findClosestModel(model: string, models: string[]): string | undefined {
+  return models.find((m) => m.startsWith(model))
 }

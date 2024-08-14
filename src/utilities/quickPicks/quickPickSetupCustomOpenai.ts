@@ -49,5 +49,5 @@ export async function quickPickSetupCustomOpenai(
   settingCfg.scmDeployment = 'setup-required'
   settingCfg.embeddingModel = 'setup-required'
   settingCfg.embeddingsDeployment = 'setup-required'
-  settingCfg.azureApiVersion = '2024-02-01'
+  settingCfg.azureApiVersion = '2024-06-01'
 }

@@ -39,11 +39,11 @@ export async function quickPickSetupVscodeOpenai(
   await SecretStorageService.instance.setAuthApiKey(accessToken)
   settingCfg.serviceProvider = state.serviceProvider
   settingCfg.baseUrl = state.baseUrl
-  settingCfg.defaultModel = 'gpt-4o'
+  settingCfg.defaultModel = 'gpt-4o-mini-2024-07-18'
   settingCfg.azureDeployment = 'gpt-4o'
-  settingCfg.scmModel = 'gpt-4o'
+  settingCfg.scmModel = 'gpt-4o-mini-2024-07-18'
   settingCfg.scmDeployment = 'gpt-4o'
   settingCfg.embeddingModel = 'text-embedding-ada-002'
   settingCfg.embeddingsDeployment = 'text-embedding-ada-002'
-  settingCfg.azureApiVersion = '2024-02-01'
+  settingCfg.azureApiVersion = '2024-06-01'
 }

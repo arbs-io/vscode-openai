@@ -4,6 +4,7 @@ import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
 
 import { createOpenAI, errorHandler } from '@app/apis/openai'
 import {
+  ChatCompletionCreateParamsNonStreaming,
   ChatCompletionRequestMessageEmbedding,
   ChatCompletionRequestMessageStandard,
   LogChatCompletion,
@@ -31,7 +32,7 @@ export async function createChatCompletion(
       '- completion'
     )
 
-    const cfg: any = {
+    const cfg: ChatCompletionCreateParamsNonStreaming = {
       model: chatCompletionConfig.model,
       messages: chatCompletionMessages,
     }

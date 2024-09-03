@@ -16,8 +16,10 @@ export const MessageList: FC = () => {
   const [showField, setShowField] = useState(false)
   const messageListStyles = useMessageListStyles()
 
+  // Scroll to the bottom when messages change or component mounts
   useEffect(() => {
     bottomAnchorRef.current?.scrollIntoView({ behavior: 'smooth' })
+
     if (chatCompletionList.length > autoSaveThreshold) {
       vscode.postMessage({
         command: 'onDidSaveMessages',
@@ -26,10 +28,12 @@ export const MessageList: FC = () => {
     }
   }, [chatCompletionList, autoSaveThreshold])
 
+  // Handle incoming messages from the extension
   const handleMessageEvent = useCallback((event: MessageEvent) => {
     if (!event.origin.startsWith('vscode-webview://')) return
 
     const message = event.data
+
     switch (message.command) {
       case 'onWillRenderMessages': {
         const chatMessages: IChatCompletion[] = JSON.parse(message.text)
@@ -40,13 +44,38 @@ export const MessageList: FC = () => {
 
       case 'onWillAnswerMessage': {
         const chatMessage: IChatCompletion = JSON.parse(message.text)
-        setChatCompletionList((prevHistory) => [...prevHistory, chatMessage])
+        setChatCompletionList((prevList) => [...prevList, chatMessage])
+        setShowField(false)
+        break
+      }
+
+      case 'onWillAnswerMessageStream': {
+        const chatMessage: string = message.text
+
+        setChatCompletionList((prevList) => {
+          const updatedList = [...prevList]
+          const lastItemIndex = updatedList.length - 1
+
+          // Check if there are existing messages to append the stream to
+          if (lastItemIndex >= 0) {
+            const lastItem = updatedList[lastItemIndex]
+            lastItem.content += chatMessage // Append the stream to the last message
+            updatedList[lastItemIndex] = lastItem // Update the last item
+          } else {
+            console.warn(
+              'No existing messages to update with the streaming content.'
+            )
+          }
+
+          return updatedList
+        })
         setShowField(false)
         break
       }
     }
   }, [])
 
+  // Add event listener for incoming messages
   useEffect(() => {
     window.addEventListener('message', handleMessageEvent)
     return () => {
@@ -60,7 +89,7 @@ export const MessageList: FC = () => {
       <div className={mergeClasses(messageListStyles.history)}>
         {chatCompletionList.map((chatCompletion) => (
           <MessageItem
-            key={chatCompletion.timestamp}
+            key={chatCompletion.timestamp} // Ensure timestamp is unique
             chatCompletion={chatCompletion}
           />
         ))}
@@ -79,7 +108,7 @@ export const MessageList: FC = () => {
         <MessageInput
           onSubmit={(m) => {
             setShowField(true)
-            setChatCompletionList((prevHistory) => [...prevHistory, m])
+            setChatCompletionList((prevList) => [...prevList, m]) // Append the new message
           }}
         />
       </div>

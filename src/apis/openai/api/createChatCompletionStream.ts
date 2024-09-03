@@ -1,16 +1,22 @@
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { ConversationConfig as convCfg } from '@app/services'
-import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
+import {
+  IChatCompletion,
+  IChatCompletionConfig,
+  IConversation,
+  IMessage,
+} from '@app/interfaces'
 
 import { createOpenAI, errorHandler } from '@app/apis/openai'
 import {
-  ChatCompletionCreateParamsNonStreaming,
+  ChatCompletionCreateParamsStreaming,
   ChatCompletionRequestMessageEmbedding,
   ChatCompletionRequestMessageStandard,
-  LogChatCompletion,
 } from '@app/apis/openai/api/chatCompletionMessages'
+import { createInfoNotification } from '@app/apis/node'
+import { MessageViewerPanel } from '@app/panels'
 
-export async function createChatCompletion(
+export async function createChatCompletionStream(
   conversation: IConversation,
   chatCompletionConfig: IChatCompletionConfig
 ): Promise<IMessage | undefined> {
@@ -32,9 +38,10 @@ export async function createChatCompletion(
       '- completion'
     )
 
-    const cfg: ChatCompletionCreateParamsNonStreaming = {
+    const cfg: ChatCompletionCreateParamsStreaming = {
       model: chatCompletionConfig.model,
       messages: chatCompletionMessages,
+      stream: true,
     }
 
     if (convCfg.presencePenalty !== 0)
@@ -45,29 +52,34 @@ export async function createChatCompletion(
     if (convCfg.topP !== 1) cfg.top_p = convCfg.topP
     if (convCfg.maxTokens !== undefined) cfg.max_tokens = convCfg.maxTokens
 
+    const author = `${conversation?.persona.roleName} (${conversation?.persona.configuration.service})`
+    const chatCompletion: IChatCompletion = {
+      content: '',
+      author: author,
+      timestamp: new Date().toLocaleString(),
+      mine: false,
+      completionTokens: 0,
+      promptTokens: 0,
+      totalTokens: 0,
+    }
+    MessageViewerPanel.postMessage(
+      'onWillAnswerMessage',
+      JSON.stringify(chatCompletion)
+    )
+
     const results = await openai.chat.completions.create(cfg, requestConfig)
 
-    const content = results.choices[0].message.content
-    if (!content) return undefined
-    const message: IMessage = {
-      content: content,
-      completionTokens: results.usage?.completion_tokens
-        ? results.usage?.completion_tokens
-        : 0,
-      promptTokens: results.usage?.prompt_tokens
-        ? results.usage?.prompt_tokens
-        : 0,
-      totalTokens: results.usage?.total_tokens
-        ? results.usage?.total_tokens
-        : 0,
+    for await (const chunk of results) {
+      const content = chunk.choices[0]?.delta?.content ?? ''
+      createInfoNotification(content)
+      MessageViewerPanel.postMessage('onWillAnswerMessageStream', content)
     }
 
-    LogChatCompletion(message)
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'vscode-openai',
       ''
     )
-    return message
+    return undefined
   } catch (error: any) {
     errorHandler(error)
   }

@@ -12,7 +12,7 @@ import {
 } from 'vscode'
 import { getUri, getNonce } from '@app/apis/vscode'
 import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
-import { createChatCompletion } from '@app/apis/openai'
+import { createChatCompletionStream } from '@app/apis/openai'
 import {
   onDidCopyClipboardCode,
   onDidCreateDocument,
@@ -25,7 +25,7 @@ import {
 } from '@app/services/configuration'
 
 export class MessageViewerPanel {
-  public static readonly currentPanel: MessageViewerPanel | undefined
+  private static _currentPanel: MessageViewerPanel | undefined
   private readonly _panel: WebviewPanel
   private _conversation: IConversation | undefined
   private _disposables: Disposable[] = []
@@ -66,8 +66,8 @@ export class MessageViewerPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri, conversation: IConversation) {
-    if (MessageViewerPanel.currentPanel) {
-      MessageViewerPanel.currentPanel._panel.dispose()
+    if (MessageViewerPanel._currentPanel) {
+      MessageViewerPanel._currentPanel._panel.dispose()
     }
     // If a webview panel does not already exist create and show a new one
     const panel = window.createWebviewPanel(
@@ -82,13 +82,20 @@ export class MessageViewerPanel {
       }
     )
 
-    MessageViewerPanel.currentPanel = new MessageViewerPanel(
+    MessageViewerPanel._currentPanel = new MessageViewerPanel(
       panel,
       extensionUri
     )
 
-    MessageViewerPanel.currentPanel._conversation = conversation
-    MessageViewerPanel.currentPanel._render()
+    MessageViewerPanel._currentPanel._conversation = conversation
+    MessageViewerPanel._currentPanel._render()
+  }
+
+  public static postMessage(command: string, value: string) {
+    MessageViewerPanel._currentPanel?._panel.webview.postMessage({
+      command: command,
+      text: value,
+    })
   }
 
   private _render() {
@@ -105,7 +112,7 @@ export class MessageViewerPanel {
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    MessageViewerPanel.currentPanel = undefined
+    MessageViewerPanel._currentPanel = undefined
 
     // Dispose of the current webview panel
     this._panel.dispose()
@@ -203,7 +210,7 @@ export class MessageViewerPanel {
       (message) => {
         switch (message.command) {
           case 'onDidInitialize': {
-            MessageViewerPanel.currentPanel?._panel.webview.postMessage({
+            MessageViewerPanel._currentPanel?._panel.webview.postMessage({
               command: 'onWillRenderMessages',
               text: JSON.stringify(this._conversation!.chatMessages),
             })
@@ -251,23 +258,11 @@ export class MessageViewerPanel {
     const cfg = ChatCompletionConfigFactory.createConfig('inference_model')
 
     //Note: onDidSaveMessages has added the new question
-    createChatCompletion(this._conversation, cfg).then((result) => {
-      if (!result) return
-
-      const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
-      const chatCompletion: IChatCompletion = {
-        content: result.content,
-        author: author,
-        timestamp: new Date().toLocaleString(),
-        mine: false,
-        completionTokens: result.completionTokens,
-        promptTokens: result.promptTokens,
-        totalTokens: result.totalTokens,
-      }
-      MessageViewerPanel.currentPanel?._panel.webview.postMessage({
-        command: 'onWillAnswerMessage',
-        text: JSON.stringify(chatCompletion),
-      })
+    createChatCompletionStream(this._conversation, cfg).then(() => {
+      // MessageViewerPanel._currentPanel?._panel.webview.postMessage({
+      //   command: 'onWillAnswerMessage',
+      //   text: "value",
+      // })
     })
   }
 }

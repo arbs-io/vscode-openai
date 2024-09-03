@@ -52,10 +52,10 @@ export async function createChatCompletionStream(
     if (convCfg.topP !== 1) cfg.top_p = convCfg.topP
     if (convCfg.maxTokens !== undefined) cfg.max_tokens = convCfg.maxTokens
 
-    // const author = `${this._conversation?.persona.roleName} (${this._conversation?.persona.configuration.service})`
+    const author = `${conversation?.persona.roleName} (${conversation?.persona.configuration.service})`
     const chatCompletion: IChatCompletion = {
       content: '',
-      author: '',
+      author: author,
       timestamp: new Date().toLocaleString(),
       mine: false,
       completionTokens: 0,
@@ -70,11 +70,9 @@ export async function createChatCompletionStream(
     const results = await openai.chat.completions.create(cfg, requestConfig)
 
     for await (const chunk of results) {
-      createInfoNotification(chunk.choices[0]?.delta?.content ?? '')
-      MessageViewerPanel.postMessage(
-        'onWillAnswerMessageStream',
-        chunk.choices[0]?.delta?.content ?? ''
-      )
+      const content = chunk.choices[0]?.delta?.content ?? ''
+      createInfoNotification(content)
+      MessageViewerPanel.postMessage('onWillAnswerMessageStream', content)
     }
 
     StatusBarServiceProvider.instance.showStatusBarInformation(

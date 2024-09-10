@@ -13,7 +13,6 @@ import {
   ChatCompletionRequestMessageEmbedding,
   ChatCompletionRequestMessageStandard,
 } from '@app/apis/openai/api/chatCompletionMessages'
-import { createInfoNotification } from '@app/apis/node'
 import { MessageViewerPanel } from '@app/panels'
 
 export async function createChatCompletionStream(
@@ -71,7 +70,6 @@ export async function createChatCompletionStream(
 
     for await (const chunk of results) {
       const content = chunk.choices[0]?.delta?.content ?? ''
-      createInfoNotification(content)
       MessageViewerPanel.postMessage('onWillAnswerMessageStream', content)
     }
 

@@ -12,6 +12,7 @@ import {
   ChatCompletionCreateParamsStreaming,
   ChatCompletionRequestMessageEmbedding,
   ChatCompletionRequestMessageStandard,
+  LogChatCompletion,
 } from '@app/apis/openai/api/chatCompletionMessages'
 import { MessageViewerPanel } from '@app/panels'
 
@@ -68,10 +69,22 @@ export async function createChatCompletionStream(
 
     const results = await openai.chat.completions.create(cfg, requestConfig)
 
+    let tokenCount = 0
+    let fullContent = ''
     for await (const chunk of results) {
       const content = chunk.choices[0]?.delta?.content ?? ''
       MessageViewerPanel.postMessage('onWillAnswerMessageStream', content)
+      fullContent += content
+      tokenCount++
     }
+
+    const message: IMessage = {
+      content: fullContent,
+      completionTokens: 0,
+      promptTokens: 0,
+      totalTokens: tokenCount || 0,
+    }
+    LogChatCompletion(message)
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'vscode-openai',

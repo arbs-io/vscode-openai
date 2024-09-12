@@ -9,7 +9,7 @@ export default class TelemetryService {
 
   static init(context: ExtensionContext): void {
     const telemetryReporter = new TelemetryReporter(
-      VSCODE_OPENAI_EXTENSION.INSTRUMENTATION_KEY
+      VSCODE_OPENAI_EXTENSION.CONNECTION_STRING
     )
     TelemetryService._instance = new TelemetryService(telemetryReporter)
     context.subscriptions.push(TelemetryService._instance.telemetryReporter)

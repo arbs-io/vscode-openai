@@ -1,19 +1,25 @@
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { ConversationConfig as convCfg } from '@app/services'
-import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
+import {
+  IChatCompletionConfig,
+  IConversation,
+  IMessage,
+  IChatCompletion,
+} from '@app/interfaces'
 
-import { createOpenAI, errorHandler } from '@app/apis/openai'
+import { createOpenAI } from '@app/apis/openai'
 import {
   ChatCompletionCreateParamsNonStreaming,
   ChatCompletionRequestMessageEmbedding,
   ChatCompletionRequestMessageStandard,
   LogChatCompletion,
 } from '@app/apis/openai/api/chatCompletionMessages'
+import { MessageViewerPanel } from '@app/panels'
 
 export async function createChatCompletion(
   conversation: IConversation,
   chatCompletionConfig: IChatCompletionConfig
-): Promise<IMessage | undefined> {
+): Promise<boolean> {
   try {
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
@@ -29,7 +35,7 @@ export async function createChatCompletion(
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
-      '- completion'
+      '- non-stream'
     )
 
     const cfg: ChatCompletionCreateParamsNonStreaming = {
@@ -48,7 +54,7 @@ export async function createChatCompletion(
     const results = await openai.chat.completions.create(cfg, requestConfig)
 
     const content = results.choices[0].message.content
-    if (!content) return undefined
+    if (!content) return true // Empty but not failed
     const message: IMessage = {
       content: content,
       completionTokens: results.usage?.completion_tokens
@@ -62,14 +68,34 @@ export async function createChatCompletion(
         : 0,
     }
 
+    if (message) {
+      const author = `${conversation?.persona.roleName} (${conversation?.persona.configuration.service})`
+      const chatCompletion: IChatCompletion = {
+        content: message.content,
+        author: author,
+        timestamp: new Date().toLocaleString(),
+        mine: false,
+        completionTokens: message.completionTokens,
+        promptTokens: message.promptTokens,
+        totalTokens: message.totalTokens,
+      }
+      MessageViewerPanel.postMessage(
+        'onWillAnswerMessage',
+        JSON.stringify(chatCompletion)
+      )
+    }
     LogChatCompletion(message)
+
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'vscode-openai',
       ''
     )
-    return message
   } catch (error: any) {
-    errorHandler(error)
+    StatusBarServiceProvider.instance.showStatusBarInformation(
+      'sync~spin',
+      '- non-stream (failed)'
+    )
+    return false
   }
-  return undefined
+  return true
 }

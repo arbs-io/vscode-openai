@@ -12,7 +12,10 @@ import {
 } from 'vscode'
 import { getUri, getNonce } from '@app/apis/vscode'
 import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
-import { createChatCompletionStream } from '@app/apis/openai'
+import {
+  createChatCompletion,
+  createChatCompletionStream,
+} from '@app/apis/openai'
 import {
   onDidCopyClipboardCode,
   onDidCreateDocument,
@@ -252,17 +255,21 @@ export class MessageViewerPanel {
     )
   }
 
-  private _askQuestion() {
+  private async _askQuestion() {
     if (!this._conversation) return
 
     const cfg = ChatCompletionConfigFactory.createConfig('inference_model')
 
-    //Note: onDidSaveMessages has added the new question
-    createChatCompletionStream(this._conversation, cfg).then(() => {
-      // MessageViewerPanel._currentPanel?._panel.webview.postMessage({
-      //   command: 'onWillAnswerMessage',
-      //   text: "value",
-      // })
-    })
+    if (!(await createChatCompletionStream(this._conversation, cfg))) {
+      await createChatCompletion(this._conversation, cfg)
+    }
+
+    // //Note: onDidSaveMessages has added the new question
+    // createChatCompletionStream(this._conversation, cfg).then(() => {
+    //   // MessageViewerPanel._currentPanel?._panel.webview.postMessage({
+    //   //   command: 'onWillAnswerMessage',
+    //   //   text: "value",
+    //   // })
+    // })
   }
 }

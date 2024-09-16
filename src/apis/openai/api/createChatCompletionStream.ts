@@ -7,7 +7,7 @@ import {
   IMessage,
 } from '@app/interfaces'
 
-import { createOpenAI, errorHandler } from '@app/apis/openai'
+import { createOpenAI } from '@app/apis/openai'
 import {
   ChatCompletionCreateParamsStreaming,
   ChatCompletionRequestMessageEmbedding,
@@ -19,7 +19,7 @@ import { MessageViewerPanel } from '@app/panels'
 export async function createChatCompletionStream(
   conversation: IConversation,
   chatCompletionConfig: IChatCompletionConfig
-): Promise<IMessage | undefined> {
+): Promise<boolean> {
   try {
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
@@ -35,7 +35,7 @@ export async function createChatCompletionStream(
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
-      '- completion'
+      '- stream'
     )
 
     const cfg: ChatCompletionCreateParamsStreaming = {
@@ -52,6 +52,8 @@ export async function createChatCompletionStream(
     if (convCfg.topP !== 1) cfg.top_p = convCfg.topP
     if (convCfg.maxTokens !== undefined) cfg.max_tokens = convCfg.maxTokens
 
+    const results = await openai.chat.completions.create(cfg, requestConfig)
+
     const author = `${conversation?.persona.roleName} (${conversation?.persona.configuration.service})`
     const chatCompletion: IChatCompletion = {
       content: '',
@@ -66,8 +68,6 @@ export async function createChatCompletionStream(
       'onWillAnswerMessage',
       JSON.stringify(chatCompletion)
     )
-
-    const results = await openai.chat.completions.create(cfg, requestConfig)
 
     let tokenCount = 0
     let fullContent = ''
@@ -90,9 +90,12 @@ export async function createChatCompletionStream(
       'vscode-openai',
       ''
     )
-    return undefined
   } catch (error: any) {
-    errorHandler(error)
+    StatusBarServiceProvider.instance.showStatusBarInformation(
+      'sync~spin',
+      '- stream (failed)'
+    )
+    return false
   }
-  return undefined
+  return true
 }

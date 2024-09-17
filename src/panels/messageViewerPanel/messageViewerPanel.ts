@@ -255,21 +255,23 @@ export class MessageViewerPanel {
     )
   }
 
-  private async _askQuestion() {
+  private async _askQuestion(): Promise<void> {
     if (!this._conversation) return
 
     const cfg = ChatCompletionConfigFactory.createConfig('inference_model')
 
-    if (!(await createChatCompletionStream(this._conversation, cfg))) {
-      await createChatCompletion(this._conversation, cfg)
+    function chatCallback(messageType: string, message: string): void {
+      MessageViewerPanel.postMessage(messageType, message)
     }
 
-    // //Note: onDidSaveMessages has added the new question
-    // createChatCompletionStream(this._conversation, cfg).then(() => {
-    //   // MessageViewerPanel._currentPanel?._panel.webview.postMessage({
-    //   //   command: 'onWillAnswerMessage',
-    //   //   text: "value",
-    //   // })
-    // })
+    const isStreamSuccessful = await createChatCompletionStream(
+      this._conversation,
+      cfg,
+      chatCallback
+    )
+
+    if (!isStreamSuccessful) {
+      await createChatCompletion(this._conversation, cfg, chatCallback)
+    }
   }
 }

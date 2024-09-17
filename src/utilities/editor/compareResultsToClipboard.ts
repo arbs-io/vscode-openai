@@ -40,10 +40,18 @@ export const compareResultsToClipboard = async (
   conversation.chatMessages.push(chatCompletion)
 
   try {
-    const result = await createChatCompletion(conversation, cfg)
+    let result = ''
+    function chatCompletionCallback(
+      _messageType: string,
+      message: string
+    ): void {
+      if (!conversation) return
+      result = message
+    }
+    await createChatCompletion(conversation, cfg, chatCompletionCallback)
     const originalValue = await env.clipboard.readText()
 
-    await env.clipboard.writeText(result?.content ?? '')
+    await env.clipboard.writeText(result ?? '')
     await commands.executeCommand(
       'workbench.files.action.compareWithClipboard',
       documentUri

@@ -37,10 +37,15 @@ export const onDidSaveMessages = async (
         totalTokens: 0,
       }
       summary.chatMessages.push(chatCompletion)
-      createChatCompletion(summary, cfg).then((result) => {
+
+      function chatCompletionCallback(
+        _messageType: string,
+        message: string
+      ): void {
         if (!conversation) return
-        if (result?.content) conversation.summary = result?.content
-      })
+        conversation.summary = message
+      }
+      createChatCompletion(summary, cfg, chatCompletionCallback)
     }
   } catch (error) {
     window.showErrorMessage(error as string)

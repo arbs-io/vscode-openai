@@ -8,13 +8,14 @@ export { PatternPromptFactory } from './prompt/patternPrompt'
 
 export { validateApiKey, verifyApiKey } from './api/apiKey'
 
-export { createChatCompletion } from './api/createChatCompletion'
-export { createChatCompletionStream } from './api/createChatCompletionStream'
+export { createChatCompletion } from './api/chatCompletion/createChatCompletion'
+export { createChatCompletionStream } from './api/chatCompletion/createChatCompletionStream'
+export { ChatCompletionCallback } from './api/chatCompletion/chatCompletionCallback'
 
 export { createEmbedding } from './api/createEmbedding'
 
-export { ModelCapability } from './api/modelCapabiliy'
-export { listModelsAzureOpenAI } from './api/listModelsAzureOpenAI'
-export { listModelsOpenAI } from './api/listModelsOpenAI'
+export { ModelCapability } from './api/models/modelCapabiliy'
+export { listModelsAzureOpenAI } from './api/models/listModelsAzureOpenAI'
+export { listModelsOpenAI } from './api/models/listModelsOpenAI'
 export { createOpenAI } from './api/createOpenAI'
 export { errorHandler } from './api/errorHandler'

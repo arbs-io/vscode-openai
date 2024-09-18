@@ -2,12 +2,16 @@ import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { ConversationConfig as convCfg } from '@app/services'
 import {
   IChatCompletion,
-  IChatCompletionConfig,
+  IConfigurationOpenAI,
   IConversation,
   IMessage,
 } from '@app/interfaces'
 
-import { ChatCompletionCallback, createOpenAI } from '@app/apis/openai'
+import {
+  ChatCompletionMessageCallback,
+  ChatCompletionStreamCallback,
+  createOpenAI,
+} from '@app/apis/openai'
 import {
   ChatCompletionCreateParamsStreaming,
   ChatCompletionRequestMessageEmbedding,
@@ -17,8 +21,9 @@ import {
 
 export async function createChatCompletionStream(
   conversation: IConversation,
-  chatCompletionConfig: IChatCompletionConfig,
-  chatCompletionCallback: ChatCompletionCallback
+  configurationOpenAI: IConfigurationOpenAI,
+  messageCallback: ChatCompletionMessageCallback,
+  streamCallback: ChatCompletionStreamCallback
 ): Promise<boolean> {
   try {
     StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -26,12 +31,12 @@ export async function createChatCompletionStream(
       '- build-conversation'
     )
 
-    const openai = await createOpenAI(chatCompletionConfig.baseURL)
+    const openai = await createOpenAI(configurationOpenAI.baseURL)
     const chatCompletionMessages = conversation.embeddingId
       ? await ChatCompletionRequestMessageEmbedding(conversation)
       : await ChatCompletionRequestMessageStandard(conversation)
 
-    const requestConfig = await chatCompletionConfig.requestConfig
+    const requestConfig = await configurationOpenAI.requestConfig
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
@@ -39,7 +44,7 @@ export async function createChatCompletionStream(
     )
 
     const cfg: ChatCompletionCreateParamsStreaming = {
-      model: chatCompletionConfig.model,
+      model: configurationOpenAI.model,
       messages: chatCompletionMessages,
       stream: true,
     }
@@ -64,17 +69,14 @@ export async function createChatCompletionStream(
       promptTokens: 0,
       totalTokens: 0,
     }
-    chatCompletionCallback(
-      'onWillAnswerMessage',
-      JSON.stringify(chatCompletion)
-    )
+    messageCallback('onWillAnswerMessage', chatCompletion)
 
     let tokenCount = 0
     let fullContent = ''
     for await (const chunk of results) {
       const content = chunk.choices[0]?.delta?.content ?? ''
 
-      chatCompletionCallback('onWillAnswerMessageStream', content)
+      streamCallback('onWillAnswerMessageStream', content)
 
       fullContent += content
       tokenCount++

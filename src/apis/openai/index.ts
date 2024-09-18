@@ -8,9 +8,12 @@ export { PatternPromptFactory } from './prompt/patternPrompt'
 
 export { validateApiKey, verifyApiKey } from './api/apiKey'
 
-export { createChatCompletion } from './api/chatCompletion/createChatCompletion'
+export { createChatCompletionMessage } from './api/chatCompletion/createChatCompletionMessage'
 export { createChatCompletionStream } from './api/chatCompletion/createChatCompletionStream'
-export { ChatCompletionCallback } from './api/chatCompletion/chatCompletionCallback'
+export {
+  ChatCompletionStreamCallback,
+  ChatCompletionMessageCallback,
+} from './api/chatCompletion/chatCompletionCallback'
 
 export { createEmbedding } from './api/createEmbedding'
 

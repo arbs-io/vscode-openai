@@ -13,7 +13,7 @@ import {
 import { getUri, getNonce } from '@app/apis/vscode'
 import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
 import {
-  createChatCompletion,
+  createChatCompletionMessage,
   createChatCompletionStream,
 } from '@app/apis/openai'
 import {
@@ -22,9 +22,10 @@ import {
   onDidSaveMessages,
 } from './onDidFunctions'
 import {
-  ChatCompletionConfigFactory,
+  ChatCompletionConfig,
   ConversationColorConfig as convColorCfg,
   ConversationConfig as convCfg,
+  ChatCompletionModelType,
 } from '@app/services/configuration'
 
 export class MessageViewerPanel {
@@ -258,20 +259,30 @@ export class MessageViewerPanel {
   private async _askQuestion(): Promise<void> {
     if (!this._conversation) return
 
-    const cfg = ChatCompletionConfigFactory.createConfig('inference_model')
+    const cfg = ChatCompletionConfig.create(ChatCompletionModelType.INFERENCE)
 
-    function chatCallback(messageType: string, message: string): void {
-      MessageViewerPanel.postMessage(messageType, message)
+    function messageCallback(type: string, data: IChatCompletion): void {
+      const packagedData = JSON.stringify(data)
+      MessageViewerPanel.postMessage(type, packagedData)
+    }
+
+    function streamCallback(type: string, data: string): void {
+      MessageViewerPanel.postMessage(type, data)
     }
 
     const isStreamSuccessful = await createChatCompletionStream(
       this._conversation,
       cfg,
-      chatCallback
+      messageCallback,
+      streamCallback
     )
 
     if (!isStreamSuccessful) {
-      await createChatCompletion(this._conversation, cfg, chatCallback)
+      await createChatCompletionMessage(
+        this._conversation,
+        cfg,
+        messageCallback
+      )
     }
   }
 }

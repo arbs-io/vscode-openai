@@ -1,8 +1,11 @@
 import { commands, env, window } from 'vscode'
 import { ConversationStorageService } from '@app/services'
 import { IChatCompletion, IConversation, IPersonaOpenAI } from '@app/interfaces'
-import { createChatCompletion } from '@app/apis/openai'
-import { ChatCompletionConfigFactory } from '@app/services/configuration'
+import { createChatCompletionMessage } from '@app/apis/openai'
+import {
+  ChatCompletionConfig,
+  ChatCompletionModelType,
+} from '@app/services/configuration'
 
 export const compareResultsToClipboard = async (
   persona: IPersonaOpenAI | undefined,
@@ -33,7 +36,7 @@ export const compareResultsToClipboard = async (
     totalTokens: 0,
   }
 
-  const cfg = ChatCompletionConfigFactory.createConfig('inference_model')
+  const cfg = ChatCompletionConfig.create(ChatCompletionModelType.INFERENCE)
 
   // Clearing the welcome message more idiomatically
   conversation.chatMessages.length = 0
@@ -41,14 +44,11 @@ export const compareResultsToClipboard = async (
 
   try {
     let result = ''
-    function chatCompletionCallback(
-      _messageType: string,
-      message: string
-    ): void {
+    function messageCallback(_type: string, data: IChatCompletion): void {
       if (!conversation) return
-      result = message
+      result = data.content
     }
-    await createChatCompletion(conversation, cfg, chatCompletionCallback)
+    await createChatCompletionMessage(conversation, cfg, messageCallback)
     const originalValue = await env.clipboard.readText()
 
     await env.clipboard.writeText(result ?? '')

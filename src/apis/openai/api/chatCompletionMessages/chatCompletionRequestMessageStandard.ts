@@ -13,10 +13,10 @@ export async function ChatCompletionRequestMessageStandard(
   const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = []
   const content = [`${conversationCopy.persona.prompt.system}`].join('\n')
 
-  chatCompletion.push({
-    role: 'system',
-    content: content,
-  })
+  // chatCompletion.push({
+  //   role: 'system',
+  //   content: content,
+  // })
 
   const conversationHistory = forceToOdd(convCfg.conversationHistory)
 

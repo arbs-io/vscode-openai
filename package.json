@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "^22.5.4",
+    "@types/node": "^22.5.5",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.81.0",
     "@vscode/vsce": "^3.1.0",
@@ -51,7 +51,7 @@
     "@arbs.io/asset-extractor-wasm": "^0.1.2",
     "@vscode/extension-telemetry": "^0.9.7",
     "crypto-js": "^4.2.0",
-    "openai": "^4.59.0",
+    "openai": "^4.62.1",
     "uuid": "^10.0.0"
   },
   "keywords": [

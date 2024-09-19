@@ -5,8 +5,13 @@ import { IConversation } from '@app/interfaces'
 export async function ChatCompletionRequestMessageStandard(
   conversation: IConversation
 ): Promise<Array<OpenAI.ChatCompletionMessageParam>> {
+  // Create a deep copy of the conversation object and assert its type
+  const conversationCopy = JSON.parse(
+    JSON.stringify(conversation)
+  ) as IConversation
+
   const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = []
-  const content = [`${conversation.persona.prompt.system}`].join('\n')
+  const content = [`${conversationCopy.persona.prompt.system}`].join('\n')
 
   chatCompletion.push({
     role: 'system',
@@ -16,7 +21,8 @@ export async function ChatCompletionRequestMessageStandard(
   const conversationHistory = forceToOdd(convCfg.conversationHistory)
 
   let isUserRole = true
-  conversation.chatMessages
+  // Use the copied conversation object
+  conversationCopy.chatMessages
     .splice(conversationHistory * -1)
     .forEach((chatMessage) => {
       chatCompletion.push({

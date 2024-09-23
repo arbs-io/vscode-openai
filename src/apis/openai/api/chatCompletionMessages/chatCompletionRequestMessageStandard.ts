@@ -1,6 +1,7 @@
 import { OpenAI } from 'openai'
 import { ConversationConfig as convCfg } from '@app/services'
 import { IConversation } from '@app/interfaces'
+import { isSystemRoleAllowed } from './isSystemRoleAllowed'
 
 export async function ChatCompletionRequestMessageStandard(
   conversation: IConversation
@@ -11,12 +12,14 @@ export async function ChatCompletionRequestMessageStandard(
   ) as IConversation
 
   const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = []
-  const content = [`${conversationCopy.persona.prompt.system}`].join('\n')
 
-  // chatCompletion.push({
-  //   role: 'system',
-  //   content: content,
-  // })
+  if (await isSystemRoleAllowed()) {
+    const content = [`${conversationCopy.persona.prompt.system}`].join('\n')
+    chatCompletion.push({
+      role: 'system',
+      content: content,
+    })
+  }
 
   const conversationHistory = forceToOdd(convCfg.conversationHistory)
 

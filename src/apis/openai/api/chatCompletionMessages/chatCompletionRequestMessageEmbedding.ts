@@ -4,6 +4,7 @@ import { IConversation, IEmbeddingFileLite } from '@app/interfaces'
 import { searchFileChunks } from '@app/apis/embedding'
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
+import { isSystemRoleAllowed } from './isSystemRoleAllowed'
 
 export async function ChatCompletionRequestMessageEmbedding(
   conversation: IConversation
@@ -14,13 +15,14 @@ export async function ChatCompletionRequestMessageEmbedding(
     'sync~spin',
     `- search file chunks (${MAX_RESULTS})`
   )
-
   const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = []
 
-  chatCompletion.push({
-    role: 'system',
-    content: conversation.persona.prompt.system,
-  })
+  if (await isSystemRoleAllowed()) {
+    chatCompletion.push({
+      role: 'system',
+      content: conversation.persona.prompt.system,
+    })
+  }
 
   const searchQuery =
     conversation.chatMessages[conversation.chatMessages.length - 1].content

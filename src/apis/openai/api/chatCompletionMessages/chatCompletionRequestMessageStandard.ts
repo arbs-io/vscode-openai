@@ -1,22 +1,31 @@
 import { OpenAI } from 'openai'
 import { ConversationConfig as convCfg } from '@app/services'
 import { IConversation } from '@app/interfaces'
+import { isSystemRoleAllowed } from './isSystemRoleAllowed'
 
 export async function ChatCompletionRequestMessageStandard(
   conversation: IConversation
 ): Promise<Array<OpenAI.ChatCompletionMessageParam>> {
-  const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = []
-  const content = [`${conversation.persona.prompt.system}`].join('\n')
+  // Create a deep copy of the conversation object and assert its type
+  const conversationCopy = JSON.parse(
+    JSON.stringify(conversation)
+  ) as IConversation
 
-  chatCompletion.push({
-    role: 'system',
-    content: content,
-  })
+  const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = []
+
+  if (await isSystemRoleAllowed()) {
+    const content = [`${conversationCopy.persona.prompt.system}`].join('\n')
+    chatCompletion.push({
+      role: 'system',
+      content: content,
+    })
+  }
 
   const conversationHistory = forceToOdd(convCfg.conversationHistory)
 
   let isUserRole = true
-  conversation.chatMessages
+  // Use the copied conversation object
+  conversationCopy.chatMessages
     .splice(conversationHistory * -1)
     .forEach((chatMessage) => {
       chatCompletion.push({

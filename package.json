@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.6.10",
+  "version": "1.6.11",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -40,18 +40,18 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "^22.5.4",
+    "@types/node": "^22.5.5",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.81.0",
     "@vscode/vsce": "^3.1.0",
-    "esbuild": "^0.23.1",
+    "esbuild": "^0.24.0",
     "typescript": "^5.6.2"
   },
   "dependencies": {
     "@arbs.io/asset-extractor-wasm": "^0.1.2",
     "@vscode/extension-telemetry": "^0.9.7",
     "crypto-js": "^4.2.0",
-    "openai": "^4.59.0",
+    "openai": "^4.63.0",
     "uuid": "^10.0.0"
   },
   "keywords": [

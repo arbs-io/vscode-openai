@@ -4,8 +4,11 @@ import {
   ConversationConfig as convCfg,
   ConversationStorageService,
 } from '@app/services'
-import { createChatCompletion } from '@app/apis/openai'
-import { ChatCompletionConfigFactory } from '@app/services/configuration'
+import { createChatCompletionMessage } from '@app/apis/openai'
+import {
+  ChatCompletionConfig,
+  ChatCompletionModelType,
+} from '@app/services/configuration'
 
 export const onDidSaveMessages = async (
   conversation: IConversation,
@@ -14,7 +17,7 @@ export const onDidSaveMessages = async (
   try {
     if (!conversation) return
 
-    const cfg = ChatCompletionConfigFactory.createConfig('inference_model')
+    const cfg = ChatCompletionConfig.create(ChatCompletionModelType.INFERENCE)
 
     const SUMMARY_THRESHOLD = convCfg.summaryThreshold
     const SUMMARY_MAX_LENGTH = convCfg.summaryMaxLength
@@ -37,10 +40,12 @@ export const onDidSaveMessages = async (
         totalTokens: 0,
       }
       summary.chatMessages.push(chatCompletion)
-      createChatCompletion(summary, cfg).then((result) => {
+
+      function messageCallback(_type: string, data: IChatCompletion): void {
         if (!conversation) return
-        if (result?.content) conversation.summary = result?.content
-      })
+        conversation.summary = data.content
+      }
+      createChatCompletionMessage(summary, cfg, messageCallback)
     }
   } catch (error) {
     window.showErrorMessage(error as string)

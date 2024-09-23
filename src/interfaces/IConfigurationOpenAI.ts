@@ -1,4 +1,4 @@
-export interface IChatCompletionConfig {
+export interface IConfigurationOpenAI {
   azureApiVersion: string
   apiKey: Promise<string>
   baseURL: string

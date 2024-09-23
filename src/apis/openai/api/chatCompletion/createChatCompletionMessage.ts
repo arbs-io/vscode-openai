@@ -1,8 +1,13 @@
 import { StatusBarServiceProvider } from '@app/apis/vscode'
 import { ConversationConfig as convCfg } from '@app/services'
-import { IChatCompletionConfig, IConversation, IMessage } from '@app/interfaces'
+import {
+  IConfigurationOpenAI,
+  IConversation,
+  IMessage,
+  IChatCompletion,
+} from '@app/interfaces'
 
-import { createOpenAI, errorHandler } from '@app/apis/openai'
+import { ChatCompletionMessageCallback, createOpenAI } from '@app/apis/openai'
 import {
   ChatCompletionCreateParamsNonStreaming,
   ChatCompletionRequestMessageEmbedding,
@@ -10,30 +15,31 @@ import {
   LogChatCompletion,
 } from '@app/apis/openai/api/chatCompletionMessages'
 
-export async function createChatCompletion(
+export async function createChatCompletionMessage(
   conversation: IConversation,
-  chatCompletionConfig: IChatCompletionConfig
-): Promise<IMessage | undefined> {
+  configurationOpenAI: IConfigurationOpenAI,
+  chatCompletionCallback: ChatCompletionMessageCallback
+): Promise<boolean> {
   try {
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
       '- build-conversation'
     )
 
-    const openai = await createOpenAI(chatCompletionConfig.baseURL)
+    const openai = await createOpenAI(configurationOpenAI.baseURL)
     const chatCompletionMessages = conversation.embeddingId
       ? await ChatCompletionRequestMessageEmbedding(conversation)
       : await ChatCompletionRequestMessageStandard(conversation)
 
-    const requestConfig = await chatCompletionConfig.requestConfig
+    const requestConfig = await configurationOpenAI.requestConfig
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
-      '- completion'
+      '- non-stream'
     )
 
     const cfg: ChatCompletionCreateParamsNonStreaming = {
-      model: chatCompletionConfig.model,
+      model: configurationOpenAI.model,
       messages: chatCompletionMessages,
     }
 
@@ -48,7 +54,7 @@ export async function createChatCompletion(
     const results = await openai.chat.completions.create(cfg, requestConfig)
 
     const content = results.choices[0].message.content
-    if (!content) return undefined
+    if (!content) return true // Empty but not failed
     const message: IMessage = {
       content: content,
       completionTokens: results.usage?.completion_tokens
@@ -62,14 +68,31 @@ export async function createChatCompletion(
         : 0,
     }
 
+    if (message) {
+      const author = `${conversation?.persona.roleName} (${conversation?.persona.configuration.service})`
+      const chatCompletion: IChatCompletion = {
+        content: message.content,
+        author: author,
+        timestamp: new Date().toLocaleString(),
+        mine: false,
+        completionTokens: message.completionTokens,
+        promptTokens: message.promptTokens,
+        totalTokens: message.totalTokens,
+      }
+      chatCompletionCallback('onWillAnswerMessage', chatCompletion)
+    }
     LogChatCompletion(message)
+
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'vscode-openai',
       ''
     )
-    return message
   } catch (error: any) {
-    errorHandler(error)
+    StatusBarServiceProvider.instance.showStatusBarInformation(
+      'sync~spin',
+      '- non-stream (failed)'
+    )
+    return false
   }
-  return undefined
+  return true
 }

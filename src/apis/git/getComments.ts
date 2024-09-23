@@ -1,10 +1,13 @@
 import { IChatCompletion, IConversation } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
 import { ConversationStorageService } from '@app/services'
-import { createChatCompletion } from '@app/apis/openai'
+import { createChatCompletionMessage } from '@app/apis/openai'
 import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 import { workspace } from 'vscode'
-import { ChatCompletionConfigFactory } from '@app/services/configuration'
+import {
+  ChatCompletionConfig,
+  ChatCompletionModelType,
+} from '@app/services/configuration'
 
 // This function generates comments for the given git differences using OpenAI's chatbot API.
 // It takes a string representing the git differences as input and returns a Promise that resolves to a string.
@@ -37,10 +40,15 @@ export const getComments = async (diff: string): Promise<string> => {
     }
     conversation.chatMessages.push(chatCompletion)
 
-    const cfg = ChatCompletionConfigFactory.createConfig('scm_model')
+    const cfg = ChatCompletionConfig.create(ChatCompletionModelType.SCM)
 
-    const result = await createChatCompletion(conversation, cfg)
-    return result?.content ?? ''
+    let result = ''
+    function messageCallback(_type: string, data: IChatCompletion): void {
+      result = data.content
+    }
+
+    await createChatCompletionMessage(conversation, cfg, messageCallback)
+    return result ?? ''
   } catch (error) {
     console.error('Failed to generate comments:', error)
     return '' // Return empty string in case of error

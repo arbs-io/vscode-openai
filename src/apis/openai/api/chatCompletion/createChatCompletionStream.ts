@@ -11,6 +11,7 @@ import {
   ChatCompletionMessageCallback,
   ChatCompletionStreamCallback,
   createOpenAI,
+  errorHandler,
 } from '@app/apis/openai'
 import {
   ChatCompletionCreateParamsStreaming,
@@ -95,11 +96,16 @@ export async function createChatCompletionStream(
       ''
     )
   } catch (error: any) {
-    StatusBarServiceProvider.instance.showStatusBarInformation(
-      'sync~spin',
-      '- stream (failed)'
-    )
-    return false
+    if (error.code == 'unsupported_value' && error.param == 'stream') {
+      // Check if model allows stream...
+      StatusBarServiceProvider.instance.showStatusBarInformation(
+        'sync~spin',
+        '- stream (failed)'
+      )
+      return false
+    } else {
+      errorHandler(error)
+    }
   }
   return true
 }

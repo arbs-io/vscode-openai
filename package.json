@@ -30,10 +30,10 @@
   ],
   "scripts": {
     "build": "pnpm -r build && node ./utilities/scripts/copy-wasm.js",
-    "vscode:prepublish": "npm esbuild-base --minify",
+    "vscode:prepublish": "npm run esbuild-base --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --target=es2020",
-    "esbuild": "npm esbuild-base --sourcemap",
-    "esbuild-watch": "npm esbuild-base --sourcemap --watch",
+    "esbuild": "npm run esbuild-base --sourcemap",
+    "esbuild-watch": "npm run esbuild-base --sourcemap --watch",
     "test-compile": "tsc -p ./",
     "deploy": "vsce publish --npm",
     "clean": "node ./utilities/scripts/clean.js"

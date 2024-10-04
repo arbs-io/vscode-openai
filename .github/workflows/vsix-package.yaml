@@ -22,11 +22,11 @@ jobs:
         with:
           node-version: '>=17.0.0'
       - name: Install vscode-openai
-        run: npm install
+        run: pnpm install
       - name: Build vscode-openai
-        run: npm build
+        run: pnpm build
       - name: Publish
         if: success() && startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-latest'
-        run: npm deploy
+        run: pnpm deploy
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}

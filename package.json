@@ -29,21 +29,21 @@
     "webview/message"
   ],
   "scripts": {
-    "build": "yarn workspaces run build && node ./utilities/scripts/copy-wasm.js",
-    "vscode:prepublish": "yarn esbuild-base --minify",
+    "build": "pnpm -r build && node ./utilities/scripts/copy-wasm.js",
+    "vscode:prepublish": "npm run esbuild-base --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --target=es2020",
-    "esbuild": "yarn esbuild-base --sourcemap",
-    "esbuild-watch": "yarn esbuild-base --sourcemap --watch",
+    "esbuild": "npm run esbuild-base --sourcemap",
+    "esbuild-watch": "npm run esbuild-base --sourcemap --watch",
     "test-compile": "tsc -p ./",
-    "deploy": "vsce publish --yarn",
+    "deploy": "vsce publish --npm",
     "clean": "node ./utilities/scripts/clean.js"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "^22.5.5",
+    "@types/node": "^22.7.4",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.81.0",
-    "@vscode/vsce": "^3.1.0",
+    "@vscode/vsce": "^3.1.1",
     "esbuild": "^0.24.0",
     "typescript": "^5.6.2"
   },
@@ -51,7 +51,7 @@
     "@arbs.io/asset-extractor-wasm": "^0.1.2",
     "@vscode/extension-telemetry": "^0.9.7",
     "crypto-js": "^4.2.0",
-    "openai": "^4.63.0",
+    "openai": "^4.67.1",
     "uuid": "^10.0.0"
   },
   "keywords": [

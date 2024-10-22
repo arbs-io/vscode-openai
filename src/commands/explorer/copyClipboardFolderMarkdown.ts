@@ -1,16 +1,15 @@
 import { window, Uri, FileType, workspace, ProgressLocation, env } from 'vscode'
+import { showMessageWithTimeout } from '@app/apis/vscode'
 import { Command } from '@app/commands'
 
 export default class ClipboardCopyFolderMarkdownCommand implements Command {
   public readonly id = '_vscode-openai.explorer.copy.markdown'
-
-  // Maximum total content size to avoid performance issues (e.g., 1MB)
   private readonly maxContentSize = 1024 * 1024 // 1 MB
 
   public async execute(resourceUri: Uri) {
     // Validate the selected resource
     if (!(resourceUri && resourceUri.scheme === 'file')) {
-      window.showErrorMessage(`Please select a valid file or folder.`)
+      showMessageWithTimeout(`Please select a valid file or folder.`, 2500)
       return
     }
 
@@ -40,35 +39,44 @@ export default class ClipboardCopyFolderMarkdownCommand implements Command {
               totalSize
             )
           } else {
-            window.showErrorMessage(
-              'Selected resource is neither a file nor a folder.'
+            showMessageWithTimeout(
+              `Selected resource is neither a file nor a folder.`,
+              2500
             )
+
             return
           }
 
           const finalContent = collectedContent.join('\n')
 
           if (finalContent.length === 0) {
-            window.showInformationMessage(
-              'No source code files found in the selected location.'
+            showMessageWithTimeout(
+              `No source code files found in the selected location.`,
+              2500
             )
             return
           }
 
           // Copy the collected content to the clipboard
           await env.clipboard.writeText(finalContent)
-
-          window.showInformationMessage('Source code copied to clipboard.')
+          showMessageWithTimeout(
+            `Source code copied to clipboard.`,
+            2500
+          )
         } catch (error) {
           if (
             error instanceof Error &&
             error.message === 'Content size limit exceeded'
           ) {
-            window.showErrorMessage('Content size exceeds the maximum limit.')
+            showMessageWithTimeout(
+              `Content size exceeds the maximum limit.`,
+              2500
+            )
           } else {
             console.error('Error while collecting source files:', error)
-            window.showErrorMessage(
-              'An error occurred while collecting source files.'
+            showMessageWithTimeout(
+              `An error occurred while collecting source files.`,
+              2500
             )
           }
         }

@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.6.11",
+  "version": "1.6.12",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -589,6 +589,13 @@
       }
     },
     "menus": {
+      "explorer/context": [
+        {
+          "submenu": "vscode-openai.menu.explorer",
+          "group": "4_vscodeopenai",
+          "when": "vscode-openai.extension.enabled"
+        }
+      ],
       "webview/context": [
         {
           "command": "_vscode-openai.messages.clipboard-copy.message",
@@ -698,12 +705,12 @@
       ],
       "editor/title": [
         {
-          "submenu": "vscode-openai.menu.toolbox",
-          "group": "navigation",
+          "submenu": "vscode-openai.menu.editor",
+          "group": "navigation-vscode-openai@100",
           "when": "!activeEditorIsReadonly"
         }
       ],
-      "vscode-openai.menu.toolbox": [
+      "vscode-openai.menu.editor": [
         {
           "command": "_vscode-openai.editor.code.comment",
           "group": "prompt-editor.source@1",
@@ -734,20 +741,46 @@
           "group": "prompt-editor.source.setting",
           "when": "vscode-openai.extension.enabled"
         }
+      ],
+      "vscode-openai.menu.explorer": [
+        {
+          "command": "_vscode-openai.explorer.copy.markdown",
+          "group": "navigation-vscode-openai@100",
+          "when": "vscode-openai.extension.enabled && !explorerResourceIsFolder"
+        },
+        {
+          "command": "_vscode-openai.explorer.copy.markdown",
+          "group": "navigation-vscode-openai@100",
+          "when": "vscode-openai.extension.enabled && explorerResourceIsFolder"
+        }
       ]
     },
     "submenus": [
       {
-        "id": "vscode-openai.menu.toolbox",
-        "label": "vscode-openai.menu.toolbox",
+        "id": "vscode-openai.menu.editor",
+        "label": "vscode-openai.menu.editor",
         "icon": {
           "light": "./assets/openai-light.png",
           "dark": "./assets/openai-dark.png"
         },
         "when": "editorFocus && !editorReadonly"
+      },
+      {
+        "id": "vscode-openai.menu.explorer",
+        "label": "OpenAI",
+        "icon": {
+          "light": "./assets/openai-light.png",
+          "dark": "./assets/openai-dark.png"
+        },
+        "when": "vscode-openai.extension.enabled && resourceLangId != ''"
       }
     ],
     "commands": [
+      {
+        "command": "_vscode-openai.explorer.copy.markdown",
+        "title": "Copy as Markdown",
+        "category": "vscode-openai.conversation.new"
+      },
       {
         "command": "vscode-openai.conversation.new.standard",
         "title": "New conversation (standard)",

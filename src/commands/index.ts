@@ -36,6 +36,7 @@ import {
   EditorCodePatternsCommand,
 } from './editor'
 import { ClipboardCopyMessagesMessageCommand } from './messages'
+import { ClipboardCopyFolderMarkdownCommand } from './explorer'
 
 export { Command, CommandManager } from './commandManager'
 export function registerVscodeOpenAICommands(
@@ -59,6 +60,9 @@ export function registerVscodeOpenAICommands(
 
   // Messages
   commandManager.register(new ClipboardCopyMessagesMessageCommand())
+
+  // Explorer
+  commandManager.register(new ClipboardCopyFolderMarkdownCommand())
 
   // Embeddings
   commandManager.register(new EmbeddingsRefreshCommand(embeddingTree))

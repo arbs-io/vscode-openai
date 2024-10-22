@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.6.11",
+  "version": "1.6.12",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -593,7 +593,7 @@
         {
           "submenu": "vscode-openai.menu.explorer",
           "group": "4_vscodeopenai",
-          "when": "vscode-openai.extension.enabled && resourceLangId != ''"
+          "when": "vscode-openai.extension.enabled"
         }
       ],
       "webview/context": [
@@ -744,14 +744,14 @@
       ],
       "vscode-openai.menu.explorer": [
         {
-          "command": "_vscode-openai.explorer.codeanalyze",
+          "command": "_vscode-openai.explorer.copy.markdown",
           "group": "navigation-vscode-openai@100",
-          "when": "vscode-openai.extension.enabled && resourceLangId != ''"
+          "when": "vscode-openai.extension.enabled && !explorerResourceIsFolder"
         },
         {
-          "command": "_vscode-openai.explorer.sendToChat",
-          "group": "navigation-vscode-openai@110",
-          "when": "vscode-openai.extension.enabled && resourceLangId != ''"
+          "command": "_vscode-openai.explorer.copy.markdown",
+          "group": "navigation-vscode-openai@100",
+          "when": "vscode-openai.extension.enabled && explorerResourceIsFolder"
         }
       ]
     },
@@ -777,13 +777,8 @@
     ],
     "commands": [
       {
-        "command": "_vscode-openai.explorer.codeanalyze",
-        "title": "Analyze Code",
-        "category": "vscode-openai.conversation.new"
-      },
-      {
-        "command": "_vscode-openai.explorer.sendToChat",
-        "title": "Send to Chat",
+        "command": "_vscode-openai.explorer.copy.markdown",
+        "title": "Copy as Markdown",
         "category": "vscode-openai.conversation.new"
       },
       {

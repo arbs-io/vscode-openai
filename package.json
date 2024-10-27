@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.6.12",
+  "version": "1.6.13",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -706,7 +706,7 @@
       "editor/title": [
         {
           "submenu": "vscode-openai.menu.editor",
-          "group": "navigation-vscode-openai@100",
+          "group": "navigation",
           "when": "!activeEditorIsReadonly"
         }
       ],
@@ -758,7 +758,7 @@
     "submenus": [
       {
         "id": "vscode-openai.menu.editor",
-        "label": "vscode-openai.menu.editor",
+        "label": "OpenAI Editor",
         "icon": {
           "light": "./assets/openai-light.png",
           "dark": "./assets/openai-dark.png"

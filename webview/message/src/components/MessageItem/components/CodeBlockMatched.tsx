@@ -10,13 +10,15 @@ interface ICodeBlockMatchedProps {
   content: string
 }
 
-export const useCodeBlockMatchedStyles = makeStyles({
+const useCodeBlockMatchedStyles = makeStyles({
   codeContainer: {
     ...shorthands.borderWidth('3px'),
     ...shorthands.borderColor('grey'),
     borderRadius: 'var(--borderRadiusLarge)',
     background: tokens.colorBackgroundOverlay,
     padding: '0.5rem',
+    overflowX: 'auto', // Allows horizontal scrolling
+    whiteSpace: 'pre', // Preserves whitespace and prevents wrapping
   },
   toolbar: {
     display: 'flex',
@@ -39,8 +41,8 @@ const CodeBlockMatched: FC<ICodeBlockMatchedProps> = ({
       <SyntaxHighlighter
         language={language}
         showLineNumbers={true}
-        wrapLines={true}
-        wrapLongLines={true}
+        wrapLines={false}
+        wrapLongLines={false}
         PreTag="div"
         style={tomorrow}
       >

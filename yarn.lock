@@ -10,10 +10,10 @@
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.24"
 
-"@arbs.io/asset-extractor-wasm@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.npmjs.org/@arbs.io/asset-extractor-wasm/-/asset-extractor-wasm-0.1.2.tgz"
-  integrity sha512-vZI0d6NtByzFB2+hV1DfsV0Z/mKyfStZt3lsobwWw706AzepP9QYUY9Wza8/orOZ5gz8DBgVYDEUI9Ny7vbe4w==
+"@arbs.io/asset-extractor-wasm@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.npmjs.org/@arbs.io/asset-extractor-wasm/-/asset-extractor-wasm-0.1.3.tgz"
+  integrity sha512-oq+hl7+1+32sAIVyHeHA2UcloqkwsW66W+cyl86nu4ykR4JPwjjO9Mjv4cUYAt7OALCKwwWjVjEmEF3YRaGiVQ==
 
 "@azure/abort-controller@^2.0.0":
   version "2.1.2"
@@ -1655,7 +1655,7 @@
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.14.2"
 
-"@vscode-openai/conversations@file:/Users/butsona/workspaces/git/vscode-openai/webview/conversations":
+"@vscode-openai/conversations@file:/Users/butsona/Documents/workspaces/git/vscode-openai/webview/conversations":
   version "1.0.0"
   resolved "file:webview/conversations"
   dependencies:
@@ -1664,7 +1664,7 @@
     react-dom "^18.3.1"
     vscode-openai "file:../.."
 
-"@vscode-openai/message@file:/Users/butsona/workspaces/git/vscode-openai/webview/message":
+"@vscode-openai/message@file:/Users/butsona/Documents/workspaces/git/vscode-openai/webview/message":
   version "1.0.0"
   resolved "file:webview/message"
   dependencies:
@@ -4272,10 +4272,10 @@ vite@*, "vite@^4.2.0 || ^5.0.0", vite@^5.4.8:
     fsevents "~2.3.3"
 
 "vscode-openai@file:../..":
-  version "1.6.13"
+  version "1.6.14"
   resolved "file:"
   dependencies:
-    "@arbs.io/asset-extractor-wasm" "^0.1.2"
+    "@arbs.io/asset-extractor-wasm" "^0.1.3"
     "@vscode/extension-telemetry" "^0.9.7"
     crypto-js "^4.2.0"
     openai "^4.67.1"

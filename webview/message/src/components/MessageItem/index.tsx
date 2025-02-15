@@ -8,6 +8,7 @@ import {
   CodeBlockMatched,
   CodeBlockUnmatched,
   MessageItemToolbar,
+  ThinkSection,
 } from './components'
 
 export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
@@ -28,6 +29,24 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
       : configuration.assistantColor,
   }
 
+  // Function to extract <think> content from chatCompletion.content
+  const extractThinkSections = (content: string) => {
+    const thinkSections: string[] = []
+    const regex = /<think>([\s\S]*?)<\/think>/g
+    let match
+
+    while ((match = regex.exec(content)) !== null) {
+      thinkSections.push(match[1])
+    }
+
+    const cleanedContent = content.replace(/<think>[\s\S]*?<\/think>/g, '')
+    return { cleanedContent, thinkSections }
+  }
+
+  const { cleanedContent, thinkSections } = extractThinkSections(
+    chatCompletion.content
+  )
+
   return (
     <div
       className={MessageItemStyles.messageItem}
@@ -39,7 +58,6 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
     >
       <div className={MessageItemStyles.messageWrapper}>
         <div className={MessageItemStyles.messageHeader}>
-          {/* Conditionally render author if the message is not from the user */}
           {chatCompletion.mine ? null : (
             <span className={MessageItemStyles.author}>
               {chatCompletion.author}
@@ -49,14 +67,13 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
             {' '}
             Date: {chatCompletion.timestamp}
           </span>
-          {/* Render MessageUtility component if totalTokens is greater than 0 */}
           {chatCompletion.totalTokens > 0 && (
             <MessageItemToolbar chatCompletion={chatCompletion} />
           )}
         </div>
       </div>
       <ReactMarkdown
-        children={chatCompletion.content.trim()}
+        children={cleanedContent.trim()}
         remarkPlugins={[remarkGfm]}
         components={{
           code(props) {
@@ -73,6 +90,9 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
           },
         }}
       />
+      {thinkSections.map((content, index) => (
+        <ThinkSection key={index} content={content} />
+      ))}
     </div>
   )
 }

@@ -18,7 +18,9 @@ export default class GenerateCommentsCommand implements Command {
 
     const diff = await getGitDifferences(gitService)
     if (diff) {
-      const comments = await getComments(diff)
+      const s = await getComments(diff)
+      const comments = s.replace(/<\s*think\s*>(.*?)<\/think>/gs, '').trim()
+
       createDebugNotification(
         `GitService: diff(${diff.length}) ~ comments(${comments.length})`
       )

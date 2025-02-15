@@ -28,8 +28,10 @@ export const onDidSaveMessages = async (
     //Add summary to conversation
     if (conversation.chatMessages.length % SUMMARY_THRESHOLD == 0) {
       //Deep clone for summary
-      const summary = JSON.parse(JSON.stringify(conversation)) as IConversation
-      summary.embeddingId = undefined // ignore embedding for summary
+      const tempConversation = JSON.parse(
+        JSON.stringify(conversation)
+      ) as IConversation
+      tempConversation.embeddingId = undefined // ignore embedding for summary
       const chatCompletion: IChatCompletion = {
         content: `Please summarise the content above. The summary must be less than ${SUMMARY_MAX_LENGTH} words. Only provide the facts within the content.`,
         author: 'summary',
@@ -39,13 +41,16 @@ export const onDidSaveMessages = async (
         promptTokens: 0,
         totalTokens: 0,
       }
-      summary.chatMessages.push(chatCompletion)
+      tempConversation.chatMessages.push(chatCompletion)
 
       function messageCallback(_type: string, data: IChatCompletion): void {
         if (!conversation) return
+
         conversation.summary = data.content
+          .replace(/<\s*think\s*>(.*?)<\/think>/gs, '')
+          .trim()
       }
-      createChatCompletionMessage(summary, cfg, messageCallback)
+      createChatCompletionMessage(tempConversation, cfg, messageCallback)
     }
   } catch (error) {
     window.showErrorMessage(error as string)

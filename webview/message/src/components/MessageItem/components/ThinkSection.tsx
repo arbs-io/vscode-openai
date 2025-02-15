@@ -15,7 +15,7 @@ const ThinkSection: FC<{ content: string }> = ({ content }) => {
         icon={<CommentMultipleLinkRegular />}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? 'Collapse' : 'Expand'} Thought
+        {isOpen ? 'Collapse' : 'Expand'} reasoning
       </Button>
       {isOpen && (
         <div>

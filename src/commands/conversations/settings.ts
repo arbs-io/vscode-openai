@@ -4,7 +4,7 @@ import { Command } from '@app/commands'
 export default class SettingsConversationsCommand implements Command {
   public readonly id = '_vscode-openai.conversations.settings'
 
-  public async execute() {
+  public async execute(): Promise<void> {
     commands.executeCommand(
       'workbench.action.openSettings',
       'vscode-openai.conversation-configuration'

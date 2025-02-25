@@ -5,7 +5,7 @@ export default class SettingsCommand implements Command {
   public readonly id = '_vscode-openai.embeddings.settings'
 
   public async execute(): Promise<void> {
-    commands.executeCommand(
+    await commands.executeCommand(
       'workbench.action.openSettings',
       'vscode-openai.embedding-configuration'
     )

@@ -14,6 +14,6 @@ export default class CodeOptimizeCommand implements Command {
     const persona = getSystemPersonas().find(
       (a) => a.roleName === VSCODE_OPENAI_QP_PERSONA.DEVELOPER
     )
-    compareResultsToClipboard(persona, prompt)
+    await compareResultsToClipboard(persona, prompt)
   }
 }

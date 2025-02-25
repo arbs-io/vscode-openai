@@ -11,6 +11,6 @@ export default class SettingsCommand implements Command {
   }
 
   public async execute(): Promise<void> {
-    this._configurationQuickPick.execute()
+    await this._configurationQuickPick.execute()
   }
 }

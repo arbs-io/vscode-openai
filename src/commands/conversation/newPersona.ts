@@ -7,6 +7,6 @@ export default class NewConversationPersonaCommand implements Command {
   public constructor(private _context: ExtensionContext) {}
 
   public async execute(): Promise<void> {
-    quickPickCreateConversation(this._context)
+    await quickPickCreateConversation(this._context)
   }
 }

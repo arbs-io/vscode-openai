@@ -15,7 +15,7 @@ export default class NewEmbeddingFolderCommand implements Command {
       canSelectFolders: true,
     }
 
-    window.showOpenDialog(options).then((folders) => {
+    await window.showOpenDialog(options).then((folders) => {
       if (folders != null && folders.length > 0) {
         const uriFolders = folders[0]
         if (!uriFolders) return

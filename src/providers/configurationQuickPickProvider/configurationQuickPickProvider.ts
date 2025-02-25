@@ -48,19 +48,19 @@ export class ConfigurationQuickPickProvider {
         break
 
       case VSCODE_OPENAI_QP_SETUP.PROVIDER_AZURE:
-        quickPickSetupAzureOpenai(this.context)
+        await quickPickSetupAzureOpenai(this.context)
         break
 
       case VSCODE_OPENAI_QP_SETUP.PROVIDER_CUSTOM:
-        quickPickSetupCustomOpenai(this.context)
+        await quickPickSetupCustomOpenai(this.context)
         break
 
       case VSCODE_OPENAI_QP_SETUP.MODEL_CHANGE:
-        quickPickChangeModel(this.context)
+        await quickPickChangeModel(this.context)
         break
 
       case VSCODE_OPENAI_QP_SETUP.CONFIGURATION_RESET: {
-        window
+        await window
           .showInformationMessage(
             'Are you sure you want to RESET configuration?',
             'Yes',

@@ -8,7 +8,7 @@ import {
 export default class GenerateCommentsCommand implements Command {
   public readonly id = '_vscode-openai.scm.generate.comments'
 
-  public async execute() {
+  public async execute(): Promise<void> {
     const gitService = new GitService()
 
     if (!gitService.isAvailable()) {

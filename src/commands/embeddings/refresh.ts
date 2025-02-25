@@ -5,7 +5,7 @@ export default class RefreshCommand implements Command {
   public readonly id = '_vscode-openai.embeddings.refresh'
   public constructor(private _instance: EmbeddingTreeDataProvider) {}
 
-  public async execute() {
+  public async execute(): Promise<void> {
     this._instance.refresh()
   }
 }

@@ -7,7 +7,7 @@ import { embeddingResource } from '@app/apis/embedding'
 export default class NewEmbeddingFolderCommand implements Command {
   public readonly id = '_vscode-openai.embeddings.new.folder'
 
-  public async execute() {
+  public async execute(): Promise<void> {
     const options: OpenDialogOptions = {
       canSelectMany: false,
       openLabel: 'vscode-openai index folder',

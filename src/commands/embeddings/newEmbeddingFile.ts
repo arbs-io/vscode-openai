@@ -10,7 +10,7 @@ import { embeddingResource } from '@app/apis/embedding'
 export default class NewEmbeddingFileCommand implements Command {
   public readonly id = '_vscode-openai.embeddings.new.file'
 
-  public async execute() {
+  public async execute(): Promise<void> {
     // Define the options for the open dialog
     const options: OpenDialogOptions = {
       canSelectMany: true,

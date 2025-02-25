@@ -10,7 +10,7 @@ export default class SettingsCommand implements Command {
       ConfigurationQuickPickProvider.getInstance(context)
   }
 
-  public async execute() {
+  public async execute(): Promise<void> {
     this._configurationQuickPick.execute()
   }
 }

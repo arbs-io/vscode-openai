@@ -4,7 +4,7 @@ import { ConversationStorageService } from '@app/services'
 export default class RefreshConversationsCommand implements Command {
   public readonly id = '_vscode-openai.conversations.refresh'
 
-  public async execute() {
+  public async execute(): Promise<void> {
     ConversationStorageService.instance.refresh()
   }
 }

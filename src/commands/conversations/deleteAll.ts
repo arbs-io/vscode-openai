@@ -5,7 +5,7 @@ import { ConversationStorageService } from '@app/services'
 export default class DeleteAllConversationsCommand implements Command {
   public readonly id = '_vscode-openai.conversations.delete-all'
 
-  public async execute() {
+  public async execute(): Promise<void> {
     window
       .showInformationMessage(
         'Are you sure you want to delete ALL conversation?',

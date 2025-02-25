@@ -7,7 +7,7 @@ import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 export default class NewConversationStandardCommand implements Command {
   public readonly id = 'vscode-openai.conversation.new.standard'
 
-  public async execute() {
+  public async execute(): Promise<void> {
     const persona = getSystemPersonas().find(
       (a) => a.roleName === VSCODE_OPENAI_QP_PERSONA.GENERAL
     )!

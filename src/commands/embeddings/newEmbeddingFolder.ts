@@ -1,13 +1,13 @@
 import { OpenDialogOptions, Uri, window, workspace } from 'vscode'
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 import { EmbeddingStorageService } from '@app/services'
 import { createDebugNotification } from '@app/apis/node'
 import { embeddingResource } from '@app/apis/embedding'
 
-export default class NewEmbeddingFolderCommand implements Command {
+export default class NewEmbeddingFolderCommand implements ICommand {
   public readonly id = '_vscode-openai.embeddings.new.folder'
 
-  public async execute(): Promise<void> {
+  public async execute() {
     const options: OpenDialogOptions = {
       canSelectMany: false,
       openLabel: 'vscode-openai index folder',
@@ -15,7 +15,7 @@ export default class NewEmbeddingFolderCommand implements Command {
       canSelectFolders: true,
     }
 
-    await window.showOpenDialog(options).then((folders) => {
+    window.showOpenDialog(options).then((folders) => {
       if (folders != null && folders.length > 0) {
         const uriFolders = folders[0]
         if (!uriFolders) return

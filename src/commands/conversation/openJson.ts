@@ -1,8 +1,8 @@
 import { ViewColumn, window, workspace } from 'vscode'
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 import { IConversation } from '@app/interfaces'
 
-export default class ShowConversationJsonCommand implements Command {
+export default class ShowConversationJsonCommand implements ICommand {
   public readonly id = '_vscode-openai.conversation.show.json'
 
   public execute(args: { data: IConversation }) {

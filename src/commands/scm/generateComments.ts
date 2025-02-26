@@ -1,14 +1,14 @@
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 import { GitService, getComments, getGitDifferences } from '@app/apis/git'
 import {
   createErrorNotification,
   createDebugNotification,
 } from '@app/apis/node'
 
-export default class GenerateCommentsCommand implements Command {
+export default class GenerateCommentsCommand implements ICommand {
   public readonly id = '_vscode-openai.scm.generate.comments'
 
-  public async execute(): Promise<void> {
+  public async execute() {
     const gitService = new GitService()
 
     if (!gitService.isAvailable()) {

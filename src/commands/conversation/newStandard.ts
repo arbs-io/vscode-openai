@@ -1,13 +1,13 @@
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 import { IConversation } from '@app/interfaces'
 import { getSystemPersonas } from '@app/models'
 import { ConversationStorageService } from '@app/services'
 import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
 
-export default class NewConversationStandardCommand implements Command {
+export default class NewConversationStandardCommand implements ICommand {
   public readonly id = 'vscode-openai.conversation.new.standard'
 
-  public async execute(): Promise<void> {
+  public async execute() {
     const persona = getSystemPersonas().find(
       (a) => a.roleName === VSCODE_OPENAI_QP_PERSONA.GENERAL
     )!

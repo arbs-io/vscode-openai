@@ -1,5 +1,6 @@
 import { ExtensionContext, Disposable } from 'vscode'
 import { CommandManager } from './commandManager'
+
 import {
   NewConversationStandardCommand,
   NewConversationPersonaCommand,
@@ -38,7 +39,8 @@ import {
 import { ClipboardCopyMessagesMessageCommand } from './messages'
 import { ClipboardCopyFolderMarkdownCommand } from './explorer'
 
-export { Command, CommandManager } from './commandManager'
+export { CommandManager } from '@app/commands/commandManager'
+export { ICommand } from '@app/commands/ICommand'
 export function registerVscodeOpenAICommands(
   context: ExtensionContext,
   commandManager: CommandManager,

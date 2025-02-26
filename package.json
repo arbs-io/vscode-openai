@@ -34,7 +34,7 @@
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --target=es2020",
     "esbuild": "yarn esbuild-base --sourcemap",
     "esbuild-watch": "yarn esbuild-base -- --sourcemap --watch",
-    "test-compile": "tsc -p ./",
+    "compile": "tsc -p ./",
     "deploy": "vsce publish --yarn",
     "clean": "node ./utilities/scripts/clean.js"
   },

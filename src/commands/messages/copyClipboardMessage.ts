@@ -1,9 +1,9 @@
 import { env } from 'vscode'
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 import { showMessageWithTimeout } from '@app/apis/vscode'
 import { IChatCompletion } from '@app/interfaces'
 
-export default class ClipboardCopyMessagesMessageCommand implements Command {
+export default class ClipboardCopyMessagesMessageCommand implements ICommand {
   public readonly id = '_vscode-openai.messages.clipboard-copy.message'
 
   public execute(args: { data: IChatCompletion }) {

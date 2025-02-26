@@ -1,8 +1,8 @@
 import { window, Uri, FileType, workspace, ProgressLocation, env } from 'vscode'
 import { showMessageWithTimeout } from '@app/apis/vscode'
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 
-export default class ClipboardCopyFolderMarkdownCommand implements Command {
+export default class ClipboardCopyFolderMarkdownCommand implements ICommand {
   public readonly id = '_vscode-openai.explorer.copy.markdown'
   private readonly maxContentSize = 1024 * 1024 // 1 MB
 
@@ -59,10 +59,7 @@ export default class ClipboardCopyFolderMarkdownCommand implements Command {
 
           // Copy the collected content to the clipboard
           await env.clipboard.writeText(finalContent)
-          showMessageWithTimeout(
-            `Source code copied to clipboard.`,
-            2500
-          )
+          showMessageWithTimeout(`Source code copied to clipboard.`, 2500)
         } catch (error) {
           if (
             error instanceof Error &&

@@ -1,11 +1,11 @@
 import { commands } from 'vscode'
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 
-export default class SettingsCommand implements Command {
+export default class SettingsCommand implements ICommand {
   public readonly id = '_vscode-openai.embeddings.settings'
 
-  public async execute(): Promise<void> {
-    await commands.executeCommand(
+  public async execute() {
+    commands.executeCommand(
       'workbench.action.openSettings',
       'vscode-openai.embedding-configuration'
     )

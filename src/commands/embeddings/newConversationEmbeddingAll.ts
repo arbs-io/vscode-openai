@@ -1,13 +1,13 @@
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 import { IConversation } from '@app/interfaces'
 import { ConversationStorageService } from '@app/services'
 import { getQueryResourcePersona } from '@app/models'
 import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
-export default class NewConversationEmbeddingAllCommand implements Command {
+export default class NewConversationEmbeddingAllCommand implements ICommand {
   public readonly id = 'vscode-openai.embeddings.new.conversation-all'
 
-  public async execute(): Promise<void> {
+  public async execute() {
     const persona = getQueryResourcePersona()
     const conversation: IConversation =
       await ConversationStorageService.instance.create(

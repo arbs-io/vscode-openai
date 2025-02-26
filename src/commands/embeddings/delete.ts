@@ -1,9 +1,9 @@
 import { window } from 'vscode'
 import { EmbeddingTreeDataProvider, EmbeddingTreeItem } from '@app/providers'
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 import { EmbeddingStorageService } from '@app/services'
 
-export default class RefreshCommand implements Command {
+export default class RefreshCommand implements ICommand {
   public readonly id = '_vscode-openai.embeddings.delete.resource'
   public constructor(private _instance: EmbeddingTreeDataProvider) {}
 

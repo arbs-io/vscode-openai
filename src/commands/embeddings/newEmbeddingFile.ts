@@ -1,5 +1,5 @@
 import { OpenDialogOptions, window } from 'vscode'
-import { Command } from '@app/commands'
+import { ICommand } from '@app/commands'
 import { EmbeddingStorageService } from '@app/services'
 import {
   createDebugNotification,
@@ -7,10 +7,10 @@ import {
 } from '@app/apis/node'
 import { embeddingResource } from '@app/apis/embedding'
 
-export default class NewEmbeddingFileCommand implements Command {
+export default class NewEmbeddingFileCommand implements ICommand {
   public readonly id = '_vscode-openai.embeddings.new.file'
 
-  public async execute(): Promise<void> {
+  public async execute() {
     // Define the options for the open dialog
     const options: OpenDialogOptions = {
       canSelectMany: true,

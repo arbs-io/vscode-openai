@@ -1,10 +1,5 @@
 import { commands, Disposable } from 'vscode'
-
-export interface Command {
-  readonly id: string
-
-  execute(...args: any[]): void
-}
+import { ICommand } from '@app/commands'
 
 export class CommandManager {
   private readonly _commands = new Map<string, Disposable>()
@@ -16,7 +11,7 @@ export class CommandManager {
     this._commands.clear()
   }
 
-  public register<T extends Command>(command: T): Disposable {
+  public register<T extends ICommand>(command: T): Disposable {
     this._registerCommand(command.id, command.execute, command)
     return new Disposable(() => {
       this._commands.delete(command.id)

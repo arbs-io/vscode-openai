@@ -690,6 +690,11 @@
           "command": "_vscode-openai.embeddings.settings",
           "when": "view == vscode-openai.embeddings.view.sidebar",
           "group": "navigation@4"
+        },
+        {
+          "command": "_vscode-openai.embeddings.delete-all",
+          "when": "view == vscode-openai.embeddings.view.sidebar",
+          "group": "navigation@5"
         }
       ],
       "scm/title": [
@@ -867,6 +872,12 @@
         "title": "Refresh",
         "category": "vscode-openai.embedding",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "_vscode-openai.embeddings.delete-all",
+        "title": "Delete all embeddings",
+        "category": "vscode-openai.embeddings",
+        "icon": "$(notebook-delete-cell)"
       },
       {
         "command": "vscode-openai.embeddings.new.conversation",

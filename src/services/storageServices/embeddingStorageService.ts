@@ -14,6 +14,7 @@ export default class EmbeddingStorageService {
   static readonly onDidChange: Event<void> = this._emitterDidChange.event
 
   private static _instance: EmbeddingStorageService
+  private static readonly storagePrefix = `${VSCODE_OPENAI_EMBEDDING.STORAGE_V2_ID}-`
 
   constructor(private _context: ExtensionContext) {}
   static init(context: ExtensionContext): void {
@@ -75,6 +76,22 @@ export default class EmbeddingStorageService {
     }
     return undefined
   }
+
+  public deleteAll() {
+    GlobalStorageService.instance
+      .keys()
+      .filter((key) => key.startsWith(EmbeddingStorageService.storagePrefix))
+      .forEach((key) => {
+        GlobalStorageService.instance.deleteKey(key)
+        createDebugNotification(
+          `Deleting embedding: ${key.substring(
+            EmbeddingStorageService.storagePrefix.length
+          )}`
+        )
+      })
+      EmbeddingStorageService._emitterDidChange.fire()
+  }
+
 
   public delete(embeddingId: string) {
     this._delete(embeddingId)

@@ -23,6 +23,7 @@ import {
   NewEmbeddingFileCommand,
   NewEmbeddingFolderCommand,
   EmbeddingsSettingsCommand,
+  DeleteAllEmbeddingsCommand,
 } from './embeddings'
 import { GenerateCommentsCommand } from './scm'
 import { ConfigurationShowQuickpick } from './configuration'
@@ -69,6 +70,7 @@ export function registerVscodeOpenAICommands(
   // Embeddings
   commandManager.register(new EmbeddingsRefreshCommand(embeddingTree))
   commandManager.register(new EmbeddingsDeleteCommand(embeddingTree))
+  commandManager.register(new DeleteAllEmbeddingsCommand())
   commandManager.register(new NewConversationEmbeddingCommand())
   commandManager.register(new NewConversationEmbeddingAllCommand())
   commandManager.register(new NewEmbeddingFolderCommand())

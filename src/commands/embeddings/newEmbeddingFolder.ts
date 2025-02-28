@@ -1,6 +1,7 @@
-import { OpenDialogOptions, Uri, window, workspace } from 'vscode'
-import { ICommand } from '@app/commands'
+import { FileType, OpenDialogOptions, Uri, window, workspace } from 'vscode'
+
 import { EmbeddingStorageService } from '@app/services'
+import { ICommand } from '@app/commands'
 import { createDebugNotification } from '@app/apis/node'
 import { embeddingResource } from '@app/apis/embedding'
 
@@ -15,22 +16,37 @@ export default class NewEmbeddingFolderCommand implements ICommand {
       canSelectFolders: true,
     }
 
+    function indexFolder(uriFolder: Uri): void {
+      createDebugNotification(`folder-index: ${uriFolder.fsPath}`);
+      workspace.fs.readDirectory(uriFolder).then((files) => {
+        files.forEach(async ([file, fileType]) => {          
+          
+          switch (fileType) {
+            case FileType.File:
+              const uriFile = Uri.joinPath(uriFolder, file)
+              createDebugNotification(`file-index: ${uriFile.fsPath}`)
+              const fileObject = await embeddingResource(uriFile)
+              if (fileObject) {
+                EmbeddingStorageService.instance.update(fileObject)
+              }
+              break;
+            case FileType.Directory:
+              const uriNestedFolder = Uri.joinPath(uriFolder, file)
+              indexFolder(uriNestedFolder);
+              break
+            default:
+              break;
+          }
+        });
+      })
+    }
+
     window.showOpenDialog(options).then((folders) => {
       if (folders != null && folders.length > 0) {
-        const uriFolders = folders[0]
-        if (!uriFolders) return
+        const uriFolder = folders[0]
+        if (!uriFolder) return
 
-        createDebugNotification(`folder-index: ${folders[0].fsPath}`)
-        workspace.fs.readDirectory(uriFolders).then((files) => {
-          files.forEach(async (file) => {
-            const uriFile = Uri.joinPath(uriFolders, file[0])
-            createDebugNotification(`file-index: ${uriFile.fsPath}`)
-            const fileObject = await embeddingResource(uriFile)
-            if (fileObject) {
-              EmbeddingStorageService.instance.update(fileObject)
-            }
-          })
-        })
+        indexFolder(uriFolder);          
       }
     })
   }

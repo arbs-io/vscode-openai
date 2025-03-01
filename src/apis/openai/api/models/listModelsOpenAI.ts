@@ -14,21 +14,10 @@ export async function listModelsOpenAI(
       headers: { ...headers },
     })
 
-    // response.data.forEach((model) => {
-    //   if (
-    //     (modelCapabiliy == ModelCapability.ChatCompletion &&
-    //       model.id.startsWith('gpt')) ||
-    //     (modelCapabiliy == ModelCapability.Embedding &&
-    //       model.id.indexOf('embedding') > 0)
-    //   ) {
-    //     models.push(model.id)
-    //   }
-    // })
-
     const isChatCompletionModel = (model: any): boolean => {
       return (
         modelCapabiliy === ModelCapability.ChatCompletion &&
-        (model.id.startsWith('gpt') || model.id.startsWith('o1'))
+        (model.id.includes('gpt') || model.id.startsWith('o'))
       )
     }
 

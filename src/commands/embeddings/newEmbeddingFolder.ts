@@ -17,27 +17,28 @@ export default class NewEmbeddingFolderCommand implements ICommand {
     }
 
     function indexFolder(uriFolder: Uri): void {
-      createDebugNotification(`folder-index: ${uriFolder.fsPath}`);
+      createDebugNotification(`folder-index: ${uriFolder.fsPath}`)
       workspace.fs.readDirectory(uriFolder).then((files) => {
-        files.forEach(async ([file, fileType]) => {          
-          
+        files.forEach(async ([file, fileType]) => {
           switch (fileType) {
-            case FileType.File:
+            case FileType.File: {
               const uriFile = Uri.joinPath(uriFolder, file)
               createDebugNotification(`file-index: ${uriFile.fsPath}`)
               const fileObject = await embeddingResource(uriFile)
               if (fileObject) {
                 EmbeddingStorageService.instance.update(fileObject)
               }
-              break;
-            case FileType.Directory:
-              const uriNestedFolder = Uri.joinPath(uriFolder, file)
-              indexFolder(uriNestedFolder);
               break
+            }
+            case FileType.Directory: {
+              const uriNestedFolder = Uri.joinPath(uriFolder, file)
+              indexFolder(uriNestedFolder)
+              break
+            }
             default:
-              break;
+              break
           }
-        });
+        })
       })
     }
 
@@ -46,7 +47,7 @@ export default class NewEmbeddingFolderCommand implements ICommand {
         const uriFolder = folders[0]
         if (!uriFolder) return
 
-        indexFolder(uriFolder);          
+        indexFolder(uriFolder)
       }
     })
   }

@@ -11,7 +11,8 @@ import { VSCODE_OPENAI_EMBEDDING } from '@app/constants'
 
 export default class EmbeddingStorageService {
   private static _emitterDidChange = new EventEmitter<void>()
-  static readonly onDidChange: Event<void> = this._emitterDidChange.event
+  static readonly onDidChangeEmbeddingStorage: Event<void> =
+    EmbeddingStorageService._emitterDidChange.event
 
   private static _instance: EmbeddingStorageService
 
@@ -74,6 +75,14 @@ export default class EmbeddingStorageService {
       createErrorNotification(error)
     }
     return undefined
+  }
+
+  public async deleteAll() {
+    const embeddings = await EmbeddingStorageService._instance.getAll()
+    embeddings.forEach((embedding) => {
+      EmbeddingStorageService._instance.delete(embedding.embeddingId)
+    })
+    EmbeddingStorageService._emitterDidChange.fire()
   }
 
   public delete(embeddingId: string) {

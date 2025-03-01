@@ -32,7 +32,7 @@ export class EmbeddingTreeDataProvider
       }
     )
 
-    EmbeddingStorageService.onDidChange(() => {
+    EmbeddingStorageService.onDidChangeEmbeddingStorage(() => {
       this.refresh()
     })
 

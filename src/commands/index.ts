@@ -18,6 +18,7 @@ import {
 import {
   EmbeddingsDeleteCommand,
   EmbeddingsRefreshCommand,
+  DeleteAllEmbeddingsCommand,
   NewConversationEmbeddingAllCommand,
   NewConversationEmbeddingCommand,
   NewEmbeddingFileCommand,
@@ -69,6 +70,7 @@ export function registerVscodeOpenAICommands(
   // Embeddings
   commandManager.register(new EmbeddingsRefreshCommand(embeddingTree))
   commandManager.register(new EmbeddingsDeleteCommand(embeddingTree))
+  commandManager.register(new DeleteAllEmbeddingsCommand())
   commandManager.register(new NewConversationEmbeddingCommand())
   commandManager.register(new NewConversationEmbeddingAllCommand())
   commandManager.register(new NewEmbeddingFolderCommand())

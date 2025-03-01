@@ -1,5 +1,4 @@
 import { window } from 'vscode'
-import { EmbeddingTreeDataProvider, EmbeddingTreeItem } from '@app/providers'
 import { ICommand } from '@app/commands'
 import { EmbeddingStorageService } from '@app/services'
 

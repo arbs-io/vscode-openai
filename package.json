@@ -821,7 +821,7 @@
       {
         "command": "_vscode-openai.conversation.delete",
         "title": "Delete",
-        "category": "_vscode-openai.conversation.delete"
+        "category": "vscode-openai.conversation.delete"
       },
       {
         "command": "_vscode-openai.messages.clipboard-copy.message",

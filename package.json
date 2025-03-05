@@ -232,6 +232,19 @@
           ],
           "order": 109
         },
+        "vscode-openai.azureEnvironment": {
+          "type": "string",
+          "default": "microsoft",
+          "markdownDescription": "The cloud environment to authenticate against when using microsoft profile to sign into azure openai service.",
+          "enum": [
+            "microsoft",
+            "microsoft-sovereign-cloud"
+          ],
+          "enumDescriptions": [
+            "The cloud environment to authenticate against."
+          ],
+          "order": 110
+        },
         "vscode-openai.logLevel": {
           "type": "string",
           "default": "Info",
@@ -246,7 +259,7 @@
             "Information messages about the progress of vscode-openai and external services",
             "Error messages for events that could potentially cause issues for vscode-openai"
           ],
-          "order": 110
+          "order": 111
         },
         "vscode-openai.conversation-configuration.colors": {
           "type": "object",

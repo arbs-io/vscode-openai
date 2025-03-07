@@ -1,0 +1,32 @@
+{
+  "name": "ts-container",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:latest",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "eslint.enable": true,
+        "eslint.format.enable": true,
+        "eslint.lintTask.enable": true,
+        "typescript.autoImportSuggestions.enabled": true
+      },
+      "extensions": [
+        "andrewbutson.vscode-openai",
+        "github.vscode-pull-request-github",
+        "naumovs.color-highlight",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss",
+        "eg2.vscode-npm-script",
+        "editorconfig.editconfig",
+        "pbakondy.vscode-terminal",
+        "oderwat.indent-rainbow"
+      ]
+    }
+  },
+  "forwardPorts": [3000, 4000],
+  "postCreateCommand": "yarn clean && yarn install && yarn build",
+  "remoteUser": "node"
+}

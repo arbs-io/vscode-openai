@@ -20,7 +20,6 @@
         "dbaeumer.vscode-eslint",
         "ms-vscode.vscode-typescript-next",
         "bradlc.vscode-tailwindcss",
-        "eg2.vscode-npm-script",
         "editorconfig.editconfig",
         "pbakondy.vscode-terminal",
         "oderwat.indent-rainbow"

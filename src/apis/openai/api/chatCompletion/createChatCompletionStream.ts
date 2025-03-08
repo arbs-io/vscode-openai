@@ -1,24 +1,24 @@
-import { StatusBarServiceProvider } from '@app/apis/vscode'
-import { ConversationConfig as convCfg } from '@app/services'
+import { StatusBarServiceProvider } from '@app/apis/vscode';
+import { ConversationConfig as convCfg } from '@app/services';
 import {
   IChatCompletion,
   IConfigurationOpenAI,
   IConversation,
   IMessage,
-} from '@app/interfaces'
+} from '@app/interfaces';
 
 import {
   ChatCompletionMessageCallback,
   ChatCompletionStreamCallback,
   createOpenAI,
   errorHandler,
-} from '@app/apis/openai'
+} from '@app/apis/openai';
 import {
   ChatCompletionCreateParamsStreaming,
   ChatCompletionRequestMessageEmbedding,
   ChatCompletionRequestMessageStandard,
   LogChatCompletion,
-} from '@app/apis/openai/api/chatCompletionMessages'
+} from '@app/apis/openai/api/chatCompletionMessages';
 
 export async function createChatCompletionStream(
   conversation: IConversation,
@@ -30,37 +30,37 @@ export async function createChatCompletionStream(
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
       '- build-conversation'
-    )
+    );
 
-    const openai = await createOpenAI(configurationOpenAI.baseURL)
+    const openai = await createOpenAI(configurationOpenAI.baseURL);
     const chatCompletionMessages = conversation.embeddingId
       ? await ChatCompletionRequestMessageEmbedding(conversation)
-      : await ChatCompletionRequestMessageStandard(conversation)
+      : await ChatCompletionRequestMessageStandard(conversation);
 
-    const requestConfig = await configurationOpenAI.requestConfig
+    const requestConfig = await configurationOpenAI.requestConfig;
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
       '- stream'
-    )
+    );
 
     const cfg: ChatCompletionCreateParamsStreaming = {
       model: configurationOpenAI.model,
       messages: chatCompletionMessages,
       stream: true,
-    }
+    };
 
     if (convCfg.presencePenalty !== 0)
-      cfg.presence_penalty = convCfg.presencePenalty
+      {cfg.presence_penalty = convCfg.presencePenalty;}
     if (convCfg.frequencyPenalty !== 0)
-      cfg.frequency_penalty = convCfg.frequencyPenalty
-    if (convCfg.temperature !== 0.2) cfg.temperature = convCfg.temperature
-    if (convCfg.topP !== 1) cfg.top_p = convCfg.topP
-    if (convCfg.maxTokens !== undefined) cfg.max_tokens = convCfg.maxTokens
+      {cfg.frequency_penalty = convCfg.frequencyPenalty;}
+    if (convCfg.temperature !== 0.2) {cfg.temperature = convCfg.temperature;}
+    if (convCfg.topP !== 1) {cfg.top_p = convCfg.topP;}
+    if (convCfg.maxTokens !== undefined) {cfg.max_tokens = convCfg.maxTokens;}
 
-    const results = await openai.chat.completions.create(cfg, requestConfig)
+    const results = await openai.chat.completions.create(cfg, requestConfig);
 
-    const author = `${conversation?.persona.roleName} (${conversation?.persona.configuration.service})`
+    const author = `${conversation?.persona.roleName} (${conversation?.persona.configuration.service})`;
     const chatCompletion: IChatCompletion = {
       content: '',
       author: author,
@@ -69,18 +69,18 @@ export async function createChatCompletionStream(
       completionTokens: 0,
       promptTokens: 0,
       totalTokens: 0,
-    }
-    messageCallback('onWillAnswerMessage', chatCompletion)
+    };
+    messageCallback('onWillAnswerMessage', chatCompletion);
 
-    let tokenCount = 0
-    let fullContent = ''
+    let tokenCount = 0;
+    let fullContent = '';
     for await (const chunk of results) {
-      const content = chunk.choices[0]?.delta?.content ?? ''
+      const content = chunk.choices[0]?.delta?.content ?? '';
 
-      streamCallback('onWillAnswerMessageStream', content)
+      streamCallback('onWillAnswerMessageStream', content);
 
-      fullContent += content
-      tokenCount++
+      fullContent += content;
+      tokenCount++;
     }
 
     const message: IMessage = {
@@ -88,24 +88,24 @@ export async function createChatCompletionStream(
       completionTokens: 0,
       promptTokens: 0,
       totalTokens: tokenCount || 0,
-    }
-    LogChatCompletion(message)
+    };
+    LogChatCompletion(message);
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'vscode-openai',
       ''
-    )
+    );
   } catch (error: any) {
-    if (error.code == 'unsupported_value' && error.param == 'stream') {
+    if (error.code === 'unsupported_value' && error.param === 'stream') {
       // Check if model allows stream...
       StatusBarServiceProvider.instance.showStatusBarInformation(
         'sync~spin',
         '- stream (failed)'
-      )
-      return false
+      );
+      return false;
     } else {
-      errorHandler(error)
+      errorHandler(error);
     }
   }
-  return true
+  return true;
 }

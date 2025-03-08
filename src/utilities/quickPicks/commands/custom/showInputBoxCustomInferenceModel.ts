@@ -1,13 +1,13 @@
-import { MultiStepInput } from '@app/apis/vscode'
-import { IQuickPickSetup } from '../../interface'
-import { shouldResume } from '../shouldResume'
-import { validateIgnored } from '..'
+import { MultiStepInput } from '@app/apis/vscode';
+import { IQuickPickSetup } from '../../interface';
+import { shouldResume } from '../shouldResume';
+import { validateIgnored } from '..';
 
 export async function showInputBoxCustomInferenceModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ) {
-  state.step = (state.step ?? 0) + 1
+  state.step = (state.step ?? 0) + 1;
   state.modelInferenceCustom = await input.showInputBox({
     title: state.title!,
     step: state.step,
@@ -21,5 +21,5 @@ export async function showInputBoxCustomInferenceModel(
     placeholder: ' Llama-2-70B',
     validate: validateIgnored,
     shouldResume: shouldResume,
-  })
+  });
 }

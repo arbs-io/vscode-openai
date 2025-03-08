@@ -1,9 +1,9 @@
-import { window } from 'vscode'
+import { window } from 'vscode';
 
 export async function insertActiveTextEditorValue(value: string) {
-  const editor = window.activeTextEditor
+  const editor = window.activeTextEditor;
   await editor?.edit((editBuilder) => {
-    const activePos = editor.selection.active
-    editBuilder.insert(activePos, value)
-  })
+    const activePos = editor.selection.active;
+    editBuilder.insert(activePos, value);
+  });
 }

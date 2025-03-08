@@ -1,5 +1,5 @@
-import { ProgressLocation, window } from 'vscode'
-import { waitFor } from '@app/apis/node'
+import { ProgressLocation, window } from 'vscode';
+import { waitFor } from '@app/apis/node';
 
 export const showMessageWithTimeout = (
   message: string,
@@ -14,9 +14,9 @@ export const showMessageWithTimeout = (
 
     async (progress): Promise<void> => {
       await waitFor(timeout, () => {
-        return false
-      })
-      progress.report({ increment: 100 })
+        return false;
+      });
+      progress.report({ increment: 100 });
     }
-  )
-}
+  );
+};

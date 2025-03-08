@@ -1,2 +1,2 @@
-export { IParametersInputBox } from './IParametersInputBox'
-export { IParametersQuickPick } from './IParametersQuickPick'
+export { IParametersInputBox } from './IParametersInputBox';
+export { IParametersQuickPick } from './IParametersQuickPick';

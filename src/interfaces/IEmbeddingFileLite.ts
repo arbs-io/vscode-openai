@@ -1,4 +1,4 @@
-import { IEmbeddingText } from '.'
+import { IEmbeddingText } from '.';
 
 export interface IEmbeddingFileLite {
   timestamp: number

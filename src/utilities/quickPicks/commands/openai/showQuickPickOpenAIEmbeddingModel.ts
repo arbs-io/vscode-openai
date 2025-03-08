@@ -1,19 +1,19 @@
-import { MultiStepInput } from '@app/apis/vscode'
-import { ModelCapability } from '@app/apis/openai'
-import { getAvailableModelsOpenai } from '../../getAvailableModels'
-import { IQuickPickSetup } from '../../interface'
-import { shouldResume } from '../shouldResume'
+import { MultiStepInput } from '@app/apis/vscode';
+import { ModelCapability } from '@app/apis/openai';
+import { getAvailableModelsOpenai } from '../../getAvailableModels';
+import { IQuickPickSetup } from '../../interface';
+import { shouldResume } from '../shouldResume';
 
 export async function showQuickPickOpenAIEmbeddingModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
-  state.step = (state.step ?? 0) + 1
+  state.step = (state.step ?? 0) + 1;
   const models = await getAvailableModelsOpenai(
     state.authApiKey!,
     state.baseUrl!,
     ModelCapability.Embedding
-  )
+  );
   state.modelEmbedding = await input.showQuickPick({
     title: state.title!,
     step: state.step,
@@ -23,5 +23,5 @@ export async function showQuickPickOpenAIEmbeddingModel(
     items: models,
     activeItem: state.modelEmbedding,
     shouldResume: shouldResume,
-  })
+  });
 }

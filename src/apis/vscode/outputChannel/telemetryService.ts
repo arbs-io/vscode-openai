@@ -1,35 +1,35 @@
-import { ExtensionContext } from 'vscode'
-import TelemetryReporter from '@vscode/extension-telemetry'
-import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
+import { ExtensionContext } from 'vscode';
+import TelemetryReporter from '@vscode/extension-telemetry';
+import { VSCODE_OPENAI_EXTENSION } from '@app/constants';
 
 export default class TelemetryService {
-  private static _instance: TelemetryService
+  private static _instance: TelemetryService;
 
   constructor(private telemetryReporter: TelemetryReporter) {}
 
   static init(context: ExtensionContext): void {
     const telemetryReporter = new TelemetryReporter(
       VSCODE_OPENAI_EXTENSION.CONNECTION_STRING
-    )
-    TelemetryService._instance = new TelemetryService(telemetryReporter)
-    context.subscriptions.push(TelemetryService._instance.telemetryReporter)
+    );
+    TelemetryService._instance = new TelemetryService(telemetryReporter);
+    context.subscriptions.push(TelemetryService._instance.telemetryReporter);
   }
 
   static get instance(): TelemetryService {
-    return TelemetryService._instance
+    return TelemetryService._instance;
   }
 
   async sendTelemetryEvent(
     value: string | { [key: string]: string },
     eventName: string
   ): Promise<void> {
-    const isString = typeof value === 'string' && value !== null
+    const isString = typeof value === 'string' && value !== null;
     if (isString) {
       this.telemetryReporter.sendTelemetryEvent(eventName, {
         message: value,
-      })
+      });
     } else {
-      this.telemetryReporter.sendTelemetryEvent(eventName, value)
+      this.telemetryReporter.sendTelemetryEvent(eventName, value);
     }
   }
 
@@ -37,6 +37,6 @@ export default class TelemetryService {
     this.telemetryReporter.sendTelemetryErrorEvent('Error', {
       message: error?.message,
       stack: error.stack!,
-    })
+    });
   }
 }

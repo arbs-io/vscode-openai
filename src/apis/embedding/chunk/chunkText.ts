@@ -10,64 +10,64 @@ interface IChunkingStrategy {
 // based on sentence boundaries.
 class SentenceChunkingStrategy implements IChunkingStrategy {
   chunk(content: string, maxCharLength: number): string[] {
-    const chunks: string[] = []
-    let currentChunk = ''
-    const sentences = content.replace(/\n/g, ' ').split(/([.])/)
+    const chunks: string[] = [];
+    let currentChunk = '';
+    const sentences = content.replace(/\n/g, ' ').split(/([.])/);
 
     sentences.forEach((sentence) => {
-      const trimmedSentence = sentence.trim()
-      if (!trimmedSentence) return
+      const trimmedSentence = sentence.trim();
+      if (!trimmedSentence) {return;}
 
-      const chunkLength = currentChunk.length + trimmedSentence.length + 1
+      const chunkLength = currentChunk.length + trimmedSentence.length + 1;
 
       // The chunk is pushed to the chunks array and a new chunk is started
       // when the length of the current chunk plus the next sentence exceeds the maxCharLength.
       if (chunkLength > maxCharLength) {
-        currentChunk = currentChunk.replace(/^[. ]+/, '').trim()
-        if (currentChunk) chunks.push(currentChunk)
-        currentChunk = trimmedSentence
+        currentChunk = currentChunk.replace(/^[. ]+/, '').trim();
+        if (currentChunk) {chunks.push(currentChunk);}
+        currentChunk = trimmedSentence;
       } else {
         currentChunk += `${
           trimmedSentence === '.' ? '' : ' '
-        }${trimmedSentence}`
+        }${trimmedSentence}`;
       }
-    })
+    });
 
     // Push the last chunk if it's not empty
     if (currentChunk) {
-      chunks.push(currentChunk)
+      chunks.push(currentChunk);
     }
 
-    return chunks
+    return chunks;
   }
 }
 
 // Define the builder
 class ChunkBuilder {
-  private strategy: IChunkingStrategy
+  private strategy: IChunkingStrategy;
 
   constructor(strategy: IChunkingStrategy) {
-    this.strategy = strategy
+    this.strategy = strategy;
   }
 
   build(content: string, maxCharLength: number): string[] {
-    return this.strategy.chunk(content, maxCharLength)
+    return this.strategy.chunk(content, maxCharLength);
   }
 }
 
 // ChunkBuilderFactory is a singleton class that provides a single instance
 // of ChunkBuilder.
 class ChunkBuilderFactory {
-  private static instance: ChunkBuilder
+  private static instance: ChunkBuilder;
 
   static getInstance(): ChunkBuilder {
     if (!ChunkBuilderFactory.instance) {
       ChunkBuilderFactory.instance = new ChunkBuilder(
         new SentenceChunkingStrategy()
-      )
+      );
     }
 
-    return ChunkBuilderFactory.instance
+    return ChunkBuilderFactory.instance;
   }
 }
 
@@ -81,6 +81,6 @@ export function chunkText({
   content: string
   maxCharLength: number
 }): string[] {
-  const builder = ChunkBuilderFactory.getInstance()
-  return builder.build(content, maxCharLength)
+  const builder = ChunkBuilderFactory.getInstance();
+  return builder.build(content, maxCharLength);
 }

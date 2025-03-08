@@ -103,4 +103,4 @@ export const VSCODE_OPENAI_QP_PERSONA = {
   ENTERPRISE_ARCHITECT_ICON: 'organization',
   ENTERPRISE_ARCHITECT_DESC:
     'Assists with designing and oversee the implementation of technology solutions that align with business goals and objectives',
-}
+};

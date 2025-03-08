@@ -1,19 +1,19 @@
-import { MultiStepInput } from '@app/apis/vscode'
-import { ModelCapability } from '@app/apis/openai'
-import { getAvailableModelsAzure } from '../../getAvailableModels'
-import { IQuickPickSetup } from '../../interface'
-import { shouldResume } from '../shouldResume'
+import { MultiStepInput } from '@app/apis/vscode';
+import { ModelCapability } from '@app/apis/openai';
+import { getAvailableModelsAzure } from '../../getAvailableModels';
+import { IQuickPickSetup } from '../../interface';
+import { shouldResume } from '../shouldResume';
 
 export async function showQuickPickAzureInferenceModel(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
-  state.step = (state.step ?? 0) + 1
+  state.step = (state.step ?? 0) + 1;
   const models = await getAvailableModelsAzure(
     state.authApiKey!,
     state.baseUrl!,
     ModelCapability.ChatCompletion
-  )
+  );
   state.modelInference = await input.showQuickPick({
     title: state.title!,
     step: state.step,
@@ -24,5 +24,5 @@ export async function showQuickPickAzureInferenceModel(
     items: models,
     activeItem: state.modelInference,
     shouldResume: shouldResume,
-  })
+  });
 }

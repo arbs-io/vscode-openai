@@ -1,9 +1,9 @@
-import { CancellationToken, QuickPickItem } from 'vscode'
+import { CancellationToken, QuickPickItem } from 'vscode';
 import {
   ModelCapability,
   listModelsAzureOpenAI,
   listModelsOpenAI,
-} from '@app/apis/openai'
+} from '@app/apis/openai';
 
 /**
  * This function retrieves available models from Open AI using an API key. It returns a list of QuickPickItems representing each available model.
@@ -21,12 +21,12 @@ export async function getAvailableModelsOpenai(
     apiKey,
     baseUrl,
     modelCapabiliy
-  )
+  );
 
   // Map each returned label into a QuickPickItem object with label property set as label value returned by API call.
   return chatCompletionModels.map((label) => ({
     label: `$(symbol-function)  ${label}`,
-  }))
+  }));
 }
 
 /**
@@ -45,14 +45,14 @@ export async function getAvailableModelsAzure(
     openapiAPIKey,
     openapiBaseUrl,
     modelCapabiliy
-  )
+  );
 
-  const quickPickItems: QuickPickItem[] = []
+  const quickPickItems: QuickPickItem[] = [];
   chatCompletionModels?.forEach((deployment) => {
     quickPickItems.push({
       label: `$(symbol-function)  ${deployment.deployment}`,
       description: deployment.model,
-    })
-  })
-  return quickPickItems
+    });
+  });
+  return quickPickItems;
 }

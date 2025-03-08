@@ -5,8 +5,8 @@ import {
   ProviderResult,
   Command,
   CancellationToken,
-} from 'vscode'
-export { ProviderResult } from 'vscode'
+} from 'vscode';
+export { ProviderResult } from 'vscode';
 
 export interface Git {
   readonly path: string
@@ -305,7 +305,7 @@ export interface BranchProtectionProvider {
   provideBranchProtection(): BranchProtection[]
 }
 
-export type APIState = 'uninitialized' | 'initialized'
+export type APIState = 'uninitialized' | 'initialized';
 
 export interface PublishEvent {
   repository: Repository

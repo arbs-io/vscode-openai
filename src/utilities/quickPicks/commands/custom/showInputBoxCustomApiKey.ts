@@ -1,13 +1,13 @@
-import { MultiStepInput } from '@app/apis/vscode'
-import { IQuickPickSetup } from '../../interface'
-import { shouldResume } from '../shouldResume'
-import { validateIgnored } from '..'
+import { MultiStepInput } from '@app/apis/vscode';
+import { IQuickPickSetup } from '../../interface';
+import { shouldResume } from '../shouldResume';
+import { validateIgnored } from '..';
 
 export async function showInputBoxCustomApiKey(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
-  state.step = (state.step ?? 0) + 1
+  state.step = (state.step ?? 0) + 1;
   state.authApiKey = await input.showInputBox({
     title: state.title!,
     step: state.step,
@@ -18,5 +18,5 @@ export async function showInputBoxCustomApiKey(
     placeholder: 'ed4af062d8567543ad104587ea4505ce',
     validate: validateIgnored,
     shouldResume: shouldResume,
-  })
+  });
 }

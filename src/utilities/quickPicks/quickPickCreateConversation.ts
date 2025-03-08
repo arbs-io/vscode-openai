@@ -11,12 +11,12 @@ import {
   ExtensionContext,
   QuickPickItemKind,
   ThemeIcon,
-} from 'vscode'
-import { MultiStepInput } from '@app/apis/vscode'
-import { ConversationStorageService } from '@app/services'
-import { getSystemPersonas } from '@app/models'
-import { IConversation } from '@app/interfaces'
-import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
+} from 'vscode';
+import { MultiStepInput } from '@app/apis/vscode';
+import { ConversationStorageService } from '@app/services';
+import { getSystemPersonas } from '@app/models';
+import { IConversation } from '@app/interfaces';
+import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants';
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -34,12 +34,12 @@ export async function quickPickCreateConversation(
   }
 
   async function collectInputs() {
-    const state = {} as Partial<State>
-    await MultiStepInput.run((input) => selectPersona(input, state))
-    return state as State
+    const state = {} as Partial<State>;
+    await MultiStepInput.run((input) => selectPersona(input, state));
+    return state as State;
   }
 
-  const title = 'Create Persona Conversation (vscode-openai)'
+  const title = 'Create Persona Conversation (vscode-openai)';
 
   /**
    * This function displays a quick pick menu for selecting an OpenAI model and updates the application's state accordingly.
@@ -50,7 +50,7 @@ export async function quickPickCreateConversation(
     input: MultiStepInput,
     state: Partial<State>
   ): Promise<void> {
-    const models = getAvailablePersonas()
+    const models = getAvailablePersonas();
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
     state.personaQuickPickItem = await input.showQuickPick({
@@ -62,7 +62,7 @@ export async function quickPickCreateConversation(
       items: models,
       activeItem: state.personaQuickPickItem,
       shouldResume: shouldResume,
-    })
+    });
   }
 
   function getAvailablePersonas(): QuickPickItem[] {
@@ -162,32 +162,32 @@ export async function quickPickCreateConversation(
         ),
         detail: VSCODE_OPENAI_QP_PERSONA.ENTERPRISE_ARCHITECT_DESC,
       },
-    ]
-    return quickPickItemTypes
+    ];
+    return quickPickItemTypes;
   }
 
   function shouldResume() {
     // Could show a notification with the option to resume.
     return new Promise<boolean>((_resolve, _reject) => {
       /* noop */
-    })
+    });
   }
 
-  const state = await collectInputs()
+  const state = await collectInputs();
   if (
     state.personaQuickPickItem.label === VSCODE_OPENAI_QP_PERSONA.CONFIGURATION
   ) {
     commands.executeCommand(
       'workbench.action.openSettings',
       'vscode-openai.prompts.persona.'
-    )
+    );
   } else {
     const persona = getSystemPersonas().find(
       (a) => a.roleName === state.personaQuickPickItem.label
-    )!
+    )!;
     const conversation: IConversation =
-      await ConversationStorageService.instance.create(persona)
-    ConversationStorageService.instance.update(conversation)
-    ConversationStorageService.instance.show(conversation.conversationId)
+      await ConversationStorageService.instance.create(persona);
+    ConversationStorageService.instance.update(conversation);
+    ConversationStorageService.instance.show(conversation.conversationId);
   }
 }

@@ -1,37 +1,37 @@
-import { window } from 'vscode'
-import { IChatCompletion, IConversation } from '@app/interfaces'
+import { window } from 'vscode';
+import { IChatCompletion, IConversation } from '@app/interfaces';
 import {
   ConversationConfig as convCfg,
   ConversationStorageService,
-} from '@app/services'
-import { createChatCompletionMessage } from '@app/apis/openai'
+} from '@app/services';
+import { createChatCompletionMessage } from '@app/apis/openai';
 import {
   ChatCompletionConfig,
   ChatCompletionModelType,
-} from '@app/services/configuration'
+} from '@app/services/configuration';
 
 export const onDidSaveMessages = async (
   conversation: IConversation,
   chatMessages: IChatCompletion[]
 ): Promise<void> => {
   try {
-    if (!conversation) return
+    if (!conversation) {return;}
 
-    const cfg = ChatCompletionConfig.create(ChatCompletionModelType.INFERENCE)
+    const cfg = ChatCompletionConfig.create(ChatCompletionModelType.INFERENCE);
 
-    const SUMMARY_THRESHOLD = convCfg.summaryThreshold
-    const SUMMARY_MAX_LENGTH = convCfg.summaryMaxLength
+    const SUMMARY_THRESHOLD = convCfg.summaryThreshold;
+    const SUMMARY_MAX_LENGTH = convCfg.summaryMaxLength;
 
-    conversation.chatMessages = chatMessages
-    ConversationStorageService.instance.update(conversation)
+    conversation.chatMessages = chatMessages;
+    ConversationStorageService.instance.update(conversation);
 
     //Add summary to conversation
-    if (conversation.chatMessages.length % SUMMARY_THRESHOLD == 0) {
+    if (conversation.chatMessages.length % SUMMARY_THRESHOLD === 0) {
       //Deep clone for summary
       const tempConversation = JSON.parse(
         JSON.stringify(conversation)
-      ) as IConversation
-      tempConversation.embeddingId = undefined // ignore embedding for summary
+      ) as IConversation;
+      tempConversation.embeddingId = undefined; // ignore embedding for summary
       const chatCompletion: IChatCompletion = {
         content: `Please summarise the content above. The summary must be less than ${SUMMARY_MAX_LENGTH} words. Only provide the facts within the content.`,
         author: 'summary',
@@ -40,19 +40,19 @@ export const onDidSaveMessages = async (
         completionTokens: 0,
         promptTokens: 0,
         totalTokens: 0,
-      }
-      tempConversation.chatMessages.push(chatCompletion)
+      };
+      tempConversation.chatMessages.push(chatCompletion);
 
       function messageCallback(_type: string, data: IChatCompletion): void {
-        if (!conversation) return
+        if (!conversation) {return;}
 
         conversation.summary = data.content
           .replace(/<\s*think\s*>(.*?)<\/think>/gs, '')
-          .trim()
+          .trim();
       }
-      createChatCompletionMessage(tempConversation, cfg, messageCallback)
+      createChatCompletionMessage(tempConversation, cfg, messageCallback);
     }
   } catch (error) {
-    window.showErrorMessage(error as string)
+    window.showErrorMessage(error as string);
   }
-}
+};

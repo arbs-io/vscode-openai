@@ -1,13 +1,13 @@
-import { QuickPickItem } from 'vscode'
-import { MultiStepInput } from '@app/apis/vscode'
-import { IQuickPickSetup } from '../../interface'
-import { shouldResume } from '../shouldResume'
+import { QuickPickItem } from 'vscode';
+import { MultiStepInput } from '@app/apis/vscode';
+import { IQuickPickSetup } from '../../interface';
+import { shouldResume } from '../shouldResume';
 
 export async function showQuickPickAzureAuthentication(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
-  state.step = (state.step ?? 0) + 1
+  state.step = (state.step ?? 0) + 1;
   const getAvailableRuntimes: QuickPickItem[] = [
     {
       label: '$(key)  Enter your Api-Key',
@@ -17,7 +17,7 @@ export async function showQuickPickAzureAuthentication(
       label: '$(azure)  Microsoft',
       description: 'Use microsoft profile to sign into to azure openai service',
     },
-  ]
+  ];
 
   state.authenticationType = await input.showQuickPick({
     title: state.title!,
@@ -28,5 +28,5 @@ export async function showQuickPickAzureAuthentication(
     items: getAvailableRuntimes,
     activeItem: state.authenticationType,
     shouldResume: shouldResume,
-  })
+  });
 }

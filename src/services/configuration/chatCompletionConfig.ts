@@ -1,5 +1,5 @@
-import { IConfigurationOpenAI } from '@app/interfaces'
-import { SettingConfig as settingCfg } from '.'
+import { IConfigurationOpenAI } from '@app/interfaces';
+import { SettingConfig as settingCfg } from '.';
 
 export enum ChatCompletionModelType {
   INFERENCE,
@@ -19,7 +19,7 @@ export default class ChatCompletionConfig {
       azureApiVersion: settingCfg.azureApiVersion,
       apiKey: settingCfg.getApiKey(),
       requestConfig: settingCfg.getRequestConfig(),
-    })
+    });
 
     switch (type) {
       case ChatCompletionModelType.INFERENCE:
@@ -27,16 +27,16 @@ export default class ChatCompletionConfig {
           ...getCommonConfig(),
           baseURL: settingCfg.inferenceUrl,
           model: settingCfg.defaultModel,
-        }
+        };
       case ChatCompletionModelType.SCM:
         return {
           ...getCommonConfig(),
           baseURL: settingCfg.scmUrl,
           model: settingCfg.scmModel,
-        }
+        };
       default:
         // Providing a more descriptive error message.
-        throw new Error(`Unsupported configuration type: ${type}`)
+        throw new Error(`Unsupported configuration type: ${type}`);
     }
   }
 }

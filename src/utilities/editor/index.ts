@@ -1,2 +1,2 @@
-export { getEditorPrompt } from './getEditorPrompt'
-export { compareResultsToClipboard } from './compareResultsToClipboard'
+export { getEditorPrompt } from './getEditorPrompt';
+export { compareResultsToClipboard } from './compareResultsToClipboard';

@@ -9,34 +9,34 @@ import {
   ColorTheme,
   EventEmitter,
   Event,
-} from 'vscode'
-import { getUri, getNonce } from '@app/apis/vscode'
-import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces'
+} from 'vscode';
+import { getUri, getNonce } from '@app/apis/vscode';
+import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces';
 import {
   createChatCompletionMessage,
   createChatCompletionStream,
-} from '@app/apis/openai'
+} from '@app/apis/openai';
 import {
   onDidCopyClipboardCode,
   onDidCreateDocument,
   onDidSaveMessages,
-} from './onDidFunctions'
+} from './onDidFunctions';
 import {
   ChatCompletionConfig,
   ConversationColorConfig as convColorCfg,
   ConversationConfig as convCfg,
   ChatCompletionModelType,
-} from '@app/services/configuration'
+} from '@app/services/configuration';
 
 export class MessageViewerPanel {
-  private static _currentPanel: MessageViewerPanel | undefined
-  private readonly _panel: WebviewPanel
-  private _conversation: IConversation | undefined
-  private _disposables: Disposable[] = []
-  private readonly _extensionUri: Uri
+  private static _currentPanel: MessageViewerPanel | undefined;
+  private readonly _panel: WebviewPanel;
+  private _conversation: IConversation | undefined;
+  private _disposables: Disposable[] = [];
+  private readonly _extensionUri: Uri;
 
-  private _emitter = new EventEmitter<IConversation>()
-  readonly onDidChangeConversation: Event<IConversation> = this._emitter.event
+  private _emitter = new EventEmitter<IConversation>();
+  readonly onDidChangeConversation: Event<IConversation> = this._emitter.event;
 
   /**
    * The MessageViewerPanel class private constructor (called only from the render method).
@@ -45,22 +45,22 @@ export class MessageViewerPanel {
    * @param extensionUri The URI of the directory containing the extension
    */
   private constructor(panel: WebviewPanel, extensionUri: Uri) {
-    this._panel = panel
-    this._extensionUri = extensionUri
+    this._panel = panel;
+    this._extensionUri = extensionUri;
 
-    this._setPanelIcon()
+    this._setPanelIcon();
 
     // Set an event listener to listen for when the panel is disposed (i.e. when the user closes
     // the panel or when the panel is closed programmatically)
-    this._panel.onDidDispose(() => this.dispose(), null, this._disposables)
+    this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
     // Set an event listener to listen for messages passed from the webview context
-    this._setWebviewMessageListener(this._panel.webview)
+    this._setWebviewMessageListener(this._panel.webview);
 
     //Check if vscode theme has changed
     window.onDidChangeActiveColorTheme((_theme: ColorTheme) => {
-      this._render()
-    })
+      this._render();
+    });
   }
 
   /**
@@ -71,7 +71,7 @@ export class MessageViewerPanel {
    */
   public static render(extensionUri: Uri, conversation: IConversation) {
     if (MessageViewerPanel._currentPanel) {
-      MessageViewerPanel._currentPanel._panel.dispose()
+      MessageViewerPanel._currentPanel._panel.dispose();
     }
     // If a webview panel does not already exist create and show a new one
     const panel = window.createWebviewPanel(
@@ -84,48 +84,48 @@ export class MessageViewerPanel {
         enableFindWidget: true,
         localResourceRoots: [Uri.joinPath(extensionUri, 'out')],
       }
-    )
+    );
 
     MessageViewerPanel._currentPanel = new MessageViewerPanel(
       panel,
       extensionUri
-    )
+    );
 
-    MessageViewerPanel._currentPanel._conversation = conversation
-    MessageViewerPanel._currentPanel._render()
+    MessageViewerPanel._currentPanel._conversation = conversation;
+    MessageViewerPanel._currentPanel._render();
   }
 
   public static postMessage(command: string, value: string) {
     MessageViewerPanel._currentPanel?._panel.webview.postMessage({
       command: command,
       text: value,
-    })
+    });
   }
 
   private _render() {
-    if (!this._conversation) return
+    if (!this._conversation) {return;}
 
     // Set the HTML content for the webview panel
     this._panel.webview.html = this._getWebviewContent(
       this._panel.webview,
       this._extensionUri
-    )
+    );
   }
 
   /**
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    MessageViewerPanel._currentPanel = undefined
+    MessageViewerPanel._currentPanel = undefined;
 
     // Dispose of the current webview panel
-    this._panel.dispose()
+    this._panel.dispose();
 
     // Dispose of all disposables (i.e. commands) for the current webview panel
     while (this._disposables.length) {
-      const disposable = this._disposables.pop()
+      const disposable = this._disposables.pop();
       if (disposable) {
-        disposable.dispose()
+        disposable.dispose();
       }
     }
   }
@@ -136,20 +136,20 @@ export class MessageViewerPanel {
       [ColorThemeKind.Dark]: true,
       [ColorThemeKind.HighContrast]: true,
       [ColorThemeKind.HighContrastLight]: false,
-    }[window.activeColorTheme.kind]
+    }[window.activeColorTheme.kind];
   }
 
   private _setPanelIcon() {
     const openaiWebviewIcon = this._isThemeDark()
       ? 'openai-webview-dark.png'
-      : 'openai-webview-light.png'
+      : 'openai-webview-light.png';
 
     const iconPathOnDisk = Uri.joinPath(
       this._extensionUri,
       'assets',
       openaiWebviewIcon
-    )
-    this._panel.iconPath = iconPathOnDisk
+    );
+    this._panel.iconPath = iconPathOnDisk;
   }
 
   /**
@@ -169,12 +169,12 @@ export class MessageViewerPanel {
       'webview',
       'message',
       'index.js',
-    ])
+    ]);
 
-    const panelTheme = this._isThemeDark() ? 'dark' : 'light'
+    const panelTheme = this._isThemeDark() ? 'dark' : 'light';
 
-    this._setPanelIcon()
-    const nonce = getNonce()
+    this._setPanelIcon();
+    const nonce = getNonce();
 
     return /*html*/ `
       <!DOCTYPE html>
@@ -193,7 +193,7 @@ export class MessageViewerPanel {
           <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>
-    `
+    `;
   }
 
   /**
@@ -217,57 +217,57 @@ export class MessageViewerPanel {
             MessageViewerPanel._currentPanel?._panel.webview.postMessage({
               command: 'onWillRenderMessages',
               text: JSON.stringify(this._conversation!.chatMessages),
-            })
-            return
+            });
+            return;
           }
 
           case 'onDidSaveMessages': {
-            const chatMessages: IChatCompletion[] = JSON.parse(message.text)
+            const chatMessages: IChatCompletion[] = JSON.parse(message.text);
 
-            if (!this._conversation) return
-            onDidSaveMessages(this._conversation, chatMessages)
+            if (!this._conversation) {return;}
+            onDidSaveMessages(this._conversation, chatMessages);
             // If the last item was from user
             if (chatMessages[chatMessages.length - 1].mine === true) {
-              this._askQuestion()
+              this._askQuestion();
             }
-            return
+            return;
           }
 
           case 'onDidCreateDocument': {
-            const codeDocument: ICodeDocument = JSON.parse(message.text)
-            onDidCreateDocument(codeDocument)
-            return
+            const codeDocument: ICodeDocument = JSON.parse(message.text);
+            onDidCreateDocument(codeDocument);
+            return;
           }
 
           case 'onDidCopyClipboardCode': {
-            const codeDocument: ICodeDocument = JSON.parse(message.text)
-            onDidCopyClipboardCode(codeDocument)
-            return
+            const codeDocument: ICodeDocument = JSON.parse(message.text);
+            onDidCopyClipboardCode(codeDocument);
+            return;
           }
 
           default: {
-            window.showErrorMessage(message.command)
-            return
+            window.showErrorMessage(message.command);
+            return;
           }
         }
       },
       null,
       this._disposables
-    )
+    );
   }
 
   private async _askQuestion(): Promise<void> {
-    if (!this._conversation) return
+    if (!this._conversation) {return;}
 
-    const cfg = ChatCompletionConfig.create(ChatCompletionModelType.INFERENCE)
+    const cfg = ChatCompletionConfig.create(ChatCompletionModelType.INFERENCE);
 
     function messageCallback(type: string, data: IChatCompletion): void {
-      const packagedData = JSON.stringify(data)
-      MessageViewerPanel.postMessage(type, packagedData)
+      const packagedData = JSON.stringify(data);
+      MessageViewerPanel.postMessage(type, packagedData);
     }
 
     function streamCallback(type: string, data: string): void {
-      MessageViewerPanel.postMessage(type, data)
+      MessageViewerPanel.postMessage(type, data);
     }
 
     const isStreamSuccessful = await createChatCompletionStream(
@@ -275,14 +275,14 @@ export class MessageViewerPanel {
       cfg,
       messageCallback,
       streamCallback
-    )
+    );
 
     if (!isStreamSuccessful) {
       await createChatCompletionMessage(
         this._conversation,
         cfg,
         messageCallback
-      )
+      );
     }
   }
 }

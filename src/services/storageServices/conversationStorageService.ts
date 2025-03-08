@@ -1,53 +1,53 @@
-import { v4 as uuidv4 } from 'uuid'
-import { EventEmitter, Event, ExtensionContext } from 'vscode'
-import { GlobalStorageService } from '@app/apis/vscode'
-import { IConversation, IPersonaOpenAI } from '@app/interfaces'
-import { MessageViewerPanel } from '@app/panels'
+import { v4 as uuidv4 } from 'uuid';
+import { EventEmitter, Event, ExtensionContext } from 'vscode';
+import { GlobalStorageService } from '@app/apis/vscode';
+import { IConversation, IPersonaOpenAI } from '@app/interfaces';
+import { MessageViewerPanel } from '@app/panels';
 import {
   createDebugNotification,
   createErrorNotification,
-} from '@app/apis/node'
+} from '@app/apis/node';
 import {
   VSCODE_OPENAI_CONVERSATION,
   VSCODE_OPENAI_EMBEDDING,
-} from '@app/constants'
-import { EmbeddingStorageService } from '..'
+} from '@app/constants';
+import { EmbeddingStorageService } from '..';
 
 export default class ConversationStorageService {
-  private static _emitterDidChange = new EventEmitter<void>()
+  private static _emitterDidChange = new EventEmitter<void>();
   static readonly onDidChangeConversationStorage: Event<void> =
-    ConversationStorageService._emitterDidChange.event
-  private static _instance: ConversationStorageService
-  private static readonly storagePrefix = `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`
+    ConversationStorageService._emitterDidChange.event;
+  private static _instance: ConversationStorageService;
+  private static readonly storagePrefix = `${VSCODE_OPENAI_CONVERSATION.STORAGE_V1_ID}-`;
 
   constructor(private _context: ExtensionContext) {}
 
   static init(context: ExtensionContext): void {
     try {
-      ConversationStorageService.houseKeeping()
+      ConversationStorageService.houseKeeping();
       ConversationStorageService._instance = new ConversationStorageService(
         context
-      )
+      );
     } catch (error) {
-      createErrorNotification(error)
+      createErrorNotification(error);
     }
   }
 
   private static houseKeeping() {
-    const keys = GlobalStorageService.instance.keys()
+    const keys = GlobalStorageService.instance.keys();
     keys.forEach((key) => {
       if (key === ConversationStorageService.storagePrefix + 'undefined') {
-        GlobalStorageService.instance.deleteKey(key)
+        GlobalStorageService.instance.deleteKey(key);
       }
-    })
+    });
   }
 
   static get instance(): ConversationStorageService {
-    return ConversationStorageService._instance
+    return ConversationStorageService._instance;
   }
 
   public refresh() {
-    ConversationStorageService._emitterDidChange.fire()
+    ConversationStorageService._emitterDidChange.fire();
   }
 
   public getAll(): Array<IConversation> {
@@ -59,16 +59,16 @@ export default class ConversationStorageService {
         (conversation): conversation is IConversation =>
           conversation !== undefined
       )
-      .sort((n1, n2) => n2.timestamp - n1.timestamp)
+      .sort((n1, n2) => n2.timestamp - n1.timestamp);
   }
 
   public show(conversationId: string) {
     const conversationKey =
-      ConversationStorageService.storagePrefix + conversationId
+      ConversationStorageService.storagePrefix + conversationId;
     const conversation =
-      GlobalStorageService.instance.getValue<IConversation>(conversationKey)
+      GlobalStorageService.instance.getValue<IConversation>(conversationKey);
     if (conversation)
-      MessageViewerPanel.render(this._context.extensionUri, conversation)
+      {MessageViewerPanel.render(this._context.extensionUri, conversation);}
   }
 
   public deleteAll() {
@@ -76,43 +76,43 @@ export default class ConversationStorageService {
       .keys()
       .filter((key) => key.startsWith(ConversationStorageService.storagePrefix))
       .forEach((key) => {
-        GlobalStorageService.instance.deleteKey(key)
+        GlobalStorageService.instance.deleteKey(key);
         createDebugNotification(
           `Deleting conversation: ${key.substring(
             ConversationStorageService.storagePrefix.length
           )}`
-        )
-      })
-    ConversationStorageService._emitterDidChange.fire()
+        );
+      });
+    ConversationStorageService._emitterDidChange.fire();
   }
 
   public delete(conversationId: string) {
     const conversationKey =
-      ConversationStorageService.storagePrefix + conversationId
-    GlobalStorageService.instance.deleteKey(conversationKey)
-    ConversationStorageService._emitterDidChange.fire()
+      ConversationStorageService.storagePrefix + conversationId;
+    GlobalStorageService.instance.deleteKey(conversationKey);
+    ConversationStorageService._emitterDidChange.fire();
   }
 
   public update(conversation: IConversation) {
     const conversationKey =
-      ConversationStorageService.storagePrefix + conversation.conversationId
-    GlobalStorageService.instance.deleteKey(conversationKey)
+      ConversationStorageService.storagePrefix + conversation.conversationId;
+    GlobalStorageService.instance.deleteKey(conversationKey);
     GlobalStorageService.instance.setValue<IConversation>(
       conversationKey,
       conversation
-    )
-    ConversationStorageService._emitterDidChange.fire()
+    );
+    ConversationStorageService._emitterDidChange.fire();
   }
 
   public async create(
     persona: IPersonaOpenAI,
     embeddingId?: string
   ): Promise<IConversation> {
-    const uuid4 = uuidv4()
+    const uuid4 = uuidv4();
 
     const summary = embeddingId
       ? `Query ${(await this.getEmbeddingSummary(embeddingId)).toUpperCase()}`
-      : '<New Conversation>'
+      : '<New Conversation>';
 
     const chatCompletion = embeddingId
       ? [
@@ -126,7 +126,7 @@ export default class ConversationStorageService {
             totalTokens: 0,
           },
         ]
-      : []
+      : [];
 
     return {
       timestamp: new Date().getTime(),
@@ -135,36 +135,36 @@ export default class ConversationStorageService {
       embeddingId: embeddingId,
       summary: summary,
       chatMessages: chatCompletion,
-    }
+    };
   }
 
   private async getEmbeddingWelcomeMessage(
     embeddingId: string
   ): Promise<string> {
     let content =
-      'Welcome to resource query. This conversation will be scoped to the following resources'
+      'Welcome to resource query. This conversation will be scoped to the following resources';
 
     // If we use the "special key" we're using all resources
     if (embeddingId === VSCODE_OPENAI_EMBEDDING.RESOURCE_QUERY_ALL) {
       const allEmbeddings = (
         await EmbeddingStorageService.instance.getAll()
       ).map((embedding) => {
-        return embedding.name
-      })
-      content = content + `\n- ${allEmbeddings.join('\n- ')}`
+        return embedding.name;
+      });
+      content = content + `\n- ${allEmbeddings.join('\n- ')}`;
     } else {
-      const embedding = await EmbeddingStorageService.instance.get(embeddingId)
-      content = content + `\n- ${embedding?.name}`
+      const embedding = await EmbeddingStorageService.instance.get(embeddingId);
+      content = content + `\n- ${embedding?.name}`;
     }
-    return content
+    return content;
   }
 
   private async getEmbeddingSummary(embeddingId: string): Promise<string> {
     if (embeddingId === VSCODE_OPENAI_EMBEDDING.RESOURCE_QUERY_ALL) {
-      return 'all-resources'
+      return 'all-resources';
     } else {
-      const embedding = await EmbeddingStorageService.instance.get(embeddingId)
-      return embedding?.name ?? ''
+      const embedding = await EmbeddingStorageService.instance.get(embeddingId);
+      return embedding?.name ?? '';
     }
   }
 }

@@ -38,6 +38,7 @@
     "deploy": "vsce publish",
     "clean": "node ./utilities/scripts/clean.js",
     "lint": "eslint src --ext ts",
+    "lint-fix": "eslint src --ext ts --fix",
     "dev-init": "npm run clean && npm install && npm run build"
   },
   "devDependencies": {

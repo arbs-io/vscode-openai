@@ -1,20 +1,20 @@
-import { workspace } from 'vscode'
+import { workspace } from 'vscode';
 import {
   getActiveTextEditorValue,
   getActiveTextLanguageId,
-} from '@app/apis/vscode'
+} from '@app/apis/vscode';
 
 export const getEditorPrompt = async (
   configPrompt: string
 ): Promise<string | undefined> => {
-  const language = getActiveTextLanguageId()
-  const inputCode = getActiveTextEditorValue()
+  const language = getActiveTextLanguageId();
+  const inputCode = getActiveTextEditorValue();
 
   let prompt = workspace
     .getConfiguration('vscode-openai')
-    .get(configPrompt) as string
+    .get(configPrompt) as string;
 
-  prompt = prompt.split('#{language}').join(language)
-  prompt = prompt.split('#{source_code}').join(inputCode)
-  return prompt
-}
+  prompt = prompt.split('#{language}').join(language);
+  prompt = prompt.split('#{source_code}').join(inputCode);
+  return prompt;
+};

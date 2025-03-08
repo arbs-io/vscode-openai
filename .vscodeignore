@@ -10,7 +10,6 @@ out/test/**
 out/**/*.map
 src/**
 .gitignore
-.yarnrc
 tsconfig.json
 vsc-extension-quickstart.md
 vscode-openai-version.json

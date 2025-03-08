@@ -1,6 +1,6 @@
-import { MultiStepInput } from '@app/apis/vscode';
 import { ModelCapability } from '@app/apis/openai';
-import { getAvailableModelsOpenai } from '../../getAvailableModels';
+import { MultiStepInput } from '@app/apis/vscode';
+import { getAvailableModelsOpenai } from '@app/utilities/quickPicks';
 import { IQuickPickSetup } from '../../interface';
 import { shouldResume } from '../shouldResume';
 

@@ -1,6 +1,6 @@
 import { ModelCapability } from '@app/apis/openai';
 import { MultiStepInput } from '@app/apis/vscode';
-import { getAvailableModelsAzure } from '../../getAvailableModels';
+import { getAvailableModelsAzure } from '@app/utilities/quickPicks';
 import { IQuickPickSetup } from '../../interface';
 import { shouldResume } from '../shouldResume';
 

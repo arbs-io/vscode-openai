@@ -5,14 +5,14 @@
  * 		Store and activate configuration
  */
 
-import { QuickPickItem, ExtensionContext } from 'vscode';
+import { ModelCapability } from '@app/apis/openai';
 import { MultiStepInput } from '@app/apis/vscode';
 import { SettingConfig as settingCfg } from '@app/services';
-import { ModelCapability } from '@app/apis/openai';
 import {
   getAvailableModelsAzure,
   getAvailableModelsOpenai,
-} from './getAvailableModels';
+} from '@app/utilities/quickPicks';
+import { ExtensionContext, QuickPickItem } from 'vscode';
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -23,12 +23,12 @@ export async function quickPickChangeModel(
   _context: ExtensionContext
 ): Promise<void> {
   interface State {
-    title: string
-    step: number
-    totalSteps: number
-    quickPickInferenceModel: QuickPickItem
-    quickPickScmModel: QuickPickItem
-    quickPickEmbeddingModel: QuickPickItem
+    title: string;
+    step: number;
+    totalSteps: number;
+    quickPickInferenceModel: QuickPickItem;
+    quickPickScmModel: QuickPickItem;
+    quickPickEmbeddingModel: QuickPickItem;
   }
 
   async function collectInputs(): Promise<State> {

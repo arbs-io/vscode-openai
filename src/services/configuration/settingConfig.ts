@@ -42,6 +42,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     scmDeployment,
     embeddingsDeployment,
     azureApiVersion,
+    azureEnvironment,
   }: {
     serviceProvider: string
     baseUrl: string
@@ -52,6 +53,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     scmDeployment: string
     embeddingsDeployment: string
     azureApiVersion: string
+    azureEnvironment: string
   }) {
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'vscode-openai',
@@ -67,6 +69,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
       this.instance.embeddingModel = embeddingModel
       this.instance.embeddingsDeployment = embeddingsDeployment
       this.instance.azureApiVersion = azureApiVersion
+      this.instance.azureEnvironment = azureEnvironment
       //Force wait as we need the config to be written
       await waitFor(500, () => false)
       StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -141,6 +144,13 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
   public set azureApiVersion(value: string | undefined) {
     this.setConfigValue<string | undefined>('azureApiVersion', value)
   }
+  
+  public get azureEnvironment(): string {
+    return this.getConfigValue<string>('azureEnvironment')
+  }
+  public set azureEnvironment(value: string | undefined) {
+    this.setConfigValue<string | undefined>('azureEnvironment', value)
+  }
 
   // host is used for vscode status bar display only
   public get vscodeVersion(): string {
@@ -200,6 +210,16 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     return headers
   }
 
+  public get azureEndpoint(): string {
+    switch(this.azureEnvironment){
+      case 'microsoft-sovereign-cloud':
+        return 'https://cognitiveservices.azure.us/.default'
+      case 'microsoft': // default to microsoft but more environments can be added
+      default:
+        return 'https://cognitiveservices.azure.com/.default'
+    }
+  }
+
   public async getRequestConfig(): Promise<any> {
     const headers = this.apiHeaders
 
@@ -251,6 +271,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     this.embeddingModel = undefined
     this.embeddingsDeployment = undefined
     this.azureApiVersion = undefined
+    this.azureEnvironment = undefined
   }
 
   public log(): void {

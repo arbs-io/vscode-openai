@@ -44,9 +44,9 @@ export async function createChatCompletionMessage(
     };
 
     if (convCfg.presencePenalty !== 0)
-      {cfg.presence_penalty = convCfg.presencePenalty;}
+    {cfg.presence_penalty = convCfg.presencePenalty;}
     if (convCfg.frequencyPenalty !== 0)
-      {cfg.frequency_penalty = convCfg.frequencyPenalty;}
+    {cfg.frequency_penalty = convCfg.frequencyPenalty;}
     if (convCfg.temperature !== 0.2) {cfg.temperature = convCfg.temperature;}
     if (convCfg.topP !== 1) {cfg.top_p = convCfg.topP;}
     if (convCfg.maxTokens !== undefined) {cfg.max_tokens = convCfg.maxTokens;}

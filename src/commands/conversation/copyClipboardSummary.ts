@@ -4,7 +4,7 @@ import { showMessageWithTimeout } from '@app/apis/vscode';
 import { IConversation } from '@app/interfaces';
 
 export default class ClipboardCopyConversationSummaryCommand
-  implements ICommand
+implements ICommand
 {
   public readonly id = '_vscode-openai.conversation.clipboard-copy.summary';
 

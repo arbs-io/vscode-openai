@@ -4,4 +4,4 @@ export const VSCODE_OPENAI_EMBEDDING = {
   RESOURCE_QUERY_ALL: '057c0000-0000-0000-0000-000000000000',
   STORAGE_V1_ID: 'embedding.v1',
   STORAGE_V2_ID: 'embedding.v2',
-}
+};

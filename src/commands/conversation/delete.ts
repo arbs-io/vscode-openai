@@ -1,10 +1,10 @@
-import { window } from 'vscode'
-import { ICommand } from '@app/commands'
-import { IConversation } from '@app/interfaces'
-import { ConversationStorageService } from '@app/services'
+import { window } from 'vscode';
+import { ICommand } from '@app/commands';
+import { IConversation } from '@app/interfaces';
+import { ConversationStorageService } from '@app/services';
 
 export default class DeleteConversationCommand implements ICommand {
-  public readonly id = '_vscode-openai.conversation.delete'
+  public readonly id = '_vscode-openai.conversation.delete';
 
   public execute(args: { data: IConversation }) {
     window
@@ -15,8 +15,8 @@ export default class DeleteConversationCommand implements ICommand {
       )
       .then((answer) => {
         if (answer === 'Yes') {
-          ConversationStorageService.instance.delete(args.data.conversationId)
+          ConversationStorageService.instance.delete(args.data.conversationId);
         }
-      })
+      });
   }
 }

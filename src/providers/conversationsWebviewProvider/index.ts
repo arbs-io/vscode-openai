@@ -1,1 +1,1 @@
-export { conversationsWebviewViewProvider } from './conversationsWebviewViewProvider'
+export { conversationsWebviewViewProvider } from './conversationsWebviewViewProvider';

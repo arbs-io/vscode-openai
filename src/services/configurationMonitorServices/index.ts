@@ -1,12 +1,12 @@
-import { ExtensionContext, workspace } from 'vscode'
-import { createErrorNotification } from '@app/apis/node'
-import { ManagedApiKey } from './managedApiKey'
+import { ExtensionContext, workspace } from 'vscode';
+import { createErrorNotification } from '@app/apis/node';
+import { ManagedApiKey } from './managedApiKey';
 
 export function registerConfigurationMonitorService(
   _context: ExtensionContext
 ): void {
   try {
-    const managedApiKeyInstance = ManagedApiKey.getInstance()
+    const managedApiKeyInstance = ManagedApiKey.getInstance();
     const eventAffectsConfigurations = [
       'vscode-openai.serviceProvider',
       'vscode-openai.authentication',
@@ -15,7 +15,7 @@ export function registerConfigurationMonitorService(
       'vscode-openai.scmModel',
       'vscode-openai.azureDeployment',
       'vscode-openai.azureApiVersion',
-    ]
+    ];
 
     workspace.onDidChangeConfiguration(async (event) => {
       try {
@@ -24,13 +24,13 @@ export function registerConfigurationMonitorService(
             event.affectsConfiguration(config)
           )
         ) {
-          await managedApiKeyInstance.verify()
+          await managedApiKeyInstance.verify();
         }
       } catch (error) {
-        createErrorNotification(error)
+        createErrorNotification(error);
       }
-    })
+    });
   } catch (error) {
-    createErrorNotification(error)
+    createErrorNotification(error);
   }
 }

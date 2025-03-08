@@ -1,6 +1,6 @@
-import { commands } from 'vscode'
+import { commands } from 'vscode';
 
-const featureMap = new Map<string, boolean>([])
+const featureMap = new Map<string, boolean>([]);
 /**
  * Sets a feature flag in the Visual Studio Code context.
  *
@@ -9,11 +9,11 @@ const featureMap = new Map<string, boolean>([])
  *                 flag (true for enabled, false for disabled).
  */
 export const setFeatureFlag = (context: string, status: boolean): void => {
-  featureMap.set(context, status)
-  commands.executeCommand('setContext', context, status)
-}
+  featureMap.set(context, status);
+  commands.executeCommand('setContext', context, status);
+};
 
 export const getFeatureFlag = (context: string): boolean => {
-  const featureEnabled = featureMap.get(context)
-  return featureEnabled ?? false
-}
+  const featureEnabled = featureMap.get(context);
+  return featureEnabled ?? false;
+};

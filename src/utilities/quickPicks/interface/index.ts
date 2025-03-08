@@ -1,1 +1,1 @@
-export { IQuickPickSetup } from './IQuickPickSetup'
+export { IQuickPickSetup } from './IQuickPickSetup';

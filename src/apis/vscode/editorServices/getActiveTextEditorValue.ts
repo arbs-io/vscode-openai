@@ -1,21 +1,21 @@
-import { Range, window } from 'vscode'
+import { Range, window } from 'vscode';
 
 export function getActiveTextEditorValue(): string {
-  const editor = window.activeTextEditor
-  let value = ''
+  const editor = window.activeTextEditor;
+  let value = '';
   if (editor) {
-    const selection = editor.selection
+    const selection = editor.selection;
     if (selection && !selection.isEmpty) {
       const selectionRange = new Range(
         selection.start.line,
         selection.start.character,
         selection.end.line,
         selection.end.character
-      )
-      value = editor.document.getText(selectionRange)
+      );
+      value = editor.document.getText(selectionRange);
     } else {
-      value = editor.document.getText()
+      value = editor.document.getText();
     }
   }
-  return value
+  return value;
 }

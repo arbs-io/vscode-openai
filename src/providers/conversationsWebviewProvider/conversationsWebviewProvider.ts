@@ -9,31 +9,31 @@ import {
   WebviewViewResolveContext,
   CancellationToken,
   ColorTheme,
-} from 'vscode'
-import { IConversation } from '@app/interfaces'
-import { getNonce, getUri } from '@app/apis/vscode'
-import { ConversationStorageService } from '@app/services'
-import { onDidInitialize, onDidOpenConversationWebview } from './onDidFunctions'
+} from 'vscode';
+import { IConversation } from '@app/interfaces';
+import { getNonce, getUri } from '@app/apis/vscode';
+import { ConversationStorageService } from '@app/services';
+import { onDidInitialize, onDidOpenConversationWebview } from './onDidFunctions';
 
 export class ConversationsWebviewProvider implements WebviewViewProvider {
-  _view?: WebviewView
-  _doc?: TextDocument
+  _view?: WebviewView;
+  _doc?: TextDocument;
 
   constructor(private readonly _extensionUri: Uri) {
     window.onDidChangeActiveColorTheme((_theme: ColorTheme) => {
-      this._refreshWebview()
-    })
+      this._refreshWebview();
+    });
 
     ConversationStorageService.onDidChangeConversationStorage((_e) => {
       if (this._view?.visible) {
         // onDidInitialize(this._view)
-        const conversations = ConversationStorageService.instance.getAll()
+        const conversations = ConversationStorageService.instance.getAll();
         this._view?.webview.postMessage({
           command: 'onWillConversationsLoad',
           text: JSON.stringify(conversations),
-        })
+        });
       }
-    }, null)
+    }, null);
   }
 
   public resolveWebviewView(
@@ -41,24 +41,24 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
     _context: WebviewViewResolveContext,
     _token: CancellationToken
   ) {
-    this._view = webviewView
+    this._view = webviewView;
 
     webviewView.webview.options = {
       enableScripts: true,
       localResourceRoots: [this._extensionUri],
-    }
+    };
 
-    this._refreshWebview()
+    this._refreshWebview();
   }
 
   private _refreshWebview() {
-    if (!this._view) return
+    if (!this._view) {return;}
     this._view.webview.html = this._getHtmlForWebview(
       this._view.webview,
       this._extensionUri
-    )
+    );
 
-    this._onDidMessageListener(this._view.webview, this._extensionUri)
+    this._onDidMessageListener(this._view.webview, this._extensionUri);
   }
 
   private _getHtmlForWebview(webview: Webview, extensionUri: Uri) {
@@ -67,16 +67,16 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
       'webview',
       'conversations',
       'index.js',
-    ])
+    ]);
 
     const panelTheme = {
       [ColorThemeKind.Light]: 'light',
       [ColorThemeKind.Dark]: 'dark',
       [ColorThemeKind.HighContrast]: 'dark',
       [ColorThemeKind.HighContrastLight]: 'light',
-    }[window.activeColorTheme.kind]
+    }[window.activeColorTheme.kind];
 
-    const nonce = getNonce()
+    const nonce = getNonce();
 
     return /*html*/ `
         <!DOCTYPE html>
@@ -95,7 +95,7 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
             <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
           </body>
         </html>
-      `
+      `;
   }
 
   /**
@@ -113,21 +113,21 @@ export class ConversationsWebviewProvider implements WebviewViewProvider {
     webview.onDidReceiveMessage((message) => {
       switch (message.command) {
         case 'onDidInitialize': {
-          if (this._view) onDidInitialize(this._view)
-          return
+          if (this._view) {onDidInitialize(this._view);}
+          return;
         }
 
         case 'onDidOpenConversationWebview': {
-          const conversation: IConversation = JSON.parse(message.text)
-          onDidOpenConversationWebview(conversation)
-          return
+          const conversation: IConversation = JSON.parse(message.text);
+          onDidOpenConversationWebview(conversation);
+          return;
         }
 
         default: {
-          window.showErrorMessage(message.command)
-          return
+          window.showErrorMessage(message.command);
+          return;
         }
       }
-    }, null)
+    }, null);
   }
 }

@@ -4,24 +4,24 @@ import {
   QuickPickItemKind,
   ThemeIcon,
   window,
-} from 'vscode'
+} from 'vscode';
 import {
   quickPickChangeModel,
   quickPickSetupAzureOpenai,
   quickPickSetupOpenai,
   quickPickSetupVscodeOpenai,
   quickPickSetupCustomOpenai,
-} from '@app/utilities/quickPicks'
-import { VSCODE_OPENAI_EXTENSION, VSCODE_OPENAI_QP_SETUP } from '@app/constants'
-import { getFeatureFlag } from '@app/apis/vscode'
-import { SettingConfig as settingCfg } from '@app/services'
+} from '@app/utilities/quickPicks';
+import { VSCODE_OPENAI_EXTENSION, VSCODE_OPENAI_QP_SETUP } from '@app/constants';
+import { getFeatureFlag } from '@app/apis/vscode';
+import { SettingConfig as settingCfg } from '@app/services';
 
 export class ConfigurationQuickPickProvider {
-  private static instance: ConfigurationQuickPickProvider
-  private context: ExtensionContext
+  private static instance: ConfigurationQuickPickProvider;
+  private context: ExtensionContext;
 
   constructor(context: ExtensionContext) {
-    this.context = context
+    this.context = context;
   }
 
   public static getInstance(
@@ -29,35 +29,35 @@ export class ConfigurationQuickPickProvider {
   ): ConfigurationQuickPickProvider {
     if (!ConfigurationQuickPickProvider.instance) {
       ConfigurationQuickPickProvider.instance =
-        new ConfigurationQuickPickProvider(context)
+        new ConfigurationQuickPickProvider(context);
     }
-    return ConfigurationQuickPickProvider.instance
+    return ConfigurationQuickPickProvider.instance;
   }
 
   public async execute(): Promise<void> {
-    const quickPickItems = BuildQuickPickItems()
-    const selectedProvider = await this.showQuickPick(quickPickItems)
+    const quickPickItems = BuildQuickPickItems();
+    const selectedProvider = await this.showQuickPick(quickPickItems);
 
     switch (selectedProvider.label) {
       case VSCODE_OPENAI_QP_SETUP.PROVIDER_VSCODE:
-        quickPickSetupVscodeOpenai(this.context)
-        break
+        quickPickSetupVscodeOpenai(this.context);
+        break;
 
       case VSCODE_OPENAI_QP_SETUP.PROVIDER_OPENAI:
-        quickPickSetupOpenai(this.context)
-        break
+        quickPickSetupOpenai(this.context);
+        break;
 
       case VSCODE_OPENAI_QP_SETUP.PROVIDER_AZURE:
-        await quickPickSetupAzureOpenai(this.context)
-        break
+        await quickPickSetupAzureOpenai(this.context);
+        break;
 
       case VSCODE_OPENAI_QP_SETUP.PROVIDER_CUSTOM:
-        await quickPickSetupCustomOpenai(this.context)
-        break
+        await quickPickSetupCustomOpenai(this.context);
+        break;
 
       case VSCODE_OPENAI_QP_SETUP.MODEL_CHANGE:
-        await quickPickChangeModel(this.context)
-        break
+        await quickPickChangeModel(this.context);
+        break;
 
       case VSCODE_OPENAI_QP_SETUP.CONFIGURATION_RESET: {
         await window
@@ -68,51 +68,51 @@ export class ConfigurationQuickPickProvider {
           )
           .then((answer) => {
             if (answer === 'Yes') {
-              settingCfg.ResetConfigValue()
+              settingCfg.ResetConfigValue();
             }
-          })
-        break
+          });
+        break;
       }
 
       default:
-        break
+        break;
     }
   }
 
   private async showQuickPick(items: QuickPickItem[]): Promise<QuickPickItem> {
     return new Promise((resolve) => {
-      const quickPick = window.createQuickPick()
-      quickPick.items = items
+      const quickPick = window.createQuickPick();
+      quickPick.items = items;
       quickPick.onDidChangeSelection((selection) => {
         if (selection[0]) {
-          resolve(selection[0])
-          quickPick.dispose()
+          resolve(selection[0]);
+          quickPick.dispose();
         }
-      })
-      quickPick.onDidHide(() => quickPick.dispose())
-      quickPick.title = 'Register OpenAI Service Provider'
-      quickPick.show()
-    })
+      });
+      quickPick.onDidHide(() => quickPick.dispose());
+      quickPick.title = 'Register OpenAI Service Provider';
+      quickPick.show();
+    });
   }
 }
 
 function BuildQuickPickItems(): QuickPickItem[] {
-  const quickPickServiceProviders = BuildQuickPickServiceProviders()
-  const quickPickModelSelection = BuildQuickPickModelSelection()
-  const quickPickConfiguration = BuildQuickPickConfiguration()
+  const quickPickServiceProviders = BuildQuickPickServiceProviders();
+  const quickPickModelSelection = BuildQuickPickModelSelection();
+  const quickPickConfiguration = BuildQuickPickConfiguration();
 
   return [
     ...quickPickServiceProviders,
     ...quickPickModelSelection,
     ...quickPickConfiguration,
-  ]
+  ];
 }
 
 function BuildQuickPickModelSelection(): QuickPickItem[] {
-  const isValidKey = getFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID)
-  const validSP: string[] = ['OpenAI', 'Azure-OpenAI']
-  const allowed = validSP.includes(settingCfg.serviceProvider)
-  let quickPickItemTypes: QuickPickItem[] = []
+  const isValidKey = getFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID);
+  const validSP: string[] = ['OpenAI', 'Azure-OpenAI'];
+  const allowed = validSP.includes(settingCfg.serviceProvider);
+  let quickPickItemTypes: QuickPickItem[] = [];
   if (isValidKey && allowed) {
     quickPickItemTypes = [
       {
@@ -125,9 +125,9 @@ function BuildQuickPickModelSelection(): QuickPickItem[] {
         description: VSCODE_OPENAI_QP_SETUP.MODEL_CHANGE_DESC,
         alwaysShow: false,
       },
-    ]
+    ];
   }
-  return quickPickItemTypes
+  return quickPickItemTypes;
 }
 
 function BuildQuickPickServiceProviders(): QuickPickItem[] {
@@ -156,8 +156,8 @@ function BuildQuickPickServiceProviders(): QuickPickItem[] {
       iconPath: new ThemeIcon(VSCODE_OPENAI_QP_SETUP.PROVIDER_CUSTOM_ICON),
       description: VSCODE_OPENAI_QP_SETUP.PROVIDER_CUSTOM_DESC,
     },
-  ]
-  return quickPickItemTypes
+  ];
+  return quickPickItemTypes;
 }
 
 function BuildQuickPickConfiguration(): QuickPickItem[] {
@@ -171,6 +171,6 @@ function BuildQuickPickConfiguration(): QuickPickItem[] {
       iconPath: new ThemeIcon(VSCODE_OPENAI_QP_SETUP.CONFIGURATION_RESET_ICON),
       description: VSCODE_OPENAI_QP_SETUP.CONFIGURATION_RESET_DESC,
     },
-  ]
-  return quickPickItemTypes
+  ];
+  return quickPickItemTypes;
 }

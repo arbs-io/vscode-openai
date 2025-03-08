@@ -1,1 +1,1 @@
-export { MessageViewerPanel } from './messageViewerPanel/messageViewerPanel'
+export { MessageViewerPanel } from './messageViewerPanel/messageViewerPanel';

@@ -1,17 +1,18 @@
-import { SettingConfig as settingCfg } from '@app/services'
-import { ClientRequest } from 'http'
-import http = require('https')
-import { Uri } from 'vscode'
+import { SettingConfig as settingCfg } from '@app/services';
+import { ClientRequest } from 'http';
+import * as https from 'https';
+import { Uri } from 'vscode';
 
 /**
- * https request class in typesript to show how to manage errors and events
+ * https request class in TypeScript to show how to manage errors and events
  * to help prevent ECONNRESET errors
  */
 export class HttpRequest {
-  private _requestOptions: http.RequestOptions = {}
+  private _requestOptions: https.RequestOptions = {};
+
   constructor(method: string, apiKey: string, baseUrl: string) {
-    const headers = settingCfg.apiHeaders
-    const uri = Uri.parse(baseUrl)
+    const headers = settingCfg.apiHeaders;
+    const uri = Uri.parse(baseUrl);
     this._requestOptions = {
       hostname: uri.authority,
       method: method,
@@ -24,73 +25,74 @@ export class HttpRequest {
         Authorization: apiKey,
         'Content-Type': 'application/json;odata=verbose',
       },
-    }
+    };
   }
+
   public async send(data?: any): Promise<any> {
-    let result = ''
+    let result = '';
     const promise = new Promise((resolve, reject) => {
-      const req: ClientRequest = http.request(this._requestOptions, (res) => {
+      const req: ClientRequest = https.request(this._requestOptions, (res) => {
         res.on('data', (chunk) => {
-          result += chunk
-        })
+          result += chunk;
+        });
 
         res.on('error', (_err) => {
-          reject(new Error('Network send'))
-        })
+          reject(new Error('Network send'));
+        });
 
         res.on('end', () => {
           try {
-            let body = result
-            //there are empty responses
+            let body = result;
+            // there are empty responses
 
             if (res.statusCode === 200) {
-              body = JSON.parse(result)
+              body = JSON.parse(result);
             }
 
-            resolve(body)
+            resolve(body);
           } catch (err) {
-            reject(new Error('parse failure'))
+            reject(new Error('parse failure'));
           }
-        })
-      })
+        });
+      });
 
       /***
-       * handles the errors on the request
+       * Handles the errors on the request
        */
       req.on('error', (_err) => {
-        reject(new Error('errors on the request'))
-      })
+        reject(new Error('errors on the request'));
+      });
 
       /***
-       * handles the timeout error
+       * Handles the timeout error
        */
       req.on('timeout', (_err: any) => {
-        req.abort()
-      })
+        req.abort();
+      });
 
       /***
-       * unhandle errors on the request
+       * Handles uncaught exceptions on the request
        */
       req.on('uncaughtException', () => {
-        req.abort()
-      })
+        req.abort();
+      });
 
       /**
-       * adds the payload/body
+       * Adds the payload/body
        */
       if (data) {
-        const body = JSON.stringify(data)
-        req.write(body)
+        const body = JSON.stringify(data);
+        req.write(body);
       }
 
       /**
-       * end the request to prevent ECONNRESETand socket hung errors
+       * Ends the request to prevent ECONNRESET and socket hung errors
        */
       req.end(() => {
         // createDebugNotification(`HttpRequest: ${req.method}::${req.host}`)
-      })
-    })
+      });
+    });
 
-    return promise
+    return promise;
   }
 }

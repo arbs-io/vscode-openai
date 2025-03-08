@@ -1,7 +1,7 @@
-import { OpenAI } from 'openai'
-import { ConversationConfig as convCfg } from '@app/services'
-import { IConversation } from '@app/interfaces'
-import { isSystemRoleAllowed } from './isSystemRoleAllowed'
+import { OpenAI } from 'openai';
+import { ConversationConfig as convCfg } from '@app/services';
+import { IConversation } from '@app/interfaces';
+import { isSystemRoleAllowed } from './isSystemRoleAllowed';
 
 export async function ChatCompletionRequestMessageStandard(
   conversation: IConversation
@@ -9,21 +9,21 @@ export async function ChatCompletionRequestMessageStandard(
   // Create a deep copy of the conversation object and assert its type
   const conversationCopy = JSON.parse(
     JSON.stringify(conversation)
-  ) as IConversation
+  ) as IConversation;
 
-  const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = []
+  const chatCompletion: Array<OpenAI.ChatCompletionMessageParam> = [];
 
   if (await isSystemRoleAllowed()) {
-    const content = [`${conversationCopy.persona.prompt.system}`].join('\n')
+    const content = [`${conversationCopy.persona.prompt.system}`].join('\n');
     chatCompletion.push({
       role: 'system',
       content: content,
-    })
+    });
   }
 
-  const conversationHistory = forceToOdd(convCfg.conversationHistory)
+  const conversationHistory = forceToOdd(convCfg.conversationHistory);
 
-  let isUserRole = true
+  let isUserRole = true;
   // Use the copied conversation object
   conversationCopy.chatMessages
     .splice(conversationHistory * -1)
@@ -31,11 +31,11 @@ export async function ChatCompletionRequestMessageStandard(
       chatCompletion.push({
         role: isUserRole ? 'user' : 'assistant',
         content: chatMessage.content,
-      })
-      isUserRole = !isUserRole
-    })
+      });
+      isUserRole = !isUserRole;
+    });
 
-  return chatCompletion
+  return chatCompletion;
 }
 
 // Some model require the first role to be user and the last. Therefore
@@ -43,8 +43,8 @@ export async function ChatCompletionRequestMessageStandard(
 // we always have a system role in the request...
 function forceToOdd(value: number): number {
   if (value % 2 === 0) {
-    return value - 1
+    return value - 1;
   } else {
-    return value
+    return value;
   }
 }

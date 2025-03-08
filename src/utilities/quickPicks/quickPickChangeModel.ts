@@ -5,14 +5,14 @@
  * 		Store and activate configuration
  */
 
-import { QuickPickItem, ExtensionContext } from 'vscode'
-import { MultiStepInput } from '@app/apis/vscode'
-import { SettingConfig as settingCfg } from '@app/services'
-import { ModelCapability } from '@app/apis/openai'
+import { ModelCapability } from '@app/apis/openai';
+import { MultiStepInput } from '@app/apis/vscode';
+import { SettingConfig as settingCfg } from '@app/services';
 import {
   getAvailableModelsAzure,
   getAvailableModelsOpenai,
-} from './getAvailableModels'
+} from '@app/utilities/quickPicks';
+import { ExtensionContext, QuickPickItem } from 'vscode';
 
 /**
  * This function sets up a quick pick menu for configuring the OpenAI service provider.
@@ -23,21 +23,21 @@ export async function quickPickChangeModel(
   _context: ExtensionContext
 ): Promise<void> {
   interface State {
-    title: string
-    step: number
-    totalSteps: number
-    quickPickInferenceModel: QuickPickItem
-    quickPickScmModel: QuickPickItem
-    quickPickEmbeddingModel: QuickPickItem
+    title: string;
+    step: number;
+    totalSteps: number;
+    quickPickInferenceModel: QuickPickItem;
+    quickPickScmModel: QuickPickItem;
+    quickPickEmbeddingModel: QuickPickItem;
   }
 
   async function collectInputs(): Promise<State> {
-    const state = {} as Partial<State>
-    await MultiStepInput.run((input) => selectChatModel(input, state))
-    return state as State
+    const state = {} as Partial<State>;
+    await MultiStepInput.run((input) => selectChatModel(input, state));
+    return state as State;
   }
 
-  const title = 'Change chat and embedding model'
+  const title = 'Change chat and embedding model';
 
   /**
    * This function displays a quick pick menu for selecting an OpenAI model and updates the application's state accordingly.
@@ -48,7 +48,7 @@ export async function quickPickChangeModel(
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
 
-    const models = await fetchAvailableModels(ModelCapability.ChatCompletion)
+    const models = await fetchAvailableModels(ModelCapability.ChatCompletion);
     state.quickPickInferenceModel = await input.showQuickPick({
       title,
       step: 1,
@@ -59,9 +59,9 @@ export async function quickPickChangeModel(
       items: models,
       activeItem: state.quickPickInferenceModel,
       shouldResume: shouldResume,
-    })
+    });
 
-    return (input: MultiStepInput) => selectScmModel(input, state)
+    return (input: MultiStepInput) => selectScmModel(input, state);
   }
 
   /**
@@ -73,7 +73,7 @@ export async function quickPickChangeModel(
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
 
-    const models = await fetchAvailableModels(ModelCapability.ChatCompletion)
+    const models = await fetchAvailableModels(ModelCapability.ChatCompletion);
     state.quickPickScmModel = await input.showQuickPick({
       title,
       step: 2,
@@ -83,9 +83,9 @@ export async function quickPickChangeModel(
       items: models,
       activeItem: state.quickPickScmModel,
       shouldResume: shouldResume,
-    })
+    });
 
-    return (input: MultiStepInput) => selectEmbeddingModel(input, state)
+    return (input: MultiStepInput) => selectEmbeddingModel(input, state);
   }
 
   /**
@@ -100,7 +100,7 @@ export async function quickPickChangeModel(
     // Display quick pick menu for selecting an OpenAI model and update application's state accordingly.
     // Return void since this is not used elsewhere in the code.
 
-    const models = await fetchAvailableModels(ModelCapability.Embedding)
+    const models = await fetchAvailableModels(ModelCapability.Embedding);
     state.quickPickEmbeddingModel = await input.showQuickPick({
       title,
       step: 3,
@@ -111,83 +111,83 @@ export async function quickPickChangeModel(
       items: models,
       activeItem: state.quickPickEmbeddingModel,
       shouldResume: shouldResume,
-    })
+    });
   }
 
   async function fetchAvailableModels(
     modelCapabiliy: ModelCapability
   ): Promise<QuickPickItem[]> {
-    let models: QuickPickItem[] = []
+    let models: QuickPickItem[] = [];
     switch (settingCfg.serviceProvider) {
       case 'OpenAI':
         models = await getAvailableModelsOpenai(
           await settingCfg.getApiKey(),
           settingCfg.baseUrl,
           modelCapabiliy
-        )
-        break
+        );
+        break;
       case 'Azure-OpenAI':
         models = await getAvailableModelsAzure(
           await settingCfg.getApiKey(),
           settingCfg.baseUrl,
           modelCapabiliy
-        )
-        break
+        );
+        break;
 
       default:
-        return []
+        return [];
     }
-    return models
+    return models;
   }
 
   function shouldResume(): Promise<boolean> {
     // Implementation to handle resuming the UI
-    return Promise.resolve(true)
+    return Promise.resolve(true);
   }
 
   function cleanQuickPick(label: string) {
-    return label.replace(`$(symbol-function)  `, '')
+    return label.replace(`$(symbol-function)  `, '');
   }
 
   //Start openai.com configuration processes
-  const state = await collectInputs()
+  const state = await collectInputs();
 
-  let inferenceModel = 'setup-required'
-  let inferenceDeploy = 'setup-required'
-  let scmModel = 'setup-required'
-  let scmDeploy = 'setup-required'
-  let embeddingModel = 'setup-required'
-  let embeddingDeploy = 'setup-required'
+  let inferenceModel = 'setup-required';
+  let inferenceDeploy = 'setup-required';
+  let scmModel = 'setup-required';
+  let scmDeploy = 'setup-required';
+  let embeddingModel = 'setup-required';
+  let embeddingDeploy = 'setup-required';
 
   switch (settingCfg.serviceProvider) {
     case 'OpenAI': {
-      inferenceModel = cleanQuickPick(state.quickPickInferenceModel.label)
-      scmModel = cleanQuickPick(state.quickPickScmModel.label)
-      embeddingModel = cleanQuickPick(state.quickPickEmbeddingModel.label)
-      break
+      inferenceModel = cleanQuickPick(state.quickPickInferenceModel.label);
+      scmModel = cleanQuickPick(state.quickPickScmModel.label);
+      embeddingModel = cleanQuickPick(state.quickPickEmbeddingModel.label);
+      break;
     }
     case 'Azure-OpenAI': {
-      inferenceModel = state.quickPickInferenceModel.description as string
-      inferenceDeploy = cleanQuickPick(state.quickPickInferenceModel.label)
+      inferenceModel = state.quickPickInferenceModel.description as string;
+      inferenceDeploy = cleanQuickPick(state.quickPickInferenceModel.label);
 
-      scmModel = state.quickPickScmModel.description as string
-      scmDeploy = cleanQuickPick(state.quickPickScmModel.label)
+      scmModel = state.quickPickScmModel.description as string;
+      scmDeploy = cleanQuickPick(state.quickPickScmModel.label);
 
       if (state.quickPickEmbeddingModel) {
-        embeddingModel = state.quickPickEmbeddingModel.description as string
-        embeddingDeploy = cleanQuickPick(state.quickPickEmbeddingModel.label)
+        embeddingModel = state.quickPickEmbeddingModel.description as string;
+        embeddingDeploy = cleanQuickPick(state.quickPickEmbeddingModel.label);
       }
-      break
+      break;
     }
 
     default:
-      break
+      break;
   }
 
-  settingCfg.defaultModel = inferenceModel
-  settingCfg.azureDeployment = inferenceDeploy
-  settingCfg.scmModel = scmModel
-  settingCfg.scmDeployment = scmDeploy
-  settingCfg.embeddingModel = embeddingModel
-  settingCfg.embeddingsDeployment = embeddingDeploy
+  settingCfg.defaultModel = inferenceModel;
+  settingCfg.azureDeployment = inferenceDeploy;
+  settingCfg.scmModel = scmModel;
+  settingCfg.scmDeployment = scmDeploy;
+  settingCfg.embeddingModel = embeddingModel;
+  settingCfg.embeddingsDeployment = embeddingDeploy;
 }

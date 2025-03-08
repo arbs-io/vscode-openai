@@ -5,7 +5,10 @@
       "label": "npm: esbuild-watch",
       "type": "shell",
       "command": "npm",
-      "args": ["run", "esbuild-watch"],
+      "args": [
+        "run",
+        "esbuild-watch"
+      ],
       "isBackground": true,
       "presentation": {
         "reveal": "never",

@@ -1,1 +1,1 @@
-export { default as GenerateCommentsCommand } from './generateComments'
+export { default as GenerateCommentsCommand } from './generateComments';

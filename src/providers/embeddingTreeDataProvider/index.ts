@@ -1,2 +1,2 @@
-export { EmbeddingTreeItem } from './embeddingTreeItem'
-export { EmbeddingTreeDragAndDropController } from './embeddingTreeDragAndDropController'
+export { EmbeddingTreeItem } from './embeddingTreeItem';
+export { EmbeddingTreeDragAndDropController } from './embeddingTreeDragAndDropController';

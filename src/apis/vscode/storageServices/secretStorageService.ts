@@ -1,10 +1,10 @@
-import { ExtensionContext, SecretStorage } from 'vscode'
-import { createErrorNotification } from '@app/apis/node'
-import { getAzureOpenAIAccessToken } from '@app/apis/vscode'
-import { SettingConfig as settingCfg } from '@app/services'
+import { ExtensionContext, SecretStorage } from 'vscode';
+import { createErrorNotification } from '@app/apis/node';
+import { getAzureOpenAIAccessToken } from '@app/apis/vscode';
+import { SettingConfig as settingCfg } from '@app/services';
 
 export default class SecretStorageService {
-  private static _instance: SecretStorageService
+  private static _instance: SecretStorageService;
 
   private constructor(private secretStorage: SecretStorage) {} // Made the constructor private to enforce singleton pattern
 
@@ -13,53 +13,53 @@ export default class SecretStorageService {
       if (!SecretStorageService._instance) {
         SecretStorageService._instance = new SecretStorageService(
           context.secrets
-        )
+        );
       } else {
-        throw new Error('SecretStorageService already initialized')
+        throw new Error('SecretStorageService already initialized');
       }
     } catch (error) {
-      createErrorNotification(error)
+      createErrorNotification(error);
     }
   }
 
   static get instance(): SecretStorageService {
     if (!SecretStorageService._instance) {
-      throw new Error('SecretStorageService not initialized')
+      throw new Error('SecretStorageService not initialized');
     }
-    return SecretStorageService._instance
+    return SecretStorageService._instance;
   }
 
   async setAuthApiKey(token: string): Promise<void> {
-    await this.secretStorage.store('openai_apikey', token)
+    await this.secretStorage.store('openai_apikey', token);
   }
 
   async getAuthApiKey(): Promise<string | undefined> {
     try {
-      let authApiKey = await this.secretStorage.get('openai_apikey')
+      let authApiKey = await this.secretStorage.get('openai_apikey');
       switch (settingCfg.serviceProvider) {
         case 'Azure-OpenAI':
           if (authApiKey?.startsWith('Bearer')) {
-            const accessToken = await getAzureOpenAIAccessToken()
-            authApiKey = `Bearer ${accessToken}`
+            const accessToken = await getAzureOpenAIAccessToken();
+            authApiKey = `Bearer ${accessToken}`;
           }
-          break
+          break;
 
         case 'OpenAI':
-          break
+          break;
 
         case 'Custom-OpenAI':
-          break
+          break;
 
         case 'VSCode-OpenAI':
-          break
+          break;
 
         default:
-          break
+          break;
       }
-      return authApiKey
+      return authApiKey;
     } catch (error) {
-      createErrorNotification(error)
-      return undefined
+      createErrorNotification(error);
+      return undefined;
     }
   }
 }

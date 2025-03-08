@@ -1,4 +1,4 @@
-import { QuickPickItem, QuickInputButton } from 'vscode'
+import { QuickPickItem, QuickInputButton } from 'vscode';
 
 export interface IParametersQuickPick<T extends QuickPickItem> {
   title: string

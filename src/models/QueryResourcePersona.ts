@@ -1,5 +1,5 @@
-import { SettingConfig as settingCfg } from '@app/services'
-import { IPersonaOpenAI } from '@app/interfaces'
+import { SettingConfig as settingCfg } from '@app/services';
+import { IPersonaOpenAI } from '@app/interfaces';
 
 function getQueryResourcePersona(): IPersonaOpenAI {
   const getQueryResourcePersona: IPersonaOpenAI = {
@@ -16,8 +16,8 @@ function getQueryResourcePersona(): IPersonaOpenAI {
         `In the cases where you can find the answer, first give the answer. Then explain how you found the answer from the source or sources, and use the exact filenames of the source files you mention. Do not make up the names of any other files other than those mentioned in the files context. Give the answer in markdown format.` +
         `Use the following format:\n\nQuestion: <question>\n\nFiles:\n<###\n"filename 1"\nfile text>\n<###\n"filename 2"\nfile text>...\n\nAnswer: <answer or "I couldn't find the answer to that question in your files" or "That's not a valid question.">\n\n`,
     },
-  }
-  return getQueryResourcePersona
+  };
+  return getQueryResourcePersona;
 }
 
-export default getQueryResourcePersona
+export default getQueryResourcePersona;

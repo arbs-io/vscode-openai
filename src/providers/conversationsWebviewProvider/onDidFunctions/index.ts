@@ -1,2 +1,2 @@
-export { onDidInitialize } from './onDidInitialize'
-export { onDidOpenConversationWebview } from './onDidOpenConversationWebview'
+export { onDidInitialize } from './onDidInitialize';
+export { onDidOpenConversationWebview } from './onDidOpenConversationWebview';

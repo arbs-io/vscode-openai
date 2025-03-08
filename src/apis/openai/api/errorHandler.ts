@@ -1,40 +1,40 @@
-import { StatusBarServiceProvider, setFeatureFlag } from '@app/apis/vscode'
-import { VSCODE_OPENAI_EXTENSION } from '@app/constants'
-import { createErrorNotification } from '@app/apis/node'
+import { createErrorNotification } from '@app/apis/node';
+import { StatusBarServiceProvider, setFeatureFlag } from '@app/apis/vscode';
+import { VSCODE_OPENAI_EXTENSION } from '@app/constants';
 
 interface IStatusBarItem {
-  icon: string
-  message: string
-  isError: boolean
+  icon: string;
+  message: string;
+  isError: boolean;
 }
 
 export function errorHandler(error: any) {
-  createErrorNotification(error)
+  createErrorNotification(error);
 
-  if (error.message == 'Connection error.') {
+  if (error.message === 'Connection error.') {
     StatusBarServiceProvider.instance.showStatusBarError(
       'server-environment',
       `- unknown host`,
       error.hostname
-    )
-    setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, false)
-    return
+    );
+    setFeatureFlag(VSCODE_OPENAI_EXTENSION.ENABLED_COMMAND_ID, false);
+    return;
   }
 
-  const statusBarItem = handleResponse(error)
+  const statusBarItem = handleResponse(error);
   if (statusBarItem.isError) {
     StatusBarServiceProvider.instance.showStatusBarError(
       statusBarItem.icon,
       statusBarItem.message
-    )
-    return
+    );
+    return;
   } else if (statusBarItem) {
     StatusBarServiceProvider.instance.showStatusBarWarning(
       statusBarItem.icon,
       statusBarItem.message
-    )
+    );
   }
-  StatusBarServiceProvider.instance.showStatusBarWarning('error', error.message)
+  StatusBarServiceProvider.instance.showStatusBarWarning('error', error.message);
 }
 
 export function handleResponse(error: any): IStatusBarItem {
@@ -44,8 +44,8 @@ export function handleResponse(error: any): IStatusBarItem {
         icon: 'lock',
         message: '- failed authentication',
         isError: true,
-      }
-      return statusBarItem
+      };
+      return statusBarItem;
     }
 
     case 400: {
@@ -53,8 +53,8 @@ export function handleResponse(error: any): IStatusBarItem {
         icon: 'exclude',
         message: '- token limits',
         isError: false,
-      }
-      return statusBarItem
+      };
+      return statusBarItem;
     }
 
     case 404: {
@@ -62,8 +62,8 @@ export function handleResponse(error: any): IStatusBarItem {
         icon: 'cloud',
         message: '- not found',
         isError: false,
-      }
-      return statusBarItem
+      };
+      return statusBarItem;
     }
 
     case 429: {
@@ -71,8 +71,8 @@ export function handleResponse(error: any): IStatusBarItem {
         icon: 'exclude',
         message: '- rate limit',
         isError: false,
-      }
-      return statusBarItem
+      };
+      return statusBarItem;
     }
 
     default: {
@@ -80,8 +80,8 @@ export function handleResponse(error: any): IStatusBarItem {
         icon: 'error',
         message: `- (${error.response.status}) ${error.response.statusText}`,
         isError: true,
-      }
-      return statusBarItem
+      };
+      return statusBarItem;
     }
   }
 }

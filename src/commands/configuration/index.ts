@@ -1,1 +1,1 @@
-export { default as ConfigurationShowQuickpick } from './showQuickpick'
+export { default as ConfigurationShowQuickpick } from './showQuickpick';

@@ -1,60 +1,60 @@
-import { ExtensionContext } from 'vscode'
+import { ExtensionContext } from 'vscode';
 
-import { createDebugNotification } from '@app/apis/node'
-import { validateApiKey } from '@app/apis/openai'
+import { createDebugNotification } from '@app/apis/node';
+import { validateApiKey } from '@app/apis/openai';
 
 import {
   ConversationStorageService,
   EmbeddingStorageService,
-} from './storageServices'
+} from './storageServices';
 
-import { registerConfigurationMonitorService } from './configurationMonitorServices'
+import { registerConfigurationMonitorService } from './configurationMonitorServices';
 import {
   ConversationConfig as convCfg,
   ConversationColorConfig as convColorCfg,
   EmbeddingConfig as embedCfg,
   SettingConfig as settingCfg,
-} from './configuration'
-import { GlobalStorageService, SecretStorageService } from '@app/apis/vscode'
-import { enableServiceFeature } from './featureFlagServices'
+} from './configuration';
+import { GlobalStorageService, SecretStorageService } from '@app/apis/vscode';
+import { enableServiceFeature } from './featureFlagServices';
 
 export {
   SettingConfig,
   ConversationConfig,
   EmbeddingConfig,
-} from './configuration'
+} from './configuration';
 
 export {
   ConversationStorageService,
   EmbeddingStorageService,
-} from './storageServices'
+} from './storageServices';
 
 export {
   enableServiceFeature,
   featureVerifyApiKey,
-} from './featureFlagServices'
+} from './featureFlagServices';
 
 export function registerVscodeOpenAIServices(context: ExtensionContext) {
   //register storage (Singletons)
-  createDebugNotification('initialise vscode services')
-  SecretStorageService.init(context)
-  GlobalStorageService.init(context)
+  createDebugNotification('initialise vscode services');
+  SecretStorageService.init(context);
+  GlobalStorageService.init(context);
 
-  createDebugNotification('starting storage services')
-  registerConfigurationMonitorService(context)
-  ConversationStorageService.init(context)
-  EmbeddingStorageService.init(context)
+  createDebugNotification('starting storage services');
+  registerConfigurationMonitorService(context);
+  ConversationStorageService.init(context);
+  EmbeddingStorageService.init(context);
 
   //load configuration
-  createDebugNotification('log configuration service')
-  settingCfg.log()
-  convCfg.log()
-  convColorCfg.log()
-  embedCfg.log()
+  createDebugNotification('log configuration service');
+  settingCfg.log();
+  convCfg.log();
+  convColorCfg.log();
+  embedCfg.log();
 
-  createDebugNotification('verifying service authentication')
-  validateApiKey() //On activation check if the api key is valid
+  createDebugNotification('verifying service authentication');
+  validateApiKey(); //On activation check if the api key is valid
 
-  createDebugNotification('verifying enabled features')
-  enableServiceFeature()
+  createDebugNotification('verifying enabled features');
+  enableServiceFeature();
 }

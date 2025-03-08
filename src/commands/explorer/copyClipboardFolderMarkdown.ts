@@ -1,19 +1,19 @@
-import { window, Uri, FileType, workspace, ProgressLocation, env } from 'vscode'
-import { showMessageWithTimeout } from '@app/apis/vscode'
-import { ICommand } from '@app/commands'
+import { window, Uri, FileType, workspace, ProgressLocation, env } from 'vscode';
+import { showMessageWithTimeout } from '@app/apis/vscode';
+import { ICommand } from '@app/commands';
 
 export default class ClipboardCopyFolderMarkdownCommand implements ICommand {
-  public readonly id = '_vscode-openai.explorer.copy.markdown'
-  private readonly maxContentSize = 1024 * 1024 // 1 MB
+  public readonly id = '_vscode-openai.explorer.copy.markdown';
+  private readonly maxContentSize = 1024 * 1024; // 1 MB
 
   public async execute(resourceUri: Uri) {
     // Validate the selected resource
     if (!(resourceUri && resourceUri.scheme === 'file')) {
-      showMessageWithTimeout(`Please select a valid file or folder.`, 2500)
-      return
+      showMessageWithTimeout(`Please select a valid file or folder.`, 2500);
+      return;
     }
 
-    const stat = await workspace.fs.stat(resourceUri)
+    const stat = await workspace.fs.stat(resourceUri);
 
     // Show a progress indicator while processing
     await window.withProgress(
@@ -24,42 +24,42 @@ export default class ClipboardCopyFolderMarkdownCommand implements ICommand {
       },
       async () => {
         // Initialize variables to collect content and track size
-        const collectedContent: string[] = []
-        const totalSize = { size: 0 }
+        const collectedContent: string[] = [];
+        const totalSize = { size: 0 };
 
         try {
           if (stat.type & FileType.File) {
             // Process the single file
-            await this.processFile(resourceUri, collectedContent, totalSize)
+            await this.processFile(resourceUri, collectedContent, totalSize);
           } else if (stat.type & FileType.Directory) {
             // Start collecting source files
             await this.collectSourceFilesContent(
               resourceUri,
               collectedContent,
               totalSize
-            )
+            );
           } else {
             showMessageWithTimeout(
               `Selected resource is neither a file nor a folder.`,
               2500
-            )
+            );
 
-            return
+            return;
           }
 
-          const finalContent = collectedContent.join('\n')
+          const finalContent = collectedContent.join('\n');
 
           if (finalContent.length === 0) {
             showMessageWithTimeout(
               `No source code files found in the selected location.`,
               2500
-            )
-            return
+            );
+            return;
           }
 
           // Copy the collected content to the clipboard
-          await env.clipboard.writeText(finalContent)
-          showMessageWithTimeout(`Source code copied to clipboard.`, 2500)
+          await env.clipboard.writeText(finalContent);
+          showMessageWithTimeout(`Source code copied to clipboard.`, 2500);
         } catch (error) {
           if (
             error instanceof Error &&
@@ -68,17 +68,17 @@ export default class ClipboardCopyFolderMarkdownCommand implements ICommand {
             showMessageWithTimeout(
               `Content size exceeds the maximum limit.`,
               2500
-            )
+            );
           } else {
-            console.error('Error while collecting source files:', error)
+            console.error('Error while collecting source files:', error);
             showMessageWithTimeout(
               `An error occurred while collecting source files.`,
               2500
-            )
+            );
           }
         }
       }
-    )
+    );
   }
 
   private async processFile(
@@ -88,30 +88,30 @@ export default class ClipboardCopyFolderMarkdownCommand implements ICommand {
   ) {
     try {
       // Read the file content
-      const document = await workspace.openTextDocument(fileUri)
-      const content = document.getText()
-      const languageId = document.languageId
+      const document = await workspace.openTextDocument(fileUri);
+      const content = document.getText();
+      const languageId = document.languageId;
 
       // Build the code block with a comment and code fence
-      const relativePath = workspace.asRelativePath(fileUri)
+      const relativePath = workspace.asRelativePath(fileUri);
       const codeBlock = [
         `// File: ${relativePath}`,
         `\`\`\`${languageId}`,
         content,
         `\`\`\``,
         '',
-      ].join('\n')
+      ].join('\n');
 
       // Update the total size and check the limit
-      totalSize.size += codeBlock.length
+      totalSize.size += codeBlock.length;
       if (totalSize.size > this.maxContentSize) {
-        throw new Error('Content size limit exceeded')
+        throw new Error('Content size limit exceeded');
       }
 
       // Add the code block to the collected content
-      collectedContent.push(codeBlock)
+      collectedContent.push(codeBlock);
     } catch (error) {
-      console.warn(`Failed to process file ${fileUri.fsPath}:`, error)
+      console.warn(`Failed to process file ${fileUri.fsPath}:`, error);
       // You may choose to continue or handle the error as needed
     }
   }
@@ -127,20 +127,20 @@ export default class ClipboardCopyFolderMarkdownCommand implements ICommand {
     collectedContent: string[],
     totalSize: { size: number }
   ) {
-    const entries = await workspace.fs.readDirectory(folderUri)
+    const entries = await workspace.fs.readDirectory(folderUri);
 
     for (const [name, fileType] of entries) {
-      const resourceUri = Uri.joinPath(folderUri, name)
+      const resourceUri = Uri.joinPath(folderUri, name);
 
       if (fileType & FileType.File) {
-        await this.processFile(resourceUri, collectedContent, totalSize)
+        await this.processFile(resourceUri, collectedContent, totalSize);
       } else if (fileType & FileType.Directory) {
         // Recursively process subfolders
         await this.collectSourceFilesContent(
           resourceUri,
           collectedContent,
           totalSize
-        )
+        );
       }
     }
   }

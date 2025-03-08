@@ -1,4 +1,4 @@
-import { QuickPickItem } from 'vscode'
+import { QuickPickItem } from 'vscode';
 
 export interface IQuickPickSetup {
   serviceProvider: string

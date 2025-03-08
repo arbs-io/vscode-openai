@@ -25,4 +25,4 @@ export const VSCODE_OPENAI_QP_SETUP = {
   CONFIGURATION_RESET: 'reset...',
   CONFIGURATION_RESET_ICON: 'wrench',
   CONFIGURATION_RESET_DESC: 'reset vscode-openai configuration',
-}
+};

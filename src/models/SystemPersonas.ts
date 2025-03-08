@@ -1,22 +1,22 @@
-import { workspace } from 'vscode'
-import { IPersonaOpenAI } from '@app/interfaces/IPersonaOpenAI'
+import { workspace } from 'vscode';
+import { IPersonaOpenAI } from '@app/interfaces/IPersonaOpenAI';
 import {
   ConversationConfig as convCfg,
   SettingConfig as settingCfg,
-} from '@app/services'
-import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants'
-import assert from 'assert'
+} from '@app/services';
+import { VSCODE_OPENAI_QP_PERSONA } from '@app/constants';
+import assert from 'assert';
 
 function getAssistantName(): string {
   if (convCfg.assistantRules) {
-    return 'You are an AI assistant called vscode-openai. '
+    return 'You are an AI assistant called vscode-openai. ';
   }
-  return ''
+  return '';
 }
 
 function getAssistantRule(): string {
   if (convCfg.assistantRules) {
-    const currentDate = new Date()
+    const currentDate = new Date();
     return [
       'Your response should adhere to the following rules:',
       `- The current date and time is ${currentDate}`,
@@ -26,17 +26,17 @@ function getAssistantRule(): string {
       '- Avoid speculation and do not make up facts.',
       `- If you do not know the answer or are unsure, please respond with "I'm sorry, but I can't confidently answer this question".`,
       '',
-    ].join('\n')
+    ].join('\n');
   }
-  return ''
+  return '';
 }
 
 function getPrompt(promptName: string): string {
   const prompt = workspace
     .getConfiguration('vscode-openai')
-    .get(`prompts.persona.${promptName}`) as string
-  assert(prompt)
-  return `${getAssistantName()} ${prompt} ${getAssistantRule()}`
+    .get(`prompts.persona.${promptName}`) as string;
+  assert(prompt);
+  return `${getAssistantName()} ${prompt} ${getAssistantRule()}`;
 }
 
 function getSystemPersonas(): IPersonaOpenAI[] {
@@ -228,7 +228,7 @@ function getSystemPersonas(): IPersonaOpenAI[] {
         system: getPrompt('enterpriseArchitect'),
       },
     },
-  ]
-  return SystemPersonas
+  ];
+  return SystemPersonas;
 }
-export default getSystemPersonas
+export default getSystemPersonas;

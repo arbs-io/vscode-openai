@@ -1,12 +1,12 @@
-import { MultiStepInput } from '@app/apis/vscode'
-import { IQuickPickSetup } from '../../interface'
-import { shouldResume } from '../shouldResume'
-import { validateUrl } from '../validateUrl'
+import { MultiStepInput } from '@app/apis/vscode';
+import { IQuickPickSetup } from '../../interface';
+import { shouldResume } from '../shouldResume';
+import { validateUrl } from '../validateUrl';
 export async function showInputBoxCustomBaseUrl(
   input: MultiStepInput,
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
-  state.step = (state.step ?? 0) + 1
+  state.step = (state.step ?? 0) + 1;
   state.baseUrl = await input.showInputBox({
     title: state.title!,
     step: state.step,
@@ -18,5 +18,5 @@ export async function showInputBoxCustomBaseUrl(
     placeholder: 'https://localhost/v1',
     validate: validateUrl,
     shouldResume: shouldResume,
-  })
+  });
 }

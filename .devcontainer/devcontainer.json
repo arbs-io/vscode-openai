@@ -13,6 +13,7 @@
       },
       "extensions": [
         "andrewbutson.vscode-openai",
+        "editorconfig.editorconfig",
         "github.vscode-pull-request-github",
         "naumovs.color-highlight",
         "esbenp.prettier-vscode",

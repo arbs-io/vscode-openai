@@ -1,20 +1,20 @@
-import { extensions, version, env, UIKind } from 'vscode';
-import CryptoJS from 'crypto-js';
-import {
-  SecretStorageService,
-  StatusBarServiceProvider,
-} from '@app/apis/vscode';
 import {
   createErrorNotification,
   createInfoNotification,
   waitFor,
 } from '@app/apis/node';
-import ConfigValue from './utilities/configValue';
+import {
+  SecretStorageService,
+  StatusBarServiceProvider,
+} from '@app/apis/vscode';
 import { IConfigurationSetting, IDynamicLooseObject } from '@app/interfaces';
+import CryptoJS from 'crypto-js';
+import { env, extensions, UIKind, version } from 'vscode';
+import ConfigValue from './utilities/configValue';
 
 type ApiHeader = {
-  name: string
-  value: string
+  name: string;
+  value: string;
 };
 
 class SettingConfig extends ConfigValue implements IConfigurationSetting {
@@ -42,16 +42,18 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     scmDeployment,
     embeddingsDeployment,
     azureApiVersion,
+    azureEnvironment,
   }: {
-    serviceProvider: string
-    baseUrl: string
-    defaultModel: string
-    scmModel: string
-    embeddingModel: string
-    azureDeployment: string
-    scmDeployment: string
-    embeddingsDeployment: string
-    azureApiVersion: string
+    serviceProvider: string;
+    baseUrl: string;
+    defaultModel: string;
+    scmModel: string;
+    embeddingModel: string;
+    azureDeployment: string;
+    scmDeployment: string;
+    embeddingsDeployment: string;
+    azureApiVersion: string;
+    azureEnvironment: string;
   }) {
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'vscode-openai',
@@ -67,6 +69,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
       this.instance.embeddingModel = embeddingModel;
       this.instance.embeddingsDeployment = embeddingsDeployment;
       this.instance.azureApiVersion = azureApiVersion;
+      this.instance.azureEnvironment = azureEnvironment;
       //Force wait as we need the config to be written
       await waitFor(500, () => false);
       StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -142,6 +145,13 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     this.setConfigValue<string | undefined>('azureApiVersion', value);
   }
 
+  public get azureEnvironment(): string {
+    return this.getConfigValue<string>('azureEnvironment');
+  }
+  public set azureEnvironment(value: string | undefined) {
+    this.setConfigValue<string | undefined>('azureEnvironment', value);
+  }
+
   // host is used for vscode status bar display only
   public get vscodeVersion(): string {
     return version;
@@ -163,7 +173,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
   }
 
   public get host(): string {
-    if (this.serviceProvider === 'VSCode-OpenAI') {return 'vscode-openai';}
+    if (this.serviceProvider === 'VSCode-OpenAI') return 'vscode-openai';
     return new URL(this.baseUrl).host;
   }
 
@@ -198,6 +208,16 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
       headers[apiHeader.name] = apiHeader.value;
     });
     return headers;
+  }
+
+  public get azureEndpoint(): string {
+    switch (this.azureEnvironment) {
+      case 'microsoft-sovereign-cloud':
+        return 'https://cognitiveservices.azure.us/.default';
+      case 'microsoft': // default to microsoft but more environments can be added
+      default:
+        return 'https://cognitiveservices.azure.com/.default';
+    }
   }
 
   public async getRequestConfig(): Promise<any> {
@@ -251,6 +271,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     this.embeddingModel = undefined;
     this.embeddingsDeployment = undefined;
     this.azureApiVersion = undefined;
+    this.azureEnvironment = undefined;
   }
 
   public log(): void {

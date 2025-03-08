@@ -10,7 +10,7 @@ import { EmbeddingTreeDragAndDropController, EmbeddingTreeItem } from '.';
 import { IEmbeddingFileLite } from '@app/interfaces';
 
 export class EmbeddingTreeDataProvider
-  implements TreeDataProvider<EmbeddingTreeItem>
+implements TreeDataProvider<EmbeddingTreeItem>
 {
   private _onDidChangeTreeData: EventEmitter<
     (EmbeddingTreeItem | undefined)[] | undefined

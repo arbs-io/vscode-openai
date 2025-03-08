@@ -68,7 +68,7 @@ export default class ConversationStorageService {
     const conversation =
       GlobalStorageService.instance.getValue<IConversation>(conversationKey);
     if (conversation)
-      {MessageViewerPanel.render(this._context.extensionUri, conversation);}
+    {MessageViewerPanel.render(this._context.extensionUri, conversation);}
   }
 
   public deleteAll() {
@@ -116,16 +116,16 @@ export default class ConversationStorageService {
 
     const chatCompletion = embeddingId
       ? [
-          {
-            content: await this.getEmbeddingWelcomeMessage(embeddingId),
-            author: `${persona.roleName} (${persona.configuration.service})`,
-            timestamp: new Date().toLocaleString(),
-            mine: false,
-            completionTokens: 0,
-            promptTokens: 0,
-            totalTokens: 0,
-          },
-        ]
+        {
+          content: await this.getEmbeddingWelcomeMessage(embeddingId),
+          author: `${persona.roleName} (${persona.configuration.service})`,
+          timestamp: new Date().toLocaleString(),
+          mine: false,
+          completionTokens: 0,
+          promptTokens: 0,
+          totalTokens: 0,
+        },
+      ]
       : [];
 
     return {

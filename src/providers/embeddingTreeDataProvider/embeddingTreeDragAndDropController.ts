@@ -16,7 +16,7 @@ import { IEmbeddingFileLite } from '@app/interfaces';
 import { embeddingResource } from '@app/apis/embedding';
 
 export class EmbeddingTreeDragAndDropController
-  implements TreeDragAndDropController<EmbeddingTreeItem>
+implements TreeDragAndDropController<EmbeddingTreeItem>
 {
   dropMimeTypes: string[] = ['text/uri-list'];
   dragMimeTypes: string[] = this.dropMimeTypes;

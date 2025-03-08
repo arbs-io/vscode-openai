@@ -37,21 +37,22 @@
     "compile": "tsc -p ./",
     "deploy": "vsce publish",
     "clean": "node ./utilities/scripts/clean.js",
-    "lint": "eslint src --ext ts",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint-fix": "eslint src --ext ts --fix",
     "dev-init": "npm run clean && npm install && npm run build"
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
     "@types/crypto-js": "^4.2.2",
     "@types/node": "^22.13.9",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.81.0",
     "@vscode/vsce": "^3.2.2",
-    "@typescript-eslint/eslint-plugin": "^2.18.0",
-    "@typescript-eslint/parser": "^2.18.0",
     "esbuild": "^0.25.0",
-    "eslint": "^6.8.0",
-    "typescript": "^5.8.2"
+    "eslint": "^9.22.0",
+    "globals": "^16.0.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.0"
   },
   "dependencies": {
     "@arbs.io/asset-extractor-wasm": "^0.1.3",

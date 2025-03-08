@@ -9,26 +9,11 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "@typescript-eslint/naming-convention": [
-      "error",
-      {
-        // allow pascal case on class names
-        "selector": "class",
-        "format": [
-          "PascalCase"
-        ]
-      }
-    ],
+    "@typescript-eslint/class-name-casing": "warn",
     "@typescript-eslint/semi": "warn",
     "curly": "warn",
     "eqeqeq": "warn",
     "no-throw-literal": "warn",
     "semi": "off"
-  },
-  "ignorePatterns": [
-    "out",
-    "dist",
-    "**/*.d.ts",
-    "node_modules"
-  ]
+  }
 }

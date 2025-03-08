@@ -37,6 +37,7 @@
     "compile": "tsc -p ./",
     "deploy": "vsce publish",
     "clean": "node ./utilities/scripts/clean.js",
+    "lint": "eslint src --ext ts",
     "dev-init": "npm run clean && npm install && npm run build"
   },
   "devDependencies": {
@@ -45,7 +46,10 @@
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.81.0",
     "@vscode/vsce": "^3.2.2",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
     "esbuild": "^0.25.0",
+    "eslint": "^6.8.0",
     "typescript": "^5.8.2"
   },
   "dependencies": {

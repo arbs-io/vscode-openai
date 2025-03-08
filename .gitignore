@@ -1,5 +1,4 @@
 .DS_Store
-.yarn
 npm-debug.log
 Thumbs.db
 node_modules

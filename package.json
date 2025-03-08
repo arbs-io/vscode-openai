@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.6.16",
+  "version": "1.6.17",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -29,18 +29,19 @@
     "webview/message"
   ],
   "scripts": {
-    "build": "yarn workspaces run build && node ./utilities/scripts/copy-wasm.js",
-    "vscode:prepublish": "yarn esbuild-base --minify",
+    "build": "npm run build --workspaces && node ./utilities/scripts/copy-wasm.js",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --target=es2020",
-    "esbuild": "yarn esbuild-base --sourcemap",
-    "esbuild-watch": "yarn esbuild-base -- --sourcemap --watch",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "compile": "tsc -p ./",
-    "deploy": "vsce publish --yarn",
-    "clean": "node ./utilities/scripts/clean.js"
+    "deploy": "vsce publish",
+    "clean": "node ./utilities/scripts/clean.js",
+    "dev-init": "npm run clean && npm install && npm run build"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "^22.13.8",
+    "@types/node": "^22.13.9",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.81.0",
     "@vscode/vsce": "^3.2.2",
@@ -51,7 +52,7 @@
     "@arbs.io/asset-extractor-wasm": "^0.1.3",
     "@vscode/extension-telemetry": "^0.9.8",
     "crypto-js": "^4.2.0",
-    "openai": "^4.86.1",
+    "openai": "^4.86.2",
     "uuid": "^11.1.0"
   },
   "keywords": [

@@ -12,7 +12,7 @@ export async function quickPickSetupVscodeOpenai(
   _context: ExtensionContext
 ): Promise<void> {
   async function collectInputs(): Promise<IQuickPickSetup> {
-    let state = {} as Partial<IQuickPickSetup>;
+    const state = {} as Partial<IQuickPickSetup>;
     state.serviceProvider = 'VSCode-OpenAI';
     state.title = 'Configure Service Provider (openai.azure.com)';
     state.baseUrl = `https://api.arbs.io/openai/inference/v1`;

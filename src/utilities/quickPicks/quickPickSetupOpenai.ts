@@ -14,7 +14,7 @@ export async function quickPickSetupOpenai(
   _context: ExtensionContext
 ): Promise<void> {
   async function collectInputs(): Promise<IQuickPickSetup> {
-    let state = {} as Partial<IQuickPickSetup>;
+    const state = {} as Partial<IQuickPickSetup>;
     state.serviceProvider = 'OpenAI';
     state.title = 'Configure Service Provider (openai.com)';
     state.baseUrl = 'https://api.openai.com/v1';

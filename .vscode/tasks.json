@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "yarn: esbuild-watch",
+      "label": "npm: esbuild-watch",
       "type": "shell",
-      "command": "yarn",
+      "command": "npm",
       "args": ["run", "esbuild-watch"],
       "isBackground": true,
       "presentation": {

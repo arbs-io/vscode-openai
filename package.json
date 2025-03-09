@@ -149,7 +149,6 @@
             "VSCode-OpenAI",
             "OpenAI",
             "Azure-OpenAI",
-            "CredalAI",
             "Custom-OpenAI"
           ],
           "enumDescriptions": [
@@ -158,18 +157,6 @@
             "Use Azure OpenAI service (https://instance-name.openai.azure.com/openai)."
           ],
           "order": 101
-        },
-        "vscode-openai.authentication": {
-          "type": "string",
-          "default": "ApiKey",
-          "markdownDescription": "The type of authentication used by the service.",
-          "enum": [
-            "ApiKey"
-          ],
-          "enumDescriptions": [
-            "Use OpenAI API keys for authentication. Visit your API Keys page to retrieve the API key you'll use in your requests."
-          ],
-          "order": 102
         },
         "vscode-openai.baseUrl": {
           "type": "string",

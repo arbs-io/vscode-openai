@@ -1,5 +1,5 @@
-import { QuickPickItem } from 'vscode';
 import { MultiStepInput } from '@app/apis/vscode';
+import { QuickPickItem } from 'vscode';
 import { IQuickPickSetup } from '../../interface';
 import { shouldResume } from '../shouldResume';
 
@@ -15,6 +15,10 @@ export async function showQuickPickAzureAuthentication(
     },
     {
       label: '$(azure)  Microsoft',
+      description: 'Use microsoft profile to sign into to azure openai service',
+    },
+    {
+      label: '$(azure)  Microsoft Sovereign (US)',
       description: 'Use microsoft profile to sign into to azure openai service',
     },
   ];

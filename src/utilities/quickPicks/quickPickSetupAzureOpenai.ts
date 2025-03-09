@@ -1,15 +1,15 @@
-import { ExtensionContext } from 'vscode';
+import { MultiStepInput, SecretStorageService } from '@app/apis/vscode';
 import { SettingConfig as settingCfg } from '@app/services';
-import { SecretStorageService, MultiStepInput } from '@app/apis/vscode';
-import { IQuickPickSetup } from './interface';
+import { ExtensionContext } from 'vscode';
 import {
+  showInputBoxAzureApiKey,
   showInputBoxAzureBaseUrl,
   showQuickPickAzureAuthentication,
-  showInputBoxAzureApiKey,
+  showQuickPickAzureEmbeddingModel,
   showQuickPickAzureInferenceModel,
   showQuickPickAzureScmModel,
-  showQuickPickAzureEmbeddingModel,
 } from './commands';
+import { IQuickPickSetup } from './interface';
 
 export async function quickPickSetupAzureOpenai(
   _context: ExtensionContext
@@ -42,11 +42,27 @@ export async function quickPickSetupAzureOpenai(
     return label.replace(`$(symbol-function)  `, '');
   }
 
+  function getAuthenticationType(label: string): string {
+
+    switch (state.authenticationType?.label) {
+      case '$(azure)  Microsoft': {
+        return 'oauth2-microsoft-default';
+      }
+      case '$(azure)  Microsoft Sovereign (US)': {
+        return 'oauth2-microsoft-sovereign-us';
+      }
+      default: {
+        return 'api-key';
+      }
+    }
+  }
+
   //Start openai.com configuration processes
   const state = await collectInputs();
 
   const inferenceModel = state.modelInference.description as string;
   const inferenceDeploy = cleanQuickPick(state.modelInference.label);
+  const authenticationType = getAuthenticationType(state.authenticationType.label);
 
   const scmModel = state.modelScm.description as string;
   const scmDeploy = cleanQuickPick(state.modelScm.label);
@@ -68,4 +84,5 @@ export async function quickPickSetupAzureOpenai(
   settingCfg.embeddingModel = embeddingModel;
   settingCfg.embeddingsDeployment = embeddingDeploy;
   settingCfg.azureApiVersion = '2024-06-01';
+  settingCfg.authenticationType = authenticationType;
 }

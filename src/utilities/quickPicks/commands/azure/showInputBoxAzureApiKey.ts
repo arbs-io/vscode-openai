@@ -1,4 +1,4 @@
-import { getAzureOpenAIAccessToken, MultiStepInput } from '@app/apis/vscode';
+import { getAzureOpenAIAccessToken, getAzureOpenAIAccessTokenSovereignUs, MultiStepInput } from '@app/apis/vscode';
 import { IQuickPickSetup } from '../../interface';
 import { shouldResume } from '../shouldResume';
 
@@ -7,21 +7,33 @@ export async function showInputBoxAzureApiKey(
   state: Partial<IQuickPickSetup>
 ): Promise<void> {
   state.step = (state.step ?? 0) + 1;
-  if (state.authenticationType?.label === '$(azure)  Microsoft') {
-    const accessToken = await getAzureOpenAIAccessToken();
-    state.authApiKey = `Bearer ${accessToken}`;
-  } else {
-    state.authApiKey = await input.showInputBox({
-      title: state.title!,
-      step: state.step,
-      totalSteps: state.totalSteps!,
-      ignoreFocusOut: true,
-      value: typeof state.authApiKey === 'string' ? state.authApiKey : '',
-      prompt: '$(key)  Enter your Api-Key',
-      placeholder: 'ed4af062d8567543ad104587ea4505ce',
-      validate: validateApiKey,
-      shouldResume: shouldResume,
-    });
+
+  switch (state.authenticationType?.label) {
+    case '$(azure)  Microsoft': {
+      const accessToken = await getAzureOpenAIAccessToken();
+      state.authApiKey = `Bearer ${accessToken}`;
+      break;
+    }
+    case '$(azure)  Microsoft Sovereign (US)': {
+      const accessToken = await getAzureOpenAIAccessTokenSovereignUs();
+      state.authApiKey = `Bearer ${accessToken}`;
+      break;
+    }
+    case '$(key)  Enter your Api-Key':
+    default: {
+      state.authApiKey = await input.showInputBox({
+        title: state.title!,
+        step: state.step,
+        totalSteps: state.totalSteps!,
+        ignoreFocusOut: true,
+        value: typeof state.authApiKey === 'string' ? state.authApiKey : '',
+        prompt: '$(key)  Enter your Api-Key',
+        placeholder: 'ed4af062d8567543ad104587ea4505ce',
+        validate: validateApiKey,
+        shouldResume: shouldResume,
+      });
+      break;
+    }
   }
 }
 

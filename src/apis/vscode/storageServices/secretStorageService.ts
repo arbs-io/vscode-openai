@@ -1,12 +1,12 @@
-import { ExtensionContext, SecretStorage } from 'vscode';
 import { createErrorNotification } from '@app/apis/node';
-import { getAzureOpenAIAccessToken } from '@app/apis/vscode';
-import { SettingConfig as settingCfg } from '@app/services';
+import { getAzureOpenAIAccessToken, getAzureOpenAIAccessTokenSovereignUs } from '@app/apis/vscode';
+import { SettingConfig } from '@app/services';
+import { ExtensionContext, SecretStorage } from 'vscode';
 
 export default class SecretStorageService {
   private static _instance: SecretStorageService;
 
-  private constructor(private secretStorage: SecretStorage) {} // Made the constructor private to enforce singleton pattern
+  private constructor(private secretStorage: SecretStorage) { } // Made the constructor private to enforce singleton pattern
 
   static init(context: ExtensionContext): void {
     try {
@@ -36,13 +36,23 @@ export default class SecretStorageService {
   async getAuthApiKey(): Promise<string | undefined> {
     try {
       let authApiKey = await this.secretStorage.get('openai_apikey');
-      switch (settingCfg.serviceProvider) {
-        case 'Azure-OpenAI':
-          if (authApiKey?.startsWith('Bearer')) {
-            const accessToken = await getAzureOpenAIAccessToken();
-            authApiKey = `Bearer ${accessToken}`;
+      switch (SettingConfig.serviceProvider) {
+        case 'Azure-OpenAI': {
+
+          switch (SettingConfig.authenticationType) {
+            case 'oauth2-microsoft-default': {
+              const accessToken = await getAzureOpenAIAccessToken();
+              authApiKey = `Bearer ${accessToken}`;
+              break;
+            }
+            case 'oauth2-microsoft-sovereign-us': {
+              const accessToken = await getAzureOpenAIAccessTokenSovereignUs();
+              authApiKey = `Bearer ${accessToken}`;
+              break;
+            }
           }
           break;
+        }
 
         case 'OpenAI':
           break;

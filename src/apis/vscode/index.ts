@@ -15,10 +15,12 @@ export { showMessageWithTimeout } from './showMessage/showMessageWithTimeout';
 export { MultiStepInput } from './multiStepInput/multiStepInput';
 
 export { getAzureOpenAIAccessToken } from './authentication/getAzureOpenAIAccessToken';
+export { getAzureOpenAIAccessTokenSovereignUs } from './authentication/getAzureOpenAIAccessTokenSovereignUs';
 export { getGitAccessToken } from './authentication/getGitAccessToken';
 export { getVscodeOpenAccessToken } from './authentication/getVscodeOpenAccessToken';
 
 export * from './outputChannel/outputChannel';
 export { default as TelemetryService } from './outputChannel/telemetryService';
 
-export { setFeatureFlag, getFeatureFlag } from './featureFlag/featureFlag';
+export { getFeatureFlag, setFeatureFlag } from './featureFlag/featureFlag';
+

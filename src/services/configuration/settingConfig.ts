@@ -281,7 +281,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
       cfgMap.set('embeddings_model', this.embeddingModel);
       cfgMap.set('embeddings_deploy', this.embeddingsDeployment);
       cfgMap.set('az_api_version', this.azureApiVersion);
-      cfgMap.set('authentication_type', this.authenticationMethod);
+      cfgMap.set('authentication_method', this.authenticationMethod);
 
       createInfoNotification(
         Object.fromEntries(cfgMap),

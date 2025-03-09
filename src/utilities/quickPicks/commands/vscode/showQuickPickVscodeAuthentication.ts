@@ -1,5 +1,5 @@
-import { QuickPickItem } from 'vscode';
 import { MultiStepInput } from '@app/apis/vscode';
+import { QuickPickItem } from 'vscode';
 import { IQuickPickSetup } from '../../interface';
 import { shouldResume } from '../shouldResume';
 
@@ -16,14 +16,14 @@ export async function showQuickPickVscodeAuthentication(
     },
   ];
 
-  state.authenticationType = await input.showQuickPick({
+  state.authenticationMethod = await input.showQuickPick({
     title: state.title!,
     step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     placeholder: 'Selected OpenAI Model',
     items: getAvailableRuntimes,
-    activeItem: state.authenticationType,
+    activeItem: state.authenticationMethod,
     shouldResume: shouldResume,
   });
 }

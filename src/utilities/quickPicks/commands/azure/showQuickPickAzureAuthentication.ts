@@ -23,14 +23,14 @@ export async function showQuickPickAzureAuthentication(
     },
   ];
 
-  state.authenticationType = await input.showQuickPick({
+  state.authenticationMethod = await input.showQuickPick({
     title: state.title!,
     step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     placeholder: 'Selected OpenAI Model',
     items: getAvailableRuntimes,
-    activeItem: state.authenticationType,
+    activeItem: state.authenticationMethod,
     shouldResume: shouldResume,
   });
 }

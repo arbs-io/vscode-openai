@@ -44,7 +44,7 @@ export async function quickPickSetupAzureOpenai(
 
   function getAuthenticationType(label: string): string {
 
-    switch (state.authenticationType?.label) {
+    switch (label) {
       case '$(azure)  Microsoft': {
         return 'oauth2-microsoft-default';
       }
@@ -62,7 +62,7 @@ export async function quickPickSetupAzureOpenai(
 
   const inferenceModel = state.modelInference.description as string;
   const inferenceDeploy = cleanQuickPick(state.modelInference.label);
-  const authenticationType = getAuthenticationType(state.authenticationType.label);
+  const authenticationMethod = getAuthenticationType(state.authenticationMethod.label);
 
   const scmModel = state.modelScm.description as string;
   const scmDeploy = cleanQuickPick(state.modelScm.label);
@@ -84,5 +84,5 @@ export async function quickPickSetupAzureOpenai(
   settingCfg.embeddingModel = embeddingModel;
   settingCfg.embeddingsDeployment = embeddingDeploy;
   settingCfg.azureApiVersion = '2024-06-01';
-  settingCfg.authenticationType = authenticationType;
+  settingCfg.authenticationMethod = authenticationMethod;
 }

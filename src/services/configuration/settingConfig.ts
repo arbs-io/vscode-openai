@@ -42,7 +42,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     scmDeployment,
     embeddingsDeployment,
     azureApiVersion,
-    authenticationType,
+    authenticationMethod,
   }: {
     serviceProvider: string;
     baseUrl: string;
@@ -53,7 +53,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     scmDeployment: string;
     embeddingsDeployment: string;
     azureApiVersion: string;
-    authenticationType: string;
+    authenticationMethod: string;
   }) {
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'vscode-openai',
@@ -69,7 +69,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
       this.instance.embeddingModel = embeddingModel;
       this.instance.embeddingsDeployment = embeddingsDeployment;
       this.instance.azureApiVersion = azureApiVersion;
-      this.instance.authenticationType = authenticationType;
+      this.instance.authenticationMethod = authenticationMethod;
       //Force wait as we need the config to be written
       await waitFor(500, () => false);
       StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -145,11 +145,11 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     this.setConfigValue<string | undefined>('azureApiVersion', value);
   }
 
-  public get authenticationType(): string {
-    return this.getConfigValue<string>('authenticationType');
+  public get authenticationMethod(): string {
+    return this.getConfigValue<string>('authenticationMethod');
   }
-  public set authenticationType(value: string | undefined) {
-    this.setConfigValue<string | undefined>('authenticationType', value);
+  public set authenticationMethod(value: string | undefined) {
+    this.setConfigValue<string | undefined>('authenticationMethod', value);
   }
 
   // host is used for vscode status bar display only
@@ -261,7 +261,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
     this.embeddingModel = undefined;
     this.embeddingsDeployment = undefined;
     this.azureApiVersion = undefined;
-    this.authenticationType = undefined;
+    this.authenticationMethod = undefined;
   }
 
   public log(): void {
@@ -281,7 +281,7 @@ class SettingConfig extends ConfigValue implements IConfigurationSetting {
       cfgMap.set('embeddings_model', this.embeddingModel);
       cfgMap.set('embeddings_deploy', this.embeddingsDeployment);
       cfgMap.set('az_api_version', this.azureApiVersion);
-      cfgMap.set('authentication_type', this.authenticationType);
+      cfgMap.set('authentication_type', this.authenticationMethod);
 
       createInfoNotification(
         Object.fromEntries(cfgMap),

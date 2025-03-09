@@ -8,7 +8,7 @@ export async function showInputBoxAzureApiKey(
 ): Promise<void> {
   state.step = (state.step ?? 0) + 1;
 
-  switch (state.authenticationType?.label) {
+  switch (state.authenticationMethod?.label) {
     case '$(azure)  Microsoft': {
       const accessToken = await getAzureOpenAIAccessToken();
       state.authApiKey = `Bearer ${accessToken}`;

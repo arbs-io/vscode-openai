@@ -39,7 +39,7 @@ export default class SecretStorageService {
       switch (SettingConfig.serviceProvider) {
         case 'Azure-OpenAI': {
 
-          switch (SettingConfig.authenticationType) {
+          switch (SettingConfig.authenticationMethod) {
             case 'oauth2-microsoft-default': {
               const accessToken = await getAzureOpenAIAccessToken();
               authApiKey = `Bearer ${accessToken}`;

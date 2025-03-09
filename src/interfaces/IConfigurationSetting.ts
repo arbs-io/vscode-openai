@@ -8,7 +8,7 @@ export interface IConfigurationSetting {
   scmDeployment: string;
   embeddingsDeployment: string;
   azureApiVersion: string;
-  authenticationType: string;
+  authenticationMethod: string;
   host: string;
   inferenceUrl: string;
   embeddingUrl: string;

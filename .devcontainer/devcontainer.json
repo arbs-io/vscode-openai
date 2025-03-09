@@ -4,29 +4,57 @@
   "customizations": {
     "vscode": {
       "settings": {
+        "files.exclude": {
+          "out": false
+        },
+        "search.exclude": {
+          "out": true
+        },
+        "typescript.tsc.autoDetect": "off",
         "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "explicit",
+          "source.organizeImports": "explicit"
+        },
         "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.autoImportSuggestions.enabled": true,
         "eslint.enable": true,
         "eslint.format.enable": true,
         "eslint.lintTask.enable": true,
-        "typescript.autoImportSuggestions.enabled": true
+        "javascript.format.semicolons": "insert",
+        "typescript.format.semicolons": "insert",
+        "javascript.preferences.quoteStyle": "double",
+        "[typescript]": {
+          "editor.defaultFormatter": "vscode.typescript-language-features",
+          "typescript.preferences.quoteStyle": "double",
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "vscode.typescript-language-features"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "vscode.json-language-features"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "vscode.json-language-features"
+        },
+        "[css]": {
+          "editor.defaultFormatter": "vscode.css-language-features"
+        }
       },
       "extensions": [
         "andrewbutson.vscode-openai",
         "editorconfig.editorconfig",
         "github.vscode-pull-request-github",
-        "naumovs.color-highlight",
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
-        "ms-vscode.vscode-typescript-next",
-        "bradlc.vscode-tailwindcss",
-        "editorconfig.editconfig",
-        "pbakondy.vscode-terminal",
-        "oderwat.indent-rainbow"
+        "ms-vscode.vscode-typescript-next"
       ]
     }
   },
   "forwardPorts": [],
-  "postCreateCommand": "npm run dev-init",
+  "postCreateCommand": "npm run devcontainer-init",
   "remoteUser": "node"
 }

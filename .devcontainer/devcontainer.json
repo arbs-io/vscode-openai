@@ -29,7 +29,7 @@
         "javascript.preferences.quoteStyle": "double",
         "[typescript]": {
           "editor.defaultFormatter": "vscode.typescript-language-features",
-          "typescript.preferences.quoteStyle": "double",
+          "typescript.preferences.quoteStyle": "double"
         },
         "[javascript]": {
           "editor.defaultFormatter": "vscode.typescript-language-features"

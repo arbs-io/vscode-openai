@@ -39,7 +39,7 @@
     "clean": "node ./utilities/scripts/clean.js",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint-fix": "eslint src --ext ts --fix",
-    "dev-init": "npm run clean && npm install && npm run build"
+    "devcontainer-init": "npm run clean && npm install && npm run build"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -149,7 +149,6 @@
             "VSCode-OpenAI",
             "OpenAI",
             "Azure-OpenAI",
-            "CredalAI",
             "Custom-OpenAI"
           ],
           "enumDescriptions": [
@@ -158,18 +157,6 @@
             "Use Azure OpenAI service (https://instance-name.openai.azure.com/openai)."
           ],
           "order": 101
-        },
-        "vscode-openai.authentication": {
-          "type": "string",
-          "default": "ApiKey",
-          "markdownDescription": "The type of authentication used by the service.",
-          "enum": [
-            "ApiKey"
-          ],
-          "enumDescriptions": [
-            "Use OpenAI API keys for authentication. Visit your API Keys page to retrieve the API key you'll use in your requests."
-          ],
-          "order": 102
         },
         "vscode-openai.baseUrl": {
           "type": "string",
@@ -239,13 +226,14 @@
           ],
           "order": 109
         },
-        "vscode-openai.azureEnvironment": {
+        "vscode-openai.authenticationMethod": {
           "type": "string",
-          "default": "microsoft",
-          "markdownDescription": "The cloud environment to authenticate against when using microsoft profile to sign into azure openai service.",
+          "default": "api-key",
+          "markdownDescription": "The authentication method used to access the backend service.",
           "enum": [
-            "microsoft",
-            "microsoft-sovereign-cloud"
+            "api-key",
+            "oauth2-microsoft-default",
+            "oauth2-microsoft-sovereign-us"
           ],
           "enumDescriptions": [
             "The cloud environment to authenticate against."

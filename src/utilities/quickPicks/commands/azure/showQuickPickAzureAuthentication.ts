@@ -1,5 +1,5 @@
-import { QuickPickItem } from 'vscode';
 import { MultiStepInput } from '@app/apis/vscode';
+import { QuickPickItem } from 'vscode';
 import { IQuickPickSetup } from '../../interface';
 import { shouldResume } from '../shouldResume';
 
@@ -17,16 +17,20 @@ export async function showQuickPickAzureAuthentication(
       label: '$(azure)  Microsoft',
       description: 'Use microsoft profile to sign into to azure openai service',
     },
+    {
+      label: '$(azure)  Microsoft Sovereign (US)',
+      description: 'Use microsoft profile to sign into to azure openai service',
+    },
   ];
 
-  state.authenticationType = await input.showQuickPick({
+  state.authenticationMethod = await input.showQuickPick({
     title: state.title!,
     step: state.step,
     totalSteps: state.totalSteps!,
     ignoreFocusOut: true,
     placeholder: 'Selected OpenAI Model',
     items: getAvailableRuntimes,
-    activeItem: state.authenticationType,
+    activeItem: state.authenticationMethod,
     shouldResume: shouldResume,
   });
 }

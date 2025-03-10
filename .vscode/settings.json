@@ -14,6 +14,11 @@
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit"
   },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.autoImportSuggestions.enabled": true,
+  "eslint.enable": true,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
   "javascript.format.semicolons": "insert",
   "typescript.format.semicolons": "insert",
   "javascript.preferences.quoteStyle": "double",

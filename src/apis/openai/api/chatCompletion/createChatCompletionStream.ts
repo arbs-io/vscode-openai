@@ -1,12 +1,13 @@
 import { StatusBarServiceProvider } from '@app/apis/vscode';
-import { ConversationConfig as convCfg } from '@app/services';
 import {
   IChatCompletion,
   IConfigurationOpenAI,
   IConversation,
   IMessage,
 } from '@app/interfaces';
+import { ConversationConfig as convCfg } from '@app/services';
 
+import { createInfoNotification } from '@app/apis/node';
 import {
   ChatCompletionMessageCallback,
   ChatCompletionStreamCallback,
@@ -19,12 +20,14 @@ import {
   ChatCompletionRequestMessageStandard,
   LogChatCompletion,
 } from '@app/apis/openai/api/chatCompletionMessages';
+import { APIUserAbortError } from "openai";
 
 export async function createChatCompletionStream(
   conversation: IConversation,
   configurationOpenAI: IConfigurationOpenAI,
   messageCallback: ChatCompletionMessageCallback,
-  streamCallback: ChatCompletionStreamCallback
+  streamCallback: ChatCompletionStreamCallback,
+  abortSignal?: AbortSignal
 ): Promise<boolean> {
   try {
     StatusBarServiceProvider.instance.showStatusBarInformation(
@@ -38,6 +41,7 @@ export async function createChatCompletionStream(
       : await ChatCompletionRequestMessageStandard(conversation);
 
     const requestConfig = await configurationOpenAI.requestConfig;
+    requestConfig.signal = abortSignal;
 
     StatusBarServiceProvider.instance.showStatusBarInformation(
       'sync~spin',
@@ -50,13 +54,11 @@ export async function createChatCompletionStream(
       stream: true,
     };
 
-    if (convCfg.presencePenalty !== 0)
-    {cfg.presence_penalty = convCfg.presencePenalty;}
-    if (convCfg.frequencyPenalty !== 0)
-    {cfg.frequency_penalty = convCfg.frequencyPenalty;}
-    if (convCfg.temperature !== 0.2) {cfg.temperature = convCfg.temperature;}
-    if (convCfg.topP !== 1) {cfg.top_p = convCfg.topP;}
-    if (convCfg.maxTokens !== undefined) {cfg.max_tokens = convCfg.maxTokens;}
+    if (convCfg.presencePenalty !== 0) { cfg.presence_penalty = convCfg.presencePenalty; }
+    if (convCfg.frequencyPenalty !== 0) { cfg.frequency_penalty = convCfg.frequencyPenalty; }
+    if (convCfg.temperature !== 0.2) { cfg.temperature = convCfg.temperature; }
+    if (convCfg.topP !== 1) { cfg.top_p = convCfg.topP; }
+    if (convCfg.maxTokens !== undefined) { cfg.max_tokens = convCfg.maxTokens; }
 
     const results = await openai.chat.completions.create(cfg, requestConfig);
 
@@ -96,7 +98,10 @@ export async function createChatCompletionStream(
       ''
     );
   } catch (error: any) {
-    if (error.code === 'unsupported_value' && error.param === 'stream') {
+    if (error instanceof APIUserAbortError) {
+      createInfoNotification(error.message);
+      return true;
+    } else if (error.code === 'unsupported_value' && error.param === 'stream') {
       // Check if model allows stream...
       StatusBarServiceProvider.instance.showStatusBarInformation(
         'sync~spin',

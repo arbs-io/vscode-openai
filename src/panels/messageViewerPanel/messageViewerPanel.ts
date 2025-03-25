@@ -271,8 +271,6 @@ export class MessageViewerPanel {
       MessageViewerPanel.postMessage(type, data);
     }
 
-    // TODO: Prevent the response from writing into the interrupting message which still happens very occasionally
-    // Possibly when stream is completed before being aborted?
     if (this._abortController) {
       this._abortController.abort("User aborted chat completion.");
     }

@@ -1,11 +1,11 @@
-import { Field, ProgressBar, mergeClasses } from '@fluentui/react-components'
-import { FC, useEffect, useRef, useState, useCallback } from 'react'
-import { MessageItem } from '@app/components/MessageItem'
-import { MessageInput } from '@app/components/MessageInput'
-import { vscode } from '@app/utilities'
-import { IChatCompletion } from '@app/interfaces'
-import { useMessageListStyles } from './styles/useMessageListStyles'
-import { WelcomeMessageBar } from './components/WelcomeMessageBar'
+import { MessageInput } from '@app/components/MessageInput';
+import { MessageItem } from '@app/components/MessageItem';
+import { IChatCompletion } from '@app/interfaces';
+import { vscode } from '@app/utilities';
+import { Field, ProgressBar, mergeClasses } from '@fluentui/react-components';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { WelcomeMessageBar } from './components/WelcomeMessageBar';
+import { useMessageListStyles } from './styles/useMessageListStyles';
 
 export const MessageList: FC = () => {
   const bottomAnchorRef = useRef<HTMLDivElement>(null)
@@ -55,6 +55,12 @@ export const MessageList: FC = () => {
         setChatCompletionList((prevList) => {
           const updatedList = [...prevList]
           const lastItemIndex = updatedList.length - 1
+
+          // User never streams, must have been something wrong
+          if (updatedList[lastItemIndex].mine) { 
+            console.warn('Attempted to write to the user input.');
+            return prevList;
+          }
 
           // Check if there are existing messages to append the stream to
           if (lastItemIndex >= 0) {

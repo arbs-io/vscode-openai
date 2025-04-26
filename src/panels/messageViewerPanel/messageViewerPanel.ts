@@ -1,32 +1,32 @@
 import {
-  Disposable,
-  Webview,
-  WebviewPanel,
-  window,
-  Uri,
-  ViewColumn,
-  ColorThemeKind,
-  ColorTheme,
-  EventEmitter,
-  Event,
-} from 'vscode';
-import { getUri, getNonce } from '@app/apis/vscode';
-import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces';
-import {
   createChatCompletionMessage,
   createChatCompletionStream,
 } from '@app/apis/openai';
+import { getNonce, getUri } from '@app/apis/vscode';
+import { IChatCompletion, ICodeDocument, IConversation } from '@app/interfaces';
+import {
+  ChatCompletionConfig,
+  ChatCompletionModelType,
+  ConversationConfig as convCfg,
+  ConversationColorConfig as convColorCfg,
+} from '@app/services/configuration';
+import {
+  ColorTheme,
+  ColorThemeKind,
+  Disposable,
+  Event,
+  EventEmitter,
+  Uri,
+  ViewColumn,
+  Webview,
+  WebviewPanel,
+  window,
+} from 'vscode';
 import {
   onDidCopyClipboardCode,
   onDidCreateDocument,
   onDidSaveMessages,
 } from './onDidFunctions';
-import {
-  ChatCompletionConfig,
-  ConversationColorConfig as convColorCfg,
-  ConversationConfig as convCfg,
-  ChatCompletionModelType,
-} from '@app/services/configuration';
 
 export class MessageViewerPanel {
   private static _currentPanel: MessageViewerPanel | undefined;
@@ -34,6 +34,7 @@ export class MessageViewerPanel {
   private _conversation: IConversation | undefined;
   private _disposables: Disposable[] = [];
   private readonly _extensionUri: Uri;
+  private _abortController: AbortController | undefined;
 
   private _emitter = new EventEmitter<IConversation>();
   readonly onDidChangeConversation: Event<IConversation> = this._emitter.event;
@@ -103,7 +104,7 @@ export class MessageViewerPanel {
   }
 
   private _render() {
-    if (!this._conversation) {return;}
+    if (!this._conversation) { return; }
 
     // Set the HTML content for the webview panel
     this._panel.webview.html = this._getWebviewContent(
@@ -224,7 +225,7 @@ export class MessageViewerPanel {
           case 'onDidSaveMessages': {
             const chatMessages: IChatCompletion[] = JSON.parse(message.text);
 
-            if (!this._conversation) {return;}
+            if (!this._conversation) { return; }
             onDidSaveMessages(this._conversation, chatMessages);
             // If the last item was from user
             if (chatMessages[chatMessages.length - 1].mine === true) {
@@ -257,7 +258,7 @@ export class MessageViewerPanel {
   }
 
   private async _askQuestion(): Promise<void> {
-    if (!this._conversation) {return;}
+    if (!this._conversation) { return; }
 
     const cfg = ChatCompletionConfig.create(ChatCompletionModelType.INFERENCE);
 
@@ -270,11 +271,17 @@ export class MessageViewerPanel {
       MessageViewerPanel.postMessage(type, data);
     }
 
+    if (this._abortController) {
+      this._abortController.abort("User aborted chat completion.");
+    }
+    this._abortController = new AbortController();
+
     const isStreamSuccessful = await createChatCompletionStream(
       this._conversation,
       cfg,
       messageCallback,
-      streamCallback
+      streamCallback,
+      this._abortController.signal
     );
 
     if (!isStreamSuccessful) {

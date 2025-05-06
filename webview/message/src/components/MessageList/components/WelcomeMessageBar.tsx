@@ -1,14 +1,13 @@
-import * as React from 'react'
+import { IChatCompletionListProps } from '@app/interfaces';
 import {
+  makeStyles,
   MessageBar,
-  MessageBarTitle,
   MessageBarBody,
   MessageBarGroup,
-  Link,
-  makeStyles,
-  tokens,
-} from '@fluentui/react-components'
-import { IChatCompletionListProps } from '@app/interfaces'
+  MessageBarTitle,
+  tokens
+} from '@fluentui/react-components';
+import * as React from 'react';
 
 const useStyles = makeStyles({
   messageBarGroup: {
@@ -36,17 +35,10 @@ export const WelcomeMessageBar: React.FC<IChatCompletionListProps> = ({
     <>
       {chatCompletionList.length === 0 && (
         <MessageBarGroup className={styles.messageBarGroup}>
-          <MessageBar intent="success">
+          <MessageBar intent="info">
+            <MessageBarTitle>Welcome to Copilot Chat</MessageBarTitle>
             <MessageBarBody>
-              <MessageBarTitle>Welcome</MessageBarTitle>
-              I'm your Copilot and I'm here to help you get things done faster.
-              Please read the vscode-openai extensions page for{' '}
-              <Link
-                href="https://marketplace.visualstudio.com/items?itemName=AndrewButson.vscode-openai"
-                inline
-              >
-                more information
-              </Link>{' '}
+              I'm here to assist you with your coding tasks. Explore the features and let me know how I can help!
             </MessageBarBody>
           </MessageBar>
         </MessageBarGroup>

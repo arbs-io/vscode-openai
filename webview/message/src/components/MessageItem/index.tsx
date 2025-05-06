@@ -1,15 +1,15 @@
-import { FC, useContext } from 'react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { IChatCompletionProps } from '@app/interfaces'
-import { ConfigurationContext } from '@app/context'
-import { useMessageItemStyles } from './styles/useMessageItemStyles'
+import { ConfigurationContext } from '@app/context';
+import { IChatCompletionProps } from '@app/interfaces';
+import { FC, useContext } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   CodeBlockMatched,
   CodeBlockUnmatched,
   MessageItemToolbar,
   ThinkSection,
-} from './components'
+} from './components';
+import { useMessageItemStyles } from './styles/useMessageItemStyles';
 
 export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
   const configuration = useContext(ConfigurationContext)
@@ -27,6 +27,10 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
     color: chatCompletion.mine
       ? configuration.userColor
       : configuration.assistantColor,
+    borderRadius: '12px',
+    padding: '1rem',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    maxWidth: '75%',
   }
 
   // Function to extract <think> content from chatCompletion.content
@@ -67,9 +71,10 @@ export const MessageItem: FC<IChatCompletionProps> = ({ chatCompletion }) => {
             {' '}
             Date: {chatCompletion.timestamp}
           </span>
-          {chatCompletion.totalTokens > 0 && (
+          <MessageItemToolbar chatCompletion={chatCompletion} />
+          {/* {chatCompletion.totalTokens > 0 && (
             <MessageItemToolbar chatCompletion={chatCompletion} />
-          )}
+          )} */}
         </div>
       </div>
       <ReactMarkdown

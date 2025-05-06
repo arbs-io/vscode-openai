@@ -1,15 +1,15 @@
-import { FC, MouseEvent } from 'react'
+import { IChatCompletionProps } from '@app/interfaces';
+import { TextToSpeech } from '@app/utilities';
 import {
-  makeStyles,
   Button,
+  makeStyles,
   Popover,
-  PopoverTrigger,
   PopoverSurface,
-} from '@fluentui/react-components'
-import { Info16Regular, Speaker216Regular } from '@fluentui/react-icons'
-import { IChatCompletionProps } from '@app/interfaces'
-import { TextToSpeech } from '@app/utilities'
-import { MessageItemTokenInfo } from '.'
+  PopoverTrigger,
+} from '@fluentui/react-components';
+import { Info16Regular, Speaker216Regular } from '@fluentui/react-icons';
+import { FC, MouseEvent } from 'react';
+import { MessageItemTokenInfo } from '.';
 
 const handleSpeech = (
   _e: MouseEvent<HTMLButtonElement>,
@@ -22,6 +22,10 @@ const handleSpeech = (
 const useMessageItemToolbarStyles = makeStyles({
   infoButton: {
     float: 'right',
+    transition: 'background-color 0.2s ease',
+    // ':hover': {
+    //   backgroundColor: '#eaeef2', // Subtle hover effect
+    // },
   },
 })
 

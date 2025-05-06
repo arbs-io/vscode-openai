@@ -1,14 +1,14 @@
-import * as React from 'react'
+import { IChatCompletionListProps } from '@app/interfaces';
 import {
-  MessageBar,
-  MessageBarTitle,
-  MessageBarBody,
-  MessageBarGroup,
   Link,
   makeStyles,
+  MessageBar,
+  MessageBarBody,
+  MessageBarGroup,
+  MessageBarTitle,
   tokens,
-} from '@fluentui/react-components'
-import { IChatCompletionListProps } from '@app/interfaces'
+} from '@fluentui/react-components';
+import * as React from 'react';
 
 const useStyles = makeStyles({
   messageBarGroup: {

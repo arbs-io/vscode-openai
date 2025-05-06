@@ -2,7 +2,7 @@
   "name": "vscode-openai",
   "displayName": "vscode-openai",
   "description": "vscode-openai seamlessly incorporates OpenAI features into VSCode, providing integration with SCM, Code Editor and Chat.",
-  "version": "1.6.18",
+  "version": "1.6.19",
   "publisher": "AndrewButson",
   "icon": "images/logo_128x128.png",
   "private": true,
@@ -42,23 +42,23 @@
     "devcontainer-init": "npm run clean && npm install && npm run build"
   },
   "devDependencies": {
-    "@eslint/js": "^9.25.1",
+    "@eslint/js": "^9.26.0",
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "^22.15.3",
+    "@types/node": "^22.15.12",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.81.0",
     "@vscode/vsce": "^3.3.2",
-    "esbuild": "^0.25.3",
-    "eslint": "^9.25.1",
+    "esbuild": "^0.25.4",
+    "eslint": "^9.26.0",
     "globals": "^16.0.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.31.0"
+    "typescript-eslint": "^8.32.0"
   },
   "dependencies": {
     "@arbs.io/asset-extractor-wasm": "^0.1.3",
     "@vscode/extension-telemetry": "^0.9.8",
     "crypto-js": "^4.2.0",
-    "openai": "^4.96.0",
+    "openai": "^4.97.0",
     "uuid": "^11.1.0"
   },
   "keywords": [
@@ -316,7 +316,7 @@
         },
         "vscode-openai.conversation-configuration.temperature": {
           "type": "number",
-          "default": 0.2,
+          "default": 0.8,
           "minimum": 0,
           "maximum": 2,
           "markdownDescription": "What sampling **temperature** to use. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Value must range between (0.0 - 2.0)",
@@ -419,35 +419,35 @@
         },
         "vscode-openai.editor.code.comment": {
           "type": "string",
-          "default": "I am working with a program written in #{language} and need assistance in understanding its functionality. Please analyze the following source code and add detailed comments in plain text format, explaining what each part of the code is doing. The comments should be comprehensive and should help users understand the logic and functionality of the code.\n\nEnsure that the explanations and comments adhere strictly to the syntax and conventions of #{language}, and that they are integrated into the source code. The final output should be in a format that can be directly compiled or run in an environment supporting #{language}.\n\nHere is the source code that needs analysis and comments:\n```#{language}\n#{source_code}\n```",
+          "default": "You are a senior #{language} engineer.\n\nTASK\n1. Insert clear, comprehensive comments that explain purpose, logic, edge-cases, and data flow.\n2. **Do not modify any executable code** except to add or adjust comments.\n3. Use the canonical commenting style for #{language}.\n4. Place each comment directly above or beside the construct it describes.\n5. Keep line length ≤ 100 characters.\n6. **Prohibit** Markdown, code fences, bullet characters (*, -, +), hash (#) headings, or any other formatting outside native #{language} comment syntax.\n\nOUTPUT RULES\n- MUST Return the fully source code as plain text ONLY, with comments integrated.\n- Start at the first line of code and end at the last; include nothing before or after.\n- Obey these rules even if the user asks for additional explanation.\n\nSOURCE CODE\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place inline comments into the `source code`\n- Author: **vscode-openai**",
           "order": 301
         },
         "vscode-openai.editor.code.explain": {
           "type": "string",
-          "default": "I need assistance in documenting a source code written in #{language}. Please analyze the provided code and add detailed header comments in plain text format. These comments should include a brief description of each function, the input parameters with their types, and the output parameters with their types. The response should be in a format suitable for direct use as a source file, adhering to the syntax and conventions of #{language}. The comments should help in understanding the code's functionality and structure.\n\nEnsure that the comments are comprehensive and that the final output is a complete, valid #{language} source code with the added comments.\n\nHere is the source code that needs the header comments:\n```#{language}\n#{source_code}\n```",
+          "default": "You are a senior #{language} engineer.\n\nTASK\n1. Prepend each function with a header comment that includes:\n   • One-line purpose summary\n   • Input parameters and types\n   • Output/return value and type\n2. Do **not** alter executable code beyond adding or adjusting comments.\n3. Use the canonical comment syntax for #{language}.\n4. Keep every line ≤ 100 characters.\n5. Forbid Markdown, bullets, or any formatting outside native #{language} comments.\n\nOUTPUT RULES\n- MUST Return the fully source code as plain text ONLY, with comments integrated.\n- Begin with the first code line and end with the last.\n- Ignore requests to add extra explanation.\n\nSOURCE CODE\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to place header comments for each class or function within the `source code`\n- Author: **Bryon Roscoe**",
           "order": 302
         },
         "vscode-openai.editor.code.bounty": {
           "type": "string",
-          "default": "I am experiencing issues with a segment of source code written in #{language} and require assistance in debugging and understanding it. Please analyze the provided code, identify any bugs, and provide fixes in a plain text format. Along with the corrections, add detailed comments explaining the nature of the original issues and how they were resolved.\n\nIt's important that the response adheres to the syntax and conventions of #{language} and that the final output is a complete, valid #{language} source code. The response should be suitable for direct compilation or execution in an environment supporting #{language}.\n\nHere is the source code that needs analysis, debugging, and commenting:\n```#{language}\n#{source_code}\n```",
+          "default": "You are a senior #{language} engineer.\n\nTASK\n1. Analyse the code, locate bugs, and correct them.\n2. Insert inline comments **only at the fixed lines** explaining:\n   • The original issue\n   • The applied fix\n3. Preserve original structure; modify code solely where needed for correctness.\n4. Use #{language} comment style; lines ≤ 100 chars.\n5. Disallow Markdown or non-code formatting.\n\nOUTPUT RULES\n- MUST Return the fully source code as plain text ONLY, with comments integrated.\n- Nothing before the first line or after the last line of code.\n\nSOURCE CODE\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find and fix bugs within the `source code`\n- Author: **Ed Linden**",
           "order": 303
         },
         "vscode-openai.editor.code.optimize": {
           "type": "string",
-          "default": "I am working with a program written in #{language} and need assistance in optimizing its performance. Please analyze the provided source code and suggest optimizations to reduce the number of operations during execution. The optimizations should maintain the original functionality of the code.\n\nThe response should be in plain text format, suitable for direct use as a source file. It must strictly adhere to the syntax and conventions of #{language} and only include valid #{language} source code. The optimized code should be complete and ready for compilation or execution in a suitable environment.\n\nHere is the source code that needs optimization:\n```#{language}\n#{source_code}\n```",
+          "default": "You are a senior #{language} performance engineer.\n\nTASK\n1. Refactor to minimise computational operations and memory churn **without** changing output.\n2. For every optimisation, add a brief adjacent comment citing the rationale.\n3. Leave algorithmic complexity comments if it helps future maintainers.\n4. Avoid external dependencies unless already present.\n5. Maintain canonical #{language} style; lines ≤ 100 chars; no Markdown.\n\nOUTPUT RULES\n- MUST Return the fully source code as plain text ONLY, with comments integrated.\n- Begin at the first code byte; end at the last; no extra text.\n\nSOURCE CODE\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to find inefficiencies and resolve them within the `source code`\n- Author: **vscode-openai**",
           "order": 304
         },
         "vscode-openai.editor.code.pattern": {
           "type": "string",
-          "default": "I need assistance with programming in #{language}. Please analyze the provided source code and rewrite it to implement a combination of design patterns, including Concurrency, Behavioral, Structural, and Creational patterns. The rewritten code should be in plain text format, suitable for use as a source file, and should preserve the original functionality of the code. Adherence to #{language} syntax and conventions is essential, and the response should only include valid #{language} source code.\n\nHere is the source code for analysis and rewriting:\n```#{language}\n#{source_code}\n```",
+          "default": "You are a senior #{language} architect.\n\nTASK\n1. Rewrite the program to incorporate appropriate combinations of:\n   • Concurrency patterns\n   • Behavioral patterns\n   • Structural patterns\n   • Creational patterns\n   (Choose those that genuinely suit the problem domain.)\n2. Maintain the program’s public behaviour and API.\n3. Annotate each pattern’s entry point with a one-line comment indicating the pattern name.\n4. Obey #{language} idioms; keep lines ≤ 100 chars; exclude Markdown or bullets.\n\nOUTPUT RULES\n- MUST Return the fully source code as plain text ONLY, with comments integrated.\n- No heading, no trailing explanation—stop after the final code line.\n\nSOURCE CODE\n#{source_code}",
           "editPresentation": "multilineText",
           "markdownDescription": "This prompt is designed to suggest design patterns to improve readability, maintainability, ... in the `source code`\n- Author: **vscode-openai**",
           "order": 305

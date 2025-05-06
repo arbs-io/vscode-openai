@@ -1,9 +1,9 @@
-import { FC } from 'react'
-import { makeStyles, shorthands, tokens } from '@fluentui/react-components'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { ButtonCopyToClipboard } from '@app/components/ButtonCopyToClipboard'
-import { ButtonOpenSourceFile } from '@app/components/ButtonOpenSourceFile'
+import { ButtonCopyToClipboard } from '@app/components/ButtonCopyToClipboard';
+import { ButtonOpenSourceFile } from '@app/components/ButtonOpenSourceFile';
+import { makeStyles } from '@fluentui/react-components';
+import { FC } from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface ICodeBlockMatchedProps {
   language: string
@@ -12,19 +12,20 @@ interface ICodeBlockMatchedProps {
 
 const useCodeBlockMatchedStyles = makeStyles({
   codeContainer: {
-    ...shorthands.borderWidth('3px'),
-    ...shorthands.borderColor('grey'),
-    borderRadius: 'var(--borderRadiusLarge)',
-    background: tokens.colorBackgroundOverlay,
-    padding: '0.5rem',
-    overflowX: 'auto', // Allows horizontal scrolling
-    whiteSpace: 'pre', // Preserves whitespace and prevents wrapping
+    backgroundColor: 'rgba(255, 255, 255,0.3)',
+    padding: '0.3rem',
+    paddingBottom: '0.1rem',
+    borderRadius: '16px',
+    overflowX: 'auto',
+    whiteSpace: 'pre',
   },
+
   toolbar: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'right',
+    marginBottom: '0.5rem',
   },
-})
+});
 
 const CodeBlockMatched: FC<ICodeBlockMatchedProps> = ({
   language,
@@ -40,11 +41,9 @@ const CodeBlockMatched: FC<ICodeBlockMatchedProps> = ({
       </div>
       <SyntaxHighlighter
         language={language}
-        showLineNumbers={true}
-        wrapLines={false}
-        wrapLongLines={false}
-        PreTag="div"
-        style={tomorrow}
+        style={tomorrow} // Use a modern syntax highlighting theme
+        showLineNumbers
+        wrapLongLines
       >
         {content}
       </SyntaxHighlighter>

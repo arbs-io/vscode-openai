@@ -1,18 +1,19 @@
-import { FC } from 'react'
+import { IChatCompletionProps } from '@app/interfaces';
+import { Caption1, makeStyles, shorthands } from '@fluentui/react-components';
 import {
-  Pen16Regular,
-  Notebook16Regular,
   CommentArrowRight16Regular,
-} from '@fluentui/react-icons'
-import { Caption1, makeStyles, shorthands } from '@fluentui/react-components'
-import { IChatCompletionProps } from '@app/interfaces'
+  Notebook16Regular,
+  Pen16Regular,
+} from '@fluentui/react-icons';
+import { FC } from 'react';
 
 const useMessageItemTokenInfoStyles = makeStyles({
   container: {
-    ...shorthands.gap('5px'),
+    ...shorthands.gap('8px'),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'baseline',
+    alignItems: 'flex-start',
+    fontSize: '0.875rem',
   },
 })
 

@@ -1,12 +1,12 @@
+import { IConversation } from '@app/interfaces';
+import { vscode } from '@app/utilities';
 import {
-  TableCellLayout,
-  TableColumnDefinition,
   createTableColumn,
   TableCell,
-} from '@fluentui/react-components'
-import { IConversation } from '@app/interfaces'
-import { vscode } from '@app/utilities'
-import useConversationAvatar from './useConversationAvatar'
+  TableCellLayout,
+  TableColumnDefinition,
+} from '@fluentui/react-components';
+import useConversationAvatar from './useConversationAvatar';
 
 const handleOpenConversation = (conversation: IConversation) => {
   vscode.postMessage({

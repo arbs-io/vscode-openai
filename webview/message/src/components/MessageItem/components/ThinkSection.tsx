@@ -1,8 +1,8 @@
-import { FC, useState } from 'react'
-import { Button } from '@fluentui/react-components'
-import { CommentMultipleLinkRegular } from '@fluentui/react-icons'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import { Button } from '@fluentui/react-components';
+import { CommentMultipleLinkRegular } from '@fluentui/react-icons';
+import { FC, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const ThinkSection: FC<{ content: string }> = ({ content }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -10,12 +10,17 @@ const ThinkSection: FC<{ content: string }> = ({ content }) => {
   return (
     <div>
       <Button
-        appearance="subtle"
+        appearance="outline"
         size="small"
         icon={<CommentMultipleLinkRegular />}
         onClick={() => setIsOpen(!isOpen)}
+        style={{
+          borderRadius: '8px',
+          padding: '0.5rem 1rem',
+          fontWeight: 'bold',
+        }}
       >
-        {isOpen ? 'Collapse' : 'Expand'} reasoning
+        {isOpen ? 'Collapse' : 'Expand'} Reasoning
       </Button>
       {isOpen && (
         <div>

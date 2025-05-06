@@ -1,26 +1,26 @@
-import { Avatar, PresenceBadgeStatus } from '@fluentui/react-components'
-import { IConversation } from '@app/interfaces'
 import {
-  ProjectManagerIcon,
-  GeneralChatIcon,
-  DeveloperProgrammerIcon,
-  NetworkEngineerIcon,
-  DatabaseAdministratorIcon,
   BusinessAnalystsIcon,
-  ITManagerIcon,
-  QualityAssuranceTestersIcon,
-  TechnicalWriterIcon,
-  UserExperienceDesignersIcon,
-  ProductManagerIcon,
-  DataScientistIcon,
-  CyberSecurityAnalystsIcon,
   CloudArchitectIcon,
+  CyberSecurityAnalystsIcon,
+  DatabaseAdministratorIcon,
+  DataScientistIcon,
+  DeveloperProgrammerIcon,
   DevOpsEngineersIcon,
   EnterpriseArchitectIcon,
+  GeneralChatIcon,
+  ITManagerIcon,
+  NetworkEngineerIcon,
+  ProductManagerIcon,
+  ProjectManagerIcon,
+  QualityAssuranceTestersIcon,
   SystemAdministratorIcon,
-} from '@app/assets'
-import { useContext } from 'react'
-import { ThemeContext } from '@app/context'
+  TechnicalWriterIcon,
+  UserExperienceDesignersIcon,
+} from '@app/assets';
+import { ThemeContext } from '@app/context';
+import { IConversation } from '@app/interfaces';
+import { Avatar, PresenceBadgeStatus } from '@fluentui/react-components';
+import { useContext } from 'react';
 
 function useConversationAvatar(item: IConversation): JSX.Element {
   const theme = useContext(ThemeContext)
@@ -61,7 +61,14 @@ function useConversationAvatar(item: IConversation): JSX.Element {
       }}
       size={size}
       shape="square"
-      image={{ as: 'img', src: personaIcon }}
+      image={{
+        as: 'img',
+        src: personaIcon,
+        style: {
+          border: '1px solid var(--vscode-editorGroup-border)',
+          boxShadow: '0 2px 4px var(--vscode-widget-shadow)',
+        },
+      }}
     />
   )
 }

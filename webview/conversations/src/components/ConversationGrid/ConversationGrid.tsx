@@ -1,23 +1,26 @@
-import { FC, useEffect, useCallback, useState } from 'react'
+import { ConversationGridColumnDefinition } from '@app/components/ConversationGridColumnDefinition';
+import { IConversation } from '@app/interfaces';
+import { vscode } from '@app/utilities';
 import {
-  DataGridBody,
-  DataGridRow,
   DataGrid,
+  DataGridBody,
+  DataGridCell,
   DataGridHeader,
   DataGridHeaderCell,
-  DataGridCell,
-  mergeClasses,
+  DataGridRow,
   makeStyles,
-} from '@fluentui/react-components'
-import { ConversationGridColumnDefinition } from '@app/components/ConversationGridColumnDefinition'
-import { IConversation } from '@app/interfaces'
-import { vscode } from '@app/utilities'
+  mergeClasses,
+} from '@fluentui/react-components';
+import { FC, useCallback, useEffect, useState } from 'react';
 
 const useStyles = makeStyles({
   conversations: {
     paddingTop: '0.5rem',
     paddingBottom: '0.5rem',
     cursor: 'context-menu',
+    fontFamily: 'var(--vscode-font-family)',
+    fontSize: 'var(--vscode-font-size)',
+    color: 'var(--vscode-editor-foreground)',
   },
 })
 
@@ -39,6 +42,14 @@ const ConversationGrid: FC = () => {
     [state]
   )
 
+  // const handleContextMenu = (event: React.MouseEvent, conversation: IConversation) => {
+  //   event.preventDefault()
+  //   vscode.postMessage({
+  //     command: 'onContextMenu',
+  //     text: JSON.stringify(conversation),
+  //   })
+  // }
+
   useEffect(() => {
     window.addEventListener('message', onMessageReceivedFromIframe)
 
@@ -55,44 +66,52 @@ const ConversationGrid: FC = () => {
   }, [onMessageReceivedFromIframe])
 
   return (
-    <DataGrid
-      size="extra-small"
-      items={conversations}
-      columns={ConversationGridColumnDefinition}
-      getRowId={(item) => item.itemId}
-      resizableColumns
-      columnSizingOptions={{
-        persona: {
-          minWidth: 35,
-          defaultWidth: 35,
-          idealWidth: 35,
-        },
+    <div
+      style={{
+        overflowY: 'auto',
+        scrollbarColor: 'var(--vscode-scrollbarSlider-background) var(--vscode-scrollbarSlider-hoverBackground)',
+        scrollbarWidth: 'thin',
       }}
     >
-      <DataGridHeader>
-        <DataGridRow>
-          {({ renderHeaderCell }) => (
-            <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
-          )}
-        </DataGridRow>
-      </DataGridHeader>
-      <DataGridBody<IConversation>>
-        {({ item, rowId }) => (
-          <DataGridRow<IConversation>
-            key={rowId}
-            className={mergeClasses(styles.conversations)}
-            data-vscode-context={JSON.stringify({
-              webviewSection: 'conversation',
-              data: item,
-            })}
-          >
-            {({ renderCell }) => (
-              <DataGridCell>{renderCell(item)}</DataGridCell>
+      <DataGrid
+        size="extra-small"
+        items={conversations}
+        columns={ConversationGridColumnDefinition}
+        getRowId={(item) => item.itemId}
+        resizableColumns
+        columnSizingOptions={{
+          persona: {
+            minWidth: 35,
+            defaultWidth: 35,
+            idealWidth: 35,
+          },
+        }}
+      >
+        <DataGridHeader>
+          <DataGridRow>
+            {({ renderHeaderCell }) => (
+              <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
             )}
           </DataGridRow>
-        )}
-      </DataGridBody>
-    </DataGrid>
+        </DataGridHeader>
+        <DataGridBody<IConversation>>
+          {({ item, rowId }) => (
+            <DataGridRow<IConversation>
+              key={rowId}
+              className={mergeClasses(styles.conversations)}
+              data-vscode-context={JSON.stringify({
+                webviewSection: 'conversation',
+                data: item,
+              })}
+            >
+              {({ renderCell }) => (
+                <DataGridCell>{renderCell(item)}</DataGridCell>
+              )}
+            </DataGridRow>
+          )}
+        </DataGridBody>
+      </DataGrid>
+    </div>
   )
 }
 

@@ -10,7 +10,7 @@ const ThinkSection: FC<{ content: string }> = ({ content }) => {
   return (
     <div>
       <Button
-        appearance="primary"
+        appearance="outline"
         size="small"
         icon={<CommentMultipleLinkRegular />}
         onClick={() => setIsOpen(!isOpen)}
